@@ -154,8 +154,12 @@
                     </tr>
 
                     <tr v-for="quotationLocal in quotationclients" :key="quotationLocal.id">
-                        <td data-table-label="ID">{{ quotationLocal.user_id === 1 ? quotationLocal.id :
-                            quotationLocal.correlativo }}</td>
+                        <td data-table-label="ID">
+                            <span class="quotationclient-id-preview"
+                                :title="productPreviewTitle(quotationLocal)">
+                                {{ quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo }}
+                            </span>
+                        </td>
                         <td data-table-label="Generado" class="quotationclient-status-cell">
                             <span v-if="quotationLocal.generado == 1"
                                 class="btn btn-warning btn-sm quotationclient-icon-btn"
@@ -380,6 +384,23 @@ export default {
 
             return links
         },
+        productPreviewTitle(quotationLocal) {
+            const previewItems = (quotationLocal.product_preview || '')
+                .split('||')
+                .map(product => product.trim())
+                .filter(product => product !== '')
+            const totalItems = parseInt(quotationLocal.detailclient_count || 0, 10)
+
+            if (!previewItems.length) {
+                return 'Sin productos cargados'
+            }
+
+            if (totalItems > previewItems.length) {
+                previewItems.push(`... y ${totalItems - previewItems.length} mas`)
+            }
+
+            return previewItems.join('\n')
+        },
         whatsAppUrl(telefono) {
             const digits = (telefono || '').replace(/\D/g, '')
 
@@ -491,6 +512,13 @@ export default {
     .quotationclient-admin .quotationclient-status-cell,
     .quotationclient-admin .quotationclient-actions-cell {
         white-space: nowrap;
+    }
+
+    .quotationclient-admin .quotationclient-id-preview {
+        cursor: help;
+        display: inline-block;
+        border-bottom: 1px dotted rgba(255, 255, 255, 0.35);
+        line-height: 1.1;
     }
 
     .quotationclient-admin .quotationclient-icon-btn {

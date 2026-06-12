@@ -71,7 +71,9 @@ class QuotationclientController extends Controller
                     'quotationclients.generado',
                     'quotationclients.created_at',
                     'quotationclients.url',
-                    'quotationclients.telefono'
+                    'quotationclients.telefono',
+                    DB::raw("(SELECT COUNT(*) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS detailclient_count"),
+                    DB::raw("(SELECT SUBSTRING_INDEX(GROUP_CONCAT(TRIM(detailclients.product) ORDER BY detailclients.id SEPARATOR '||'), '||', 5) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS product_preview")
                 )
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
@@ -120,7 +122,9 @@ class QuotationclientController extends Controller
                     'quotationclients.generado',
                     'quotationclients.created_at',
                     'quotationclients.url',
-                    'quotationclients.telefono'
+                    'quotationclients.telefono',
+                    DB::raw("(SELECT COUNT(*) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS detailclient_count"),
+                    DB::raw("(SELECT SUBSTRING_INDEX(GROUP_CONCAT(TRIM(detailclients.product) ORDER BY detailclients.id SEPARATOR '||'), '||', 5) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS product_preview")
                 )
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
