@@ -685,6 +685,7 @@ export default { //methods
         context.commit('showModalDetailclient', data.id)
         context.commit('getUtilities')
         context.commit('getFletes')
+        context.commit('getDeliveryTimes')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
@@ -693,6 +694,7 @@ export default { //methods
         context.commit('showModalDetailclientMechanic', data.id)
         context.commit('getUtilities')
         context.commit('getFletes')
+        context.commit('getDeliveryTimes')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
@@ -908,6 +910,18 @@ export default { //methods
     },
     getUtilities(context, data) {
         context.commit('getUtilities', data)
+    },
+    getDeliveryTimes(context) {
+        context.commit('getDeliveryTimes')
+    },
+    createDeliveryTime(context) {
+        context.commit('createDeliveryTime')
+    },
+    setDefaultDeliveryTime(context, data) {
+        context.commit('setDefaultDeliveryTime', data.deliveryTime)
+    },
+    deleteDeliveryTime(context, data) {
+        context.commit('deleteDeliveryTime', data.id)
     },
     /************************************************* */
     /************************************************ */

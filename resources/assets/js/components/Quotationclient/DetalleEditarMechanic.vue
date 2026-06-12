@@ -23,7 +23,12 @@
 
 
                         <label for="dias">Días de Plazo</label>
-                        <input type="text" name="dias" class="form-control" v-model="fillDetailclient.days">
+                        <select name="dias" class="form-control" v-model="fillDetailclient.days">
+                            <option v-for="deliveryTime in availableDeliveryTimes(fillDetailclient.days)"
+                                :key="deliveryTime.id || deliveryTime.label" :value="deliveryTime.label">
+                                {{ deliveryTime.label }}
+                            </option>
+                        </select>
 
 
                         <label for="total_neto">Total neto</label>
@@ -55,11 +60,23 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
     computed: {
-        ...mapState(['fillDetailclient', 'errorsLaravel']),
+        ...mapState(['fillDetailclient', 'errorsLaravel', 'deliveryTimes']),
         ...mapGetters([])
     },
     methods: {
-        ...mapActions(['updateDetailclient', 'sumTotalEditProductMechanic'])
+        ...mapActions(['updateDetailclient', 'sumTotalEditProductMechanic']),
+        availableDeliveryTimes(currentValue) {
+            const options = [...this.deliveryTimes]
+
+            if (currentValue && !options.some(deliveryTime => deliveryTime.label === currentValue)) {
+                options.unshift({
+                    id: `current-${currentValue}`,
+                    label: currentValue
+                })
+            }
+
+            return options
+        }
     },
 }
 </script>

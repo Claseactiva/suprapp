@@ -179,6 +179,7 @@ Route::ApiResource('products', 'ProductController');
 Route::get('products-all', 'ProductController@all');
 Route::ApiResource('utilities', 'UtilityController');
 Route::ApiResource('fletes', 'FleteController');
+Route::ApiResource('delivery-times', 'DeliveryTimeController');
 
 Route::ApiResource('clients', 'ClientController');
 Route::get('clients-all', 'ClientController@all');

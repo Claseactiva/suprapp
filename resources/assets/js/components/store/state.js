@@ -565,6 +565,15 @@ export default { //data
         days: '',
         spare_parts: ''
     },
+    deliveryTimes: [],
+    defaultDeliveryTime: {
+        id: '',
+        label: '24 a 48 Hrs'
+    },
+    newDeliveryTime: {
+        label: '',
+        is_default: false
+    },
     /********************************* */
     /************************************ */
     /*** sección componentes de detalle de un cliente */

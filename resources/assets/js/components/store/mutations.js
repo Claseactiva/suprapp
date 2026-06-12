@@ -144,12 +144,25 @@ let urlMostrarCondiciones = 'mostrarCondiciones'
 let urlCheckListRoles = 'roleschecklists'
 
 let urlFlete = 'fletes'
+let urlDeliveryTime = 'delivery-times'
 let urlBill = 'bills'
 let urlSale = 'all-sales'
 let urlCreateSale = 'sale'
 
 let urlActualizarCorrelativo = 'actualizar-correlativo'
 let urlSparePart = 'spare-part'
+
+function syncDeliveryTimesState(state, payload) {
+    const deliveryTimes = payload.delivery_times || []
+    const defaultDeliveryTime = payload.default_delivery_time || deliveryTimes.find(deliveryTime => deliveryTime.is_default) || null
+
+    state.deliveryTimes = deliveryTimes
+    state.defaultDeliveryTime = defaultDeliveryTime
+        ? { id: defaultDeliveryTime.id, label: defaultDeliveryTime.label }
+        : { id: '', label: '24 a 48 Hrs' }
+
+    state.newDetailclient.days = state.defaultDeliveryTime.label
+}
 
 
 export default { //used for changing the state
@@ -1840,6 +1853,45 @@ export default { //used for changing the state
             state.totalQuotationclientIVA = tota_iva
         });
     },
+    getDeliveryTimes(state) {
+        axios.get(urlDeliveryTime).then(response => {
+            syncDeliveryTimesState(state, response.data)
+        });
+    },
+    createDeliveryTime(state) {
+        axios.post(urlDeliveryTime, state.newDeliveryTime).then(response => {
+            syncDeliveryTimesState(state, response.data)
+            state.newDeliveryTime = {
+                label: '',
+                is_default: false
+            }
+            state.errorsLaravel = []
+            toastr.success('Plazo de entrega guardado con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    setDefaultDeliveryTime(state, deliveryTime) {
+        axios.put(urlDeliveryTime + '/' + deliveryTime.id, {
+            label: deliveryTime.label,
+            is_default: true
+        }).then(response => {
+            syncDeliveryTimesState(state, response.data)
+            state.errorsLaravel = []
+            toastr.success('Plazo por defecto actualizado con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteDeliveryTime(state, id) {
+        axios.delete(urlDeliveryTime + '/' + id).then(response => {
+            syncDeliveryTimesState(state, response.data)
+            state.errorsLaravel = []
+            toastr.success('Plazo eliminado con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
     createQuotationclient(state) {
         let url = urlQuotationclient
 
@@ -2017,7 +2069,7 @@ export default { //used for changing the state
                 transport: state.newFlete.flete,
                 utility: 0,
                 total: 0,
-                days: '24 a 48 Hrs',
+                days: state.defaultDeliveryTime.label || '24 a 48 Hrs',
                 spare_parts: state.newDetailclient.spare_parts
             }
             state.errorsLaravel = []

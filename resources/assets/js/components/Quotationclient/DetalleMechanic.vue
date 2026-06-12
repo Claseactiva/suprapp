@@ -92,8 +92,12 @@
 
                                                         <div class="col-lg-2">
                                                             <label for="plazo">Días de Plazo</label>
-                                                            <input type="text" name="plazo" class="form-control"
-                                                                v-model="newDetailclient.days">
+                                                            <select name="plazo" class="form-control" v-model="newDetailclient.days">
+                                                                <option v-for="deliveryTime in availableDeliveryTimes(newDetailclient.days)"
+                                                                    :key="deliveryTime.id || deliveryTime.label" :value="deliveryTime.label">
+                                                                    {{ deliveryTime.label }}
+                                                                </option>
+                                                            </select>
                                                         </div>
 
                                                         <div class="col-lg-2">
@@ -207,12 +211,24 @@ export default {
     components: { SelectProduct },
     computed:{
         ...mapState(['detailclients', 'totalQuotationclient', 'totalUtilidad', 'totalTransporte', 'totalAdicional',
-                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel']),
+                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel', 'deliveryTimes']),
         ...mapGetters([])
     },
     methods:{
         ...mapActions(['createDetailclient', 'editDetailclientMechanic', 'deleteDetailclient',
-                    'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProductMechanic'])
+                    'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProductMechanic']),
+        availableDeliveryTimes(currentValue) {
+            const options = [...this.deliveryTimes]
+
+            if (currentValue && !options.some(deliveryTime => deliveryTime.label === currentValue)) {
+                options.unshift({
+                    id: `current-${currentValue}`,
+                    label: currentValue
+                })
+            }
+
+            return options
+        }
     },
 }
 </script>

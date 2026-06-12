@@ -13,6 +13,10 @@
                 <a class="nav-link" id="pills-freight-tab" data-toggle="pill" href="#pills-freight" role="tab"
                     aria-controls="pills-freight" aria-selected="false">Flete Por Defecto</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-delivery-time-tab" data-toggle="pill" href="#pills-delivery-time" role="tab"
+                    aria-controls="pills-delivery-time" aria-selected="false">Plazos de Entrega</a>
+            </li>
         </ul>
         <div class="tab-content bg-white p-3" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-new-product" role="tabpanel"
@@ -48,6 +52,9 @@
             </div>
             <div class="tab-pane fade" id="pills-freight" role="tabpanel" aria-labelledby="pills-freight-tab">
                 <FleteDefect></FleteDefect>
+            </div>
+            <div class="tab-pane fade" id="pills-delivery-time" role="tabpanel" aria-labelledby="pills-delivery-time-tab">
+                <DeliveryTimeIndex></DeliveryTimeIndex>
             </div>
         </div>
         <div class="row mt-3">
@@ -144,9 +151,10 @@ import EliminarProduct from './EliminarProduct'
 import Inventory from './Inventory'
 import UtilidadDefect from '../Utilidad/UtilidadDefect'
 import FleteDefect from '../Flete/FleteDefect'
+import DeliveryTimeIndex from '../DeliveryTime/Index'
 
 export default {
-    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, Inventory, EditarProduct, EliminarProduct },
+    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct },
     computed: {
         ...mapState(['products', 'searchProduct', 'newProduct', 'pagination']),
         ...mapGetters(['isActived', 'pagesNumber'])
