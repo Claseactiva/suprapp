@@ -149,18 +149,24 @@
                     <tr v-for="quotationLocal in quotationclients" :key="quotationLocal.id">
                         <td data-table-label="ID">{{ quotationLocal.user_id === 1 ? quotationLocal.id :
                             quotationLocal.correlativo }}</td>
-                        <td data-table-label="Generado">
-                            <a v-if="quotationLocal.generado == 1" class="btn btn-warning btn-sm font-weight-bold">Sin
-                                Giro
-                                Comercial</a>
-                            <a v-if="quotationLocal.generado == 2" class="btn btn-primary btn-sm font-weight-bold">Con
-                                Giro
-                                Comercial</a>
+                        <td data-table-label="Generado" class="quotationclient-status-cell">
+                            <span v-if="quotationLocal.generado == 1"
+                                class="btn btn-warning btn-sm quotationclient-icon-btn"
+                                data-toggle="tooltip" data-placement="top" title="Sin giro comercial">
+                                <i class="fas fa-briefcase"></i>
+                            </span>
 
-                            <a v-if="quotationLocal.generado == 4" class="btn btn-danger btn-sm font-weight-bold"
-                                type="button"
-                                @click.prevent="showModalDetailMechanic({ id: quotationLocal.id })">Repuestos
-                                A Solicitar</a>
+                            <span v-if="quotationLocal.generado == 2"
+                                class="btn btn-primary btn-sm quotationclient-icon-btn"
+                                data-toggle="tooltip" data-placement="top" title="Con giro comercial">
+                                <i class="fas fa-building"></i>
+                            </span>
+
+                            <span v-if="quotationLocal.generado == 4"
+                                class="btn btn-danger btn-sm quotationclient-icon-btn"
+                                data-toggle="tooltip" data-placement="top" title="Repuestos a solicitar">
+                                <i class="fas fa-tools"></i>
+                            </span>
                         </td>
                         <td data-table-label="Estado">{{ quotationLocal.state }}</td>
                         <td data-table-label="Rut">{{ quotationLocal.rut }}</td>
@@ -168,55 +174,56 @@
                         <td data-table-label="Cliente">{{ quotationLocal.client_text }}</td>
                         <td data-table-label="Vehiculo">{{ quotationLocal.vehicle }}</td>
                         <td data-table-label="Fecha">{{ quotationLocal.created_at | moment('DD/MM/YYYY H:mm a') }}</td>
-                        <td>
+                        <td class="quotationclient-actions-cell">
 
-                            <a :href="quotationLocal.url" v-if="quotationLocal.url != ''" class="btn btn-primary btn-sm"
+                            <a :href="quotationLocal.url" v-if="quotationLocal.url != ''"
+                                class="btn btn-primary btn-sm quotationclient-icon-btn"
                                 target="_blank" data-toggle="tooltip" data-placeemnt="top" title="Messenger">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
 
                             <a href="#"
                                 v-if="quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2)"
-                                class="btn btn-light btn-sm"
+                                class="btn btn-light btn-sm quotationclient-icon-btn"
                                 @click.prevent="modalCreateUserFromQuotation({ id: quotationLocal.id })"
                                 data-toggle="tooltip" data-placeemnt="top" title="Crear Usuario">
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-user-plus"></i>
                             </a>
 
                             <a href="#" v-if="quotationLocal.generado_client == 0 && quotationLocal.generado == 5"
-                                class="btn btn-light btn-sm"
+                                class="btn btn-light btn-sm quotationclient-icon-btn"
                                 @click.prevent="modalCreateUserMechanicFromQuotation({ id: quotationLocal.id })"
                                 data-toggle="tooltip" data-placeemnt="top" title="Crear Usuario">
-                                <i class="fas fa-user"></i>
+                                <i class="fas fa-user-plus"></i>
                             </a>
 
-                            <a href="#" v-if="quotationLocal.tipo_detalle == 0" class="btn btn-info btn-sm"
+                            <a href="#" v-if="quotationLocal.tipo_detalle == 0"
+                                class="btn btn-info btn-sm quotationclient-icon-btn"
                                 @click.prevent="showModalDetailclient({ id: quotationLocal.id })" data-toggle="tooltip"
-                                data-placement="top" title="Detalle">
-                                <i class="far fa-plus-square"></i>
-                                Detalle
+                                data-placement="top" title="Administrar detalle">
+                                <i class="fas fa-list-ul"></i>
                             </a>
 
-                            <a href="#" v-if="quotationLocal.tipo_detalle == 1" class="btn btn-info btn-sm"
+                            <a href="#" v-if="quotationLocal.tipo_detalle == 1"
+                                class="btn btn-info btn-sm quotationclient-icon-btn"
                                 @click.prevent="showModalDetailclientMechanic({ id: quotationLocal.id })"
-                                data-toggle="tooltip" data-placement="top" title="Detalle">
-                                <i class="far fa-plus-square"></i>
-                                Detalle
+                                data-toggle="tooltip" data-placement="top" title="Administrar detalle">
+                                <i class="fas fa-list-ul"></i>
                             </a>
 
-                            <a href="#" class="btn btn-warning btn-sm"
+                            <a href="#" class="btn btn-warning btn-sm quotationclient-icon-btn"
                                 @click.prevent="editQuotationclient({ quotationclient: quotationLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar cabecera">
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <a href="#" class="btn btn-secondary btn-sm"
+                            <a href="#" class="btn btn-secondary btn-sm quotationclient-icon-btn"
                                 @click.prevent="replicateQuotationclient({ id: quotationLocal.id })"
                                 data-toggle="tooltip" data-placement="top" title="Duplicar">
                                 <i class="far fa-copy"></i>
                             </a>
 
-                            <a href="#" class="btn btn-danger btn-sm"
+                            <a href="#" class="btn btn-danger btn-sm quotationclient-icon-btn"
                                 @click.prevent="showModalDeleteQuotationclient({ id: quotationLocal.id })"
                                 data-toggle="tooltip" data-placement="top" title="Eliminar">
                                 <i class="far fa-trash-alt"></i>
@@ -407,6 +414,26 @@ export default {
     .quotationclient-admin .table td {
         padding: 0.32rem 0.42rem;
         vertical-align: middle;
+    }
+
+    .quotationclient-admin .quotationclient-status-cell,
+    .quotationclient-admin .quotationclient-actions-cell {
+        white-space: nowrap;
+    }
+
+    .quotationclient-admin .quotationclient-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        margin-right: 0.18rem;
+        border-radius: 0.2rem;
+    }
+
+    .quotationclient-admin .quotationclient-icon-btn:last-child {
+        margin-right: 0;
     }
 
     .quotationclient-admin .table .form-control {

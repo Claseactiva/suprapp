@@ -18853,27 +18853,38 @@ var render = function render() {
         "data-table-label": "ID"
       }
     }, [_vm._v(_vm._s(quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo))]), _vm._v(" "), _c("td", {
+      staticClass: "quotationclient-status-cell",
       attrs: {
         "data-table-label": "Generado"
       }
-    }, [quotationLocal.generado == 1 ? _c("a", {
-      staticClass: "btn btn-warning btn-sm font-weight-bold"
-    }, [_vm._v("Sin\n                            Giro\n                            Comercial")]) : _vm._e(), _vm._v(" "), quotationLocal.generado == 2 ? _c("a", {
-      staticClass: "btn btn-primary btn-sm font-weight-bold"
-    }, [_vm._v("Con\n                            Giro\n                            Comercial")]) : _vm._e(), _vm._v(" "), quotationLocal.generado == 4 ? _c("a", {
-      staticClass: "btn btn-danger btn-sm font-weight-bold",
+    }, [quotationLocal.generado == 1 ? _c("span", {
+      staticClass: "btn btn-warning btn-sm quotationclient-icon-btn",
       attrs: {
-        type: "button"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.showModalDetailMechanic({
-            id: quotationLocal.id
-          });
-        }
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Sin giro comercial"
       }
-    }, [_vm._v("Repuestos\n                            A Solicitar")]) : _vm._e()]), _vm._v(" "), _c("td", {
+    }, [_c("i", {
+      staticClass: "fas fa-briefcase"
+    })]) : _vm._e(), _vm._v(" "), quotationLocal.generado == 2 ? _c("span", {
+      staticClass: "btn btn-primary btn-sm quotationclient-icon-btn",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Con giro comercial"
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-building"
+    })]) : _vm._e(), _vm._v(" "), quotationLocal.generado == 4 ? _c("span", {
+      staticClass: "btn btn-danger btn-sm quotationclient-icon-btn",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Repuestos a solicitar"
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-tools"
+    })]) : _vm._e()]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "Estado"
       }
@@ -18897,8 +18908,10 @@ var render = function render() {
       attrs: {
         "data-table-label": "Fecha"
       }
-    }, [_vm._v(_vm._s(_vm._f("moment")(quotationLocal.created_at, "DD/MM/YYYY H:mm a")))]), _vm._v(" "), _c("td", [quotationLocal.url != "" ? _c("a", {
-      staticClass: "btn btn-primary btn-sm",
+    }, [_vm._v(_vm._s(_vm._f("moment")(quotationLocal.created_at, "DD/MM/YYYY H:mm a")))]), _vm._v(" "), _c("td", {
+      staticClass: "quotationclient-actions-cell"
+    }, [quotationLocal.url != "" ? _c("a", {
+      staticClass: "btn btn-primary btn-sm quotationclient-icon-btn",
       attrs: {
         href: quotationLocal.url,
         target: "_blank",
@@ -18909,7 +18922,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fab fa-facebook-f"
     })]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
-      staticClass: "btn btn-light btn-sm",
+      staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -18925,9 +18938,9 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-user"
+      staticClass: "fas fa-user-plus"
     })]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && quotationLocal.generado == 5 ? _c("a", {
-      staticClass: "btn btn-light btn-sm",
+      staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -18943,14 +18956,14 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-user"
+      staticClass: "fas fa-user-plus"
     })]) : _vm._e(), _vm._v(" "), quotationLocal.tipo_detalle == 0 ? _c("a", {
-      staticClass: "btn btn-info btn-sm",
+      staticClass: "btn btn-info btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
         "data-placement": "top",
-        title: "Detalle"
+        title: "Administrar detalle"
       },
       on: {
         click: function click($event) {
@@ -18961,14 +18974,14 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "far fa-plus-square"
-    }), _vm._v("\n                            Detalle\n                        ")]) : _vm._e(), _vm._v(" "), quotationLocal.tipo_detalle == 1 ? _c("a", {
-      staticClass: "btn btn-info btn-sm",
+      staticClass: "fas fa-list-ul"
+    })]) : _vm._e(), _vm._v(" "), quotationLocal.tipo_detalle == 1 ? _c("a", {
+      staticClass: "btn btn-info btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
         "data-placement": "top",
-        title: "Detalle"
+        title: "Administrar detalle"
       },
       on: {
         click: function click($event) {
@@ -18979,9 +18992,9 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "far fa-plus-square"
-    }), _vm._v("\n                            Detalle\n                        ")]) : _vm._e(), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "fas fa-list-ul"
+    })]) : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-warning btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -18999,7 +19012,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-secondary btn-sm",
+      staticClass: "btn btn-secondary btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -19017,7 +19030,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-copy"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -40269,7 +40282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .quotationclient-status-cell,\n    .quotationclient-admin .quotationclient-actions-cell {\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-icon-btn {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: 28px;\n        height: 28px;\n        padding: 0;\n        margin-right: 0.18rem;\n        border-radius: 0.2rem;\n}\n.quotationclient-admin .quotationclient-icon-btn:last-child {\n        margin-right: 0;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
