@@ -159,13 +159,13 @@
                         <td data-table-label="Generado" class="quotationclient-status-cell">
                             <span v-if="quotationLocal.generado == 1"
                                 class="btn btn-warning btn-sm quotationclient-icon-btn"
-                                data-toggle="tooltip" data-placement="top" title="Sin giro comercial">
-                                <i class="fas fa-briefcase"></i>
+                                data-toggle="tooltip" data-placement="top" title="Persona">
+                                <i class="fas fa-user"></i>
                             </span>
 
                             <span v-if="quotationLocal.generado == 2"
                                 class="btn btn-primary btn-sm quotationclient-icon-btn"
-                                data-toggle="tooltip" data-placement="top" title="Con giro comercial">
+                                data-toggle="tooltip" data-placement="top" title="Empresa">
                                 <i class="fas fa-building"></i>
                             </span>
 

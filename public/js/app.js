@@ -18963,16 +18963,16 @@ var render = function render() {
       attrs: {
         "data-toggle": "tooltip",
         "data-placement": "top",
-        title: "Sin giro comercial"
+        title: "Persona"
       }
     }, [_c("i", {
-      staticClass: "fas fa-briefcase"
+      staticClass: "fas fa-user"
     })]) : _vm._e(), _vm._v(" "), quotationLocal.generado == 2 ? _c("span", {
       staticClass: "btn btn-primary btn-sm quotationclient-icon-btn",
       attrs: {
         "data-toggle": "tooltip",
         "data-placement": "top",
-        title: "Con giro comercial"
+        title: "Empresa"
       }
     }, [_c("i", {
       staticClass: "fas fa-building"
