@@ -1,0 +1,41 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress  --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress  --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "axios": "^0.21.4",
+        "bootstrap": "^4.0.0",
+        "cross-env": "^5.2.1",
+        "jquery": "^3.7.0",
+        "laravel-mix": "^6.0.49",
+        "lodash": "^4.17.21",
+        "popper.js": "^1.16.1",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.63.6",
+        "sass-loader": "^13.3.2",
+        "vue": "^2.7.16",
+        "vue-loader": "^15.10.1",
+        "vue-template-compiler": "^2.7.14"
+    },
+    "dependencies": {
+        "@ladjs/consolidate": "^1.0.3",
+        "axios-progress-bar": "^1.2.0",
+        "bootstrap4-fullscreen-modal": "^1.0.5",
+        "print-js": "^1.6.0",
+        "toastr": "^2.1.4",
+        "vee-validate": "^2.2.15",
+        "vue-moment": "^4.1.0",
+        "vue-select": "^2.6.4",
+        "vue2-datepicker": "^3.11.1",
+        "vue2-filters": "^0.7.2",
+        "vuejs-datepicker": "^1.6.2",
+        "vuex": "^3.6.2"
+    }
+}

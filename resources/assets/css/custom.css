@@ -1,0 +1,104 @@
+.vertical-table-header {
+    font-weight: bold;
+    color: #fff;
+}
+
+.vertical-table-cell {
+    margin: 10px 0px;
+    color: #fff;
+}
+
+
+.imagen {
+    position: relative;
+    display: inline-block;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro con un 50% de opacidad */
+    opacity: 0;
+    /* Inicialmente invisible */
+    transition: opacity 0.3s ease;
+    /* Transición suave */
+}
+
+.imagen:hover .image-overlay {
+    opacity: 1;
+    /* Hace visible el fondo oscuro al hacer hover */
+}
+
+.delete-button {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.imagen:hover .delete-button {
+    display: block;
+}
+
+.checklist-icon{
+    font-size: 30px;
+}
+
+
+@media screen and (min-width: 1024px) {
+    .w-lg-25 {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .table-responsive-new {
+        border: 0;
+    }
+
+    .table-responsive-new caption {
+        font-size: 1.3em;
+    }
+
+    .table-responsive-new thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .table-responsive-new tr {
+        display: block;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-responsive-new td {
+        border-top: none !important;
+        display: block;
+        text-align: right;
+        padding: 0.75rem !important;
+    }
+
+    .table-responsive-new td::before {
+        content: attr(data-table-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .table-responsive-new tr:last-child {
+        border-bottom: 0;
+    }
+
+    .w-md-100 {
+        width: 100%;
+    }
+}
