@@ -1839,18 +1839,26 @@ export default { //used for changing the state
     createQuotationclient(state) {
         let url = urlQuotationclient
 
-        if ((state.selectedClient.value === "" && state.newQuotationclient.client_text !== "") || state.newQuotationclient.cliente_part == true) {
-            state.selectedClient.value = 1
+        let clientId = state.selectedClient && state.selectedClient.value !== '' ? state.selectedClient.value : 1
+        let vehicleParts = [
+            state.selectedVBrand.label,
+            state.selectedVModel.label,
+            state.selectedVYear.label,
+            state.selectedVEngine.label
+        ].filter(part => part && part.trim() !== '')
+
+        if (state.newQuotationclient.cliente_part == true) {
+            clientId = 1
         }
 
         axios.post(url, {
-            client_id: state.selectedClient.value,
+            client_id: clientId,
             state: 'Pendiente',
-            payment: state.selectedPago.value,
+            payment: state.selectedPago.label,
             client_text: state.newQuotationclient.client_text,
             cliente_part: state.newQuotationclient.cliente_part,
             url: state.newQuotationclient.url,
-            vehicle: state.selectedVBrand.label + ' ' + state.selectedVModel.label + ' ' + state.selectedVYear.label + ' ' + state.selectedVEngine.label,
+            vehicle: vehicleParts.join(' '),
             ppu: state.newQuotationclient.ppu
         }).then(response => {
             state.newQuotationclient = {
@@ -1858,12 +1866,21 @@ export default { //used for changing the state
                 client_text: '',
                 state: '',
                 payment: '',
+                cliente_part: false,
                 url: '',
+                vehicle: '',
+                generado: '',
+                generado_client: '',
                 ppu: ''
             }
+            state.selectedClient = { label: '', value: '' }
+            state.selectedPago = { label: '', value: '' }
+            state.selectedVBrand = { label: '', value: '' }
+            state.selectedVModel = { label: '', value: '' }
+            state.selectedVYear = { label: '', value: '' }
+            state.selectedVEngine = { label: '', value: '' }
             state.errorsLaravel = []
             toastr.success('Cotización formal generada con éxito')
-            event.target.reset();
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1877,10 +1894,15 @@ export default { //used for changing the state
     updateQuotationclient(state, id) {
         let url = urlQuotationclient + '/' + id
         axios.put(url, state.fillQuotationclient).then(response => {
-            state.fillQuotation = {
+            state.fillQuotationclient = {
                 id: '',
                 client_id: '',
-                state: ''
+                state: '',
+                payment: '',
+                client_text: '',
+                vehicle: '',
+                url: '',
+                ppu: ''
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
@@ -1967,13 +1989,16 @@ export default { //used for changing the state
             state.newDetailclient = {
                 quotationclient_id: '',
                 product: '',
+                detail: '',
                 price: 0,
                 quantity: 1,
-                percentage: state.newDetailclient.percentage,
+                percentage: state.newUtilidad.utilidad,
                 aditional: 0,
-                transport: transportSet,
+                transport: state.newFlete.flete,
                 utility: 0,
-                total: 0
+                total: 0,
+                days: '24 a 48 Hrs',
+                spare_parts: state.newDetailclient.spare_parts
             }
             state.errorsLaravel = []
             toastr.success('Detalle generado con éxito')
@@ -2030,6 +2055,7 @@ export default { //used for changing the state
             aditional: state.fillDetailclient.aditional,
             transport: state.fillDetailclient.transport,
             utility: state.fillDetailclient.utility,
+            days: state.fillDetailclient.days,
             total: state.fillDetailclient.totalIVA
         }
 
@@ -2046,7 +2072,9 @@ export default { //used for changing the state
                 transport: 0,
                 utility: 0,
                 total: 1,
-                totalIVA: 1.19
+                totalIVA: 1.19,
+                days: '',
+                spare_parts: ''
             }
             state.errorsLaravel = []
             $('#editDetailClient').modal('hide')

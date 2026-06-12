@@ -384,7 +384,7 @@ export default { //data
         state: '',
         payment: '',
         client_text: '',
-        cliente_part: '',
+        cliente_part: false,
         url: '',
         vehicle: '',
         generado: '',
@@ -397,7 +397,9 @@ export default { //data
         state: '',
         payment: '',
         client_text: '',
-        vehicle: ''
+        vehicle: '',
+        url: '',
+        ppu: ''
     },
     searchQuotationClient: {
         id: '',
@@ -540,7 +542,7 @@ export default { //data
         transport: 0,
         utility: 0,
         total: 0,
-        days: '',
+        days: '24 a 48 Hrs',
         spare_parts: ''
     },
     fillDetailclient: {

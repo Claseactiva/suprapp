@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Client;
+use App\Models\TipoPago;
 use App\User;
 use App\Models\Quotationclient;
 use App\Models\QuotationUser;
@@ -226,13 +227,13 @@ class QuotationclientController extends Controller
 
             $data = $request->all();
             $user_id = Auth::id();
-            $correlativo = 0;
-
-            $quotationclient = Quotationclient::where('user_id', '=', $user_id)->where('user_id', '!=', 1)->select('correlativo')->latest()->first();
-
-            if ($quotationclient != null) {
-                $correlativo = $quotationclient->correlativo + 1;
-            }
+            $correlativo = $this->nextCorrelativo($user_id);
+            $payment = $this->resolvePaymentName($data['payment'] ?? null);
+            $clientId = $this->resolveClientId($data['client_id'] ?? null);
+            $vehicle = trim($data['vehicle'] ?? '');
+            $url = trim($data['url'] ?? '');
+            $ppu = trim($data['ppu'] ?? '');
+            $clientText = trim($data['client_text'] ?? '');
 
             $roles = DB::table('roles')
                 ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -277,12 +278,12 @@ class QuotationclientController extends Controller
                         'client_id' => $client_id,
                         'correlativo' => $correlativo,
                         'state' => 'Pendiente',
-                        'payment' => 'Contado',
-                        'client_text' => $data['client_text'],
-                        'vehicle' => $data['vehicle'],
+                        'payment' => $payment,
+                        'client_text' => $clientText,
+                        'vehicle' => $vehicle,
                         'generado' => $data['generado'],
-                        'url' => $data['url'],
-                        'ppu' => $data['ppu']
+                        'url' => $url,
+                        'ppu' => $ppu
                     ])->id;
                 } else {
                     foreach ($clients as $client) {
@@ -292,12 +293,12 @@ class QuotationclientController extends Controller
                                 'client_id' => $client->id,
                                 'correlativo' => $correlativo,
                                 'state' => 'Pendiente',
-                                'payment' => 'Contado',
-                                'client_text' => $data['client_text'],
-                                'vehicle' => $data['vehicle'],
+                                'payment' => $payment,
+                                'client_text' => $clientText,
+                                'vehicle' => $vehicle,
                                 'generado' => $data['generado'],
-                                'url' => $data['url'],
-                                'ppu' => $data['ppu']
+                                'url' => $url,
+                                'ppu' => $ppu
                             ]
                         )->id;
                     }
@@ -306,15 +307,15 @@ class QuotationclientController extends Controller
                 $quotation_id = Quotationclient::create(
                     [
                         'user_id' => $user_id,
-                        'client_id' => $data['client_id'],
+                        'client_id' => $clientId,
                         'correlativo' => $correlativo,
                         'state' => 'Pendiente',
-                        'payment' => 'Contado',
-                        'client_text' => $data['client_text'],
-                        'vehicle' => $data['vehicle'],
+                        'payment' => $payment,
+                        'client_text' => $clientText,
+                        'vehicle' => $vehicle,
                         'generado' => $data['generado'],
-                        'url' => $data['url'],
-                        'ppu' => $data['ppu']
+                        'url' => $url,
+                        'ppu' => $ppu
                     ]
                 )->id;
             }
@@ -336,7 +337,33 @@ class QuotationclientController extends Controller
 
     public function update(Request $request, $id)
     {
-        Quotationclient::find($id)->update($request->all());
+        $data = $request->all();
+
+        if (array_key_exists('payment', $data)) {
+            $data['payment'] = $this->resolvePaymentName($data['payment']);
+        }
+
+        if (array_key_exists('client_id', $data)) {
+            $data['client_id'] = $this->resolveClientId($data['client_id']);
+        }
+
+        if (array_key_exists('client_text', $data)) {
+            $data['client_text'] = trim($data['client_text'] ?? '');
+        }
+
+        if (array_key_exists('vehicle', $data)) {
+            $data['vehicle'] = trim($data['vehicle'] ?? '');
+        }
+
+        if (array_key_exists('url', $data)) {
+            $data['url'] = trim($data['url'] ?? '');
+        }
+
+        if (array_key_exists('ppu', $data)) {
+            $data['ppu'] = trim($data['ppu'] ?? '');
+        }
+
+        Quotationclient::find($id)->update($data);
 
         return;
     }
@@ -492,5 +519,45 @@ class QuotationclientController extends Controller
         return $quotationClient;
     }
 
-    
+    private function nextCorrelativo($userId)
+    {
+        if ((int) $userId === 1) {
+            return 0;
+        }
+
+        $quotationclient = Quotationclient::where('user_id', '=', $userId)
+            ->select('correlativo')
+            ->latest()
+            ->first();
+
+        if ($quotationclient === null) {
+            return 0;
+        }
+
+        return ((int) $quotationclient->correlativo) + 1;
+    }
+
+    private function resolvePaymentName($payment)
+    {
+        if ($payment === null || $payment === '') {
+            return 'Contado';
+        }
+
+        if (is_numeric($payment)) {
+            $tipoPago = TipoPago::find($payment);
+
+            return $tipoPago ? $tipoPago->pago : 'Contado';
+        }
+
+        return trim((string) $payment);
+    }
+
+    private function resolveClientId($clientId)
+    {
+        if ($clientId === null || $clientId === '') {
+            return 1;
+        }
+
+        return $clientId;
+    }
 }

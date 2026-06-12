@@ -37,14 +37,14 @@
 
                                     <div class="mb-3">
                                         <label for="nombre">Nombre Cliente</label>
-                                        <input required type="text" name="nombre" class="form-control"
+                                        <input type="text" name="nombre" class="form-control"
                                             v-model="newQuotationclient.client_text">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="url">URL</label>
                                         <input type="text" name="url" class="form-control"
-                                            v-model="newQuotationclient.url" required>
+                                            v-model="newQuotationclient.url">
                                     </div>
 
                                     <div class="mb-3">
@@ -79,7 +79,7 @@
                                     <div class="mb-3">
                                         <label for="url">P.P.U / N° Interno</label>
                                         <input type="text" name="ppu" class="form-control"
-                                            v-model="newQuotationclient.ppu" required>
+                                            v-model="newQuotationclient.ppu">
                                     </div>
 
                                 </div>
@@ -313,6 +313,8 @@ export default {
         loadProgressBar();
         this.$store.dispatch('getQuotationclients', { page: 1 })
         this.$store.dispatch('getRolesQuotation')
+        this.$store.dispatch('allClients', { type: 'Cliente' })
+        this.$store.dispatch('allPagos')
     }
 
 }

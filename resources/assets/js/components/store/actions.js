@@ -675,12 +675,16 @@ export default { //methods
     },
     showModalDetailclient(context, data) {
         context.commit('showModalDetailclient', data.id)
+        context.commit('getUtilities')
+        context.commit('getFletes')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
     },
     showModalDetailclientMechanic(context, data) {
         context.commit('showModalDetailclientMechanic', data.id)
+        context.commit('getUtilities')
+        context.commit('getFletes')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
