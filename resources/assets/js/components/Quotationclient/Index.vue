@@ -1,5 +1,5 @@
 <template>
-    <div class="col-lg-12">
+    <div class="col-lg-12 quotationclient-admin">
         <h5 class="text-white">
             Administración de Cotizaciones Formales
             <!-- <button class="btn btn-primary btn-sm" @click.prevent="actualizarCorrelativo()">Actualizar Correlativo</button> -->
@@ -333,3 +333,96 @@ export default {
 
 }
 </script>
+
+<style>
+@media (min-width: 992px) {
+    .quotationclient-admin {
+        font-size: 0.88rem;
+    }
+
+    .quotationclient-admin h5 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .quotationclient-admin label {
+        margin-bottom: 0.2rem;
+        font-size: 0.8rem;
+    }
+
+    .quotationclient-admin .mb-3,
+    .quotationclient-admin .row.mb-3 {
+        margin-bottom: 0.6rem !important;
+    }
+
+    .quotationclient-admin .card {
+        margin-bottom: 0.5rem;
+    }
+
+    .quotationclient-admin .card-header {
+        padding: 0.45rem 0.75rem;
+    }
+
+    .quotationclient-admin .card-body {
+        padding: 0.85rem;
+    }
+
+    .quotationclient-admin #btn-quotation-card {
+        padding: 0.7rem 0.9rem !important;
+        font-size: 0.9rem;
+    }
+
+    .quotationclient-admin .form-control,
+    .quotationclient-admin .v-select .dropdown-toggle {
+        min-height: 31px;
+        height: 31px;
+        padding-top: 0.22rem;
+        padding-bottom: 0.22rem;
+        font-size: 0.8rem;
+    }
+
+    .quotationclient-admin .v-select .selected-tag,
+    .quotationclient-admin .v-select input {
+        font-size: 0.8rem;
+    }
+
+    .quotationclient-admin .btn {
+        padding: 0.24rem 0.5rem;
+        font-size: 0.78rem;
+        line-height: 1.25;
+    }
+
+    .quotationclient-admin .btn.form-control {
+        height: 31px;
+        padding-top: 0.22rem;
+        padding-bottom: 0.22rem;
+    }
+
+    .quotationclient-admin .table {
+        margin-top: 0.75rem !important;
+        font-size: 0.77rem;
+    }
+
+    .quotationclient-admin .table th,
+    .quotationclient-admin .table td {
+        padding: 0.32rem 0.42rem;
+        vertical-align: middle;
+    }
+
+    .quotationclient-admin .table .form-control {
+        height: 28px;
+        min-height: 28px;
+        padding-left: 0.35rem;
+        padding-right: 0.35rem;
+    }
+
+    .quotationclient-admin .pagination {
+        margin-bottom: 0;
+    }
+
+    .quotationclient-admin .page-link {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.78rem;
+    }
+}
+</style>
