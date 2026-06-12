@@ -55,7 +55,7 @@ class QuotationShippingController extends Controller
                                     ->orderBy('quotation_shippings.id', 'DESC')
                                     ->when($id, function ($query, $id) {
                                         return $query->where('quotation_shippings.id', 'like', '%' . $id . '%');
-                                    })->paginate(20);
+                                    })->paginate((int) request('per_page', 20));
 
         return [
             'pagination_shipping' => [

@@ -30,7 +30,7 @@ class VehicleController extends Controller
                         ->patent()
                         ->name()
                         ->year()
-                        ->paginate(10);
+                        ->paginate((int) request('per_page', 20));
 
                     return [
                         'pagination' => [
@@ -50,7 +50,7 @@ class VehicleController extends Controller
                         ->patent()
                         ->name()
                         ->year()
-                        ->paginate(10);
+                        ->paginate((int) request('per_page', 20));
 
                     return [
                         'pagination' => [
@@ -251,7 +251,7 @@ class VehicleController extends Controller
         $vehicles = Vehicle::orderBy('id', 'DESC')
             ->where('user_id', '=', $user_id)
             ->with('user')
-            ->paginate(10);
+            ->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

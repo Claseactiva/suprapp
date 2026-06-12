@@ -14,7 +14,7 @@ class DetailimportController extends Controller
      */
     public function index()
     {
-        $detailimports = Detailimport::orderBy('id', 'DESC')->paginate(10);
+        $detailimports = Detailimport::orderBy('id', 'DESC')->paginate((int) request('per_page', 20));
 
         return $detailimports;
     }

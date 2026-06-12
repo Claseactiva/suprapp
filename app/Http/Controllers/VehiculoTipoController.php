@@ -15,7 +15,7 @@ class VehiculoTipoController extends Controller
    {
        $tipos = TipoVehiculo::orderBy('id', 'DESC')
                 ->tipo_vehiculo()
-                ->paginate(10);
+                ->paginate((int) request('per_page', 20));
 
        return [
            'pagination' => [
@@ -91,7 +91,7 @@ class VehiculoTipoController extends Controller
 
    public function all()
    {
-        $all = TipoVehiculo::orderBy('id', 'ASC')->paginate(10);
+        $all = TipoVehiculo::orderBy('id', 'ASC')->paginate((int) request('per_page', 20));
 
         return [
             'pagination_tipo' => [

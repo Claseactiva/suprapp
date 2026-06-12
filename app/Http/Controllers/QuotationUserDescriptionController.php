@@ -37,7 +37,7 @@ class QuotationUserDescriptionController extends Controller
                         )
                         ->where('quotation_user_descriptions.is_completed','=',0)
                         ->orderBy('quotation_user_descriptions.created_at', 'DESC')
-                        ->paginate(20);
+                        ->paginate((int) request('per_page', 20));
         return [
             'pagination' => [
                 'total'         => $quotations->total(),

@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         $id_user = Auth::id();
 
-        $products = Product::with('inventories', 'client')->name()->withUserClients($id_user)->paginate(10);
+        $products = Product::with('inventories', 'client')->name()->withUserClients($id_user)->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

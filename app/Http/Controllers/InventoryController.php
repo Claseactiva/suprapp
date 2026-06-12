@@ -12,7 +12,7 @@ class InventoryController extends Controller
     public function index()
     {
         $id_user = Auth::id();
-        $inventories = Product::with('inventories', 'client')->name()->withUserClients($id_user)->paginate(10);
+        $inventories = Product::with('inventories', 'client')->name()->withUserClients($id_user)->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

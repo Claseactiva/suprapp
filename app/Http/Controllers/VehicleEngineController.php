@@ -73,7 +73,7 @@ class VehicleEngineController extends Controller
                 ->join('vehicle_years', 'vehicle_years.id', '=', 'vehicle_engines.year_id')
                 ->join('vehicle_models', 'vehicle_models.id', '=', 'vehicle_years.v_id')
                 ->orderBy('id', 'DESC')
-                ->paginate(10);
+                ->paginate((int) request('per_page', 20));
 
        return [
            'pagination_motor' => [

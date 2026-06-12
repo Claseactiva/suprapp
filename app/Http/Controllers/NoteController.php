@@ -14,7 +14,7 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::orderBy('id', 'DESC')->paginate(10);
+        $notes = Note::orderBy('id', 'DESC')->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

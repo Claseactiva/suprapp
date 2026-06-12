@@ -14,7 +14,7 @@ class ProductimportController extends Controller
      */
     public function index()
     {
-        $products = Productimport::orderBy('id', 'DESC')->paginate(10);
+        $products = Productimport::orderBy('id', 'DESC')->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

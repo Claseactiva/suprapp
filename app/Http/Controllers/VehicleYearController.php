@@ -79,7 +79,7 @@ class VehicleYearController extends Controller
                                               vehicle_brands.brand as brand'))
             ->join('vehicle_models', 'vehicle_models.id', '=', 'vehicle_years.v_id')
             ->join('vehicle_brands', 'vehicle_brands.id', '=', 'vehicle_models.brand_id')
-            ->paginate(10);
+            ->paginate((int) request('per_page', 20));
 
         return [
             'pagination_year' => [

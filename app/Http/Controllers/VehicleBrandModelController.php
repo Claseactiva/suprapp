@@ -39,7 +39,7 @@ class VehicleBrandModelController extends Controller
     }
 
     public function all(){
-        $all = VehicleBrandModel::orderBy('id', 'ASC')->paginate(10);
+        $all = VehicleBrandModel::orderBy('id', 'ASC')->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

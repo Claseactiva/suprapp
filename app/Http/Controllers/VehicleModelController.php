@@ -22,7 +22,7 @@ class VehicleModelController extends Controller
                                                 vehicle_models.model'))
                 ->join('vehicle_brands', 'vehicle_brands.id', '=', 'vehicle_models.brand_id')
                 ->join('vehicle_tipos', 'vehicle_tipos.id', '=', 'vehicle_models.tipo_id')
-                ->paginate(10);
+                ->paginate((int) request('per_page', 20));
 
        return [
            'pagination_modelo' => [

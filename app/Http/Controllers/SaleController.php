@@ -29,7 +29,7 @@ class SaleController extends Controller
             $query->whereRaw("DATE_FORMAT(updated_at, '%Y-%m-%d') = ?", [$search]);
         }
 
-        $sales = $query->paginate(10);
+        $sales = $query->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

@@ -202,44 +202,55 @@
                 </tbody>
             </table>
 
-            <nav>
+            <div class="table-list-toolbar">
+                <div class="table-list-toolbar__rows">
+                    <span>Filas</span>
+                    <select class="custom-select custom-select-sm" v-model.number="pagination.per_page"
+                        @change="getClients({ page: 1, per_page: pagination.per_page })">
+                        <option :value="10">10</option>
+                        <option :value="20">20</option>
+                        <option :value="50">50</option>
+                    </select>
+                </div>
+                <nav>
                 <ul class="pagination">
                     <li class="page-item bg-" v-if="pagination.current_page > 1">
                         <a class="page-link border-light bg-dark" href="#"
-                            @click.prevent="changePageClient({ page: 1 })">
+                            @click.prevent="changePageClient({ page: 1, per_page: pagination.per_page })">
                             <span>Primera</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination.current_page > 1">
                         <a class="page-link border-light bg-dark" href="#"
-                            @click.prevent="changePageClient({ page: pagination.current_page - 1 })">
+                            @click.prevent="changePageClient({ page: pagination.current_page - 1, per_page: pagination.per_page })">
                             <span>Atrás</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-for="page in pagesNumber" v-bind:class="[page == isActived ? 'active' : '']"
                         :key="page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageClient({ page })">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageClient({ page, per_page: pagination.per_page })">
                             {{ page }}
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination.current_page < pagination.last_page">
                         <a class="page-link border-light bg-dark" href="#"
-                            @click.prevent="changePageClient({ page: pagination.current_page + 1 })">
+                            @click.prevent="changePageClient({ page: pagination.current_page + 1, per_page: pagination.per_page })">
                             <span>Siguiente</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination.current_page < pagination.last_page">
                         <a class="page-link border-light bg-dark" href="#"
-                            @click.prevent="changePageClient({ page: pagination.last_page })">
+                            @click.prevent="changePageClient({ page: pagination.last_page, per_page: pagination.per_page })">
                             <span>Última</span>
                         </a>
                     </li>
                 </ul>
-            </nav>
+                </nav>
+            </div>
 
         </div>
 

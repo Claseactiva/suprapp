@@ -9790,6 +9790,47 @@ body.admin-compact .page-link {
     font-size: 0.78rem;
 }
 
+body.admin-compact .table-list-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+body.admin-compact .table-list-toolbar__rows {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #d7dbe0;
+    font-size: 0.77rem;
+}
+
+body.admin-compact .table-list-toolbar__rows .custom-select {
+    width: auto;
+    min-width: 78px;
+}
+
+@media (min-width: 769px) {
+    body.admin-compact .table-responsive {
+        overflow-x: auto;
+    }
+
+    body.admin-compact .table-responsive-new {
+        white-space: nowrap;
+    }
+
+    body.admin-compact .table-responsive .table-responsive-new th,
+    body.admin-compact .table-responsive .table-responsive-new td,
+    body.admin-compact .table-responsive .table th,
+    body.admin-compact .table-responsive .table td,
+    body.admin-compact .table-responsive-new th,
+    body.admin-compact .table-responsive-new td {
+        white-space: nowrap;
+    }
+}
+
 body.admin-compact .modal-header,
 body.admin-compact .modal-footer {
     padding: 0.65rem 0.85rem;

@@ -2,10 +2,10 @@ export default { //methods
     /******************************* */
     /*************seccion de vehiculos***************** */
     getVehicles(context, data) {
-        context.commit('getVehicles', data.page)
+        context.commit('getVehicles', data)
     },
     getVehiclesUser(context, data) {
-        context.commit('getVehiclesUser', data.page)
+        context.commit('getVehiclesUser', data)
     },
     createVehicle(context) {
         context.commit('createVehicle')
@@ -50,7 +50,7 @@ export default { //methods
     },
     changePageVehicle(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehicles', data.page)
+        context.commit('getVehicles', data)
     },
     detailVehicle(context, data) {
         context.commit('detailVehicle', data.vehicleLocal)
@@ -297,7 +297,7 @@ export default { //methods
     },
     changePageVehiculoTipo(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehiculoTipos', data.page)
+        context.commit('getVehiculoTipos', data)
     },
     getVehicleBrands(context, data) {
         context.commit('getVehicleBrands', data)
@@ -320,10 +320,10 @@ export default { //methods
     },
     changePageVehicleBrand(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehicleBrands', data.page)
+        context.commit('getVehicleBrands', data)
     },
     getVehicleModels(context, data) {
-        context.commit('getVehicleModels', data.page)
+        context.commit('getVehicleModels', data)
     },
     createVehicleModel(context) {
         context.commit('createVehicleModel')
@@ -343,7 +343,7 @@ export default { //methods
     },
     changePageVehicleModel(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehicleModels', data.page)
+        context.commit('getVehicleModels', data)
     },
 
     createVehicleYear(context) {
@@ -364,12 +364,12 @@ export default { //methods
     },
 
     getVehicleYears(context, data) {
-        context.commit('getVehicleYears', data.page)
+        context.commit('getVehicleYears', data)
     },
 
     changePageVehicleYear(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehicleYears', data.page)
+        context.commit('getVehicleYears', data)
     },
 
     createVehicleMotor(context, data) {
@@ -394,7 +394,7 @@ export default { //methods
 
     changePageVehiculoMotor(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getVehiculoMotors', data.page)
+        context.commit('getVehiculoMotors', data)
     },
     /********************************** */
     subirFotosObservacion(context, data) {
@@ -417,7 +417,7 @@ export default { //methods
     /******************************* */
     /**********seccion de notas********** */
     getNotes(context, data) {
-        context.commit('getNotes', data.page)
+        context.commit('getNotes', data)
     },
     createNote(context) {
         context.commit('createNote')
@@ -443,14 +443,14 @@ export default { //methods
     },
     changePageNote(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getNotes', data.page)
+        context.commit('getNotes', data)
     },
     /******************************** */
     /******************************** */
     /******************************* */
     /**********seccion de cotizaciones********** */
     getQuotations(context, data) {
-        context.commit('getQuotations', data.page)
+        context.commit('getQuotations', data)
     },
     getQuotationDetails(context) {
         context.commit('getQuotationDetails')
@@ -482,7 +482,7 @@ export default { //methods
     },
     changePageQuotation(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getPendingQuotations', data.page)
+        context.commit('getPendingQuotations', data)
     },
     /******************************** */
     /******************************* */
@@ -501,7 +501,7 @@ export default { //methods
     },
 
     getQuotationShipping(context, data) {
-        context.commit('getQuotationShipping', data.page)
+        context.commit('getQuotationShipping', data)
     },
 
     deleteEnviado(context, data) {
@@ -580,7 +580,7 @@ export default { //methods
     },
     changePageQuotationShipping(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getQuotationShipping', data.page)
+        context.commit('getQuotationShipping', data)
     },
     changePageQuotationclientForm(context, data) {
         context.commit('paginate', data.page)
@@ -594,7 +594,7 @@ export default { //methods
     /******************************* */
     /**********seccion de importaciones********** */
     getImports(context, data) {
-        context.commit('getImports', data.page)
+        context.commit('getImports', data)
     },
     getImportDetails(context) {
         context.commit('getImportDetails')
@@ -635,7 +635,7 @@ export default { //methods
     },
     changePageImport(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getImports', data.page)
+        context.commit('getImports', data)
     },
     /******************************** */
     /******************************* */
@@ -805,7 +805,7 @@ export default { //methods
     /******************************* */
     /*************seccion de clientes***************** */
     getClients(context, data) {
-        context.commit('getClients', data.page)
+        context.commit('getClients', data)
     },
     detailClient(context, data) {
         context.commit('detailClient', data.clientLocal)
@@ -837,7 +837,7 @@ export default { //methods
     },
     changePageClient(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getClients', data.page)
+        context.commit('getClients', data)
     },
     /******************************** */
     /******************************* */
@@ -872,7 +872,7 @@ export default { //methods
         }, 500)
     },
     getProducts(context, data) {
-        context.commit('getProducts', data.page)
+        context.commit('getProducts', data)
     },
     createProduct(context) {
         context.commit('createProduct')
@@ -899,7 +899,7 @@ export default { //methods
     },
     changePageProduct(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getProducts', data.page)
+        context.commit('getProducts', data)
     },
     /************************************************* */
     /************************************************* */
@@ -927,7 +927,7 @@ export default { //methods
     /************************************************ */
     /*************seccion de inventariado************* */
     getInventories(context, data) {
-        context.commit('getInventories', data.page)
+        context.commit('getInventories', data)
     },
     editInventory(context, data) {
         context.commit('editInventory', data)
@@ -940,7 +940,7 @@ export default { //methods
     },
     changePageInventory(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getInventories', data.page)
+        context.commit('getInventories', data)
     },
     async uploadInvoice(context) {
         await context.commit('uploadInvoice')
@@ -950,7 +950,7 @@ export default { //methods
     /************************************************* */
     /*************seccion de usuarios***************** */
     getUsers(context, data) {
-        context.commit('getUsers', data.page)
+        context.commit('getUsers', data)
     },
 
     getRolesQuotation(context, data) {
@@ -1018,7 +1018,7 @@ export default { //methods
     },
     changePageUser(context, data) {
         context.commit('paginate', data.page)
-        context.commit('getUsers', data.page)
+        context.commit('getUsers', data)
     },
     /************************************************* */
     /************************************************* */
@@ -1033,7 +1033,11 @@ export default { //methods
     /******************************************* */
     /**************seccion de asignación de roles a usuarios */
     getRoles(context, data) {
-        context.commit('getRoles', data.page)
+        context.commit('getRoles', data)
+    },
+    changePageRole(context, data) {
+        context.commit('paginate', data.page)
+        context.commit('getRoles', data)
     },
     createRole(context) {
         context.commit('createRole')

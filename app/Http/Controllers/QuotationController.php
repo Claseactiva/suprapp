@@ -18,9 +18,9 @@ class QuotationController extends Controller
     {
         $user_id = Auth::id();
         /*if($user_id == 1 || $user_id == 2)
-            $quotations = Quotation::orderBy('id', 'DESC')->paginate(10);
+            $quotations = Quotation::orderBy('id', 'DESC')->paginate((int) request('per_page', 20));
         else*/
-        $quotations = Quotation::orderBy('id', 'DESC')->where('user_id', '=', $user_id)->paginate(10);
+        $quotations = Quotation::orderBy('id', 'DESC')->where('user_id', '=', $user_id)->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

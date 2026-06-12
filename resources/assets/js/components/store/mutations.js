@@ -164,21 +164,36 @@ function syncDeliveryTimesState(state, payload) {
     state.newDetailclient.days = state.defaultDeliveryTime.label
 }
 
+function resolvePaginationRequest(request, fallbackPerPage = 20) {
+    const requestObject = request && typeof request === 'object' && !request.target ? request : {}
+    const pageCandidate = requestObject.page !== undefined ? requestObject.page : request
+    const perPageCandidate = requestObject.per_page
+    const normalizedPage = parseInt(pageCandidate, 10)
+    const normalizedPerPage = parseInt(perPageCandidate, 10)
+
+    return {
+        page: Number.isFinite(normalizedPage) && normalizedPage > 0 ? normalizedPage : 1,
+        perPage: Number.isFinite(normalizedPerPage) && normalizedPerPage > 0 ? normalizedPerPage : fallbackPerPage
+    }
+}
+
 
 export default { //used for changing the state
     /******************************* */
     /****** sección vehiculos **** */
     /******************************* */
-    getVehicles(state, page) {
-        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year
+    getVehicles(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year + '&per_page=' + perPage
         axios.get(url).then(response => {
 
             state.vehicles = response.data.vehicles.data
             state.pagination = response.data.pagination
         });
     },
-    getVehiclesUser(state, page) {
-        let url = urlVehicleUser + '?page=' + page
+    getVehiclesUser(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlVehicleUser + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.vehicles = response.data.vehicles.data
             state.pagination = response.data.pagination
@@ -1114,8 +1129,9 @@ export default { //used for changing the state
             $('#photo').modal('hide')
         })
     },
-    getVehiculoTipos(state, page_tipo) {
-        let url = 'vehiculotipos-all?page=' + page_tipo
+    getVehiculoTipos(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_tipo.per_page || 20)
+        let url = 'vehiculotipos-all?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.vehiculotipos = response.data.vehiculotipos.data
             state.pagination_tipo = response.data.pagination_tipo
@@ -1155,8 +1171,9 @@ export default { //used for changing the state
             state.errorsLaravel = error.response.data
         })
     },
-    getVehicleBrands(state, page) {
-        let url = 'vehiclebrands-all?page=' + page
+    getVehicleBrands(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_marca.per_page || 20)
+        let url = 'vehiclebrands-all?page=' + page + '&per_page=' + perPage
 
         axios.get(url).then(response => {
             state.vehiclebrands = response.data.vehiclebrands.data
@@ -1203,8 +1220,9 @@ export default { //used for changing the state
             state.errorsLaravel = error.response.data
         })
     },
-    getVehicleModels(state, page) {
-        let url = urlVehicleModel + '?page=' + page //+ '&model=' + state.searchVehicleBrand.model
+    getVehicleModels(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_modelo.per_page || 20)
+        let url = urlVehicleModel + '?page=' + page + '&per_page=' + perPage //+ '&model=' + state.searchVehicleBrand.model
         axios.get(url).then(response => {
             state.vehiclemodels = response.data.vehiclemodels.data
             state.pagination_modelo = response.data.pagination_modelo
@@ -1308,8 +1326,9 @@ export default { //used for changing the state
         })
     },
 
-    getVehicleYears(state, page) {
-        let url = 'vehicleyears-all?page=' + page
+    getVehicleYears(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_year.per_page || 20)
+        let url = 'vehicleyears-all?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.vehicleyears = response.data.vehicleyears.data
             state.pagination_year = response.data.pagination_year
@@ -1362,8 +1381,9 @@ export default { //used for changing the state
         $("#edit_motor").modal('show')
     },
 
-    getVehiculoMotors(state, page) {
-        let url = 'vehiclemotors-all?page=' + page
+    getVehiculoMotors(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_motor.per_page || 20)
+        let url = 'vehiclemotors-all?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.vehiclemotors = response.data.vehiclemotors.data
             state.pagination_motor = response.data.pagination_motor
@@ -1374,8 +1394,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección notas **** */
     /******************************* */
-    getNotes(state, page) {
-        let url = urlNote + '?page=' + page
+    getNotes(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlNote + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.notes = response.data.notes.data
             state.pagination = response.data.pagination
@@ -1426,8 +1447,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección cotizaciones **** */
     /******************************* */
-    getQuotations(state, page) {
-        let url = urlQuotation + '?page=' + page
+    getQuotations(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlQuotation + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.quotations = response.data.quotations.data
             state.pagination = response.data.pagination
@@ -1558,8 +1580,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección clientes **** */
     /******************************* */
-    getClients(state, page) {
-        let url = urlClient + '?page=' + page
+    getClients(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlClient + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.clients = response.data.clients.data
             state.pagination = response.data.pagination
@@ -1680,8 +1703,8 @@ export default { //used for changing the state
     /******************************* */
 
 
-    getQuotationclients(state, page) {
-        page = page || 1
+    getQuotationclients(state, request) {
+        const { page } = resolvePaginationRequest(request, state.searchQuotationClient.per_page || 20)
         let id = state.searchQuotationClient.id
         let razonSocial = state.searchQuotationClient.razonSocial
         let client = state.searchQuotationClient.client
@@ -1699,8 +1722,8 @@ export default { //used for changing the state
         });
     },
 
-    getQuotationclientsform(state, page) {
-        page = page || 1
+    getQuotationclientsform(state, request) {
+        const { page } = resolvePaginationRequest(request, state.searchQuotationClientForm.per_page || 20)
         let id = state.searchQuotationClientForm.id
         let razonSocial = state.searchQuotationClientForm.razonSocial
         let client = state.searchQuotationClientForm.client
@@ -1727,9 +1750,10 @@ export default { //used for changing the state
     },
 
 
-    getQuotationShipping(state, page) {
+    getQuotationShipping(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_shipping.per_page || 20)
         let id = state.searchShipping.id
-        let url = 'quotationshipping?page=' + page + '&id=' + id
+        let url = 'quotationshipping?page=' + page + '&id=' + id + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.quotationshipping = response.data.quotationshipping.data
             state.pagination_shipping = response.data.pagination_shipping
@@ -2164,8 +2188,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección importaciones **** */
     /******************************* */
-    getImports(state, page) {
-        let url = urlImport + '?page=' + page
+    getImports(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlImport + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.imports = response.data.imports.data
             state.pagination = response.data.pagination
@@ -2712,8 +2737,9 @@ export default { //used for changing the state
 
 
 
-    getProducts(state, page) {
-        let url = urlProduct + '?page=' + page + '&name=' + state.searchProduct.name
+    getProducts(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlProduct + '?page=' + page + '&name=' + state.searchProduct.name + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.products = response.data.products.data
             state.pagination = response.data.pagination
@@ -2778,8 +2804,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección productos de importacion **** */
     /******************************* */
-    getProductimports(state, page) {
-        let url = urlProductimport + '?page=' + page
+    getProductimports(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlProductimport + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.products = response.data.products.data
             state.pagination = response.data.pagination
@@ -2808,8 +2835,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección inventariado **** */
     /******************************* */
-    getInventories(state, page) {
-        let url = urlInventory + '?page=' + page + '&name=' + state.searchInventory.name
+    getInventories(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlInventory + '?page=' + page + '&name=' + state.searchInventory.name + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.inventories = response.data.inventories.data
             state.pagination = response.data.pagination
@@ -2865,8 +2893,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección usuarios **** */
     /******************************* */
-    getUsers(state, page) {
-        let url = urlUser + '?page=' + page
+    getUsers(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlUser + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.users = response.data.users.data
             state.pagination = response.data.pagination
@@ -3071,8 +3100,9 @@ export default { //used for changing the state
     /******************************* */
     /****** sección de control de roles **** */
     /******************************* */
-    getRoles(state, page) {
-        let url = urlRoles + '?page=' + page
+    getRoles(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
+        let url = urlRoles + '?page=' + page + '&per_page=' + perPage
         axios.get(url).then(response => {
             state.roles = response.data.roles.data
             state.pagination = response.data.pagination
@@ -3671,12 +3701,13 @@ export default { //used for changing the state
 
     },
 
-    getPendingQuotations(state, page) {
+    getPendingQuotations(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
         let day = state.searchQuotationClient.day
         let month = state.searchQuotationClient.month
         let year = state.searchQuotationClient.year
 
-        let url = urlPendingQuotations + '?page=' + page + '&id=' + state.searchQuotationClient.id + '&client=' + state.searchQuotationClient.client_text + '&day=' + day + '&month=' + month + '&year=' + year
+        let url = urlPendingQuotations + '?page=' + page + '&id=' + state.searchQuotationClient.id + '&client=' + state.searchQuotationClient.client_text + '&day=' + day + '&month=' + month + '&year=' + year + '&per_page=' + perPage
 
         axios.get(url).then(response => {
             state.pendingQuotations = response.data.quotations.data
@@ -4160,7 +4191,10 @@ export default { //used for changing the state
 
 
     allSales(state, data) {
-        axios.get(urlSale + '?page=' + data.page + '&calendar=' + data.calendar)
+        const { page, perPage } = resolvePaginationRequest(data, state.pagination.per_page || 20)
+        const calendar = data && data.calendar ? data.calendar : ''
+
+        axios.get(urlSale + '?page=' + page + '&calendar=' + calendar + '&per_page=' + perPage)
             .then(response => {
                 state.sales = response.data.sales.data
                 state.pagination = response.data.pagination

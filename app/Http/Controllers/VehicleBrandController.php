@@ -16,7 +16,7 @@ class VehicleBrandController extends Controller
    {
        $brands = VehicleBrand::orderBy('id', 'DESC')
                 ->brand()
-                ->paginate(10);
+                ->paginate((int) request('per_page', 20));
 
        return [
            'pagination' => [
@@ -94,7 +94,7 @@ class VehicleBrandController extends Controller
 
    public function all()
    {
-        $all = VehicleBrand::orderBy('id', 'ASC')->paginate(10);
+        $all = VehicleBrand::orderBy('id', 'ASC')->paginate((int) request('per_page', 20));
 
         return [
             'pagination_marca' => [

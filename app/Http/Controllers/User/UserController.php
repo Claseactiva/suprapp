@@ -15,9 +15,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        //$users = User::doesntHave('mechanic')->orderBy('id', 'DESC')->with('roles')->paginate(10);
+        //$users = User::doesntHave('mechanic')->orderBy('id', 'DESC')->with('roles')->paginate((int) request('per_page', 20));
 
-        $users = User::orderBy('id', 'DESC')->with('roles')->paginate(10);
+        $users = User::orderBy('id', 'DESC')->with('roles')->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

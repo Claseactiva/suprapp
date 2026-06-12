@@ -100,7 +100,17 @@
             </tbody>
         </table>
 
-        <nav>
+        <div class="table-list-toolbar">
+            <div class="table-list-toolbar__rows">
+                <span>Filas</span>
+                <select class="custom-select custom-select-sm" v-model.number="searchQuotationClientForm.per_page"
+                    @change="getQuotationclientsform({ page: 1 })">
+                    <option :value="10">10</option>
+                    <option :value="20">20</option>
+                    <option :value="50">50</option>
+                </select>
+            </div>
+            <nav>
             <ul class="pagination">
                 <li class="page-item" v-if="pagination_form.current_page > 1">
                     <a class="page-link border-light bg-dark" href="#"
@@ -138,7 +148,8 @@
                     </a>
                 </li>
             </ul>
-        </nav>
+            </nav>
+        </div>
         <CreateUser></CreateUser>
         <CreateUserMechanic></CreateUserMechanic>
         <DetalleCliente></DetalleCliente>

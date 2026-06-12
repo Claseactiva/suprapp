@@ -22,7 +22,7 @@ class ClientController extends Controller
                 ->where('clients.type', '<>', 'Cliente Particular');
         })->orderBy('id', 'DESC')
             ->with('activities')
-            ->paginate(10);
+            ->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [

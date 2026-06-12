@@ -804,7 +804,7 @@ export default { //data
     pagination: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -814,7 +814,7 @@ export default { //data
     pagination_shipping: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -824,7 +824,7 @@ export default { //data
     pagination_form: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -834,7 +834,7 @@ export default { //data
     pagination_marca: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -844,7 +844,7 @@ export default { //data
     pagination_tipo: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -854,7 +854,7 @@ export default { //data
     pagination_modelo: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -864,7 +864,7 @@ export default { //data
     pagination_year: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -874,7 +874,7 @@ export default { //data
     pagination_motor: {
         'total': 0,
         'current_page': 0,
-        'per_page': 0,
+        'per_page': 20,
         'last_page': 0,
         'from': 0,
         'to': 0,
