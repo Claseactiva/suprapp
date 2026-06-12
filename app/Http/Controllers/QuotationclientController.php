@@ -49,6 +49,10 @@ class QuotationclientController extends Controller
         $day = request('day');
         $month = request('month');
         $year = request('year');
+        $perPage = (int) request('per_page', 20);
+        if ($perPage <= 0) {
+            $perPage = 20;
+        }
 
 
         if ($user_id == 1)
@@ -99,7 +103,7 @@ class QuotationclientController extends Controller
                 ->when($year, function ($query, $year) {
                     return $query->whereYear('quotationclients.created_at', $year);
                 })
-                ->paginate(10);
+                ->paginate($perPage);
 
         else
 
@@ -150,7 +154,7 @@ class QuotationclientController extends Controller
                 ->when($year, function ($query, $year) {
                     return $query->whereYear('quotationclients.created_at', $year);
                 })
-                ->paginate(10);
+                ->paginate($perPage);
 
         return [
             'pagination' => [
@@ -174,6 +178,10 @@ class QuotationclientController extends Controller
         $day = request('day');
         $month = request('month');
         $year = request('year');
+        $perPage = (int) request('per_page', 20);
+        if ($perPage <= 0) {
+            $perPage = 20;
+        }
 
         $quotationclientsform = DB::table('quotationclients')
             ->join('clients', 'quotationclients.client_id', '=', 'clients.id')
@@ -214,7 +222,7 @@ class QuotationclientController extends Controller
             ->when($year, function ($query, $year) {
                 return $query->whereYear('quotationclients.created_at', $year);
             })
-            ->paginate(10);
+            ->paginate($perPage);
 
 
         return [

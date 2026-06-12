@@ -488,10 +488,12 @@ export default { //methods
     /******************************* */
     /**********seccion de cotizaciones para clientes********** */
     getQuotationclients(context, data) {
-        context.commit('getQuotationclients', data.page)
+        const page = data && data.page ? data.page : 1
+        context.commit('getQuotationclients', page)
     },
     getQuotationclientsform(context, data) {
-        context.commit('getQuotationclientsform', data.page)
+        const page = data && data.page ? data.page : 1
+        context.commit('getQuotationclientsform', page)
     },
 
     getQuotationlinkenvio(context, data) {

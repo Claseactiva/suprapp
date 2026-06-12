@@ -1668,6 +1668,7 @@ export default { //used for changing the state
 
 
     getQuotationclients(state, page) {
+        page = page || 1
         let id = state.searchQuotationClient.id
         let razonSocial = state.searchQuotationClient.razonSocial
         let client = state.searchQuotationClient.client
@@ -1675,8 +1676,9 @@ export default { //used for changing the state
         let day = state.searchQuotationClient.day
         let month = state.searchQuotationClient.month
         let year = state.searchQuotationClient.year
+        let perPage = state.searchQuotationClient.per_page
 
-        let url = urlQuotationclient + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year
+        let url = urlQuotationclient + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year + '&per_page=' + perPage
 
         axios.get(url).then(response => {
             state.quotationclients = response.data.quotationclients.data
@@ -1685,6 +1687,7 @@ export default { //used for changing the state
     },
 
     getQuotationclientsform(state, page) {
+        page = page || 1
         let id = state.searchQuotationClientForm.id
         let razonSocial = state.searchQuotationClientForm.razonSocial
         let client = state.searchQuotationClientForm.client
@@ -1692,8 +1695,9 @@ export default { //used for changing the state
         let day = state.searchQuotationClientForm.day
         let month = state.searchQuotationClientForm.month
         let year = state.searchQuotationClientForm.year
+        let perPage = state.searchQuotationClientForm.per_page
 
-        let url = urlQuotationclientform + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year
+        let url = urlQuotationclientform + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year + '&per_page=' + perPage
 
 
         axios.get(url).then(response => {

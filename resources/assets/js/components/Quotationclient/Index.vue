@@ -102,6 +102,19 @@
             </div>
         </div>
 
+        <div class="quotationclient-toolbar">
+            <div class="form-inline">
+                <label for="quotationclient-per-page" class="mb-0 mr-2">Filas</label>
+                <select id="quotationclient-per-page" class="form-control"
+                    v-model.number="searchQuotationClient.per_page"
+                    @change="getQuotationclients({ page: 1 })">
+                    <option :value="10">10</option>
+                    <option :value="20">20</option>
+                    <option :value="50">50</option>
+                </select>
+            </div>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-responsive-new table-dark table-sm mt-3">
                 <thead>
@@ -469,6 +482,21 @@ export default {
 
     .quotationclient-admin .card {
         margin-bottom: 0.5rem;
+    }
+
+    .quotationclient-admin .quotationclient-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 0.65rem;
+        margin-bottom: -0.1rem;
+    }
+
+    .quotationclient-admin .quotationclient-toolbar label {
+        margin-bottom: 0;
+    }
+
+    .quotationclient-admin .quotationclient-toolbar .form-control {
+        width: 78px;
     }
 
     .quotationclient-admin .card-header {

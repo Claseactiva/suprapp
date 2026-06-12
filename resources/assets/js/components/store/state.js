@@ -410,7 +410,8 @@ export default { //data
         vehicle: '',
         day: '',
         month: '',
-        year: ''
+        year: '',
+        per_page: 20
     },
     searchQuotationClientForm: {
         id: '',
@@ -419,7 +420,8 @@ export default { //data
         vehicle: '',
         day: '',
         month: '',
-        year: ''
+        year: '',
+        per_page: 20
     },
     searchShipping: {
         id: '',
