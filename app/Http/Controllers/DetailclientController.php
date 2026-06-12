@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detailclient;
+use App\Services\VehicleModelProductService;
 use Illuminate\Http\Request;
 
 class DetailclientController extends Controller
@@ -27,7 +28,9 @@ class DetailclientController extends Controller
     {
         $data = $request->all();
 
-        Detailclient::create($data);
+        $detailclient = Detailclient::create($data);
+
+        app(VehicleModelProductService::class)->syncDetailclient($detailclient);
     }
 
     /**
@@ -50,7 +53,10 @@ class DetailclientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Detailclient::find($id)->update($request->all());
+        $detailclient = Detailclient::findOrFail($id);
+        $detailclient->update($request->all());
+
+        app(VehicleModelProductService::class)->syncDetailclient($detailclient);
 
         return;
     }
@@ -64,6 +70,7 @@ class DetailclientController extends Controller
     public function destroy($id)
     {
         $detailclient = Detailclient::findOrFail($id);
+        app(VehicleModelProductService::class)->removeDetailclient($detailclient->id);
         $detailclient->delete();
 
         return;

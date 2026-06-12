@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+mix.disableNotifications();
 mix.js(['resources/assets/js/sbAdmin/sb-admin.js'],'public/js/app-principal.js')
     .js(['resources/assets/js/app.js'], 'public/js')
     .vue() // Agrega esta línea para configurar el cargador de archivos Vue

@@ -10,6 +10,7 @@ use App\Models\Quotationclient;
 use App\Models\QuotationUser;
 use App\Models\QuotationUserVehicle;
 use App\Models\VehicleModel;
+use App\Services\VehicleModelProductService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -253,6 +254,7 @@ class QuotationclientController extends Controller
             $telefono = preg_replace('/\s+/', '', trim($data['telefono'] ?? ''));
             $ppu = trim($data['ppu'] ?? '');
             $clientText = trim($data['client_text'] ?? '');
+            $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
 
             $roles = DB::table('roles')
                 ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -300,6 +302,7 @@ class QuotationclientController extends Controller
                         'payment' => $payment,
                         'client_text' => $clientText,
                         'vehicle' => $vehicle,
+                        'vehicle_model_id' => $vehicleModelId,
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
@@ -316,6 +319,7 @@ class QuotationclientController extends Controller
                                 'payment' => $payment,
                                 'client_text' => $clientText,
                                 'vehicle' => $vehicle,
+                                'vehicle_model_id' => $vehicleModelId,
                                 'generado' => $data['generado'],
                                 'url' => $url,
                                 'telefono' => $telefono,
@@ -334,6 +338,7 @@ class QuotationclientController extends Controller
                         'payment' => $payment,
                         'client_text' => $clientText,
                         'vehicle' => $vehicle,
+                        'vehicle_model_id' => $vehicleModelId,
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
@@ -377,6 +382,10 @@ class QuotationclientController extends Controller
             $data['vehicle'] = trim($data['vehicle'] ?? '');
         }
 
+        if (array_key_exists('vehicle_model_id', $data)) {
+            $data['vehicle_model_id'] = $this->resolveVehicleModelId($data['vehicle_model_id']);
+        }
+
         if (array_key_exists('url', $data)) {
             $data['url'] = trim($data['url'] ?? '');
         }
@@ -415,6 +424,21 @@ class QuotationclientController extends Controller
     public function details($id)
     {
         return Quotationclient::findOrFail($id)->detailclients;
+    }
+
+    public function productSuggestions($id, VehicleModelProductService $service)
+    {
+        $quotationclient = Quotationclient::findOrFail($id);
+        $currentUserId = Auth::id();
+
+        if ((int) $currentUserId !== 1 && (int) $quotationclient->user_id !== (int) $currentUserId) {
+            abort(403);
+        }
+
+        return response()->json([
+            'vehicle_model_id' => $service->ensureQuotationVehicleModelId($quotationclient),
+            'suggestions' => $service->getSuggestionsForQuotation($quotationclient),
+        ]);
     }
 
     public function pdf($id)
@@ -555,6 +579,7 @@ class QuotationclientController extends Controller
         }
 
         $newQuotation = DB::transaction(function () use ($quotation) {
+            $vehicleModelProductService = app(VehicleModelProductService::class);
             $newQuotation = Quotationclient::create([
                 'user_id' => $quotation->user_id,
                 'client_id' => $this->resolveClientId($quotation->client_id),
@@ -563,6 +588,7 @@ class QuotationclientController extends Controller
                 'payment' => $this->resolvePaymentName($quotation->payment),
                 'client_text' => trim($quotation->client_text ?? ''),
                 'vehicle' => trim($quotation->vehicle ?? ''),
+                'vehicle_model_id' => $quotation->vehicle_model_id,
                 'generado' => $quotation->generado,
                 'generado_client' => 0,
                 'tipo_detalle' => $quotation->tipo_detalle,
@@ -573,7 +599,7 @@ class QuotationclientController extends Controller
             ]);
 
             foreach ($quotation->detailclients as $detailclient) {
-                $newQuotation->detailclients()->create([
+                $newDetailclient = $newQuotation->detailclients()->create([
                     'product' => $detailclient->product,
                     'detail' => $detailclient->detail,
                     'price' => $detailclient->price,
@@ -585,6 +611,8 @@ class QuotationclientController extends Controller
                     'total' => $detailclient->total,
                     'days' => $detailclient->days,
                 ]);
+
+                $vehicleModelProductService->syncDetailclient($newDetailclient);
             }
 
             return $newQuotation;
@@ -633,5 +661,14 @@ class QuotationclientController extends Controller
         }
 
         return $clientId;
+    }
+
+    private function resolveVehicleModelId($vehicleModelId)
+    {
+        if ($vehicleModelId === null || $vehicleModelId === '') {
+            return null;
+        }
+
+        return (int) $vehicleModelId;
     }
 }

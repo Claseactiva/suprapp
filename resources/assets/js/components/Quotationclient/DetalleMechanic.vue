@@ -39,8 +39,18 @@
                                                                 type="text"
                                                                 name="product"
                                                                 class="form-control"
+                                                                list="quotation-product-suggestions-mechanic"
+                                                                autocomplete="off"
                                                                 v-model="newDetailclient.product"
                                                             >
+                                                            <datalist id="quotation-product-suggestions-mechanic">
+                                                                <option
+                                                                    v-for="suggestion in filteredModelProductSuggestions"
+                                                                    :key="suggestion.product_key"
+                                                                    :value="suggestion.product_name"
+                                                                    :label="suggestion.display_label">
+                                                                </option>
+                                                            </datalist>
                                                         </div>
 
                                                          <!-- <div class="col-lg-3">
@@ -211,8 +221,20 @@ export default {
     components: { SelectProduct },
     computed:{
         ...mapState(['detailclients', 'totalQuotationclient', 'totalUtilidad', 'totalTransporte', 'totalAdicional',
-                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel', 'deliveryTimes']),
-        ...mapGetters([])
+                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel', 'deliveryTimes', 'modelProductSuggestions']),
+        ...mapGetters([]),
+        filteredModelProductSuggestions() {
+            const term = (this.newDetailclient.product || '').trim().toLowerCase()
+
+            if (term === '') {
+                return this.modelProductSuggestions.slice(0, 20)
+            }
+
+            return this.modelProductSuggestions.filter((suggestion) => {
+                const haystack = `${suggestion.product_name} ${suggestion.product_code || ''}`.toLowerCase()
+                return haystack.includes(term)
+            }).slice(0, 20)
+        }
     },
     methods:{
         ...mapActions(['createDetailclient', 'editDetailclientMechanic', 'deleteDetailclient',

@@ -143,6 +143,7 @@ Route::get('quotation-pdf/{id}', 'QuotationController@pdf');
 Route::ApiResource('quotationclients', 'QuotationclientController');
 Route::get('quotationclientsform', 'QuotationclientController@clientsform');
 Route::get('quotationclient-details/{id}', 'QuotationclientController@details');
+Route::get('quotationclients/{id}/product-suggestions', 'QuotationclientController@productSuggestions');
 Route::get('quotationforms/{id}', 'QuotationclientController@forms');
 Route::get('quotationusers/{id}', 'QuotationclientController@forms');
 Route::get('quotationclient-pdf/{id}', 'QuotationclientController@pdf');

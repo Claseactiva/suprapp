@@ -77,6 +77,7 @@ let urlQuotationDetails = 'quotation-details'
 let urlQuotationclient = 'quotationclients'
 let urlQuotationclientform = 'quotationclientsform'
 let urlQuotationclientDetails = 'quotationclient-details'
+let urlQuotationclientProductSuggestions = 'quotationclients'
 let urlQuotationPdf = 'quotation-pdf'
 let urlQuotationforms = 'quotationforms'
 
@@ -1877,6 +1878,19 @@ export default { //used for changing the state
             state.totalQuotationclientIVA = tota_iva
         });
     },
+    getModelProductSuggestions(state) {
+        if (!state.idQuotationclient) {
+            state.modelProductSuggestions = []
+            return
+        }
+
+        let url = urlQuotationclientProductSuggestions + '/' + state.idQuotationclient + '/product-suggestions'
+        axios.get(url).then(response => {
+            state.modelProductSuggestions = response.data.suggestions || []
+        }).catch(() => {
+            state.modelProductSuggestions = []
+        })
+    },
     getDeliveryTimes(state) {
         axios.get(urlDeliveryTime).then(response => {
             syncDeliveryTimesState(state, response.data)
@@ -1940,6 +1954,7 @@ export default { //used for changing the state
             url: state.newQuotationclient.url,
             telefono: state.newQuotationclient.telefono,
             vehicle: vehicleParts.join(' '),
+            vehicle_model_id: state.selectedVModel.value || null,
             ppu: state.newQuotationclient.ppu
         }).then(response => {
             state.newQuotationclient = {
@@ -2082,6 +2097,7 @@ export default { //used for changing the state
             total: state.newDetailclient.total,
         }).then(response => {
             state.selectedProduct = []
+            const spareParts = state.newDetailclient.spare_parts
             state.newDetailclient = {
                 quotationclient_id: '',
                 product: '',
@@ -2094,7 +2110,7 @@ export default { //used for changing the state
                 utility: 0,
                 total: 0,
                 days: state.defaultDeliveryTime.label || '24 a 48 Hrs',
-                spare_parts: state.newDetailclient.spare_parts
+                spare_parts: spareParts
             }
             state.errorsLaravel = []
             toastr.success('Detalle generado con éxito')

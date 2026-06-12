@@ -686,6 +686,7 @@ export default { //methods
         context.commit('getUtilities')
         context.commit('getFletes')
         context.commit('getDeliveryTimes')
+        context.commit('getModelProductSuggestions')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
@@ -695,6 +696,7 @@ export default { //methods
         context.commit('getUtilities')
         context.commit('getFletes')
         context.commit('getDeliveryTimes')
+        context.commit('getModelProductSuggestions')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
@@ -703,6 +705,7 @@ export default { //methods
         context.commit('createDetailclient')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
+            context.commit('getModelProductSuggestions')
         }, 1000)
     },
     editDetailclient(context, data) {
@@ -715,12 +718,14 @@ export default { //methods
         context.commit('updateDetailclient', data.id)
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
+            context.commit('getModelProductSuggestions')
         }, 1000)
     },
     deleteDetailclient(context, data) {
         context.commit('deleteDetailclient', data.id)
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
+            context.commit('getModelProductSuggestions')
         }, 1000)
     },
     /******************************************** */

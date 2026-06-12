@@ -29,7 +29,17 @@
                                             <div class="col-lg-4 col-md-12">
                                                 <label for="product">Nombre Producto</label>
                                                 <input required type="text" name="product" class="form-control"
-                                                    v-model="newDetailclient.product">
+                                                    v-model="newDetailclient.product"
+                                                    list="quotation-product-suggestions"
+                                                    autocomplete="off">
+                                                <datalist id="quotation-product-suggestions">
+                                                    <option
+                                                        v-for="suggestion in filteredModelProductSuggestions"
+                                                        :key="suggestion.product_key"
+                                                        :value="suggestion.product_name"
+                                                        :label="suggestion.display_label">
+                                                    </option>
+                                                </datalist>
                                             </div>
 
                                             <div class="col-lg-4 col-md-12">
@@ -222,8 +232,20 @@ export default {
     components: { SelectProduct },
     computed: {
         ...mapState(['detailclients', 'totalQuotationclient', 'totalUtilidad', 'totalTransporte', 'totalAdicional',
-            'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'totalProductIvaFlete', 'errorsLaravel', 'idQuotationclient', 'deliveryTimes']),
+            'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'totalProductIvaFlete', 'errorsLaravel', 'idQuotationclient', 'deliveryTimes', 'modelProductSuggestions']),
         ...mapGetters([]),
+        filteredModelProductSuggestions() {
+            const term = (this.newDetailclient.product || '').trim().toLowerCase()
+
+            if (term === '') {
+                return this.modelProductSuggestions.slice(0, 20)
+            }
+
+            return this.modelProductSuggestions.filter((suggestion) => {
+                const haystack = `${suggestion.product_name} ${suggestion.product_code || ''}`.toLowerCase()
+                return haystack.includes(term)
+            }).slice(0, 20)
+        },
         checkedSpareParts: {
             get() {
                 return this.$store.state.checkedSpareParts

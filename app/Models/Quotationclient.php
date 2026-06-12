@@ -18,6 +18,11 @@ class Quotationclient extends Model
         return $this->hasMany('App\Models\Detailclient');
     }
 
+    public function vehicleModel()
+    {
+        return $this->belongsTo('App\Models\VehicleModel', 'vehicle_model_id');
+    }
+
     /**
      * Filter user data based on query
      *
