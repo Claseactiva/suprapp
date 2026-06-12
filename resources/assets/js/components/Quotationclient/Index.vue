@@ -385,21 +385,33 @@ export default {
             return links
         },
         productPreviewTitle(quotationLocal) {
+            const summary = []
             const previewItems = (quotationLocal.product_preview || '')
                 .split('||')
                 .map(product => product.trim())
                 .filter(product => product !== '')
             const totalItems = parseInt(quotationLocal.detailclient_count || 0, 10)
 
-            if (!previewItems.length) {
-                return 'Sin productos cargados'
+            if ((quotationLocal.ppu || '').trim() !== '') {
+                summary.push(`PPU: ${quotationLocal.ppu.trim()}`)
             }
 
-            if (totalItems > previewItems.length) {
-                previewItems.push(`... y ${totalItems - previewItems.length} mas`)
+            if ((quotationLocal.vehicle || '').trim() !== '') {
+                summary.push(`Vehiculo: ${quotationLocal.vehicle.trim()}`)
             }
 
-            return previewItems.join('\n')
+            if (previewItems.length) {
+                summary.push('Productos:')
+                summary.push(...previewItems)
+
+                if (totalItems > previewItems.length) {
+                    summary.push(`... y ${totalItems - previewItems.length} mas`)
+                }
+            } else {
+                summary.push('Sin productos cargados')
+            }
+
+            return summary.join('\n')
         },
         whatsAppUrl(telefono) {
             const digits = (telefono || '').replace(/\D/g, '')
