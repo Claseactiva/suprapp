@@ -4833,6 +4833,30 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapGetters)(['isActived', 'pagesNumber'])),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])), {}, {
+    contactLinks: function contactLinks(quotationLocal) {
+      var links = [];
+      var messengerUrl = (quotationLocal.url || '').trim();
+      var whatsAppHref = this.whatsAppUrl(quotationLocal.telefono);
+      if (messengerUrl !== '') {
+        links.push({
+          type: 'messenger',
+          title: 'Facebook / Messenger',
+          href: messengerUrl,
+          icon: 'fab fa-facebook-f',
+          buttonClass: 'btn-primary'
+        });
+      }
+      if (whatsAppHref !== '#') {
+        links.push({
+          type: 'whatsapp',
+          title: 'WhatsApp',
+          href: whatsAppHref,
+          icon: 'fab fa-whatsapp',
+          buttonClass: 'btn-success'
+        });
+      }
+      return links;
+    },
     whatsAppUrl: function whatsAppUrl(telefono) {
       var digits = (telefono || '').replace(/\D/g, '');
       if (!digits) {
@@ -18987,29 +19011,33 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(_vm._f("moment")(quotationLocal.created_at, "DD/MM/YYYY H:mm a")))]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-actions-cell"
-    }, [quotationLocal.url != "" ? _c("a", {
-      staticClass: "btn btn-primary btn-sm quotationclient-icon-btn",
+    }, [_vm.contactLinks(quotationLocal).length === 1 ? _c("a", {
+      "class": _vm.contactLinks(quotationLocal)[0].buttonClass + " btn btn-sm quotationclient-icon-btn",
       attrs: {
-        href: quotationLocal.url,
+        href: _vm.contactLinks(quotationLocal)[0].href,
         target: "_blank",
         "data-toggle": "tooltip",
         "data-placeemnt": "top",
-        title: "Messenger"
+        title: _vm.contactLinks(quotationLocal)[0].title
       }
     }, [_c("i", {
-      staticClass: "fab fa-facebook-f"
-    })]) : _vm._e(), _vm._v(" "), quotationLocal.telefono != "" ? _c("a", {
-      staticClass: "btn btn-success btn-sm quotationclient-icon-btn",
-      attrs: {
-        href: _vm.whatsAppUrl(quotationLocal.telefono),
-        target: "_blank",
-        "data-toggle": "tooltip",
-        "data-placeemnt": "top",
-        title: "WhatsApp"
-      }
-    }, [_c("i", {
-      staticClass: "fab fa-whatsapp"
-    })]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
+      "class": _vm.contactLinks(quotationLocal)[0].icon
+    })]) : _vm.contactLinks(quotationLocal).length > 1 ? _c("div", {
+      staticClass: "btn-group dropleft quotationclient-contact-group"
+    }, [_vm._m(3, true), _vm._v(" "), _c("div", {
+      staticClass: "dropdown-menu dropdown-menu-right quotationclient-contact-menu"
+    }, _vm._l(_vm.contactLinks(quotationLocal), function (contactLink) {
+      return _c("a", {
+        key: contactLink.type,
+        staticClass: "dropdown-item",
+        attrs: {
+          href: contactLink.href,
+          target: "_blank"
+        }
+      }, [_c("i", {
+        "class": contactLink.icon + " mr-2"
+      }), _vm._v(_vm._s(contactLink.title) + "\n                                ")]);
+    }), 0)]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
       staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
@@ -19280,6 +19308,21 @@ var staticRenderFns = [function () {
       width: "200px"
     }
   }, [_vm._v("Acción")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split quotationclient-icon-btn",
+    attrs: {
+      type: "button",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false",
+      title: "Contacto"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-comments"
+  })]);
 }];
 render._withStripped = true;
 
@@ -40376,7 +40419,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .quotationclient-status-cell,\n    .quotationclient-admin .quotationclient-actions-cell {\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-icon-btn {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: 28px;\n        height: 28px;\n        padding: 0;\n        margin-right: 0.18rem;\n        border-radius: 0.2rem;\n}\n.quotationclient-admin .quotationclient-icon-btn:last-child {\n        margin-right: 0;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .quotationclient-status-cell,\n    .quotationclient-admin .quotationclient-actions-cell {\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-icon-btn {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: 28px;\n        height: 28px;\n        padding: 0;\n        margin-right: 0.18rem;\n        border-radius: 0.2rem;\n}\n.quotationclient-admin .quotationclient-icon-btn:last-child {\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-group {\n        vertical-align: middle;\n        margin-right: 0.18rem;\n}\n.quotationclient-admin .quotationclient-contact-group .quotationclient-icon-btn {\n        width: 34px;\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-menu {\n        min-width: 11.5rem;\n        font-size: 0.78rem;\n}\n.quotationclient-admin .quotationclient-contact-menu .dropdown-item {\n        padding: 0.35rem 0.75rem;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

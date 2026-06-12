@@ -183,17 +183,28 @@
                         <td data-table-label="Fecha">{{ quotationLocal.created_at | moment('DD/MM/YYYY H:mm a') }}</td>
                         <td class="quotationclient-actions-cell">
 
-                            <a :href="quotationLocal.url" v-if="quotationLocal.url != ''"
-                                class="btn btn-primary btn-sm quotationclient-icon-btn"
-                                target="_blank" data-toggle="tooltip" data-placeemnt="top" title="Messenger">
-                                <i class="fab fa-facebook-f"></i>
+                            <a v-if="contactLinks(quotationLocal).length === 1"
+                                :href="contactLinks(quotationLocal)[0].href"
+                                :class="contactLinks(quotationLocal)[0].buttonClass + ' btn btn-sm quotationclient-icon-btn'"
+                                target="_blank" data-toggle="tooltip" data-placeemnt="top"
+                                :title="contactLinks(quotationLocal)[0].title">
+                                <i :class="contactLinks(quotationLocal)[0].icon"></i>
                             </a>
 
-                            <a :href="whatsAppUrl(quotationLocal.telefono)" v-if="quotationLocal.telefono != ''"
-                                class="btn btn-success btn-sm quotationclient-icon-btn"
-                                target="_blank" data-toggle="tooltip" data-placeemnt="top" title="WhatsApp">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
+                            <div v-else-if="contactLinks(quotationLocal).length > 1"
+                                class="btn-group dropleft quotationclient-contact-group">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split quotationclient-icon-btn"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Contacto">
+                                    <i class="fas fa-comments"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right quotationclient-contact-menu">
+                                    <a v-for="contactLink in contactLinks(quotationLocal)" :key="contactLink.type"
+                                        class="dropdown-item" :href="contactLink.href" target="_blank">
+                                        <i :class="contactLink.icon + ' mr-2'"></i>{{ contactLink.title }}
+                                    </a>
+                                </div>
+                            </div>
 
                             <a href="#"
                                 v-if="quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2)"
@@ -342,6 +353,33 @@ export default {
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
             'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient']),
+        contactLinks(quotationLocal) {
+            const links = []
+            const messengerUrl = (quotationLocal.url || '').trim()
+            const whatsAppHref = this.whatsAppUrl(quotationLocal.telefono)
+
+            if (messengerUrl !== '') {
+                links.push({
+                    type: 'messenger',
+                    title: 'Facebook / Messenger',
+                    href: messengerUrl,
+                    icon: 'fab fa-facebook-f',
+                    buttonClass: 'btn-primary'
+                })
+            }
+
+            if (whatsAppHref !== '#') {
+                links.push({
+                    type: 'whatsapp',
+                    title: 'WhatsApp',
+                    href: whatsAppHref,
+                    icon: 'fab fa-whatsapp',
+                    buttonClass: 'btn-success'
+                })
+            }
+
+            return links
+        },
         whatsAppUrl(telefono) {
             const digits = (telefono || '').replace(/\D/g, '')
 
@@ -468,6 +506,25 @@ export default {
 
     .quotationclient-admin .quotationclient-icon-btn:last-child {
         margin-right: 0;
+    }
+
+    .quotationclient-admin .quotationclient-contact-group {
+        vertical-align: middle;
+        margin-right: 0.18rem;
+    }
+
+    .quotationclient-admin .quotationclient-contact-group .quotationclient-icon-btn {
+        width: 34px;
+        margin-right: 0;
+    }
+
+    .quotationclient-admin .quotationclient-contact-menu {
+        min-width: 11.5rem;
+        font-size: 0.78rem;
+    }
+
+    .quotationclient-admin .quotationclient-contact-menu .dropdown-item {
+        padding: 0.35rem 0.75rem;
     }
 
     .quotationclient-admin .table .form-control {
