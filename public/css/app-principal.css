@@ -9636,6 +9636,207 @@ button.toast-close-button {
     font-size: 30px;
 }
 
+body.admin-compact {
+    font-size: 0.86rem;
+}
+
+body.admin-compact .navbar {
+    min-height: 48px;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+body.admin-compact .navbar-brand {
+    font-size: 0.95rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+body.admin-compact .navbar .nav-link,
+body.admin-compact .navbar .dropdown-item {
+    font-size: 0.84rem;
+}
+
+body.admin-compact #wrapper #content-wrapper {
+    padding-top: 0.75rem;
+    padding-bottom: 48px;
+}
+
+body.admin-compact #container-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+body.admin-compact .sidebar {
+    min-height: calc(100vh - 48px);
+}
+
+body.admin-compact .sidebar .nav-item .nav-link {
+    padding: 0.55rem 0.75rem;
+}
+
+body.admin-compact .sidebar .nav-item .nav-link i {
+    font-size: 0.92rem;
+}
+
+body.admin-compact .sidebar .nav-item .nav-link span {
+    font-size: 0.66rem;
+    line-height: 1.2;
+}
+
+body.admin-compact .card {
+    margin-bottom: 0.75rem;
+}
+
+body.admin-compact .card-header {
+    padding: 0.55rem 0.8rem;
+}
+
+body.admin-compact .card-body {
+    padding: 0.8rem;
+}
+
+body.admin-compact .nav-pills .nav-link,
+body.admin-compact .nav-tabs .nav-link {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.84rem;
+}
+
+body.admin-compact h1,
+body.admin-compact h2,
+body.admin-compact h3,
+body.admin-compact h4 {
+    margin-bottom: 0.4rem;
+}
+
+body.admin-compact h5,
+body.admin-compact h6 {
+    margin-bottom: 0.35rem;
+}
+
+body.admin-compact label,
+body.admin-compact .col-form-label,
+body.admin-compact .form-check-label {
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+}
+
+body.admin-compact .form-group,
+body.admin-compact .mb-3,
+body.admin-compact .row.mb-3 {
+    margin-bottom: 0.65rem !important;
+}
+
+body.admin-compact .form-control,
+body.admin-compact .custom-select,
+body.admin-compact .input-group-text,
+body.admin-compact .v-select .dropdown-toggle {
+    min-height: 32px;
+    height: 32px;
+    padding-top: 0.22rem;
+    padding-bottom: 0.22rem;
+    font-size: 0.82rem;
+}
+
+body.admin-compact textarea.form-control {
+    min-height: 88px;
+    height: auto;
+}
+
+body.admin-compact .v-select .selected-tag,
+body.admin-compact .v-select input {
+    font-size: 0.82rem;
+}
+
+body.admin-compact .btn {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    padding: 0.28rem 0.58rem;
+}
+
+body.admin-compact .btn.form-control,
+body.admin-compact button.form-control,
+body.admin-compact a.form-control {
+    height: 32px;
+    padding-top: 0.22rem;
+    padding-bottom: 0.22rem;
+}
+
+body.admin-compact .table {
+    font-size: 0.79rem;
+}
+
+body.admin-compact .table th,
+body.admin-compact .table td {
+    padding: 0.34rem 0.42rem;
+    vertical-align: middle;
+}
+
+body.admin-compact .table .form-control,
+body.admin-compact .table .custom-select {
+    min-height: 28px;
+    height: 28px;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    font-size: 0.78rem;
+}
+
+body.admin-compact .pagination {
+    margin-bottom: 0;
+}
+
+body.admin-compact .page-link {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.78rem;
+}
+
+body.admin-compact .modal-header,
+body.admin-compact .modal-footer {
+    padding: 0.65rem 0.85rem;
+}
+
+body.admin-compact .modal-body {
+    padding: 0.85rem;
+}
+
+body.admin-compact .modal-title,
+body.admin-compact .modal-header h4 {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+body.admin-compact .close {
+    font-size: 1.1rem;
+}
+
+@media (min-width: 768px) {
+    body.admin-compact .sidebar {
+        width: 205px !important;
+    }
+
+    body.admin-compact .sidebar .nav-item .nav-link {
+        width: 205px;
+        padding: 0.7rem 0.8rem;
+    }
+
+    body.admin-compact .sidebar .nav-item .nav-link span {
+        font-size: 0.84rem;
+    }
+
+    body.admin-compact .sidebar.toggled {
+        width: 78px !important;
+    }
+
+    body.admin-compact .sidebar.toggled .nav-item .nav-link {
+        width: 78px;
+        padding: 0.55rem 0.45rem;
+    }
+
+    body.admin-compact .sidebar.toggled .nav-item .nav-link span {
+        font-size: 0.62rem;
+    }
+}
+
 
 @media screen and (min-width: 1024px) {
     .w-lg-25 {
@@ -9690,6 +9891,7 @@ button.toast-close-button {
         width: 100%;
     }
 }
+
 .modal.modal-fullscreen .modal-dialog {
   width: 100%;
   height: 100%;
