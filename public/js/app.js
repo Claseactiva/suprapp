@@ -4700,6 +4700,32 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillQuotationclient', 'optionsClient', 'optionsPago', 'errorsLaravel'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateQuotationclient']))
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=script&lang=js ***!
@@ -4737,7 +4763,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Client_Select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Client/Select */ "./resources/assets/js/components/Client/Select.vue");
@@ -4745,18 +4771,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DetalleMechanic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DetalleMechanic */ "./resources/assets/js/components/Quotationclient/DetalleMechanic.vue");
 /* harmony import */ var _DetalleClienteMechanic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DetalleClienteMechanic */ "./resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue");
 /* harmony import */ var _Detalle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Detalle */ "./resources/assets/js/components/Quotationclient/Detalle.vue");
-/* harmony import */ var _DetalleEditar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DetalleEditar */ "./resources/assets/js/components/Quotationclient/DetalleEditar.vue");
-/* harmony import */ var _DetalleEditarMechanic__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./DetalleEditarMechanic */ "./resources/assets/js/components/Quotationclient/DetalleEditarMechanic.vue");
-/* harmony import */ var _CreateUserMechanic__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./CreateUserMechanic */ "./resources/assets/js/components/Quotationclient/CreateUserMechanic.vue");
-/* harmony import */ var _Eliminar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Eliminar */ "./resources/assets/js/components/Quotationclient/Eliminar.vue");
-/* harmony import */ var _CreateUser__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./CreateUser */ "./resources/assets/js/components/Quotationclient/CreateUser.vue");
-/* harmony import */ var _ListarClientesForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ListarClientesForm */ "./resources/assets/js/components/Quotationclient/ListarClientesForm.vue");
-/* harmony import */ var _ListarQuotationShipping__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ListarQuotationShipping */ "./resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue");
-/* harmony import */ var _Quotationuser_BrandSelector__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Quotationuser/BrandSelector */ "./resources/assets/js/components/Quotationuser/BrandSelector.vue");
-/* harmony import */ var _Quotationuser_ModelSelector__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Quotationuser/ModelSelector */ "./resources/assets/js/components/Quotationuser/ModelSelector.vue");
-/* harmony import */ var _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Quotationuser/YearSelector */ "./resources/assets/js/components/Quotationuser/YearSelector.vue");
-/* harmony import */ var _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Quotationuser/EngineSelector */ "./resources/assets/js/components/Quotationuser/EngineSelector.vue");
-/* harmony import */ var _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Utilidad/SelectTiposPagos */ "./resources/assets/js/components/Utilidad/SelectTiposPagos.vue");
+/* harmony import */ var _EditarCotizacion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./EditarCotizacion */ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue");
+/* harmony import */ var _DetalleEditar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./DetalleEditar */ "./resources/assets/js/components/Quotationclient/DetalleEditar.vue");
+/* harmony import */ var _DetalleEditarMechanic__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./DetalleEditarMechanic */ "./resources/assets/js/components/Quotationclient/DetalleEditarMechanic.vue");
+/* harmony import */ var _CreateUserMechanic__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CreateUserMechanic */ "./resources/assets/js/components/Quotationclient/CreateUserMechanic.vue");
+/* harmony import */ var _Eliminar__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Eliminar */ "./resources/assets/js/components/Quotationclient/Eliminar.vue");
+/* harmony import */ var _CreateUser__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./CreateUser */ "./resources/assets/js/components/Quotationclient/CreateUser.vue");
+/* harmony import */ var _ListarClientesForm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./ListarClientesForm */ "./resources/assets/js/components/Quotationclient/ListarClientesForm.vue");
+/* harmony import */ var _ListarQuotationShipping__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./ListarQuotationShipping */ "./resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue");
+/* harmony import */ var _Quotationuser_BrandSelector__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Quotationuser/BrandSelector */ "./resources/assets/js/components/Quotationuser/BrandSelector.vue");
+/* harmony import */ var _Quotationuser_ModelSelector__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Quotationuser/ModelSelector */ "./resources/assets/js/components/Quotationuser/ModelSelector.vue");
+/* harmony import */ var _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Quotationuser/YearSelector */ "./resources/assets/js/components/Quotationuser/YearSelector.vue");
+/* harmony import */ var _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Quotationuser/EngineSelector */ "./resources/assets/js/components/Quotationuser/EngineSelector.vue");
+/* harmony import */ var _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Utilidad/SelectTiposPagos */ "./resources/assets/js/components/Utilidad/SelectTiposPagos.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -4782,34 +4809,40 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     SelectClient: _Client_Select__WEBPACK_IMPORTED_MODULE_1__["default"],
-    BrandSelector: _Quotationuser_BrandSelector__WEBPACK_IMPORTED_MODULE_13__["default"],
-    ModelSelector: _Quotationuser_ModelSelector__WEBPACK_IMPORTED_MODULE_14__["default"],
-    YearSelector: _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_15__["default"],
-    EngineSelector: _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_16__["default"],
+    BrandSelector: _Quotationuser_BrandSelector__WEBPACK_IMPORTED_MODULE_14__["default"],
+    ModelSelector: _Quotationuser_ModelSelector__WEBPACK_IMPORTED_MODULE_15__["default"],
+    YearSelector: _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_16__["default"],
+    EngineSelector: _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_17__["default"],
     DetalleCliente: _DetalleCliente__WEBPACK_IMPORTED_MODULE_2__["default"],
     Detalle: _Detalle__WEBPACK_IMPORTED_MODULE_5__["default"],
-    DetalleEditarC: _DetalleEditar__WEBPACK_IMPORTED_MODULE_6__["default"],
-    DetalleEditarCM: _DetalleEditarMechanic__WEBPACK_IMPORTED_MODULE_7__["default"],
-    EliminarCotizacionCliente: _Eliminar__WEBPACK_IMPORTED_MODULE_9__["default"],
-    CreateUser: _CreateUser__WEBPACK_IMPORTED_MODULE_10__["default"],
-    CreateUserMechanic: _CreateUserMechanic__WEBPACK_IMPORTED_MODULE_8__["default"],
+    EditarCotizacion: _EditarCotizacion__WEBPACK_IMPORTED_MODULE_6__["default"],
+    DetalleEditarC: _DetalleEditar__WEBPACK_IMPORTED_MODULE_7__["default"],
+    DetalleEditarCM: _DetalleEditarMechanic__WEBPACK_IMPORTED_MODULE_8__["default"],
+    EliminarCotizacionCliente: _Eliminar__WEBPACK_IMPORTED_MODULE_10__["default"],
+    CreateUser: _CreateUser__WEBPACK_IMPORTED_MODULE_11__["default"],
+    CreateUserMechanic: _CreateUserMechanic__WEBPACK_IMPORTED_MODULE_9__["default"],
     DetalleMechanic: _DetalleMechanic__WEBPACK_IMPORTED_MODULE_3__["default"],
     DetalleClienteMechanic: _DetalleClienteMechanic__WEBPACK_IMPORTED_MODULE_4__["default"],
-    ListarClientesForm: _ListarClientesForm__WEBPACK_IMPORTED_MODULE_11__["default"],
-    ListarQuotationShipping: _ListarQuotationShipping__WEBPACK_IMPORTED_MODULE_12__["default"],
-    SelectTiposPagos: _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_17__["default"]
+    ListarClientesForm: _ListarClientesForm__WEBPACK_IMPORTED_MODULE_12__["default"],
+    ListarQuotationShipping: _ListarQuotationShipping__WEBPACK_IMPORTED_MODULE_13__["default"],
+    SelectTiposPagos: _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_18__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_18__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_18__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getQuotationclients', {
       page: 1
     });
     this.$store.dispatch('getRolesQuotation');
+    this.$store.dispatch('allClients', {
+      type: 'Cliente'
+    });
+    this.$store.dispatch('allPagos');
   }
 });
 
@@ -18089,6 +18122,296 @@ render._withStripped = true;
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7 ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    attrs: {
+      action: "POST"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.updateQuotationclient({
+          id: _vm.fillQuotationclient.id
+        });
+      }
+    }
+  }, [_c("div", {
+    staticClass: "modal fade",
+    attrs: {
+      id: "editQuotationclient"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog modal-lg"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "client_id"
+    }
+  }, [_vm._v("Cliente")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model.number",
+      value: _vm.fillQuotationclient.client_id,
+      expression: "fillQuotationclient.client_id",
+      modifiers: {
+        number: true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "client_id"
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return _vm._n(val);
+        });
+        _vm.$set(_vm.fillQuotationclient, "client_id", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }
+    }
+  }, [_c("option", {
+    domProps: {
+      value: 1
+    }
+  }, [_vm._v("Cliente General")]), _vm._v(" "), _vm._l(_vm.optionsClient, function (clientLocal) {
+    return _c("option", {
+      key: clientLocal.value,
+      domProps: {
+        value: clientLocal.value
+      }
+    }, [_vm._v("\n                                    " + _vm._s(clientLocal.label) + "\n                                ")]);
+  })], 2)]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "payment"
+    }
+  }, [_vm._v("Forma de Pago")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.payment,
+      expression: "fillQuotationclient.payment"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "payment"
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.$set(_vm.fillQuotationclient, "payment", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: ""
+    }
+  }, [_vm._v("Contado")]), _vm._v(" "), _vm._l(_vm.optionsPago, function (pagoLocal) {
+    return _c("option", {
+      key: pagoLocal.value,
+      domProps: {
+        value: pagoLocal.label
+      }
+    }, [_vm._v("\n                                    " + _vm._s(pagoLocal.label) + "\n                                ")]);
+  })], 2)]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "client_text"
+    }
+  }, [_vm._v("Nombre Cliente")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.client_text,
+      expression: "fillQuotationclient.client_text"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "client_text",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.client_text
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "client_text", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "state"
+    }
+  }, [_vm._v("Estado")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.state,
+      expression: "fillQuotationclient.state"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "state",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.state
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "state", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-12 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "vehicle"
+    }
+  }, [_vm._v("Vehículo")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.vehicle,
+      expression: "fillQuotationclient.vehicle"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "vehicle",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.vehicle
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "vehicle", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "ppu"
+    }
+  }, [_vm._v("P.P.U / N° Interno")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.ppu,
+      expression: "fillQuotationclient.ppu"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "ppu",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.ppu
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "ppu", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "url"
+    }
+  }, [_vm._v("URL")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.url,
+      expression: "fillQuotationclient.url"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "url",
+      type: "text"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.url
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "url", $event.target.value);
+      }
+    }
+  })])])]), _vm._v(" "), _vm._m(1)])])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-header"
+  }, [_c("h4", [_vm._v("Editar Cotización Formal")]), _vm._v(" "), _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", [_vm._v("×")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-footer"
+  }, [_c("button", {
+    staticClass: "btn btn-warning",
+    attrs: {
+      type: "submit"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-edit"
+  }), _vm._v(" Guardar cambios\n                    ")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=template&id=d76e1fa0":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=template&id=d76e1fa0 ***!
@@ -18262,7 +18585,6 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      required: "",
       type: "text",
       name: "nombre"
     },
@@ -18291,8 +18613,7 @@ var render = function render() {
     staticClass: "form-control",
     attrs: {
       type: "text",
-      name: "url",
-      required: ""
+      name: "url"
     },
     domProps: {
       value: _vm.newQuotationclient.url
@@ -18353,8 +18674,7 @@ var render = function render() {
     staticClass: "form-control",
     attrs: {
       type: "text",
-      name: "ppu",
-      required: ""
+      name: "ppu"
     },
     domProps: {
       value: _vm.newQuotationclient.ppu
@@ -18661,6 +18981,42 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-plus-square"
     }), _vm._v("\n                            Detalle\n                        ")]) : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-warning btn-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Editar cabecera"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.editQuotationclient({
+            quotationclient: quotationLocal
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-edit"
+    })]), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-secondary btn-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Duplicar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.replicateQuotationclient({
+            id: quotationLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "far fa-copy"
+    })]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-danger btn-sm",
       attrs: {
         href: "#",
@@ -18764,7 +19120,7 @@ var render = function render() {
     return _c("div", {
       key: quotationRolesLocal.id
     }, [quotationRolesLocal.roles[0].name == "admin" || quotationRolesLocal.roles[0].name == "sealer" ? _c("div", [_c("ListarClientesForm")], 1) : _vm._e()]);
-  }), _vm._v(" "), _c("CreateUser"), _vm._v(" "), _c("CreateUserMechanic"), _vm._v(" "), _c("DetalleCliente"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("DetalleMechanic"), _vm._v(" "), _c("DetalleClienteMechanic"), _vm._v(" "), _c("DetalleEditarC"), _vm._v(" "), _c("DetalleEditarCM"), _vm._v(" "), _c("EliminarCotizacionCliente")], 2);
+  }), _vm._v(" "), _c("CreateUser"), _vm._v(" "), _c("CreateUserMechanic"), _vm._v(" "), _c("DetalleCliente"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("EditarCotizacion"), _vm._v(" "), _c("DetalleMechanic"), _vm._v(" "), _c("DetalleClienteMechanic"), _vm._v(" "), _c("DetalleEditarC"), _vm._v(" "), _c("DetalleEditarCM"), _vm._v(" "), _c("EliminarCotizacionCliente")], 2);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -29376,6 +29732,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       context.commit('getQuotationclients', 1);
     }, 1000);
   },
+  replicateQuotationclient: function replicateQuotationclient(context, data) {
+    context.commit('replicateQuotationclient', data.id);
+    setTimeout(function () {
+      context.commit('getQuotationclients', 1);
+    }, 1000);
+  },
   showModalDeleteQuotationclient: function showModalDeleteQuotationclient(context, data) {
     context.commit('showModalDeleteQuotationclient', data.id);
   },
@@ -29523,12 +29885,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   showModalDetailclient: function showModalDetailclient(context, data) {
     context.commit('showModalDetailclient', data.id);
+    context.commit('getUtilities');
+    context.commit('getFletes');
     setTimeout(function () {
       context.commit('getQuotationclientDetails');
     }, 500);
   },
   showModalDetailclientMechanic: function showModalDetailclientMechanic(context, data) {
     context.commit('showModalDetailclientMechanic', data.id);
+    context.commit('getUtilities');
+    context.commit('getFletes');
     setTimeout(function () {
       context.commit('getQuotationclientDetails');
     }, 500);
@@ -32220,17 +32586,21 @@ var urlSparePart = 'spare-part';
   },
   createQuotationclient: function createQuotationclient(state) {
     var url = urlQuotationclient;
-    if (state.selectedClient.value === "" && state.newQuotationclient.client_text !== "" || state.newQuotationclient.cliente_part == true) {
-      state.selectedClient.value = 1;
+    var clientId = state.selectedClient && state.selectedClient.value !== '' ? state.selectedClient.value : 1;
+    var vehicleParts = [state.selectedVBrand.label, state.selectedVModel.label, state.selectedVYear.label, state.selectedVEngine.label].filter(function (part) {
+      return part && part.trim() !== '';
+    });
+    if (state.newQuotationclient.cliente_part == true) {
+      clientId = 1;
     }
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
-      client_id: state.selectedClient.value,
+      client_id: clientId,
       state: 'Pendiente',
-      payment: state.selectedPago.value,
+      payment: state.selectedPago.label,
       client_text: state.newQuotationclient.client_text,
       cliente_part: state.newQuotationclient.cliente_part,
       url: state.newQuotationclient.url,
-      vehicle: state.selectedVBrand.label + ' ' + state.selectedVModel.label + ' ' + state.selectedVYear.label + ' ' + state.selectedVEngine.label,
+      vehicle: vehicleParts.join(' '),
       ppu: state.newQuotationclient.ppu
     }).then(function (response) {
       state.newQuotationclient = {
@@ -32238,12 +32608,39 @@ var urlSparePart = 'spare-part';
         client_text: '',
         state: '',
         payment: '',
+        cliente_part: false,
         url: '',
+        vehicle: '',
+        generado: '',
+        generado_client: '',
         ppu: ''
+      };
+      state.selectedClient = {
+        label: '',
+        value: ''
+      };
+      state.selectedPago = {
+        label: '',
+        value: ''
+      };
+      state.selectedVBrand = {
+        label: '',
+        value: ''
+      };
+      state.selectedVModel = {
+        label: '',
+        value: ''
+      };
+      state.selectedVYear = {
+        label: '',
+        value: ''
+      };
+      state.selectedVEngine = {
+        label: '',
+        value: ''
       };
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Cotización formal generada con éxito');
-      event.target.reset();
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -32252,20 +32649,37 @@ var urlSparePart = 'spare-part';
     state.fillQuotationclient.id = quotationclient.id;
     state.fillQuotationclient.client_id = quotationclient.client_id;
     state.fillQuotationclient.state = quotationclient.state;
-    $("#edit").modal('show');
+    state.fillQuotationclient.payment = quotationclient.payment || '';
+    state.fillQuotationclient.client_text = quotationclient.client_text || '';
+    state.fillQuotationclient.vehicle = quotationclient.vehicle || '';
+    state.fillQuotationclient.url = quotationclient.url || '';
+    state.fillQuotationclient.ppu = quotationclient.ppu || '';
+    $("#editQuotationclient").modal('show');
   },
   updateQuotationclient: function updateQuotationclient(state, id) {
     var url = urlQuotationclient + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.fillQuotationclient).then(function (response) {
-      state.fillQuotation = {
+      state.fillQuotationclient = {
         id: '',
         client_id: '',
-        state: ''
+        state: '',
+        payment: '',
+        client_text: '',
+        vehicle: '',
+        url: '',
+        ppu: ''
       };
       state.errorsLaravel = [];
-      $('#edit').modal('hide');
+      $('#editQuotationclient').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Cotización formal actualizada con éxito');
     })["catch"](function (error) {});
+  },
+  replicateQuotationclient: function replicateQuotationclient(state, id) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlQuotationclient + '/' + id + '/replicate').then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('CotizaciÃ³n formal duplicada con Ã©xito');
+    })["catch"](function (error) {
+      state.errorsLaravel = error.response.data;
+    });
   },
   showModalDeleteQuotationclient: function showModalDeleteQuotationclient(state, id) {
     state.idQuotationclient = id;
@@ -32340,13 +32754,16 @@ var urlSparePart = 'spare-part';
       state.newDetailclient = {
         quotationclient_id: '',
         product: '',
+        detail: '',
         price: 0,
         quantity: 1,
-        percentage: state.newDetailclient.percentage,
+        percentage: state.newUtilidad.utilidad,
         aditional: 0,
-        transport: transportSet,
+        transport: state.newFlete.flete,
         utility: 0,
-        total: 0
+        total: 0,
+        days: '24 a 48 Hrs',
+        spare_parts: state.newDetailclient.spare_parts
       };
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Detalle generado con éxito');
@@ -32401,6 +32818,7 @@ var urlSparePart = 'spare-part';
       aditional: state.fillDetailclient.aditional,
       transport: state.fillDetailclient.transport,
       utility: state.fillDetailclient.utility,
+      days: state.fillDetailclient.days,
       total: state.fillDetailclient.totalIVA
     };
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, detailclient).then(function (response) {
@@ -32416,7 +32834,9 @@ var urlSparePart = 'spare-part';
         transport: 0,
         utility: 0,
         total: 1,
-        totalIVA: 1.19
+        totalIVA: 1.19,
+        days: '',
+        spare_parts: ''
       };
       state.errorsLaravel = [];
       $('#editDetailClient').modal('hide');
@@ -34909,7 +35329,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   state: '',
   payment: '',
   client_text: '',
-  cliente_part: '',
+  cliente_part: false,
   url: '',
   vehicle: '',
   generado: '',
@@ -34921,7 +35341,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   state: '',
   payment: '',
   client_text: '',
-  vehicle: ''
+  vehicle: '',
+  url: '',
+  ppu: ''
 }), "searchQuotationClient", {
   id: '',
   razonSocial: '',
@@ -35017,7 +35439,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   transport: 0,
   utility: 0,
   total: 0,
-  days: '',
+  days: '24 a 48 Hrs',
   spare_parts: ''
 }), "fillDetailclient", {
   id: '',
@@ -69520,6 +69942,45 @@ component.options.__file = "resources/assets/js/components/Quotationclient/Detal
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue":
+/*!*****************************************************************************!*\
+  !*** ./resources/assets/js/components/Quotationclient/EditarCotizacion.vue ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditarCotizacion.vue?vue&type=template&id=413cc8b7 */ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7");
+/* harmony import */ var _EditarCotizacion_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditarCotizacion.vue?vue&type=script&lang=js */ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditarCotizacion_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__.render,
+  _EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/Quotationclient/EditarCotizacion.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Quotationclient/Eliminar.vue":
 /*!*********************************************************************!*\
   !*** ./resources/assets/js/components/Quotationclient/Eliminar.vue ***!
@@ -72787,6 +73248,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarCotizacion_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarCotizacion.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarCotizacion_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************!*\
   !*** ./resources/assets/js/components/Quotationclient/Eliminar.vue?vue&type=script&lang=js ***!
@@ -74694,6 +75171,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DetalleMechanic_vue_vue_type_template_id_354aa048__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DetalleMechanic_vue_vue_type_template_id_354aa048__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DetalleMechanic.vue?vue&type=template&id=354aa048 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/DetalleMechanic.vue?vue&type=template&id=354aa048");
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7 ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarCotizacion_vue_vue_type_template_id_413cc8b7__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarCotizacion.vue?vue&type=template&id=413cc8b7 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/EditarCotizacion.vue?vue&type=template&id=413cc8b7");
 
 
 /***/ }),
