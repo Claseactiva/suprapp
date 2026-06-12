@@ -102,19 +102,6 @@
             </div>
         </div>
 
-        <div class="quotationclient-toolbar">
-            <div class="form-inline">
-                <label for="quotationclient-per-page" class="mb-0 mr-2">Filas</label>
-                <select id="quotationclient-per-page" class="form-control"
-                    v-model.number="searchQuotationClient.per_page"
-                    @change="getQuotationclients({ page: 1 })">
-                    <option :value="10">10</option>
-                    <option :value="20">20</option>
-                    <option :value="50">50</option>
-                </select>
-            </div>
-        </div>
-
         <div class="table-responsive">
             <table class="table table-responsive-new table-dark table-sm mt-3">
                 <thead>
@@ -163,7 +150,18 @@
                                     v-model="searchQuotationClient.year" @keyup="getQuotationclients">
                             </div>
                         </td>
-                        <td></td>
+                        <td>
+                            <div class="quotationclient-per-page-inline" title="Filas por pagina">
+                                <label for="quotationclient-per-page" class="mb-0">Filas</label>
+                                <select id="quotationclient-per-page" class="form-control"
+                                    v-model.number="searchQuotationClient.per_page"
+                                    @change="getQuotationclients({ page: 1 })">
+                                    <option :value="10">10</option>
+                                    <option :value="20">20</option>
+                                    <option :value="50">50</option>
+                                </select>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr v-for="quotationLocal in quotationclients" :key="quotationLocal.id">
@@ -484,21 +482,6 @@ export default {
         margin-bottom: 0.5rem;
     }
 
-    .quotationclient-admin .quotationclient-toolbar {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 0.65rem;
-        margin-bottom: -0.1rem;
-    }
-
-    .quotationclient-admin .quotationclient-toolbar label {
-        margin-bottom: 0;
-    }
-
-    .quotationclient-admin .quotationclient-toolbar .form-control {
-        width: 78px;
-    }
-
     .quotationclient-admin .card-header {
         padding: 0.45rem 0.75rem;
     }
@@ -559,6 +542,23 @@ export default {
         display: inline-block;
         border-bottom: 1px dotted rgba(255, 255, 255, 0.35);
         line-height: 1.1;
+    }
+
+    .quotationclient-admin .quotationclient-per-page-inline {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.3rem;
+    }
+
+    .quotationclient-admin .quotationclient-per-page-inline label {
+        margin-bottom: 0;
+        font-size: 0.74rem;
+        white-space: nowrap;
+    }
+
+    .quotationclient-admin .quotationclient-per-page-inline .form-control {
+        width: 72px;
     }
 
     .quotationclient-admin .quotationclient-icon-btn {
