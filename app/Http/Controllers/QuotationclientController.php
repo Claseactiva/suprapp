@@ -57,12 +57,14 @@ class QuotationclientController extends Controller
                 ->select(
                     'quotationclients.id',
                     'quotationclients.user_id',
+                    'quotationclients.client_id',
                     'quotationclients.correlativo',
                     'clients.rut',
                     'clients.razonSocial',
                     'quotationclients.client_text',
                     'quotationclients.vehicle',
                     'quotationclients.payment',
+                    'quotationclients.ppu',
                     'quotationclients.state',
                     'quotationclients.generado_client',
                     'quotationclients.tipo_detalle',
@@ -103,12 +105,14 @@ class QuotationclientController extends Controller
                 ->select(
                     'quotationclients.id',
                     'quotationclients.user_id',
+                    'quotationclients.client_id',
                     'quotationclients.correlativo',
                     'clients.rut',
                     'clients.razonSocial',
                     'quotationclients.client_text',
                     'quotationclients.vehicle',
                     'quotationclients.payment',
+                    'quotationclients.ppu',
                     'quotationclients.state',
                     'quotationclients.generado_client',
                     'quotationclients.tipo_detalle',
@@ -517,6 +521,53 @@ class QuotationclientController extends Controller
             'spare_parts' => $request->spare_parts
         ]);
         return $quotationClient;
+    }
+
+    public function replicate($id)
+    {
+        $quotation = Quotationclient::with('detailclients')->findOrFail($id);
+        $currentUserId = Auth::id();
+
+        if ((int) $currentUserId !== 1 && (int) $quotation->user_id !== (int) $currentUserId) {
+            abort(403);
+        }
+
+        $newQuotation = DB::transaction(function () use ($quotation) {
+            $newQuotation = Quotationclient::create([
+                'user_id' => $quotation->user_id,
+                'client_id' => $this->resolveClientId($quotation->client_id),
+                'correlativo' => $this->nextCorrelativo($quotation->user_id),
+                'state' => 'Pendiente',
+                'payment' => $this->resolvePaymentName($quotation->payment),
+                'client_text' => trim($quotation->client_text ?? ''),
+                'vehicle' => trim($quotation->vehicle ?? ''),
+                'generado' => $quotation->generado,
+                'generado_client' => 0,
+                'tipo_detalle' => $quotation->tipo_detalle,
+                'url' => trim($quotation->url ?? ''),
+                'ppu' => trim($quotation->ppu ?? ''),
+                'spare_parts' => $quotation->spare_parts,
+            ]);
+
+            foreach ($quotation->detailclients as $detailclient) {
+                $newQuotation->detailclients()->create([
+                    'product' => $detailclient->product,
+                    'detail' => $detailclient->detail,
+                    'price' => $detailclient->price,
+                    'quantity' => $detailclient->quantity,
+                    'percentage' => $detailclient->percentage,
+                    'aditional' => $detailclient->aditional,
+                    'transport' => $detailclient->transport,
+                    'utility' => $detailclient->utility,
+                    'total' => $detailclient->total,
+                    'days' => $detailclient->days,
+                ]);
+            }
+
+            return $newQuotation;
+        });
+
+        return response()->json(['id' => $newQuotation->id]);
     }
 
     private function nextCorrelativo($userId)

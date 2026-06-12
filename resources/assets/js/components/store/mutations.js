@@ -1889,7 +1889,12 @@ export default { //used for changing the state
         state.fillQuotationclient.id = quotationclient.id
         state.fillQuotationclient.client_id = quotationclient.client_id
         state.fillQuotationclient.state = quotationclient.state
-        $("#edit").modal('show')
+        state.fillQuotationclient.payment = quotationclient.payment || ''
+        state.fillQuotationclient.client_text = quotationclient.client_text || ''
+        state.fillQuotationclient.vehicle = quotationclient.vehicle || ''
+        state.fillQuotationclient.url = quotationclient.url || ''
+        state.fillQuotationclient.ppu = quotationclient.ppu || ''
+        $("#editQuotationclient").modal('show')
     },
     updateQuotationclient(state, id) {
         let url = urlQuotationclient + '/' + id
@@ -1905,9 +1910,16 @@ export default { //used for changing the state
                 ppu: ''
             }
             state.errorsLaravel = []
-            $('#edit').modal('hide')
+            $('#editQuotationclient').modal('hide')
             toastr.success('Cotización formal actualizada con éxito')
         }).catch(error => {
+        })
+    },
+    replicateQuotationclient(state, id) {
+        axios.post(urlQuotationclient + '/' + id + '/replicate').then(response => {
+            toastr.success('CotizaciÃ³n formal duplicada con Ã©xito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
         })
     },
     showModalDeleteQuotationclient(state, id) {

@@ -147,6 +147,7 @@ Route::get('quotationforms/{id}', 'QuotationclientController@forms');
 Route::get('quotationusers/{id}', 'QuotationclientController@forms');
 Route::get('quotationclient-pdf/{id}', 'QuotationclientController@pdf');
 Route::get('quotationclient-pdf-iva/{id}', 'QuotationclientController@pdfIva');
+Route::post('quotationclients/{id}/replicate', 'QuotationclientController@replicate');
 Route::get('vehicleclients-all', 'QuotationclientController@all');
 Route::post('actualizar-correlativo', 'QuotationclientController@correlativoQuotation');
 Route::post('spare-part', 'QuotationclientController@sparePart');

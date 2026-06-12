@@ -204,6 +204,18 @@
                                 Detalle
                             </a>
 
+                            <a href="#" class="btn btn-warning btn-sm"
+                                @click.prevent="editQuotationclient({ quotationclient: quotationLocal })"
+                                data-toggle="tooltip" data-placement="top" title="Editar cabecera">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <a href="#" class="btn btn-secondary btn-sm"
+                                @click.prevent="replicateQuotationclient({ id: quotationLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Duplicar">
+                                <i class="far fa-copy"></i>
+                            </a>
+
                             <a href="#" class="btn btn-danger btn-sm"
                                 @click.prevent="showModalDeleteQuotationclient({ id: quotationLocal.id })"
                                 data-toggle="tooltip" data-placement="top" title="Eliminar">
@@ -266,6 +278,7 @@
         <CreateUserMechanic></CreateUserMechanic>
         <DetalleCliente></DetalleCliente>
         <Detalle></Detalle>
+        <EditarCotizacion></EditarCotizacion>
         <DetalleMechanic></DetalleMechanic>
         <DetalleClienteMechanic></DetalleClienteMechanic>
         <DetalleEditarC></DetalleEditarC>
@@ -284,6 +297,7 @@ import DetalleCliente from './DetalleCliente'
 import DetalleMechanic from './DetalleMechanic'
 import DetalleClienteMechanic from './DetalleClienteMechanic'
 import Detalle from './Detalle'
+import EditarCotizacion from './EditarCotizacion'
 import DetalleEditarC from './DetalleEditar'
 import DetalleEditarCM from './DetalleEditarMechanic'
 import CreateUserMechanic from './CreateUserMechanic'
@@ -300,14 +314,14 @@ import SelectTiposPagos from '../Utilidad/SelectTiposPagos'
 
 
 export default {
-    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos },
+    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos },
     computed: {
         ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient']),
         ...mapGetters(['isActived', 'pagesNumber']),
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
-            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo'])
+            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])
     },
     created() {
         loadProgressBar();

@@ -527,6 +527,12 @@ export default { //methods
             context.commit('getQuotationclients', 1)
         }, 1000)
     },
+    replicateQuotationclient(context, data) {
+        context.commit('replicateQuotationclient', data.id)
+        setTimeout(function () {
+            context.commit('getQuotationclients', 1)
+        }, 1000)
+    },
     showModalDeleteQuotationclient(context, data) {
         context.commit('showModalDeleteQuotationclient', data.id)
     },
