@@ -42,12 +42,6 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="url">URL</label>
-                                        <input type="text" name="url" class="form-control"
-                                            v-model="newQuotationclient.url">
-                                    </div>
-
-                                    <div class="mb-3">
                                         <label for="pago">Forma de Pago</label>
                                         <SelectTiposPagos />
                                     </div>
@@ -82,6 +76,19 @@
                                             v-model="newQuotationclient.ppu">
                                     </div>
 
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label for="telefono">WhatsApp</label>
+                                            <input type="text" name="telefono" class="form-control"
+                                                v-model="newQuotationclient.telefono" placeholder="+56912345678">
+                                        </div>
+
+                                        <div class="col-6 mb-3">
+                                            <label for="url">Facebook / Messenger</label>
+                                            <input type="text" name="url" class="form-control"
+                                                v-model="newQuotationclient.url" placeholder="https://...">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-success form-control">
@@ -180,6 +187,12 @@
                                 class="btn btn-primary btn-sm quotationclient-icon-btn"
                                 target="_blank" data-toggle="tooltip" data-placeemnt="top" title="Messenger">
                                 <i class="fab fa-facebook-f"></i>
+                            </a>
+
+                            <a :href="whatsAppUrl(quotationLocal.telefono)" v-if="quotationLocal.telefono != ''"
+                                class="btn btn-success btn-sm quotationclient-icon-btn"
+                                target="_blank" data-toggle="tooltip" data-placeemnt="top" title="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
                             </a>
 
                             <a href="#"
@@ -328,7 +341,28 @@ export default {
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
-            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])
+            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient']),
+        whatsAppUrl(telefono) {
+            const digits = (telefono || '').replace(/\D/g, '')
+
+            if (!digits) {
+                return '#'
+            }
+
+            if (digits.startsWith('56')) {
+                return `https://wa.me/${digits}`
+            }
+
+            if (digits.length === 8) {
+                return `https://wa.me/569${digits}`
+            }
+
+            if (digits.length === 9 && digits.startsWith('9')) {
+                return `https://wa.me/56${digits}`
+            }
+
+            return `https://wa.me/${digits}`
+        }
     },
     created() {
         loadProgressBar();

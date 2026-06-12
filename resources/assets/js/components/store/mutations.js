@@ -1858,6 +1858,7 @@ export default { //used for changing the state
             client_text: state.newQuotationclient.client_text,
             cliente_part: state.newQuotationclient.cliente_part,
             url: state.newQuotationclient.url,
+            telefono: state.newQuotationclient.telefono,
             vehicle: vehicleParts.join(' '),
             ppu: state.newQuotationclient.ppu
         }).then(response => {
@@ -1868,6 +1869,7 @@ export default { //used for changing the state
                 payment: '',
                 cliente_part: false,
                 url: '',
+                telefono: '',
                 vehicle: '',
                 generado: '',
                 generado_client: '',
@@ -1893,6 +1895,7 @@ export default { //used for changing the state
         state.fillQuotationclient.client_text = quotationclient.client_text || ''
         state.fillQuotationclient.vehicle = quotationclient.vehicle || ''
         state.fillQuotationclient.url = quotationclient.url || ''
+        state.fillQuotationclient.telefono = quotationclient.telefono || ''
         state.fillQuotationclient.ppu = quotationclient.ppu || ''
         $("#editQuotationclient").modal('show')
     },
@@ -1907,6 +1910,7 @@ export default { //used for changing the state
                 client_text: '',
                 vehicle: '',
                 url: '',
+                telefono: '',
                 ppu: ''
             }
             state.errorsLaravel = []

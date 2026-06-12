@@ -4832,7 +4832,24 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     SelectTiposPagos: _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__["default"]
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])), {}, {
+    whatsAppUrl: function whatsAppUrl(telefono) {
+      var digits = (telefono || '').replace(/\D/g, '');
+      if (!digits) {
+        return '#';
+      }
+      if (digits.startsWith('56')) {
+        return "https://wa.me/".concat(digits);
+      }
+      if (digits.length === 8) {
+        return "https://wa.me/569".concat(digits);
+      }
+      if (digits.length === 9 && digits.startsWith('9')) {
+        return "https://wa.me/56".concat(digits);
+      }
+      return "https://wa.me/".concat(digits);
+    }
+  }),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getQuotationclients', {
@@ -18303,7 +18320,7 @@ var render = function render() {
     attrs: {
       "for": "vehicle"
     }
-  }, [_vm._v("Vehículo")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Vehiculo")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -18325,12 +18342,12 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "col-lg-6 mb-3"
+    staticClass: "col-lg-4 mb-3"
   }, [_c("label", {
     attrs: {
       "for": "ppu"
     }
-  }, [_vm._v("P.P.U / N° Interno")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("P.P.U / Nro Interno")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -18352,12 +18369,40 @@ var render = function render() {
       }
     }
   })]), _vm._v(" "), _c("div", {
-    staticClass: "col-lg-6 mb-3"
+    staticClass: "col-lg-4 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "telefono"
+    }
+  }, [_vm._v("WhatsApp")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.telefono,
+      expression: "fillQuotationclient.telefono"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "telefono",
+      type: "text",
+      placeholder: "+56912345678"
+    },
+    domProps: {
+      value: _vm.fillQuotationclient.telefono
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillQuotationclient, "telefono", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-4 mb-3"
   }, [_c("label", {
     attrs: {
       "for": "url"
     }
-  }, [_vm._v("URL")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Facebook / Messenger")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -18367,7 +18412,8 @@ var render = function render() {
     staticClass: "form-control",
     attrs: {
       id: "url",
-      type: "text"
+      type: "text",
+      placeholder: "https://..."
     },
     domProps: {
       value: _vm.fillQuotationclient.url
@@ -18385,7 +18431,7 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "modal-header"
-  }, [_c("h4", [_vm._v("Editar Cotización Formal")]), _vm._v(" "), _c("button", {
+  }, [_c("h4", [_vm._v("Editar Cotizacion Formal")]), _vm._v(" "), _c("button", {
     staticClass: "close",
     attrs: {
       type: "button",
@@ -18601,33 +18647,6 @@ var render = function render() {
     staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "url"
-    }
-  }, [_vm._v("URL")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newQuotationclient.url,
-      expression: "newQuotationclient.url"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "url"
-    },
-    domProps: {
-      value: _vm.newQuotationclient.url
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newQuotationclient, "url", $event.target.value);
-      }
-    }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "mb-3"
-  }, [_c("label", {
-    attrs: {
       "for": "pago"
     }
   }, [_vm._v("Forma de Pago")]), _vm._v(" "), _c("SelectTiposPagos")], 1)]), _vm._v(" "), _c("div", {
@@ -18685,7 +18704,65 @@ var render = function render() {
         _vm.$set(_vm.newQuotationclient, "ppu", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _vm._m(1)])])])])])]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "telefono"
+    }
+  }, [_vm._v("WhatsApp")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newQuotationclient.telefono,
+      expression: "newQuotationclient.telefono"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "telefono",
+      placeholder: "+56912345678"
+    },
+    domProps: {
+      value: _vm.newQuotationclient.telefono
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newQuotationclient, "telefono", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "url"
+    }
+  }, [_vm._v("Facebook / Messenger")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newQuotationclient.url,
+      expression: "newQuotationclient.url"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "url",
+      placeholder: "https://..."
+    },
+    domProps: {
+      value: _vm.newQuotationclient.url
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newQuotationclient, "url", $event.target.value);
+      }
+    }
+  })])])]), _vm._v(" "), _vm._m(1)])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -18921,6 +18998,17 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fab fa-facebook-f"
+    })]) : _vm._e(), _vm._v(" "), quotationLocal.telefono != "" ? _c("a", {
+      staticClass: "btn btn-success btn-sm quotationclient-icon-btn",
+      attrs: {
+        href: _vm.whatsAppUrl(quotationLocal.telefono),
+        target: "_blank",
+        "data-toggle": "tooltip",
+        "data-placeemnt": "top",
+        title: "WhatsApp"
+      }
+    }, [_c("i", {
+      staticClass: "fab fa-whatsapp"
     })]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
       staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
       attrs: {
@@ -32613,6 +32701,7 @@ var urlSparePart = 'spare-part';
       client_text: state.newQuotationclient.client_text,
       cliente_part: state.newQuotationclient.cliente_part,
       url: state.newQuotationclient.url,
+      telefono: state.newQuotationclient.telefono,
       vehicle: vehicleParts.join(' '),
       ppu: state.newQuotationclient.ppu
     }).then(function (response) {
@@ -32623,6 +32712,7 @@ var urlSparePart = 'spare-part';
         payment: '',
         cliente_part: false,
         url: '',
+        telefono: '',
         vehicle: '',
         generado: '',
         generado_client: '',
@@ -32666,6 +32756,7 @@ var urlSparePart = 'spare-part';
     state.fillQuotationclient.client_text = quotationclient.client_text || '';
     state.fillQuotationclient.vehicle = quotationclient.vehicle || '';
     state.fillQuotationclient.url = quotationclient.url || '';
+    state.fillQuotationclient.telefono = quotationclient.telefono || '';
     state.fillQuotationclient.ppu = quotationclient.ppu || '';
     $("#editQuotationclient").modal('show');
   },
@@ -32680,6 +32771,7 @@ var urlSparePart = 'spare-part';
         client_text: '',
         vehicle: '',
         url: '',
+        telefono: '',
         ppu: ''
       };
       state.errorsLaravel = [];
@@ -35344,6 +35436,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   client_text: '',
   cliente_part: false,
   url: '',
+  telefono: '',
   vehicle: '',
   generado: '',
   generado_client: '',
@@ -35356,6 +35449,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   client_text: '',
   vehicle: '',
   url: '',
+  telefono: '',
   ppu: ''
 }), "searchQuotationClient", {
   id: '',

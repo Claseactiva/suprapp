@@ -386,6 +386,7 @@ export default { //data
         client_text: '',
         cliente_part: false,
         url: '',
+        telefono: '',
         vehicle: '',
         generado: '',
         generado_client: '',
@@ -399,6 +400,7 @@ export default { //data
         client_text: '',
         vehicle: '',
         url: '',
+        telefono: '',
         ppu: ''
     },
     searchQuotationClient: {

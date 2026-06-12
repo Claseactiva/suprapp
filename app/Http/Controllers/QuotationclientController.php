@@ -70,7 +70,8 @@ class QuotationclientController extends Controller
                     'quotationclients.tipo_detalle',
                     'quotationclients.generado',
                     'quotationclients.created_at',
-                    'quotationclients.url'
+                    'quotationclients.url',
+                    'quotationclients.telefono'
                 )
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
@@ -118,7 +119,8 @@ class QuotationclientController extends Controller
                     'quotationclients.tipo_detalle',
                     'quotationclients.generado',
                     'quotationclients.created_at',
-                    'quotationclients.url'
+                    'quotationclients.url',
+                    'quotationclients.telefono'
                 )
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
@@ -236,6 +238,7 @@ class QuotationclientController extends Controller
             $clientId = $this->resolveClientId($data['client_id'] ?? null);
             $vehicle = trim($data['vehicle'] ?? '');
             $url = trim($data['url'] ?? '');
+            $telefono = preg_replace('/\s+/', '', trim($data['telefono'] ?? ''));
             $ppu = trim($data['ppu'] ?? '');
             $clientText = trim($data['client_text'] ?? '');
 
@@ -287,6 +290,7 @@ class QuotationclientController extends Controller
                         'vehicle' => $vehicle,
                         'generado' => $data['generado'],
                         'url' => $url,
+                        'telefono' => $telefono,
                         'ppu' => $ppu
                     ])->id;
                 } else {
@@ -302,6 +306,7 @@ class QuotationclientController extends Controller
                                 'vehicle' => $vehicle,
                                 'generado' => $data['generado'],
                                 'url' => $url,
+                                'telefono' => $telefono,
                                 'ppu' => $ppu
                             ]
                         )->id;
@@ -319,6 +324,7 @@ class QuotationclientController extends Controller
                         'vehicle' => $vehicle,
                         'generado' => $data['generado'],
                         'url' => $url,
+                        'telefono' => $telefono,
                         'ppu' => $ppu
                     ]
                 )->id;
@@ -361,6 +367,10 @@ class QuotationclientController extends Controller
 
         if (array_key_exists('url', $data)) {
             $data['url'] = trim($data['url'] ?? '');
+        }
+
+        if (array_key_exists('telefono', $data)) {
+            $data['telefono'] = preg_replace('/\s+/', '', trim($data['telefono'] ?? ''));
         }
 
         if (array_key_exists('ppu', $data)) {
@@ -545,6 +555,7 @@ class QuotationclientController extends Controller
                 'generado_client' => 0,
                 'tipo_detalle' => $quotation->tipo_detalle,
                 'url' => trim($quotation->url ?? ''),
+                'telefono' => preg_replace('/\s+/', '', trim($quotation->telefono ?? '')),
                 'ppu' => trim($quotation->ppu ?? ''),
                 'spare_parts' => $quotation->spare_parts,
             ]);

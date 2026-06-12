@@ -4,7 +4,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4>Editar Cotización Formal</h4>
+                        <h4>Editar Cotizacion Formal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span>&times;</span>
                         </button>
@@ -42,18 +42,25 @@
                             </div>
 
                             <div class="col-lg-12 mb-3">
-                                <label for="vehicle">Vehículo</label>
+                                <label for="vehicle">Vehiculo</label>
                                 <input id="vehicle" type="text" class="form-control" v-model="fillQuotationclient.vehicle">
                             </div>
 
-                            <div class="col-lg-6 mb-3">
-                                <label for="ppu">P.P.U / N° Interno</label>
+                            <div class="col-lg-4 mb-3">
+                                <label for="ppu">P.P.U / Nro Interno</label>
                                 <input id="ppu" type="text" class="form-control" v-model="fillQuotationclient.ppu">
                             </div>
 
-                            <div class="col-lg-6 mb-3">
-                                <label for="url">URL</label>
-                                <input id="url" type="text" class="form-control" v-model="fillQuotationclient.url">
+                            <div class="col-lg-4 mb-3">
+                                <label for="telefono">WhatsApp</label>
+                                <input id="telefono" type="text" class="form-control" v-model="fillQuotationclient.telefono"
+                                    placeholder="+56912345678">
+                            </div>
+
+                            <div class="col-lg-4 mb-3">
+                                <label for="url">Facebook / Messenger</label>
+                                <input id="url" type="text" class="form-control" v-model="fillQuotationclient.url"
+                                    placeholder="https://...">
                             </div>
                         </div>
                     </div>
