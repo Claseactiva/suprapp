@@ -2021,10 +2021,7 @@ export default { //used for changing the state
             telefono: state.newQuotationclient.telefono,
             vehicle: vehicleParts.join(' '),
             vehicle_model_id: state.selectedVModel.value || null,
-            ppu: state.newQuotationclient.ppu,
-            internal_number: state.newQuotationclient.internal_number,
-            chasis: state.newQuotationclient.chasis,
-            motor_number: state.newQuotationclient.motor_number
+            ppu: state.newQuotationclient.ppu
         }).then(response => {
             state.newQuotationclient = {
                 client_id: '',
@@ -2037,10 +2034,7 @@ export default { //used for changing the state
                 vehicle: '',
                 generado: '',
                 generado_client: '',
-                ppu: '',
-                internal_number: '',
-                chasis: '',
-                motor_number: ''
+                ppu: ''
             }
             state.selectedClient = { label: '', value: '' }
             state.selectedPago = { label: '', value: '' }
@@ -2064,9 +2058,6 @@ export default { //used for changing the state
         state.fillQuotationclient.url = quotationclient.url || ''
         state.fillQuotationclient.telefono = quotationclient.telefono || ''
         state.fillQuotationclient.ppu = quotationclient.ppu || ''
-        state.fillQuotationclient.internal_number = quotationclient.internal_number || ''
-        state.fillQuotationclient.chasis = quotationclient.chasis || ''
-        state.fillQuotationclient.motor_number = quotationclient.motor_number || ''
         $("#editQuotationclient").modal('show')
     },
     updateQuotationclient(state, id) {
@@ -2081,10 +2072,7 @@ export default { //used for changing the state
                 vehicle: '',
                 url: '',
                 telefono: '',
-                ppu: '',
-                internal_number: '',
-                chasis: '',
-                motor_number: ''
+                ppu: ''
             }
             state.errorsLaravel = []
             $('#editQuotationclient').modal('hide')

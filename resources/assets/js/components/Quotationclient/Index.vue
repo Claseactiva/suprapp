@@ -94,28 +94,10 @@
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
-                                            <label for="ppu">P.P.U</label>
+                                        <div class="col-12 mb-3">
+                                            <label for="ppu">PPU / VIN / Chasis / N° Interno / N° Motor</label>
                                             <input type="text" name="ppu" class="form-control"
                                                 v-model="newQuotationclient.ppu">
-                                        </div>
-
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
-                                            <label for="internal_number">N° Interno</label>
-                                            <input type="text" name="internal_number" class="form-control"
-                                                v-model="newQuotationclient.internal_number">
-                                        </div>
-
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
-                                            <label for="chasis">Chasis</label>
-                                            <input type="text" name="chasis" class="form-control"
-                                                v-model="newQuotationclient.chasis">
-                                        </div>
-
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
-                                            <label for="motor_number">N° Motor</label>
-                                            <input type="text" name="motor_number" class="form-control"
-                                                v-model="newQuotationclient.motor_number">
                                         </div>
                                     </div>
                                 </div>
@@ -429,18 +411,6 @@ export default {
 
             if ((quotationLocal.ppu || '').trim() !== '') {
                 summary.push(`PPU: ${quotationLocal.ppu.trim()}`)
-            }
-
-            if ((quotationLocal.internal_number || '').trim() !== '') {
-                summary.push(`N° Interno: ${quotationLocal.internal_number.trim()}`)
-            }
-
-            if ((quotationLocal.chasis || '').trim() !== '') {
-                summary.push(`Chasis: ${quotationLocal.chasis.trim()}`)
-            }
-
-            if ((quotationLocal.motor_number || '').trim() !== '') {
-                summary.push(`N° Motor: ${quotationLocal.motor_number.trim()}`)
             }
 
             if ((quotationLocal.vehicle || '').trim() !== '') {
