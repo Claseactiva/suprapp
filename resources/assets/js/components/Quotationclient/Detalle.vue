@@ -21,12 +21,12 @@
 
                                         <div class="row mb-3 align-items-end">
 
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-5 col-md-12">
                                                 <label for="cliente">Producto</label>
                                                 <SelectProduct></SelectProduct>
                                             </div>
 
-                                            <div class="col-lg-5 col-md-12">
+                                            <div class="col-lg-4 col-md-12">
                                                 <label for="product">Nombre Producto</label>
                                                 <input required type="text" name="product" class="form-control"
                                                     v-model="newDetailclient.product"
