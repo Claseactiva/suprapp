@@ -30,7 +30,11 @@ class DetailclientController extends Controller
 
         $detailclient = Detailclient::create($data);
 
-        app(VehicleModelProductService::class)->syncDetailclient($detailclient);
+        app(VehicleModelProductService::class)->syncDetailclient(
+            $detailclient,
+            'live',
+            $request->filled('product_id') ? (int) $request->product_id : null
+        );
     }
 
     /**
@@ -56,7 +60,11 @@ class DetailclientController extends Controller
         $detailclient = Detailclient::findOrFail($id);
         $detailclient->update($request->all());
 
-        app(VehicleModelProductService::class)->syncDetailclient($detailclient);
+        app(VehicleModelProductService::class)->syncDetailclient(
+            $detailclient,
+            'live',
+            $request->filled('product_id') ? (int) $request->product_id : null
+        );
 
         return;
     }

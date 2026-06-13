@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Detailclient;
+use App\Models\Product;
 use App\Models\Quotationclient;
 use App\Models\VehicleModel;
 use App\Models\VehicleModelProduct;
@@ -14,6 +15,11 @@ class VehicleModelProductService
      * @var array<int, array{id:int, normalized:string, length:int}>|null
      */
     protected $normalizedModels = null;
+
+    /**
+     * @var array<int, array{name: array<string, int>, code: array<string, int>}>
+     */
+    protected $normalizedProductsByUser = [];
 
     public function ensureQuotationVehicleModelId(Quotationclient $quotationclient): ?int
     {
@@ -55,7 +61,7 @@ class VehicleModelProductService
         return null;
     }
 
-    public function syncDetailclient(Detailclient $detailclient, string $source = 'live'): bool
+    public function syncDetailclient(Detailclient $detailclient, string $source = 'live', ?int $productId = null): bool
     {
         $quotationclient = $detailclient->quotationclient()->first();
 
@@ -68,6 +74,12 @@ class VehicleModelProductService
         $vehicleModelId = $this->ensureQuotationVehicleModelId($quotationclient);
         $productName = trim((string) $detailclient->product);
         $productKey = $this->normalizeProductKey($productName);
+        $resolvedProductId = $this->resolveProductId(
+            (int) $quotationclient->user_id,
+            $productName,
+            $detailclient->detail,
+            $productId
+        );
 
         if ($vehicleModelId === null || $productKey === '') {
             $this->removeDetailclient($detailclient->id);
@@ -79,9 +91,11 @@ class VehicleModelProductService
             ['detailclient_id' => $detailclient->id],
             [
                 'vehicle_model_id' => $vehicleModelId,
+                'user_id' => $quotationclient->user_id,
                 'quotationclient_id' => $quotationclient->id,
                 'product_name' => $productName,
                 'product_key' => $productKey,
+                'product_id' => $resolvedProductId,
                 'product_code' => $this->normalizeOptionalValue($detailclient->detail),
                 'source' => $source,
             ]
@@ -104,14 +118,18 @@ class VehicleModelProductService
         }
 
         $entries = VehicleModelProduct::where('vehicle_model_id', $vehicleModelId)
+            ->where('user_id', $quotationclient->user_id)
             ->orderBy('updated_at', 'desc')
-            ->get(['product_name', 'product_code', 'product_key', 'updated_at']);
+            ->get(['product_id', 'product_name', 'product_code', 'product_key', 'updated_at']);
 
         $grouped = [];
 
         foreach ($entries as $entry) {
-            if (!isset($grouped[$entry->product_key])) {
-                $grouped[$entry->product_key] = [
+            $groupKey = $entry->product_id ? 'product:' . $entry->product_id : 'text:' . $entry->product_key;
+
+            if (!isset($grouped[$groupKey])) {
+                $grouped[$groupKey] = [
+                    'product_id' => $entry->product_id ? (int) $entry->product_id : null,
                     'product_name' => $entry->product_name,
                     'product_code' => $entry->product_code,
                     'product_key' => $entry->product_key,
@@ -120,7 +138,7 @@ class VehicleModelProductService
                 ];
             }
 
-            $grouped[$entry->product_key]['uses_count']++;
+            $grouped[$groupKey]['uses_count']++;
         }
 
         $suggestions = collect($grouped)
@@ -277,5 +295,61 @@ class VehicleModelProductService
         $value = preg_replace('/\s+/', ' ', $value);
 
         return trim((string) $value);
+    }
+
+    protected function resolveProductId(int $userId, ?string $productName, ?string $productCode, ?int $explicitProductId = null): ?int
+    {
+        if (!empty($explicitProductId)) {
+            return (int) $explicitProductId;
+        }
+
+        if ($userId <= 0) {
+            return null;
+        }
+
+        $this->hydrateNormalizedProducts($userId);
+
+        $normalizedCode = $this->normalizeText($productCode);
+        if ($normalizedCode !== '' && isset($this->normalizedProductsByUser[$userId]['code'][$normalizedCode])) {
+            return $this->normalizedProductsByUser[$userId]['code'][$normalizedCode];
+        }
+
+        $normalizedName = $this->normalizeText($productName);
+        if ($normalizedName !== '' && isset($this->normalizedProductsByUser[$userId]['name'][$normalizedName])) {
+            return $this->normalizedProductsByUser[$userId]['name'][$normalizedName];
+        }
+
+        return null;
+    }
+
+    protected function hydrateNormalizedProducts(int $userId): void
+    {
+        if (isset($this->normalizedProductsByUser[$userId])) {
+            return;
+        }
+
+        $maps = [
+            'name' => [],
+            'code' => [],
+        ];
+
+        $products = Product::select('products.id', 'products.name', 'products.codebar')
+            ->withUserClients($userId)
+            ->get();
+
+        foreach ($products as $product) {
+            $normalizedName = $this->normalizeText($product->name);
+            $normalizedCode = $this->normalizeText($product->codebar);
+
+            if ($normalizedName !== '' && !isset($maps['name'][$normalizedName])) {
+                $maps['name'][$normalizedName] = (int) $product->id;
+            }
+
+            if ($normalizedCode !== '' && !isset($maps['code'][$normalizedCode])) {
+                $maps['code'][$normalizedCode] = (int) $product->id;
+            }
+        }
+
+        $this->normalizedProductsByUser[$userId] = $maps;
     }
 }

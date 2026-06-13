@@ -165,6 +165,70 @@ function syncDeliveryTimesState(state, payload) {
     state.newDetailclient.days = state.defaultDeliveryTime.label
 }
 
+function sortProductsByModelRelations(state) {
+    if (!Array.isArray(state.optionsProduct) || state.optionsProduct.length === 0) {
+        return
+    }
+
+    if (!Array.isArray(state.modelProductSuggestions) || state.modelProductSuggestions.length === 0) {
+        return
+    }
+
+    const scores = new Map()
+
+    state.modelProductSuggestions.forEach((suggestion, index) => {
+        if (!suggestion.product_id) {
+            return
+        }
+
+        const weightedScore = ((parseInt(suggestion.uses_count, 10) || 0) * 1000) + (state.modelProductSuggestions.length - index)
+        const currentScore = scores.get(suggestion.product_id) || 0
+        scores.set(suggestion.product_id, Math.max(currentScore, weightedScore))
+    })
+
+    if (scores.size === 0) {
+        return
+    }
+
+    state.optionsProduct = state.optionsProduct
+        .map((product, index) => ({
+            ...product,
+            __priority: scores.get(product.value) || 0,
+            __index: index
+        }))
+        .sort((left, right) => {
+            if (left.__priority === right.__priority) {
+                return left.__index - right.__index
+            }
+
+            return right.__priority - left.__priority
+        })
+        .map(({ __priority, __index, ...product }) => product)
+}
+
+function resolveSelectedDetailclientProductId(state) {
+    const selectedProduct = state.selectedProduct
+
+    if (!selectedProduct || !selectedProduct.value) {
+        return null
+    }
+
+    const currentProduct = (state.newDetailclient.product || '').trim()
+    const currentCode = (state.newDetailclient.detail || '').trim()
+    const selectedLabel = (selectedProduct.label || '').trim()
+    const selectedCode = (selectedProduct.codebar || '').trim()
+
+    if (currentProduct === '' || currentProduct !== selectedLabel) {
+        return null
+    }
+
+    if (selectedCode !== '' && currentCode !== selectedCode) {
+        return null
+    }
+
+    return selectedProduct.value
+}
+
 function resolvePaginationRequest(request, fallbackPerPage = 20) {
     const requestObject = request && typeof request === 'object' && !request.target ? request : {}
     const pageCandidate = requestObject.page !== undefined ? requestObject.page : request
@@ -1887,6 +1951,7 @@ export default { //used for changing the state
         let url = urlQuotationclientProductSuggestions + '/' + state.idQuotationclient + '/product-suggestions'
         axios.get(url).then(response => {
             state.modelProductSuggestions = response.data.suggestions || []
+            sortProductsByModelRelations(state)
         }).catch(() => {
             state.modelProductSuggestions = []
         })
@@ -2085,6 +2150,7 @@ export default { //used for changing the state
 
         axios.post(url, {
             quotationclient_id: state.idQuotationclient,
+            product_id: resolveSelectedDetailclientProductId(state),
             product: state.newDetailclient.product,
             detail: state.newDetailclient.detail,
             days: state.newDetailclient.days,
@@ -3833,6 +3899,8 @@ export default { //used for changing the state
                 }
 
             });
+
+            sortProductsByModelRelations(state)
         });
     },
     setProduct(state, product) {
