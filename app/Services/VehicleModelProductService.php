@@ -158,10 +158,6 @@ class VehicleModelProductService
                     $displayLabel .= ' | ' . $suggestion['product_code'];
                 }
 
-                if (!empty($suggestion['uses_count'])) {
-                    $displayLabel .= ' | ' . $suggestion['uses_count'] . ' uso(s)';
-                }
-
                 $suggestion['display_label'] = $displayLabel;
 
                 return $suggestion;
