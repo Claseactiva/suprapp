@@ -9741,6 +9741,13 @@ body.admin-compact .v-select .vs__dropdown-toggle {
     line-height: 1.2;
 }
 
+body.admin-compact .v-select .dropdown-toggle,
+body.admin-compact .v-select .vs__dropdown-toggle {
+    min-height: 28px;
+    height: 28px;
+    padding: 0 0.38rem;
+}
+
 body.admin-compact .form-control::placeholder,
 body.admin-compact .v-select input::placeholder {
     font-size: 0.76rem;
@@ -9756,7 +9763,19 @@ body.admin-compact .v-select input,
 body.admin-compact .v-select .vs__selected,
 body.admin-compact .v-select .vs__search {
     font-size: 0.78rem;
-    line-height: 1.2;
+    line-height: 1.1;
+}
+
+body.admin-compact .v-select .selected-tag,
+body.admin-compact .v-select .vs__selected {
+    margin: 0;
+    padding: 0;
+}
+
+body.admin-compact .v-select input,
+body.admin-compact .v-select .vs__search {
+    margin: 0;
+    padding: 0;
 }
 
 body.admin-compact .v-select .vs__dropdown-menu,
@@ -9767,8 +9786,9 @@ body.admin-compact .v-select .dropdown-menu {
 body.admin-compact .v-select .vs__dropdown-option,
 body.admin-compact .v-select .dropdown-menu li,
 body.admin-compact .v-select .dropdown-menu a {
-    padding-top: 0.32rem;
-    padding-bottom: 0.32rem;
+    padding-top: 0.18rem;
+    padding-bottom: 0.18rem;
+    line-height: 1.1;
     font-size: 0.78rem;
 }
 
