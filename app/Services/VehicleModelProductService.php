@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Detailclient;
 use App\Models\Product;
+use App\Models\ProductVehicleModel;
 use App\Models\Quotationclient;
 use App\Models\VehicleModel;
 use App\Models\VehicleModelProduct;
@@ -117,12 +118,36 @@ class VehicleModelProductService
             return [];
         }
 
+        $grouped = [];
+
+        $manualProducts = ProductVehicleModel::query()
+            ->join('products', 'products.id', '=', 'product_vehicle_models.product_id')
+            ->where('product_vehicle_models.user_id', $quotationclient->user_id)
+            ->where('product_vehicle_models.vehicle_model_id', $vehicleModelId)
+            ->orderBy('products.name')
+            ->get([
+                'products.id as product_id',
+                'products.name as product_name',
+                'products.codebar as product_code',
+            ]);
+
+        foreach ($manualProducts as $product) {
+            $productKey = $this->normalizeProductKey($product->product_name);
+            $grouped['product:' . $product->product_id] = [
+                'product_id' => (int) $product->product_id,
+                'product_name' => $product->product_name,
+                'product_code' => $this->normalizeOptionalValue($product->product_code),
+                'product_key' => $productKey,
+                'uses_count' => 0,
+                'last_used_at' => null,
+                'manual_relation' => true,
+            ];
+        }
+
         $entries = VehicleModelProduct::where('vehicle_model_id', $vehicleModelId)
             ->where('user_id', $quotationclient->user_id)
             ->orderBy('updated_at', 'desc')
             ->get(['product_id', 'product_name', 'product_code', 'product_key', 'updated_at']);
-
-        $grouped = [];
 
         foreach ($entries as $entry) {
             $groupKey = $entry->product_id ? 'product:' . $entry->product_id : 'text:' . $entry->product_key;
@@ -135,14 +160,22 @@ class VehicleModelProductService
                     'product_key' => $entry->product_key,
                     'uses_count' => 0,
                     'last_used_at' => optional($entry->updated_at)->toDateTimeString(),
+                    'manual_relation' => false,
                 ];
             }
 
             $grouped[$groupKey]['uses_count']++;
+            if ($grouped[$groupKey]['last_used_at'] === null) {
+                $grouped[$groupKey]['last_used_at'] = optional($entry->updated_at)->toDateTimeString();
+            }
         }
 
         $suggestions = collect($grouped)
             ->sort(function (array $a, array $b) {
+                if (($a['manual_relation'] ?? false) !== ($b['manual_relation'] ?? false)) {
+                    return ($b['manual_relation'] ?? false) <=> ($a['manual_relation'] ?? false);
+                }
+
                 if ($a['uses_count'] === $b['uses_count']) {
                     return strcmp((string) ($b['last_used_at'] ?? ''), (string) ($a['last_used_at'] ?? ''));
                 }

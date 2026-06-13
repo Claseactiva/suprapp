@@ -31,6 +31,16 @@ class Product extends Model
         return $this->belongsTo('App\Models\Client');
     }
 
+    public function relatedVehicleModels()
+    {
+        return $this->belongsToMany(
+            'App\Models\VehicleModel',
+            'product_vehicle_models',
+            'product_id',
+            'vehicle_model_id'
+        )->withTimestamps();
+    }
+
     public function scopeWithUserClients($query, $userId)
     {
         return $query->whereHas('client', function ($query) use ($userId) {

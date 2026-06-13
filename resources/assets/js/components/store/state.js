@@ -729,6 +729,13 @@ export default { //data
     /*** sección componentes de productos */
     import_file: '',
     products: [],
+    productVehicleModelOptions: [],
+    productVehicleModelSearch: '',
+    selectedProductVehicleModelIds: [],
+    productVehicleModelModal: {
+        productId: null,
+        productName: ''
+    },
     product: {
         name: '',
         detail: ''

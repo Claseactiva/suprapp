@@ -105,6 +105,7 @@ let urlActivity = 'activities'
 
 let urlProduct = 'products'
 let urlAllProduct = 'products-all'
+let urlVehicleModelCatalog = 'vehiclemodels-all'
 let urlAllProductSale = 'products-all-sale'
 let urlTipoDePago = 'tipodepago'
 let urlDescuento = 'descuento'
@@ -2827,6 +2828,15 @@ export default { //used for changing the state
             state.pagination = response.data.pagination
         });
     },
+    getProductVehicleModelOptions(state) {
+        axios.get(urlVehicleModelCatalog).then(response => {
+            state.productVehicleModelOptions = response.data.map((model) => ({
+                id: model.id,
+                brand: model.brand,
+                model: model.model
+            }))
+        })
+    },
 
     createProduct(state) {
         let url = urlProduct
@@ -2858,6 +2868,72 @@ export default { //used for changing the state
         state.fillProduct.flete = data.product.flete
         state.fillProduct.detail = data.product.detail
         state.current_page = data.page
+    },
+    openProductVehicleModels(state, product) {
+        state.productVehicleModelModal = {
+            productId: product.id,
+            productName: product.name
+        }
+        state.productVehicleModelSearch = ''
+        state.selectedProductVehicleModelIds = []
+    },
+    getProductVehicleModelRelations(state, productId) {
+        axios.get(urlProduct + '/' + productId + '/vehicle-model-relations').then(response => {
+            state.selectedProductVehicleModelIds = (response.data.vehicle_model_ids || []).map((id) => parseInt(id, 10))
+        })
+    },
+    toggleProductVehicleModel(state, modelId) {
+        const normalizedId = parseInt(modelId, 10)
+        const index = state.selectedProductVehicleModelIds.indexOf(normalizedId)
+
+        if (index >= 0) {
+            state.selectedProductVehicleModelIds.splice(index, 1)
+            return
+        }
+
+        state.selectedProductVehicleModelIds.push(normalizedId)
+    },
+    clearProductVehicleModels(state) {
+        state.selectedProductVehicleModelIds = []
+    },
+    selectVisibleProductVehicleModels(state) {
+        const term = (state.productVehicleModelSearch || '').trim().toLowerCase()
+        const visibleIds = state.productVehicleModelOptions
+            .filter((model) => {
+                if (term === '') {
+                    return true
+                }
+
+                return `${model.brand} ${model.model}`.toLowerCase().includes(term)
+            })
+            .map((model) => model.id)
+
+        state.selectedProductVehicleModelIds = Array.from(new Set([
+            ...state.selectedProductVehicleModelIds,
+            ...visibleIds
+        ])).sort((left, right) => left - right)
+    },
+    saveProductVehicleModels(state) {
+        if (!state.productVehicleModelModal.productId) {
+            return
+        }
+
+        axios.put(
+            urlProduct + '/' + state.productVehicleModelModal.productId + '/vehicle-model-relations',
+            { vehicle_model_ids: state.selectedProductVehicleModelIds }
+        ).then(response => {
+            const productIndex = state.products.findIndex((product) => product.id === response.data.product_id)
+
+            if (productIndex >= 0) {
+                state.products[productIndex].related_vehicle_models_count = response.data.related_vehicle_models_count
+            }
+
+            state.errorsLaravel = []
+            $('#product_vehicle_models').modal('hide')
+            toastr.success('Modelos relacionados guardados con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
     },
     updateProduct(state, id) {
         let url = urlProduct + '/' + id

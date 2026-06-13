@@ -38,7 +38,7 @@
                             <SelectProvider></SelectProvider>
                         </div>
                         <div class="form-group col-lg-6">
-                            <label for="codigo">*Código</label>
+                            <label for="codigo">*Codigo</label>
                             <input required type="text" name="codigo" class="form-control" v-model="newProduct.codebar">
                         </div>
                     </div>
@@ -71,11 +71,12 @@
                         <th>Producto</th>
                         <th>Detalle</th>
                         <th>Cliente</th>
-                        <th>Código</th>
+                        <th>Codigo</th>
                         <th>Fecha</th>
                         <th>%Utilidad</th>
                         <th>Flete</th>
-                        <th>Acción</th>
+                        <th>Modelos</th>
+                        <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,11 +85,17 @@
                         <td data-table-label="Producto">{{ product.name }}</td>
                         <td data-table-label="Detalle">{{ product.detail }}</td>
                         <td data-table-label="Cliente">{{ product.client.name }}</td>
-                        <td data-table-label="Código">{{ product.codebar }}</td>
+                        <td data-table-label="Codigo">{{ product.codebar }}</td>
                         <td data-table-label="Fecha">{{ product.created_at | moment('DD/MM/YYYY') }}</td>
                         <td data-table-label="%Utilidad">{{ product.utilidad }}%</td>
                         <td data-table-label="Flete">${{ product.flete }}</td>
+                        <td data-table-label="Modelos">{{ product.related_vehicle_models_count || 0 }}</td>
                         <td>
+                            <a href="#" class="btn btn-primary pull-right btn-sm" data-toggle="modal"
+                                data-target="#product_vehicle_models" title="Modelos relacionados"
+                                @click.prevent="openProductVehicleModels({ product })">
+                                <i class="fas fa-car-side"></i>
+                            </a>
                             <a href="#" class="btn btn-warning pull-right btn-sm" data-toggle="modal"
                                 data-target="#edit_product" title="Editar"
                                 @click.prevent="editProduct({ product, page: pagination.current_page })">
@@ -127,7 +134,7 @@
                 </li>
                 <li class="page-item" v-if="pagination.current_page > 1">
                     <a class="page-link border-light bg-dark" href="#"
-                        @click.prevent="changePageProduct({ page: pagination.current_page - 1, per_page: pagination.per_page })"><span>Atrás</span></a>
+                        @click.prevent="changePageProduct({ page: pagination.current_page - 1, per_page: pagination.per_page })"><span>Atras</span></a>
                 </li>
                 <li class="page-item" v-for="page in pagesNumber" v-bind:class="[page == isActived ? 'active' : '']"
                     :key="page">
@@ -141,7 +148,7 @@
                 </li>
                 <li class="page-item" v-if="pagination.current_page < pagination.last_page">
                     <a class="page-link border-light bg-dark" href="#"
-                        @click.prevent="changePageProduct({ page: pagination.last_page, per_page: pagination.per_page })"><span>Última</span></a>
+                        @click.prevent="changePageProduct({ page: pagination.last_page, per_page: pagination.per_page })"><span>Ultima</span></a>
                 </li>
             </ul>
             </nav>
@@ -149,6 +156,7 @@
         <EditarProduct></EditarProduct>
         <EliminarProduct></EliminarProduct>
         <Inventory></Inventory>
+        <RelacionModelos></RelacionModelos>
     </div>
 </template>
 
@@ -163,15 +171,16 @@ import Inventory from './Inventory'
 import UtilidadDefect from '../Utilidad/UtilidadDefect'
 import FleteDefect from '../Flete/FleteDefect'
 import DeliveryTimeIndex from '../DeliveryTime/Index'
+import RelacionModelos from './RelacionModelos'
 
 export default {
-    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct },
+    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct, RelacionModelos },
     computed: {
         ...mapState(['products', 'searchProduct', 'newProduct', 'pagination']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
-        ...mapActions(['createProduct', 'getProducts', 'editProduct', 'changePageProduct', 'editInventory', 'modalDeleteProduct'])
+        ...mapActions(['createProduct', 'getProducts', 'editProduct', 'changePageProduct', 'editInventory', 'modalDeleteProduct', 'openProductVehicleModels'])
     },
     created() {
         loadProgressBar()

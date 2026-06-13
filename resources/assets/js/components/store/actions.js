@@ -879,6 +879,27 @@ export default { //methods
     getProducts(context, data) {
         context.commit('getProducts', data)
     },
+    openProductVehicleModels(context, data) {
+        context.commit('openProductVehicleModels', data.product)
+        context.commit('getProductVehicleModelOptions')
+        context.commit('getProductVehicleModelRelations', data.product.id)
+    },
+    toggleProductVehicleModel(context, data) {
+        context.commit('toggleProductVehicleModel', data)
+    },
+    clearProductVehicleModels(context) {
+        context.commit('clearProductVehicleModels')
+    },
+    selectVisibleProductVehicleModels(context) {
+        context.commit('selectVisibleProductVehicleModels')
+    },
+    saveProductVehicleModels(context) {
+        context.commit('saveProductVehicleModels')
+        setTimeout(function () {
+            context.commit('getProducts', 1)
+            context.commit('allProducts')
+        }, 700)
+    },
     createProduct(context) {
         context.commit('createProduct')
         setTimeout(function () {

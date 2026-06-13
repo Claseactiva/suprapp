@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductVehicleModel;
 use App\Models\TipoPago;
 use App\ProductPago;
 use App\Models\Descuento;
 use App\Models\Inventory;
+use App\Models\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +18,11 @@ class ProductController extends Controller
     {
         $id_user = Auth::id();
 
-        $products = Product::with('inventories', 'client')->name()->withUserClients($id_user)->paginate((int) request('per_page', 20));
+        $products = Product::with('inventories', 'client')
+            ->withCount('relatedVehicleModels')
+            ->name()
+            ->withUserClients($id_user)
+            ->paginate((int) request('per_page', 20));
 
         return [
             'pagination' => [
@@ -86,8 +92,61 @@ class ProductController extends Controller
     {
         $id_user = Auth::id();
 
-        $products = Product::with('inventories', 'client')->withUserClients($id_user)->get();
+        $products = Product::with('inventories', 'client')
+            ->withCount('relatedVehicleModels')
+            ->withUserClients($id_user)
+            ->get();
         return $products;
+    }
+
+    public function vehicleModelRelations($id)
+    {
+        $product = $this->resolveOwnedProduct($id);
+
+        $relations = ProductVehicleModel::where('product_id', $product->id)
+            ->orderBy('vehicle_model_id')
+            ->pluck('vehicle_model_id');
+
+        return response()->json([
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'vehicle_model_ids' => $relations,
+        ]);
+    }
+
+    public function syncVehicleModelRelations(Request $request, $id)
+    {
+        $product = $this->resolveOwnedProduct($id);
+        $userId = Auth::id();
+        $vehicleModelIds = collect($request->input('vehicle_model_ids', []))
+            ->filter(function ($id) {
+                return is_numeric($id);
+            })
+            ->map(function ($id) {
+                return (int) $id;
+            })
+            ->unique()
+            ->values();
+
+        $validVehicleModelIds = VehicleModel::whereIn('id', $vehicleModelIds)->pluck('id')->map(function ($id) {
+            return (int) $id;
+        })->all();
+
+        ProductVehicleModel::where('product_id', $product->id)->delete();
+
+        foreach ($validVehicleModelIds as $vehicleModelId) {
+            ProductVehicleModel::create([
+                'product_id' => $product->id,
+                'vehicle_model_id' => $vehicleModelId,
+                'user_id' => $userId,
+            ]);
+        }
+
+        return response()->json([
+            'product_id' => $product->id,
+            'related_vehicle_models_count' => count($validVehicleModelIds),
+            'vehicle_model_ids' => $validVehicleModelIds,
+        ]);
     }
 
 
@@ -173,5 +232,12 @@ class ProductController extends Controller
         $descuento = Descuento::where('user_id', $idUser)->get();
 
         return $descuento;
+    }
+
+    private function resolveOwnedProduct($id)
+    {
+        $idUser = Auth::id();
+
+        return Product::withUserClients($idUser)->findOrFail($id);
     }
 }
