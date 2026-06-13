@@ -259,6 +259,9 @@ export default {
 .quotation-detail-select {
     min-height: 30px;
     height: 30px;
+    padding-top: 0.16rem;
+    padding-bottom: 0.16rem;
+    line-height: 1.2;
 }
 
 .quotation-detail-action .btn {
