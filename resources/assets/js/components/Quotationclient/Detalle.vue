@@ -19,14 +19,14 @@
                                 <div class="card-body">
                                     <form action="POST" v-on:submit.prevent="createDetailclient">
 
-                                        <div class="row mb-3">
+                                        <div class="row mb-3 align-items-end">
 
                                             <div class="col-lg-4 col-md-12">
                                                 <label for="cliente">Producto</label>
                                                 <SelectProduct></SelectProduct>
                                             </div>
 
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-5 col-md-12">
                                                 <label for="product">Nombre Producto</label>
                                                 <input required type="text" name="product" class="form-control"
                                                     v-model="newDetailclient.product"
@@ -42,13 +42,13 @@
                                                 </datalist>
                                             </div>
 
-                                            <div class="col-lg-4 col-md-12">
+                                            <div class="col-lg-3 col-md-12">
                                                 <label for="product">Código</label>
                                                 <input type="text" name="product" class="form-control"
                                                     v-model="newDetailclient.detail">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row align-items-end">
 
                                             <div class="col-lg-2 col-md-12">
                                                 <label for="precio">Precio</label>
@@ -92,7 +92,7 @@
 
                                             <div class="col-lg-2 col-md-12">
                                                 <label for="plazo">Días de Plazo</label>
-                                                <select name="plazo" class="form-control" v-model="newDetailclient.days">
+                                                <select name="plazo" class="form-control quotation-detail-select" v-model="newDetailclient.days">
                                                     <option v-for="deliveryTime in availableDeliveryTimes(newDetailclient.days)"
                                                         :key="deliveryTime.id || deliveryTime.label" :value="deliveryTime.label">
                                                         {{ deliveryTime.label }}
@@ -106,8 +106,8 @@
                                                     v-model="newDetailclient.total" min="0" disabled>
                                             </div>
 
-                                            <div class="col-lg-1 col-md-12 mt-2">
-                                                <label></label>
+                                            <div class="col-lg-1 col-md-12 quotation-detail-action">
+                                                <label class="d-block invisible">Agregar</label>
                                                 <button type="submit" class="btn btn-success form-control">
                                                     <i class="fas fa-plus-square"></i> Agregar
                                                 </button>
@@ -276,3 +276,14 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.quotation-detail-select {
+    min-height: 30px;
+    height: 30px;
+}
+
+.quotation-detail-action .btn {
+    white-space: nowrap;
+}
+</style>

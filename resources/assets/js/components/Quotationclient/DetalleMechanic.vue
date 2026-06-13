@@ -26,14 +26,14 @@
                                             <div class="card-body">
                                                 <form action="POST" v-on:submit.prevent="createDetailclient">
 
-                                                    <div class="row">
+                                                    <div class="row align-items-end">
 
                                                         <!-- <div class="col-lg-3">
                                                             <label for="cliente">Producto</label>
                                                             <SelectProduct></SelectProduct>
                                                         </div> -->
 
-                                                        <div class="col-lg-3">
+                                                        <div class="col-lg-4">
                                                             <label for="product">Nombre Producto</label>
                                                             <input 
                                                                 type="text"
@@ -102,7 +102,7 @@
 
                                                         <div class="col-lg-2">
                                                             <label for="plazo">Días de Plazo</label>
-                                                            <select name="plazo" class="form-control" v-model="newDetailclient.days">
+                                                            <select name="plazo" class="form-control quotation-detail-select" v-model="newDetailclient.days">
                                                                 <option v-for="deliveryTime in availableDeliveryTimes(newDetailclient.days)"
                                                                     :key="deliveryTime.id || deliveryTime.label" :value="deliveryTime.label">
                                                                     {{ deliveryTime.label }}
@@ -116,8 +116,8 @@
                                                                 v-model="newDetailclient.total" disabled>
                                                         </div>
 
-                                                        <div class="col-lg-2 mt-2">
-                                                            <label></label>
+                                                        <div class="col-lg-2 quotation-detail-action">
+                                                            <label class="d-block invisible">Guardar</label>
                                                             <button type="submit" class="btn btn-success form-control">
                                                                 <i class="fas fa-plus-square"></i> Guardar
                                                             </button>
@@ -254,4 +254,15 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.quotation-detail-select {
+    min-height: 30px;
+    height: 30px;
+}
+
+.quotation-detail-action .btn {
+    white-space: nowrap;
+}
+</style>
 
