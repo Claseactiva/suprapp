@@ -81,7 +81,7 @@
 
                                 <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                        <div class="col-lg-3 col-md-3 col-12 mb-3">
                                             <label for="telefono">WhatsApp</label>
                                             <input type="text" name="telefono" class="form-control"
                                                 v-model="newQuotationclient.telefono" placeholder="+56912345678">
@@ -93,7 +93,7 @@
                                                 v-model="newQuotationclient.url" placeholder="https://...">
                                         </div>
 
-                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                        <div class="col-lg-5 col-md-5 col-12 mb-3">
                                             <label for="pago">Forma de Pago</label>
                                             <SelectTiposPagos />
                                         </div>
