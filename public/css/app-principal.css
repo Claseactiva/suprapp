@@ -9718,7 +9718,8 @@ body.admin-compact label,
 body.admin-compact .col-form-label,
 body.admin-compact .form-check-label {
     margin-bottom: 0.2rem;
-    font-size: 0.8rem;
+    font-size: 0.76rem;
+    line-height: 1.15;
 }
 
 body.admin-compact .form-group,
@@ -9730,12 +9731,19 @@ body.admin-compact .row.mb-3 {
 body.admin-compact .form-control,
 body.admin-compact .custom-select,
 body.admin-compact .input-group-text,
-body.admin-compact .v-select .dropdown-toggle {
-    min-height: 32px;
-    height: 32px;
-    padding-top: 0.22rem;
-    padding-bottom: 0.22rem;
-    font-size: 0.82rem;
+body.admin-compact .v-select .dropdown-toggle,
+body.admin-compact .v-select .vs__dropdown-toggle {
+    min-height: 30px;
+    height: 30px;
+    padding-top: 0.16rem;
+    padding-bottom: 0.16rem;
+    font-size: 0.78rem;
+    line-height: 1.2;
+}
+
+body.admin-compact .form-control::placeholder,
+body.admin-compact .v-select input::placeholder {
+    font-size: 0.76rem;
 }
 
 body.admin-compact textarea.form-control {
@@ -9744,8 +9752,24 @@ body.admin-compact textarea.form-control {
 }
 
 body.admin-compact .v-select .selected-tag,
-body.admin-compact .v-select input {
-    font-size: 0.82rem;
+body.admin-compact .v-select input,
+body.admin-compact .v-select .vs__selected,
+body.admin-compact .v-select .vs__search {
+    font-size: 0.78rem;
+    line-height: 1.2;
+}
+
+body.admin-compact .v-select .vs__dropdown-menu,
+body.admin-compact .v-select .dropdown-menu {
+    font-size: 0.78rem;
+}
+
+body.admin-compact .v-select .vs__dropdown-option,
+body.admin-compact .v-select .dropdown-menu li,
+body.admin-compact .v-select .dropdown-menu a {
+    padding-top: 0.32rem;
+    padding-bottom: 0.32rem;
+    font-size: 0.78rem;
 }
 
 body.admin-compact .btn {
@@ -9757,9 +9781,9 @@ body.admin-compact .btn {
 body.admin-compact .btn.form-control,
 body.admin-compact button.form-control,
 body.admin-compact a.form-control {
-    height: 32px;
-    padding-top: 0.22rem;
-    padding-bottom: 0.22rem;
+    height: 30px;
+    padding-top: 0.16rem;
+    padding-bottom: 0.16rem;
 }
 
 body.admin-compact .table {
