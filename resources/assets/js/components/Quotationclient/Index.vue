@@ -30,14 +30,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="mb-3">
                                             <label for="cliente">Cliente</label>
                                             <SelectClient></SelectClient>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-7 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row">
                                         <div class="col-lg-5 col-md-5 col-12 mb-3">
                                             <label for="marca">Marca</label>
@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="mb-3">
                                         <label for="nombre">Nombre Cliente</label>
                                         <input type="text" name="nombre" class="form-control"
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-7 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row">
                                         <div class="col-lg-5 col-md-5 col-12 mb-3">
                                             <label for="engine">Motor</label>
@@ -79,7 +79,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row">
                                         <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="telefono">WhatsApp</label>
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-7 col-md-12">
+                                <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row quotationclient-form-actions">
                                         <div class="col-lg-4 col-md-4 col-12 offset-lg-8 offset-md-8 mb-3">
                                             <button type="submit" class="btn btn-success form-control">
