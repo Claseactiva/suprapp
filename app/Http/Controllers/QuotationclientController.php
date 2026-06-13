@@ -70,6 +70,9 @@ class QuotationclientController extends Controller
                     'quotationclients.vehicle',
                     'quotationclients.payment',
                     'quotationclients.ppu',
+                    'quotationclients.internal_number',
+                    'quotationclients.chasis',
+                    'quotationclients.motor_number',
                     'quotationclients.state',
                     'quotationclients.generado_client',
                     'quotationclients.tipo_detalle',
@@ -121,6 +124,9 @@ class QuotationclientController extends Controller
                     'quotationclients.vehicle',
                     'quotationclients.payment',
                     'quotationclients.ppu',
+                    'quotationclients.internal_number',
+                    'quotationclients.chasis',
+                    'quotationclients.motor_number',
                     'quotationclients.state',
                     'quotationclients.generado_client',
                     'quotationclients.tipo_detalle',
@@ -253,6 +259,9 @@ class QuotationclientController extends Controller
             $url = trim($data['url'] ?? '');
             $telefono = preg_replace('/\s+/', '', trim($data['telefono'] ?? ''));
             $ppu = trim($data['ppu'] ?? '');
+            $internalNumber = trim($data['internal_number'] ?? '');
+            $chasis = trim($data['chasis'] ?? '');
+            $motorNumber = trim($data['motor_number'] ?? '');
             $clientText = trim($data['client_text'] ?? '');
             $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
 
@@ -306,7 +315,10 @@ class QuotationclientController extends Controller
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
-                        'ppu' => $ppu
+                        'ppu' => $ppu,
+                        'internal_number' => $internalNumber,
+                        'chasis' => $chasis,
+                        'motor_number' => $motorNumber
                     ])->id;
                 } else {
                     foreach ($clients as $client) {
@@ -323,7 +335,10 @@ class QuotationclientController extends Controller
                                 'generado' => $data['generado'],
                                 'url' => $url,
                                 'telefono' => $telefono,
-                                'ppu' => $ppu
+                                'ppu' => $ppu,
+                                'internal_number' => $internalNumber,
+                                'chasis' => $chasis,
+                                'motor_number' => $motorNumber
                             ]
                         )->id;
                     }
@@ -342,7 +357,10 @@ class QuotationclientController extends Controller
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
-                        'ppu' => $ppu
+                        'ppu' => $ppu,
+                        'internal_number' => $internalNumber,
+                        'chasis' => $chasis,
+                        'motor_number' => $motorNumber
                     ]
                 )->id;
             }
@@ -396,6 +414,18 @@ class QuotationclientController extends Controller
 
         if (array_key_exists('ppu', $data)) {
             $data['ppu'] = trim($data['ppu'] ?? '');
+        }
+
+        if (array_key_exists('internal_number', $data)) {
+            $data['internal_number'] = trim($data['internal_number'] ?? '');
+        }
+
+        if (array_key_exists('chasis', $data)) {
+            $data['chasis'] = trim($data['chasis'] ?? '');
+        }
+
+        if (array_key_exists('motor_number', $data)) {
+            $data['motor_number'] = trim($data['motor_number'] ?? '');
         }
 
         Quotationclient::find($id)->update($data);
@@ -595,6 +625,9 @@ class QuotationclientController extends Controller
                 'url' => trim($quotation->url ?? ''),
                 'telefono' => preg_replace('/\s+/', '', trim($quotation->telefono ?? '')),
                 'ppu' => trim($quotation->ppu ?? ''),
+                'internal_number' => trim($quotation->internal_number ?? ''),
+                'chasis' => trim($quotation->chasis ?? ''),
+                'motor_number' => trim($quotation->motor_number ?? ''),
                 'spare_parts' => $quotation->spare_parts,
             ]);
 

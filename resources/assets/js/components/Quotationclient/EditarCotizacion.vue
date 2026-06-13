@@ -46,9 +46,26 @@
                                 <input id="vehicle" type="text" class="form-control" v-model="fillQuotationclient.vehicle">
                             </div>
 
-                            <div class="col-lg-4 mb-3">
-                                <label for="ppu">P.P.U / Nro Interno</label>
+                            <div class="col-lg-3 mb-3">
+                                <label for="ppu">P.P.U</label>
                                 <input id="ppu" type="text" class="form-control" v-model="fillQuotationclient.ppu">
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <label for="internal_number">N° Interno</label>
+                                <input id="internal_number" type="text" class="form-control"
+                                    v-model="fillQuotationclient.internal_number">
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <label for="chasis">Chasis</label>
+                                <input id="chasis" type="text" class="form-control" v-model="fillQuotationclient.chasis">
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
+                                <label for="motor_number">N° Motor</label>
+                                <input id="motor_number" type="text" class="form-control"
+                                    v-model="fillQuotationclient.motor_number">
                             </div>
 
                             <div class="col-lg-4 mb-3">

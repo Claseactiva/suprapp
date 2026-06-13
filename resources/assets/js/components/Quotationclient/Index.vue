@@ -22,7 +22,7 @@
                         <form action="POST" v-on:submit.prevent="createQuotationclient">
 
                             <div class="row quotationclient-form-layout">
-                                <div class="col-lg-7 col-md-12">
+                                <div class="col-xl-5 col-lg-5 col-md-12">
                                     <div class="mb-3 quotationclient-checkbox-row">
                                         <input type="checkbox" name="cliente_part"
                                             v-model="newQuotationclient.cliente_part">
@@ -45,59 +45,78 @@
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-lg-4 col-md-12 mb-3">
+                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
                                             <label for="telefono">WhatsApp</label>
                                             <input type="text" name="telefono" class="form-control"
                                                 v-model="newQuotationclient.telefono" placeholder="+56912345678">
                                         </div>
 
-                                        <div class="col-lg-4 col-md-12 mb-3">
+                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
                                             <label for="url">Facebook / Messenger</label>
                                             <input type="text" name="url" class="form-control"
                                                 v-model="newQuotationclient.url" placeholder="https://...">
                                         </div>
 
-                                        <div class="col-lg-4 col-md-12 mb-3">
+                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
                                             <label for="pago">Forma de Pago</label>
                                             <SelectTiposPagos />
                                         </div>
+
+                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                                            <label class="d-block">&nbsp;</label>
+                                            <button type="submit" class="btn btn-success form-control">
+                                                <i class="fas fa-plus-square"></i> Guardar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-12">
+                                <div class="col-xl-7 col-lg-7 col-md-12">
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-lg-3 col-md-4 col-12 mb-3">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
                                             <label for="marca">Marca</label>
                                             <BrandSelector />
                                         </div>
 
-                                        <div class="col-lg-5 col-md-4 col-12 mb-3">
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
                                             <label for="modelo">Modelo</label>
                                             <ModelSelector />
                                         </div>
 
-                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                        <div class="col-xl-2 col-lg-2 col-md-4 col-12 mb-3">
                                             <label for="anio">Año</label>
                                             <YearSelector />
+                                        </div>
+
+                                        <div class="col-xl-4 col-lg-4 col-md-8 col-12 mb-3">
+                                            <label for="engine">Motor</label>
+                                            <EngineSelector />
                                         </div>
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
-                                            <label for="engine">Motor</label>
-                                            <EngineSelector />
-                                        </div>
-
-                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
-                                            <label for="url">P.P.U / N° Interno</label>
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="ppu">P.P.U</label>
                                             <input type="text" name="ppu" class="form-control"
                                                 v-model="newQuotationclient.ppu">
                                         </div>
-                                    </div>
 
-                                    <div class="quotationclient-form-actions">
-                                        <button type="submit" class="btn btn-success form-control">
-                                            <i class="fas fa-plus-square"></i> Guardar
-                                        </button>
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="internal_number">N° Interno</label>
+                                            <input type="text" name="internal_number" class="form-control"
+                                                v-model="newQuotationclient.internal_number">
+                                        </div>
+
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="chasis">Chasis</label>
+                                            <input type="text" name="chasis" class="form-control"
+                                                v-model="newQuotationclient.chasis">
+                                        </div>
+
+                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                            <label for="motor_number">N° Motor</label>
+                                            <input type="text" name="motor_number" class="form-control"
+                                                v-model="newQuotationclient.motor_number">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -410,6 +429,18 @@ export default {
 
             if ((quotationLocal.ppu || '').trim() !== '') {
                 summary.push(`PPU: ${quotationLocal.ppu.trim()}`)
+            }
+
+            if ((quotationLocal.internal_number || '').trim() !== '') {
+                summary.push(`N° Interno: ${quotationLocal.internal_number.trim()}`)
+            }
+
+            if ((quotationLocal.chasis || '').trim() !== '') {
+                summary.push(`Chasis: ${quotationLocal.chasis.trim()}`)
+            }
+
+            if ((quotationLocal.motor_number || '').trim() !== '') {
+                summary.push(`N° Motor: ${quotationLocal.motor_number.trim()}`)
             }
 
             if ((quotationLocal.vehicle || '').trim() !== '') {

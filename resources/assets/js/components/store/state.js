@@ -390,7 +390,10 @@ export default { //data
         vehicle: '',
         generado: '',
         generado_client: '',
-        ppu: ''
+        ppu: '',
+        internal_number: '',
+        chasis: '',
+        motor_number: ''
     },
     fillQuotationclient: {
         id: '',
@@ -401,7 +404,10 @@ export default { //data
         vehicle: '',
         url: '',
         telefono: '',
-        ppu: ''
+        ppu: '',
+        internal_number: '',
+        chasis: '',
+        motor_number: ''
     },
     searchQuotationClient: {
         id: '',
