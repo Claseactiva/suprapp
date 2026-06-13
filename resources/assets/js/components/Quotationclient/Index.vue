@@ -30,12 +30,14 @@
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-lg-6 col-md-12 mb-3">
+                                        <div class="col-12 mb-3">
                                             <label for="cliente">Cliente</label>
                                             <SelectClient></SelectClient>
                                         </div>
+                                    </div>
 
-                                        <div class="col-lg-6 col-md-12 mb-3">
+                                    <div class="row quotationclient-form-row">
+                                        <div class="col-12 mb-3">
                                             <label for="nombre">Nombre Cliente</label>
                                             <input type="text" name="nombre" class="form-control"
                                                 v-model="newQuotationclient.client_text">
