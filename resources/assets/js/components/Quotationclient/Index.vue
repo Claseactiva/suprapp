@@ -45,60 +45,59 @@
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="telefono">WhatsApp</label>
                                             <input type="text" name="telefono" class="form-control"
                                                 v-model="newQuotationclient.telefono" placeholder="+56912345678">
                                         </div>
 
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="url">Facebook / Messenger</label>
                                             <input type="text" name="url" class="form-control"
                                                 v-model="newQuotationclient.url" placeholder="https://...">
                                         </div>
 
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="pago">Forma de Pago</label>
                                             <SelectTiposPagos />
-                                        </div>
-
-                                        <div class="col-xl-3 col-lg-6 col-md-6 col-12 mb-3">
-                                            <label class="d-block">&nbsp;</label>
-                                            <button type="submit" class="btn btn-success form-control">
-                                                <i class="fas fa-plus-square"></i> Guardar
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-7 col-lg-7 col-md-12">
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="marca">Marca</label>
                                             <BrandSelector />
                                         </div>
 
-                                        <div class="col-xl-3 col-lg-3 col-md-6 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="modelo">Modelo</label>
                                             <ModelSelector />
                                         </div>
 
-                                        <div class="col-xl-2 col-lg-2 col-md-4 col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <label for="anio">Año</label>
                                             <YearSelector />
-                                        </div>
-
-                                        <div class="col-xl-4 col-lg-4 col-md-8 col-12 mb-3">
-                                            <label for="engine">Motor</label>
-                                            <EngineSelector />
                                         </div>
                                     </div>
 
                                     <div class="row quotationclient-form-row">
-                                        <div class="col-12 mb-3">
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                            <label for="engine">Motor</label>
+                                            <EngineSelector />
+                                        </div>
+
+                                        <div class="col-lg-8 col-md-8 col-12 mb-3">
                                             <label for="ppu">PPU / VIN / Chasis / N° Interno / N° Motor</label>
                                             <input type="text" name="ppu" class="form-control"
                                                 v-model="newQuotationclient.ppu">
                                         </div>
+                                    </div>
+
+                                    <div class="quotationclient-form-actions">
+                                        <button type="submit" class="btn btn-success form-control">
+                                            <i class="fas fa-plus-square"></i> Guardar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
