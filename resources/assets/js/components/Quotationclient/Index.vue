@@ -21,79 +21,82 @@
                     <div class="card-body">
                         <form action="POST" v-on:submit.prevent="createQuotationclient">
 
-                            <div class="row">
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="mb-3">
+                            <div class="row quotationclient-form-layout">
+                                <div class="col-lg-7 col-md-12">
+                                    <div class="mb-3 quotationclient-checkbox-row">
                                         <input type="checkbox" name="cliente_part"
                                             v-model="newQuotationclient.cliente_part">
-                                        <label for="cliente">Cliente Particular</label>
-
+                                        <label for="cliente" class="mb-0">Cliente Particular</label>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="cliente">Cliente</label>
-                                        <SelectClient></SelectClient>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="nombre">Nombre Cliente</label>
-                                        <input type="text" name="nombre" class="form-control"
-                                            v-model="newQuotationclient.client_text">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="pago">Forma de Pago</label>
-                                        <SelectTiposPagos />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-
-                                    <div class="mb-3">
-                                        <label for="marca">Marca</label>
-                                        <BrandSelector />
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-6 mb-3">
-                                            <label for="modelo">Modelo</label>
-                                            <ModelSelector />
+                                    <div class="row quotationclient-form-row">
+                                        <div class="col-lg-6 col-md-12 mb-3">
+                                            <label for="cliente">Cliente</label>
+                                            <SelectClient></SelectClient>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label for="anio">Año</label>
-                                            <YearSelector />
+                                        <div class="col-lg-6 col-md-12 mb-3">
+                                            <label for="nombre">Nombre Cliente</label>
+                                            <input type="text" name="nombre" class="form-control"
+                                                v-model="newQuotationclient.client_text">
                                         </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="engine">Motor</label>
-                                        <EngineSelector />
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="url">P.P.U / N° Interno</label>
-                                        <input type="text" name="ppu" class="form-control"
-                                            v-model="newQuotationclient.ppu">
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-6 mb-3">
+                                    <div class="row quotationclient-form-row">
+                                        <div class="col-lg-4 col-md-12 mb-3">
                                             <label for="telefono">WhatsApp</label>
                                             <input type="text" name="telefono" class="form-control"
                                                 v-model="newQuotationclient.telefono" placeholder="+56912345678">
                                         </div>
 
-                                        <div class="col-6 mb-3">
+                                        <div class="col-lg-4 col-md-12 mb-3">
                                             <label for="url">Facebook / Messenger</label>
                                             <input type="text" name="url" class="form-control"
                                                 v-model="newQuotationclient.url" placeholder="https://...">
                                         </div>
+
+                                        <div class="col-lg-4 col-md-12 mb-3">
+                                            <label for="pago">Forma de Pago</label>
+                                            <SelectTiposPagos />
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <button type="submit" class="btn btn-success form-control">
-                                        <i class="fas fa-plus-square"></i> Guardar
-                                    </button>
+                                <div class="col-lg-5 col-md-12">
+                                    <div class="row quotationclient-form-row">
+                                        <div class="col-lg-3 col-md-4 col-12 mb-3">
+                                            <label for="marca">Marca</label>
+                                            <BrandSelector />
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-4 col-12 mb-3">
+                                            <label for="modelo">Modelo</label>
+                                            <ModelSelector />
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                            <label for="anio">Año</label>
+                                            <YearSelector />
+                                        </div>
+                                    </div>
+
+                                    <div class="row quotationclient-form-row">
+                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
+                                            <label for="engine">Motor</label>
+                                            <EngineSelector />
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-12 mb-3">
+                                            <label for="url">P.P.U / N° Interno</label>
+                                            <input type="text" name="ppu" class="form-control"
+                                                v-model="newQuotationclient.ppu">
+                                        </div>
+                                    </div>
+
+                                    <div class="quotationclient-form-actions">
+                                        <button type="submit" class="btn btn-success form-control">
+                                            <i class="fas fa-plus-square"></i> Guardar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -476,6 +479,25 @@ export default {
     .quotationclient-admin .mb-3,
     .quotationclient-admin .row.mb-3 {
         margin-bottom: 0.6rem !important;
+    }
+
+    .quotationclient-admin .quotationclient-form-layout,
+    .quotationclient-admin .quotationclient-form-row {
+        align-items: flex-end;
+    }
+
+    .quotationclient-admin .quotationclient-checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .quotationclient-admin .quotationclient-checkbox-row input[type="checkbox"] {
+        margin-top: 0;
+    }
+
+    .quotationclient-admin .quotationclient-form-actions {
+        margin-top: 0.1rem;
     }
 
     .quotationclient-admin .card {

@@ -257,11 +257,11 @@ export default {
 
 <style scoped>
 .quotation-detail-select {
-    min-height: 30px;
-    height: 30px;
-    padding-top: 0.16rem;
-    padding-bottom: 0.16rem;
-    line-height: 1.2;
+    min-height: 30px !important;
+    height: 30px !important;
+    padding: 0 1.6rem 0 0.5rem !important;
+    line-height: 28px !important;
+    box-sizing: border-box;
 }
 
 .quotation-detail-action .btn {
