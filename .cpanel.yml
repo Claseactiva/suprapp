@@ -1,9 +1,7 @@
 ﻿---
-# Deploy temporal de prueba para validar Git Version Control sin tocar produccion
+# Prueba minima: validar que cPanel ejecute tareas de deploy en esta cuenta
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
-    - /bin/cp -rp . $DEPLOYPATH
-    - rm -rf $DEPLOYPATH/.git
-    - find $DEPLOYPATH -type d -exec chmod 755 {} +
-    - find $DEPLOYPATH -type f -exec chmod 644 {} +
+    - /bin/mkdir -p $DEPLOYPATH
+    - /usr/bin/touch $DEPLOYPATH/deploy_probe.txt
