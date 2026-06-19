@@ -1,8 +1,8 @@
 ﻿---
-# Repo clonado en cPanel aparte; el deploy copia hacia la carpeta live de SupraApp
+# Deploy temporal de prueba para validar Git Version Control sin tocar produccion
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/supra/suprapp.comercialsupra.cl/
+    - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/cp -rp . $DEPLOYPATH
     - rm -rf $DEPLOYPATH/.git
     - find $DEPLOYPATH -type d -exec chmod 755 {} +
