@@ -1,32 +1,8 @@
 ﻿---
-# Deploy completo de prueba hacia carpeta temporal, copiando rutas explicitas
-# sin usar "cp -rp ." para evitar el cuelgue observado en este hosting.
+# Prueba de deploy con rsync para evitar el cuelgue observado con cp -R
 deployment:
   tasks:
+    - export SRCPATH=/home/supra/suprapp_repo/
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/mkdir -p $DEPLOYPATH
-    - /bin/cp -R app $DEPLOYPATH
-    - /bin/cp -R bootstrap $DEPLOYPATH
-    - /bin/cp -R config $DEPLOYPATH
-    - /bin/cp -R database $DEPLOYPATH
-    - /bin/cp -R public $DEPLOYPATH
-    - /bin/cp -R resources $DEPLOYPATH
-    - /bin/cp -R routes $DEPLOYPATH
-    - /bin/cp -R services $DEPLOYPATH
-    - /bin/cp -R storage $DEPLOYPATH
-    - /bin/cp -R tests $DEPLOYPATH
-    - /bin/cp -f .htaccess $DEPLOYPATH
-    - /bin/cp -f .user.ini $DEPLOYPATH
-    - /bin/cp -f artisan $DEPLOYPATH
-    - /bin/cp -f composer.json $DEPLOYPATH
-    - /bin/cp -f composer.lock $DEPLOYPATH
-    - /bin/cp -f package.json $DEPLOYPATH
-    - /bin/cp -f package-lock.json $DEPLOYPATH
-    - /bin/cp -f php.ini $DEPLOYPATH
-    - /bin/cp -f phpunit.xml $DEPLOYPATH
-    - /bin/cp -f server.php $DEPLOYPATH
-    - /bin/cp -f webpack.mix.js $DEPLOYPATH
-    - /bin/cp -f README.md $DEPLOYPATH
-    - /bin/cp -f MD_MAESTRO_SUPRAPP.md $DEPLOYPATH
-    - /bin/cp -f MAPA_TECNICO_SUPRAPP.md $DEPLOYPATH
-    - /bin/cp -f PROTOCOLO_DESPLIEGUE_SUPRAPP.md $DEPLOYPATH
+    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.env' --exclude='vendor' --exclude='node_modules' --exclude='supra_suprapp_2024.sql' --exclude='storage/app/public/images' $SRCPATH $DEPLOYPATH
