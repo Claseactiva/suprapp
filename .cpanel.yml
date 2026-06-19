@@ -1,9 +1,9 @@
 ﻿---
-# Diagnostico puntual: copiar solo storage/ y guardar salida, error y exit code
+# Diagnostico puntual: copiar solo resources/ y guardar salida, error y exit code
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/mkdir -p $DEPLOYPATH
-    - /bin/rm -rf $DEPLOYPATH/storage
-    - /bin/rm -f $DEPLOYPATH/cp_storage.out $DEPLOYPATH/cp_storage.err $DEPLOYPATH/cp_storage.exit
-    - /bin/sh -c '/bin/cp -R storage "$DEPLOYPATH" >"$DEPLOYPATH/cp_storage.out" 2>"$DEPLOYPATH/cp_storage.err"; echo $? >"$DEPLOYPATH/cp_storage.exit"'
+    - /bin/rm -rf $DEPLOYPATH/resources
+    - /bin/rm -f $DEPLOYPATH/cp_resources.out $DEPLOYPATH/cp_resources.err $DEPLOYPATH/cp_resources.exit
+    - /bin/sh -c '/bin/cp -R resources "$DEPLOYPATH" >"$DEPLOYPATH/cp_resources.out" 2>"$DEPLOYPATH/cp_resources.err"; echo $? >"$DEPLOYPATH/cp_resources.exit"'
