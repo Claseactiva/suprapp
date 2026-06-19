@@ -1,8 +1,8 @@
 ﻿---
-# Prueba de deploy con rsync para evitar el cuelgue observado con cp -R
+# Diagnostico puntual: copiar solo app/ y guardar salida, error y exit code
 deployment:
   tasks:
-    - export SRCPATH=/home/supra/suprapp_repo/
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/mkdir -p $DEPLOYPATH
-    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.env' --exclude='vendor' --exclude='node_modules' --exclude='supra_suprapp_2024.sql' --exclude='storage/app/public/images' $SRCPATH $DEPLOYPATH
+    - /bin/rm -f $DEPLOYPATH/cp_app.out $DEPLOYPATH/cp_app.err $DEPLOYPATH/cp_app.exit
+    - /bin/sh -c '/bin/cp -R app "$DEPLOYPATH" >"$DEPLOYPATH/cp_app.out" 2>"$DEPLOYPATH/cp_app.err"; echo $? >"$DEPLOYPATH/cp_app.exit"'
