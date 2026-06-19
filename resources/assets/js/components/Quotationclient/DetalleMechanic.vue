@@ -45,8 +45,8 @@
                                                             >
                                                             <datalist id="quotation-product-suggestions-mechanic">
                                                                 <option
-                                                                    v-for="suggestion in filteredModelProductSuggestions"
-                                                                    :key="suggestion.product_key"
+                                                                    v-for="suggestion in filteredProductSuggestions"
+                                                                    :key="`${suggestion.source_type}-${suggestion.product_key}`"
                                                                     :value="suggestion.product_name"
                                                                     :label="suggestion.display_label">
                                                                 </option>
@@ -216,24 +216,22 @@
 import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import SelectProduct from '../Product/SelectProduct'
+import { buildCombinedProductSuggestions } from './productSuggestionHelpers'
 
 export default {
     components: { SelectProduct },
     computed:{
         ...mapState(['detailclients', 'totalQuotationclient', 'totalUtilidad', 'totalTransporte', 'totalAdicional',
-                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel', 'deliveryTimes', 'modelProductSuggestions']),
+                    'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'errorsLaravel', 'deliveryTimes', 'modelProductSuggestions', 'optionsProduct', 'productCatalogTemplateSuggestions']),
         ...mapGetters([]),
-        filteredModelProductSuggestions() {
-            const term = (this.newDetailclient.product || '').trim().toLowerCase()
-
-            if (term === '') {
-                return this.modelProductSuggestions.slice(0, 20)
-            }
-
-            return this.modelProductSuggestions.filter((suggestion) => {
-                const haystack = `${suggestion.product_name} ${suggestion.product_code || ''}`.toLowerCase()
-                return haystack.includes(term)
-            }).slice(0, 20)
+        filteredProductSuggestions() {
+            return buildCombinedProductSuggestions({
+                modelSuggestions: this.modelProductSuggestions,
+                productOptions: this.optionsProduct,
+                catalogSuggestions: this.productCatalogTemplateSuggestions,
+                term: this.newDetailclient.product,
+                limit: 20
+            })
         }
     },
     methods:{

@@ -1,0 +1,55 @@
+﻿categoria,nombre
+Motor,Block
+Motor,Piston
+Motor,Anillos
+Motor,Biela
+Motor,Cigueñal
+Motor,Volante motor
+Motor,Volante bimasa
+Distribucion,Correa distribucion
+Distribucion,Kit distribucion
+Distribucion,Tensor distribucion
+Admision,Filtro de aire
+Admision,Turbo
+Escape,Catalizador
+Escape,Silenciador
+Sistema de Combustible,Bomba combustible
+Sistema de Combustible,Inyector
+Sistema de Refrigeracion,Radiador
+Sistema de Refrigeracion,Bomba de agua
+Embrague,Kit embrague
+Embrague,Disco embrague
+Caja de Cambios,Caja de cambios manual
+Caja de Cambios,Caja de cambios automatica
+Transmision,Eje palier
+Transmision,Homocinetica
+Diferencial,Diferencial
+Direccion,Cremallera direccion
+Direccion,Terminal direccion
+Suspension,Amortiguador delantero
+Suspension,Bandeja suspension
+Suspension,Rotula suspension
+Tren Delantero,Masa delantera
+Tren Delantero,Rodamiento delantero
+Tren Trasero,Masa trasera
+Tren Trasero,Rodamiento trasero
+Frenos,Pastillas de freno
+Frenos,Disco de freno
+Sistema Electrico,Alternador
+Sistema Electrico,Motor de partida
+Sensores y Electronica,Sensor cigueñal
+Sensores y Electronica,Sensor ABS
+Climatizacion,Compresor aire acondicionado
+Iluminacion,Optico delantero
+Carroceria y Accesorios,Capot
+Carroceria y Accesorios,Tapabarros
+Carroceria y Accesorios,Puerta
+Vidrios y Espejos,Parabrisas
+Vidrios y Espejos,Espejo lateral
+Limpiaparabrisas,Plumilla
+Interior,Volante
+Seguridad,Airbag conductor
+Neumaticos,Neumatico
+Neumaticos,Llanta
+Lubricantes y Fluidos,Aceite motor
+Herramientas y Taller,Scanner automotriz

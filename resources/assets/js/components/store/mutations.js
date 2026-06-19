@@ -105,6 +105,7 @@ let urlActivity = 'activities'
 
 let urlProduct = 'products'
 let urlAllProduct = 'products-all'
+let urlProductCatalogTemplateSuggestions = 'product-catalog-templates-suggestions'
 let urlVehicleModelCatalog = 'vehiclemodels-all'
 let urlAllProductSale = 'products-all-sale'
 let urlTipoDePago = 'tipodepago'
@@ -1955,6 +1956,14 @@ export default { //used for changing the state
             sortProductsByModelRelations(state)
         }).catch(() => {
             state.modelProductSuggestions = []
+        })
+    },
+    getProductCatalogTemplateSuggestions(state) {
+        let url = urlProductCatalogTemplateSuggestions + '?limit=500'
+        axios.get(url).then(response => {
+            state.productCatalogTemplateSuggestions = response.data.suggestions || []
+        }).catch(() => {
+            state.productCatalogTemplateSuggestions = []
         })
     },
     getDeliveryTimes(state) {

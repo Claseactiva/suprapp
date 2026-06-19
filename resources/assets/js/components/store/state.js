@@ -536,6 +536,7 @@ export default { //data
     /*** sección componentes de detalle de un cliente */
     detailclients: [],
     modelProductSuggestions: [],
+    productCatalogTemplateSuggestions: [],
     newDetailclient: {
         quotationclient_id: '',
         product: '',

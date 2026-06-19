@@ -683,20 +683,24 @@ export default { //methods
     },
     showModalDetailclient(context, data) {
         context.commit('showModalDetailclient', data.id)
+        context.commit('allProducts')
         context.commit('getUtilities')
         context.commit('getFletes')
         context.commit('getDeliveryTimes')
         context.commit('getModelProductSuggestions')
+        context.commit('getProductCatalogTemplateSuggestions')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)
     },
     showModalDetailclientMechanic(context, data) {
         context.commit('showModalDetailclientMechanic', data.id)
+        context.commit('allProducts')
         context.commit('getUtilities')
         context.commit('getFletes')
         context.commit('getDeliveryTimes')
         context.commit('getModelProductSuggestions')
+        context.commit('getProductCatalogTemplateSuggestions')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
         }, 500)

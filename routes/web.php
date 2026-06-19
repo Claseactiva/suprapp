@@ -178,6 +178,7 @@ Route::get('descuento-defect', 'ProductController@descuentoDefect');
 Route::get('product-codes/{product}', 'ProductController@codes');
 Route::ApiResource('products', 'ProductController');
 Route::get('products-all', 'ProductController@all');
+Route::get('product-catalog-templates-suggestions', 'ProductCatalogTemplateController@suggestions');
 Route::get('products/{id}/vehicle-model-relations', 'ProductController@vehicleModelRelations');
 Route::put('products/{id}/vehicle-model-relations', 'ProductController@syncVehicleModelRelations');
 Route::ApiResource('utilities', 'UtilityController');
