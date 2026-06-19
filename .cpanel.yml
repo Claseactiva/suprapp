@@ -1,0 +1,9 @@
+﻿---
+# Ajusta DEPLOYPATH si SupraApp no corre desde /home/tickly/public_html/
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/tickly/public_html/
+    - /bin/cp -rp . $DEPLOYPATH
+    - rm -rf $DEPLOYPATH/.git
+    - find $DEPLOYPATH -type d -exec chmod 755 {} +
+    - find $DEPLOYPATH -type f -exec chmod 644 {} +
