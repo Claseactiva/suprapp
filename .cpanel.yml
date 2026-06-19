@@ -1,9 +1,30 @@
 ﻿---
-# Diagnostico puntual: copiar solo resources/ y guardar salida, error y exit code
+# Deploy final reducido para SupraApp.
+# Copia solo las rutas necesarias para produccion y deja fuera storage/tests/dependencias.
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/mkdir -p $DEPLOYPATH
-    - /bin/rm -rf $DEPLOYPATH/resources
-    - /bin/rm -f $DEPLOYPATH/cp_resources.out $DEPLOYPATH/cp_resources.err $DEPLOYPATH/cp_resources.exit
-    - /bin/sh -c '/bin/cp -R resources "$DEPLOYPATH" >"$DEPLOYPATH/cp_resources.out" 2>"$DEPLOYPATH/cp_resources.err"; echo $? >"$DEPLOYPATH/cp_resources.exit"'
+    - /bin/cp -R app $DEPLOYPATH
+    - /bin/cp -R bootstrap $DEPLOYPATH
+    - /bin/cp -R config $DEPLOYPATH
+    - /bin/cp -R database $DEPLOYPATH
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R resources $DEPLOYPATH
+    - /bin/cp -R routes $DEPLOYPATH
+    - /bin/cp -R services $DEPLOYPATH
+    - /bin/cp -f .htaccess $DEPLOYPATH
+    - /bin/cp -f .user.ini $DEPLOYPATH
+    - /bin/cp -f artisan $DEPLOYPATH
+    - /bin/cp -f composer.json $DEPLOYPATH
+    - /bin/cp -f composer.lock $DEPLOYPATH
+    - /bin/cp -f package.json $DEPLOYPATH
+    - /bin/cp -f package-lock.json $DEPLOYPATH
+    - /bin/cp -f php.ini $DEPLOYPATH
+    - /bin/cp -f phpunit.xml $DEPLOYPATH
+    - /bin/cp -f server.php $DEPLOYPATH
+    - /bin/cp -f webpack.mix.js $DEPLOYPATH
+    - /bin/cp -f README.md $DEPLOYPATH
+    - /bin/cp -f MD_MAESTRO_SUPRAPP.md $DEPLOYPATH
+    - /bin/cp -f MAPA_TECNICO_SUPRAPP.md $DEPLOYPATH
+    - /bin/cp -f PROTOCOLO_DESPLIEGUE_SUPRAPP.md $DEPLOYPATH
