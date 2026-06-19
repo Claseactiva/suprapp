@@ -1,7 +1,8 @@
 ﻿---
-# Prueba minima: validar que cPanel ejecute tareas de deploy en esta cuenta
+# Prueba acotada: copiar solo archivos pequenos hacia la carpeta de test
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp_deploy_test/
     - /bin/mkdir -p $DEPLOYPATH
-    - /usr/bin/touch $DEPLOYPATH/deploy_probe.txt
+    - /bin/cp -f README.md $DEPLOYPATH
+    - /bin/cp -f composer.json $DEPLOYPATH
