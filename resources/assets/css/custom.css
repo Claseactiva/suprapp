@@ -1,0 +1,390 @@
+.vertical-table-header {
+    font-weight: bold;
+    color: #fff;
+}
+
+.vertical-table-cell {
+    margin: 10px 0px;
+    color: #fff;
+}
+
+
+.imagen {
+    position: relative;
+    display: inline-block;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fondo oscuro con un 50% de opacidad */
+    opacity: 0;
+    /* Inicialmente invisible */
+    transition: opacity 0.3s ease;
+    /* Transición suave */
+}
+
+.imagen:hover .image-overlay {
+    opacity: 1;
+    /* Hace visible el fondo oscuro al hacer hover */
+}
+
+.delete-button {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.imagen:hover .delete-button {
+    display: block;
+}
+
+.checklist-icon{
+    font-size: 30px;
+}
+
+body.admin-compact {
+    font-size: 0.86rem;
+}
+
+body.admin-compact .navbar {
+    min-height: 48px;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+body.admin-compact .navbar-brand {
+    font-size: 0.95rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+body.admin-compact .navbar .nav-link,
+body.admin-compact .navbar .dropdown-item {
+    font-size: 0.84rem;
+}
+
+body.admin-compact #wrapper #content-wrapper {
+    padding-top: 0.75rem;
+    padding-bottom: 48px;
+}
+
+body.admin-compact #container-fluid {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+}
+
+body.admin-compact .sidebar {
+    min-height: calc(100vh - 48px);
+}
+
+body.admin-compact .sidebar .nav-item .nav-link {
+    padding: 0.55rem 0.75rem;
+}
+
+body.admin-compact .sidebar .nav-item .nav-link i {
+    font-size: 0.92rem;
+}
+
+body.admin-compact .sidebar .nav-item .nav-link span {
+    font-size: 0.66rem;
+    line-height: 1.2;
+}
+
+body.admin-compact .card {
+    margin-bottom: 0.75rem;
+}
+
+body.admin-compact .card-header {
+    padding: 0.55rem 0.8rem;
+}
+
+body.admin-compact .card-body {
+    padding: 0.8rem;
+}
+
+body.admin-compact .nav-pills .nav-link,
+body.admin-compact .nav-tabs .nav-link {
+    padding: 0.45rem 0.7rem;
+    font-size: 0.84rem;
+}
+
+body.admin-compact h1,
+body.admin-compact h2,
+body.admin-compact h3,
+body.admin-compact h4 {
+    margin-bottom: 0.4rem;
+}
+
+body.admin-compact h5,
+body.admin-compact h6 {
+    margin-bottom: 0.35rem;
+}
+
+body.admin-compact label,
+body.admin-compact .col-form-label,
+body.admin-compact .form-check-label {
+    margin-bottom: 0.2rem;
+    font-size: 0.76rem;
+    line-height: 1.15;
+}
+
+body.admin-compact .form-group,
+body.admin-compact .mb-3,
+body.admin-compact .row.mb-3 {
+    margin-bottom: 0.65rem !important;
+}
+
+body.admin-compact .form-control,
+body.admin-compact .custom-select,
+body.admin-compact .input-group-text,
+body.admin-compact .v-select .dropdown-toggle,
+body.admin-compact .v-select .vs__dropdown-toggle {
+    min-height: 30px;
+    height: 30px;
+    padding-top: 0.16rem;
+    padding-bottom: 0.16rem;
+    font-size: 0.78rem;
+    line-height: 1.2;
+}
+
+body.admin-compact .v-select .dropdown-toggle,
+body.admin-compact .v-select .vs__dropdown-toggle {
+    min-height: 28px;
+    height: 28px;
+    padding: 0 0.38rem;
+}
+
+body.admin-compact .form-control::placeholder,
+body.admin-compact .v-select input::placeholder {
+    font-size: 0.76rem;
+}
+
+body.admin-compact textarea.form-control {
+    min-height: 88px;
+    height: auto;
+}
+
+body.admin-compact .v-select .selected-tag,
+body.admin-compact .v-select input,
+body.admin-compact .v-select .vs__selected,
+body.admin-compact .v-select .vs__search {
+    font-size: 0.78rem;
+    line-height: 1.1;
+}
+
+body.admin-compact .v-select .selected-tag,
+body.admin-compact .v-select .vs__selected {
+    margin: 0;
+    padding: 0;
+}
+
+body.admin-compact .v-select input,
+body.admin-compact .v-select .vs__search {
+    margin: 0;
+    padding: 0;
+}
+
+body.admin-compact .v-select .vs__dropdown-menu,
+body.admin-compact .v-select .dropdown-menu {
+    font-size: 0.78rem;
+}
+
+body.admin-compact .v-select .vs__dropdown-option,
+body.admin-compact .v-select .dropdown-menu li,
+body.admin-compact .v-select .dropdown-menu a {
+    padding-top: 0.18rem;
+    padding-bottom: 0.18rem;
+    line-height: 1.1;
+    font-size: 0.78rem;
+}
+
+body.admin-compact .btn {
+    font-size: 0.8rem;
+    line-height: 1.2;
+    padding: 0.28rem 0.58rem;
+}
+
+body.admin-compact .btn.form-control,
+body.admin-compact button.form-control,
+body.admin-compact a.form-control {
+    height: 30px;
+    padding-top: 0.16rem;
+    padding-bottom: 0.16rem;
+}
+
+body.admin-compact .table {
+    font-size: 0.79rem;
+}
+
+body.admin-compact .table th,
+body.admin-compact .table td {
+    padding: 0.34rem 0.42rem;
+    vertical-align: middle;
+}
+
+body.admin-compact .table .form-control,
+body.admin-compact .table .custom-select {
+    min-height: 28px;
+    height: 28px;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    font-size: 0.78rem;
+}
+
+body.admin-compact .pagination {
+    margin-bottom: 0;
+}
+
+body.admin-compact .page-link {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.78rem;
+}
+
+body.admin-compact .table-list-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+body.admin-compact .table-list-toolbar__rows {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #d7dbe0;
+    font-size: 0.77rem;
+}
+
+body.admin-compact .table-list-toolbar__rows .custom-select {
+    width: auto;
+    min-width: 78px;
+}
+
+@media (min-width: 769px) {
+    body.admin-compact .table-responsive {
+        overflow-x: auto;
+    }
+
+    body.admin-compact .table-responsive-new {
+        white-space: nowrap;
+    }
+
+    body.admin-compact .table-responsive .table-responsive-new th,
+    body.admin-compact .table-responsive .table-responsive-new td,
+    body.admin-compact .table-responsive .table th,
+    body.admin-compact .table-responsive .table td,
+    body.admin-compact .table-responsive-new th,
+    body.admin-compact .table-responsive-new td {
+        white-space: nowrap;
+    }
+}
+
+body.admin-compact .modal-header,
+body.admin-compact .modal-footer {
+    padding: 0.65rem 0.85rem;
+}
+
+body.admin-compact .modal-body {
+    padding: 0.85rem;
+}
+
+body.admin-compact .modal-title,
+body.admin-compact .modal-header h4 {
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+body.admin-compact .close {
+    font-size: 1.1rem;
+}
+
+@media (min-width: 768px) {
+    body.admin-compact .sidebar {
+        width: 205px !important;
+    }
+
+    body.admin-compact .sidebar .nav-item .nav-link {
+        width: 205px;
+        padding: 0.7rem 0.8rem;
+    }
+
+    body.admin-compact .sidebar .nav-item .nav-link span {
+        font-size: 0.84rem;
+    }
+
+    body.admin-compact .sidebar.toggled {
+        width: 78px !important;
+    }
+
+    body.admin-compact .sidebar.toggled .nav-item .nav-link {
+        width: 78px;
+        padding: 0.55rem 0.45rem;
+    }
+
+    body.admin-compact .sidebar.toggled .nav-item .nav-link span {
+        font-size: 0.62rem;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+    .w-lg-25 {
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .table-responsive-new {
+        border: 0;
+    }
+
+    .table-responsive-new caption {
+        font-size: 1.3em;
+    }
+
+    .table-responsive-new thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .table-responsive-new tr {
+        display: block;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table-responsive-new td {
+        border-top: none !important;
+        display: block;
+        text-align: right;
+        padding: 0.75rem !important;
+    }
+
+    .table-responsive-new td::before {
+        content: attr(data-table-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .table-responsive-new tr:last-child {
+        border-bottom: 0;
+    }
+
+    .w-md-100 {
+        width: 100%;
+    }
+}
