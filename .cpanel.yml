@@ -1,8 +1,8 @@
 ﻿---
-# Ajusta DEPLOYPATH si SupraApp no corre desde /home/tickly/public_html/
+# Repo clonado en cPanel aparte; el deploy copia hacia la carpeta live de SupraApp
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/tickly/public_html/
+    - export DEPLOYPATH=/home/supra/suprapp.comercialsupra.cl/
     - /bin/cp -rp . $DEPLOYPATH
     - rm -rf $DEPLOYPATH/.git
     - find $DEPLOYPATH -type d -exec chmod 755 {} +
