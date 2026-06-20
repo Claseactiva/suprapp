@@ -104,6 +104,8 @@ let urlAllClient = 'clients-all'
 let urlActivity = 'activities'
 
 let urlProduct = 'products'
+let urlProductCatalogTemplate = 'product-catalog-templates'
+let urlProductCatalogTemplateImport = 'product-catalog-templates-import'
 let urlAllProduct = 'products-all'
 let urlProductCatalogTemplateSuggestions = 'product-catalog-templates-suggestions'
 let urlVehicleModelCatalog = 'vehiclemodels-all'
@@ -2836,6 +2838,73 @@ export default { //used for changing the state
             state.products = response.data.products.data
             state.pagination = response.data.pagination
         });
+    },
+    getProductCatalogTemplates(state) {
+        let url = urlProductCatalogTemplate + '?categoria=' + encodeURIComponent(state.searchProductCatalogTemplate.categoria) + '&nombre=' + encodeURIComponent(state.searchProductCatalogTemplate.nombre)
+        axios.get(url).then(response => {
+            state.productCatalogTemplates = response.data.templates || []
+        })
+    },
+    createProductCatalogTemplate(state) {
+        axios.post(urlProductCatalogTemplate, state.newProductCatalogTemplate).then(() => {
+            state.newProductCatalogTemplate = { categoria: '', nombre: '' }
+            state.errorsLaravel = []
+            toastr.success('Sugerencia guardada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response && error.response.data ? error.response.data : error
+        })
+    },
+    editProductCatalogTemplate(state, template) {
+        state.fillProductCatalogTemplate = {
+            id: template.id,
+            categoria: template.categoria,
+            nombre: template.nombre
+        }
+        state.errorsLaravel = []
+    },
+    cancelProductCatalogTemplateEdition(state) {
+        state.fillProductCatalogTemplate = { id: '', categoria: '', nombre: '' }
+        state.errorsLaravel = []
+    },
+    updateProductCatalogTemplate(state, id) {
+        axios.put(urlProductCatalogTemplate + '/' + id, state.fillProductCatalogTemplate).then(() => {
+            state.fillProductCatalogTemplate = { id: '', categoria: '', nombre: '' }
+            state.errorsLaravel = []
+            toastr.success('Sugerencia actualizada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response && error.response.data ? error.response.data : error
+        })
+    },
+    deleteProductCatalogTemplate(state, id) {
+        axios.delete(urlProductCatalogTemplate + '/' + id).then(() => {
+            state.errorsLaravel = []
+            toastr.success('Sugerencia eliminada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response && error.response.data ? error.response.data : error
+        })
+    },
+    setProductCatalogTemplateImportFile(state, fileData) {
+        state.productCatalogTemplateImportFile = fileData ? fileData.file : null
+    },
+    importProductCatalogTemplates(state) {
+        if (!state.productCatalogTemplateImportFile) {
+            toastr.error('Selecciona un archivo CSV para importar')
+            return
+        }
+
+        let formData = new FormData()
+        formData.append('import_file', state.productCatalogTemplateImportFile)
+        formData.append('fresh', 1)
+
+        axios.post(urlProductCatalogTemplateImport, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(response => {
+            state.productCatalogTemplateImportFile = null
+            state.fillProductCatalogTemplate = { id: '', categoria: '', nombre: '' }
+            state.newProductCatalogTemplate = { categoria: '', nombre: '' }
+            state.errorsLaravel = []
+            toastr.success('Catalogo importado con exito (' + response.data.creados + ' creados)')
+        }).catch(error => {
+            state.errorsLaravel = error.response && error.response.data ? error.response.data : error
+        })
     },
     getProductVehicleModelOptions(state) {
         axios.get(urlVehicleModelCatalog).then(response => {

@@ -177,6 +177,8 @@ Route::get('pagos-all', 'ProductController@allPagos');
 Route::get('descuento-defect', 'ProductController@descuentoDefect');
 Route::get('product-codes/{product}', 'ProductController@codes');
 Route::ApiResource('products', 'ProductController');
+Route::ApiResource('product-catalog-templates', 'ProductCatalogTemplateController')->only(['index', 'store', 'update', 'destroy']);
+Route::post('product-catalog-templates-import', 'ProductCatalogTemplateController@import');
 Route::get('products-all', 'ProductController@all');
 Route::get('product-catalog-templates-suggestions', 'ProductCatalogTemplateController@suggestions');
 Route::get('products/{id}/vehicle-model-relations', 'ProductController@vehicleModelRelations');

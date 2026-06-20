@@ -761,6 +761,11 @@ export default { //data
     searchProduct: {
         name: ''
     },
+    productCatalogTemplates: [],
+    newProductCatalogTemplate: { categoria: '', nombre: '' },
+    fillProductCatalogTemplate: { id: '', categoria: '', nombre: '' },
+    searchProductCatalogTemplate: { categoria: '', nombre: '' },
+    productCatalogTemplateImportFile: null,
     search:{
         name: ''
     },

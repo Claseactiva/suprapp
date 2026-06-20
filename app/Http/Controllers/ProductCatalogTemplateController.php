@@ -3,9 +3,83 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCatalogTemplate;
+use App\Services\ProductCatalogTemplateImportService;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use RuntimeException;
 
 class ProductCatalogTemplateController extends Controller
 {
+    public function index()
+    {
+        $categoria = trim((string) request('categoria', ''));
+        $nombre = trim((string) request('nombre', ''));
+
+        $templates = ProductCatalogTemplate::query()
+            ->when($categoria !== '', function ($query) use ($categoria) {
+                return $query->where('categoria', 'like', '%' . $categoria . '%');
+            })
+            ->when($nombre !== '', function ($query) use ($nombre) {
+                return $query->where('nombre', 'like', '%' . $nombre . '%');
+            })
+            ->orderBy('categoria')
+            ->orderBy('nombre')
+            ->get();
+
+        return response()->json([
+            'total' => $templates->count(),
+            'templates' => $templates,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $this->validateTemplate($request);
+
+        $template = ProductCatalogTemplate::create($data);
+
+        return response()->json($template);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $template = ProductCatalogTemplate::findOrFail($id);
+        $data = $this->validateTemplate($request, $template->id);
+
+        $template->update($data);
+
+        return response()->json($template->fresh());
+    }
+
+    public function destroy($id)
+    {
+        $template = ProductCatalogTemplate::findOrFail($id);
+        $template->delete();
+
+        return response()->json($template);
+    }
+
+    public function import(Request $request, ProductCatalogTemplateImportService $importService)
+    {
+        $request->validate([
+            'import_file' => 'required|file|mimes:csv,txt',
+            'fresh' => 'nullable|boolean',
+        ]);
+
+        try {
+            $result = $importService->importFromUploadedFile(
+                $request->file('import_file'),
+                $request->boolean('fresh', true)
+            );
+
+            return response()->json($result);
+        } catch (RuntimeException $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], 422);
+        }
+    }
+
     public function suggestions()
     {
         $term = trim((string) request('term', ''));
@@ -79,6 +153,32 @@ class ProductCatalogTemplateController extends Controller
             'total' => $totalMatches,
             'suggestions' => $suggestions,
         ]);
+    }
+
+    protected function validateTemplate(Request $request, ?int $ignoreId = null): array
+    {
+        $data = $request->validate([
+            'categoria' => [
+                'required',
+                'string',
+                'max:191',
+            ],
+            'nombre' => [
+                'required',
+                'string',
+                'max:191',
+                Rule::unique('product_catalog_templates')
+                    ->ignore($ignoreId)
+                    ->where(function ($query) use ($request) {
+                        return $query->where('categoria', trim((string) $request->input('categoria')));
+                    }),
+            ],
+        ]);
+
+        return [
+            'categoria' => trim((string) $data['categoria']),
+            'nombre' => trim((string) $data['nombre']),
+        ];
     }
 
     protected function resolvePriority(ProductCatalogTemplate $template, string $normalizedTerm): int

@@ -883,6 +883,42 @@ export default { //methods
     getProducts(context, data) {
         context.commit('getProducts', data)
     },
+    getProductCatalogTemplates(context) {
+        context.commit('getProductCatalogTemplates')
+    },
+    createProductCatalogTemplate(context) {
+        context.commit('createProductCatalogTemplate')
+        setTimeout(function () {
+            context.commit('getProductCatalogTemplates')
+        }, 500)
+    },
+    editProductCatalogTemplate(context, data) {
+        context.commit('editProductCatalogTemplate', data.template)
+    },
+    cancelProductCatalogTemplateEdition(context) {
+        context.commit('cancelProductCatalogTemplateEdition')
+    },
+    updateProductCatalogTemplate(context, data) {
+        context.commit('updateProductCatalogTemplate', data.id)
+        setTimeout(function () {
+            context.commit('getProductCatalogTemplates')
+        }, 500)
+    },
+    deleteProductCatalogTemplate(context, data) {
+        context.commit('deleteProductCatalogTemplate', data.id)
+        setTimeout(function () {
+            context.commit('getProductCatalogTemplates')
+        }, 500)
+    },
+    setProductCatalogTemplateImportFile(context, data) {
+        context.commit('setProductCatalogTemplateImportFile', data)
+    },
+    importProductCatalogTemplates(context) {
+        context.commit('importProductCatalogTemplates')
+        setTimeout(function () {
+            context.commit('getProductCatalogTemplates')
+        }, 700)
+    },
     openProductVehicleModels(context, data) {
         context.commit('openProductVehicleModels', data.product)
         context.commit('getProductVehicleModelOptions')

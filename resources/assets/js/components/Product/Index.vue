@@ -17,6 +17,10 @@
                 <a class="nav-link" id="pills-delivery-time-tab" data-toggle="pill" href="#pills-delivery-time" role="tab"
                     aria-controls="pills-delivery-time" aria-selected="false">Plazos de Entrega</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-product-catalog-tab" data-toggle="pill" href="#pills-product-catalog" role="tab"
+                    aria-controls="pills-product-catalog" aria-selected="false">Catalogo Sugerencias</a>
+            </li>
         </ul>
         <div class="tab-content bg-white p-3" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-new-product" role="tabpanel"
@@ -55,6 +59,9 @@
             </div>
             <div class="tab-pane fade" id="pills-delivery-time" role="tabpanel" aria-labelledby="pills-delivery-time-tab">
                 <DeliveryTimeIndex></DeliveryTimeIndex>
+            </div>
+            <div class="tab-pane fade" id="pills-product-catalog" role="tabpanel" aria-labelledby="pills-product-catalog-tab">
+                <CatalogTemplates></CatalogTemplates>
             </div>
         </div>
         <div class="row mt-3">
@@ -172,9 +179,10 @@ import UtilidadDefect from '../Utilidad/UtilidadDefect'
 import FleteDefect from '../Flete/FleteDefect'
 import DeliveryTimeIndex from '../DeliveryTime/Index'
 import RelacionModelos from './RelacionModelos'
+import CatalogTemplates from './CatalogTemplates'
 
 export default {
-    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct, RelacionModelos },
+    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct, RelacionModelos, CatalogTemplates },
     computed: {
         ...mapState(['products', 'searchProduct', 'newProduct', 'pagination']),
         ...mapGetters(['isActived', 'pagesNumber'])
