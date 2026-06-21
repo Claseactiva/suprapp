@@ -170,7 +170,7 @@ export default {
             }
 
             this.localDescriptionError = ''
-            this.showSubmissionLoadingModal()
+            this.handleSubmissionFailed()
             this.createQuotationUser()
         },
         handleTemplateInput() {
@@ -337,21 +337,17 @@ export default {
             this.whatsAppRedirectUrl = detail.redirectUrl || ''
             this.clearRedirectTimers()
             this.cleanupBootstrapBackdrop()
-            this.submissionModalState = 'loading'
+            this.submissionModalState = 'success'
             this.submissionModalVisible = true
-            this.redirectCountdown = 0
+            this.redirectCountdown = 5
+            this.redirectIntervalId = window.setInterval(() => {
+                if (this.redirectCountdown > 0) {
+                    this.redirectCountdown -= 1
+                }
+            }, 1000)
             this.redirectTimeoutId = window.setTimeout(() => {
-                this.submissionModalState = 'success'
-                this.redirectCountdown = 3
-                this.redirectIntervalId = window.setInterval(() => {
-                    if (this.redirectCountdown > 0) {
-                        this.redirectCountdown -= 1
-                    }
-                }, 1000)
-                this.redirectTimeoutId = window.setTimeout(() => {
-                    this.goToWhatsApp()
-                }, 3000)
-            }, 2000)
+                this.goToWhatsApp()
+            }, 5000)
         },
         handleSubmissionFailed() {
             this.clearRedirectTimers()
