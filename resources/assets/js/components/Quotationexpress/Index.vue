@@ -89,8 +89,8 @@
                     <p v-if="submissionMissingPatent" class="quotation-success-modal__hint">No agregaste patente o numero de chasis. Ese dato nos ayuda a ser mas precisos y es posible que te lo pidamos por WhatsApp si no encontramos una compatibilidad exacta.</p>
                 </template>
                 <template v-else>
-                    <h3>Solicitud enviada</h3>
-                    <p>Listo. Tu solicitud fue enviada correctamente.</p>
+                    <h3>Gracias por cotizar con nosotros</h3>
+                    <p>Seras redirigido a WhatsApp, Facebook o Instagram, segun corresponda.</p>
                     <p v-if="redirectCountdown > 0">Seras redirigido automaticamente en {{ redirectCountdown }} segundos.</p>
                     <div class="quotation-success-modal__actions">
                         <button type="button" class="btn btn-success" @click="goToWhatsApp">Continuar ahora</button>

@@ -145,7 +145,7 @@ class QuotationUserController extends Controller
             'description' => 'required|min:6',
             'name' => 'nullable|min:3|max:190',
             'email' => 'nullable|email',
-            'phone' => 'nullable|min:6',
+            'phone' => 'nullable|min:7',
         ]);
 
         [$ownerUserId, $client] = $this->resolvePublicQuotationContext();

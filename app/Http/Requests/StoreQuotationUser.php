@@ -29,7 +29,7 @@ class StoreQuotationUser extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:190|regex:/^[\pL\s\-]+$/u',
-            'phone' => 'required|min:6',
+            'phone' => 'required|min:7',
             'patentchasis' => 'nullable|min:6|max:190',
             'brand' => 'required',
             'model' => 'required',
@@ -48,7 +48,8 @@ class StoreQuotationUser extends FormRequest
             'name.max' => 'El campo nombre debe tener a lo mas 190 caracteres',
             'name.regex' => 'El campo nombre solo puede tener letras y espacios',
             'phone.required' => 'El campo telefono es obligatorio',
-            'phone.min' => 'El campo telefono debe tener al menos 6 numeros',            'patentchasis.min' => 'El campo patente o chasis debe tener al menos 6 caracteres',
+            'phone.min' => 'El campo telefono debe tener al menos 7 numeros',
+            'patentchasis.min' => 'El campo patente o chasis debe tener al menos 6 caracteres',
             'patentchasis.max' => 'El campo patente o chasis debe tener a lo mas 190 caracteres',
             'brand.required' => 'El campo marca es obligatorio',
             'model.required' => 'El campo modelo es obligatorio',
