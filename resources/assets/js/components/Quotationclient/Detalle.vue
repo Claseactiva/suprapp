@@ -233,6 +233,19 @@
             </div>
         </div>
     </div>
+    <div v-if="pdfPreviewUrl" class="quotation-pdf-preview" @click.self="resetPdfPreview">
+        <div class="quotation-pdf-preview__dialog">
+            <div class="quotation-pdf-preview__header bg-dark text-white">
+                <h5 class="mb-0">{{ pdfPreviewTitle }}</h5>
+                <button type="button" class="close text-white" aria-label="Close" @click="resetPdfPreview">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="quotation-pdf-preview__body">
+                <iframe :src="pdfPreviewUrl" class="quotation-pdf-preview__frame" title="Vista previa PDF"></iframe>
+            </div>
+        </div>
+    </div>
     <div id="bulkQuotationImportModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -323,7 +336,9 @@ export default {
             bulkQuotationText: '',
             bulkPreviewItems: [],
             bulkIgnoredLines: [],
-            bulkImporting: false
+            bulkImporting: false,
+            pdfPreviewUrl: '',
+            pdfPreviewTitle: ''
         }
     },
     computed: {
@@ -651,6 +666,26 @@ export default {
 
             return options
         },
+        pdfQuotationclient() {
+            this.openPdfPreview(`quotationclient-pdf/${this.idQuotationclient}`, 'PDF Cotizacion Formal')
+        },
+        pdfIvaQuotationclient() {
+            this.openPdfPreview(`quotationclient-pdf-iva/${this.idQuotationclient}`, 'PDF Cotizacion Formal con IVA')
+        },
+        openPdfPreview(url, title) {
+            if (!this.idQuotationclient) {
+                toastr.warning('No se encontro la cotizacion para generar el PDF')
+                return
+            }
+
+            const separator = url.indexOf('?') === -1 ? '?' : '&'
+            this.pdfPreviewTitle = title
+            this.pdfPreviewUrl = `${url}${separator}preview=${Date.now()}`
+        },
+        resetPdfPreview() {
+            this.pdfPreviewUrl = ''
+            this.pdfPreviewTitle = ''
+        },
         formatPrice(value) {
             const numericValue = Number(value) || 0
             return numericValue.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })
@@ -687,5 +722,46 @@ export default {
 .bulk-quotation-table th,
 .bulk-quotation-table td {
     vertical-align: middle;
+}
+
+.quotation-pdf-preview {
+    position: fixed;
+    inset: 0;
+    z-index: 1065;
+    background: rgba(0, 0, 0, 0.78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+}
+
+.quotation-pdf-preview__dialog {
+    width: min(98vw, 1600px);
+    height: calc(100vh - 1.5rem);
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+}
+
+.quotation-pdf-preview__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+}
+
+.quotation-pdf-preview__body {
+    flex: 1;
+    background: #d9d9d9;
+}
+
+.quotation-pdf-preview__frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #fff;
 }
 </style>
