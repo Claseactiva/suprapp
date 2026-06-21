@@ -84,16 +84,16 @@
             <div class="quotation-success-modal__card">
                 <template v-if="submissionModalState === 'loading'">
                     <div class="quotation-success-modal__spinner"></div>
-                    <h3>Estamos enviando tu solicitud</h3>
-                    <p>Esto puede tardar unos segundos. No cierres esta ventana.</p>
+                    <h3>Estamos procesando tu solicitud</h3>
+                    <p>Un momento. Estamos registrando tu solicitud.</p>
                     <p v-if="submissionMissingPatent" class="quotation-success-modal__hint">No agregaste patente o numero de chasis. Ese dato nos ayuda a ser mas precisos y es posible que te lo pidamos por WhatsApp si no encontramos una compatibilidad exacta.</p>
                 </template>
                 <template v-else>
                     <h3>Solicitud enviada</h3>
-                    <p>Te redirigiremos automaticamente al canal de origen para continuar con Comercial Supra.</p>
+                    <p>Listo. Tu solicitud fue enviada correctamente.</p>
                     <p v-if="redirectCountdown > 0">Seras redirigido automaticamente en {{ redirectCountdown }} segundos.</p>
                     <div class="quotation-success-modal__actions">
-                        <button type="button" class="btn btn-success" @click="goToWhatsApp">Ir ahora</button>
+                        <button type="button" class="btn btn-success" @click="goToWhatsApp">Continuar ahora</button>
                     </div>
                 </template>
             </div>
