@@ -373,29 +373,29 @@ class UserController extends Controller
 
     private function collectDeleteDependencies($userId)
     {
-        $dependencyMap = [
-            'mechanic_client' => ['column' => 'mechanic_id', 'label' => 'clientes mecanicos asociados'],
-            'vehicles' => ['column' => 'user_id', 'label' => 'vehiculos'],
-            'clients' => ['column' => 'user_id', 'label' => 'clientes'],
-            'quotationclients' => ['column' => 'user_id', 'label' => 'cotizaciones formales'],
-            'quotations' => ['column' => 'user_id', 'label' => 'cotizaciones'],
-            'sales' => ['column' => 'user_id', 'label' => 'ventas'],
-            'imports' => ['column' => 'user_id', 'label' => 'importaciones'],
-            'quotationimports' => ['column' => 'user_id', 'label' => 'cotizaciones importadas'],
-            'companies' => ['column' => 'user_id', 'label' => 'configuracion de empresa'],
-        ];
-
         $dependencies = [];
 
-        foreach ($dependencyMap as $table => $config) {
-            if (!Schema::hasTable($table)) {
+        // Consulta todas las FK que apuntan a users.id en esta BD
+        $foreignKeys = DB::select("
+            SELECT TABLE_NAME, COLUMN_NAME
+            FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND REFERENCED_TABLE_NAME = 'users'
+              AND REFERENCED_COLUMN_NAME = 'id'
+        ");
+
+        // Tablas que se limpian dentro de la transacción — no bloquean
+        $ignoredTables = ['mechanic_client', 'model_has_roles', 'model_has_permissions'];
+
+        foreach ($foreignKeys as $fk) {
+            if (in_array($fk->TABLE_NAME, $ignoredTables)) {
                 continue;
             }
 
-            $count = DB::table($table)->where($config['column'], $userId)->count();
+            $count = DB::table($fk->TABLE_NAME)->where($fk->COLUMN_NAME, $userId)->count();
 
             if ($count > 0) {
-                $dependencies[] = $count . ' ' . $config['label'];
+                $dependencies[] = $count . ' registros en ' . $fk->TABLE_NAME;
             }
         }
 
@@ -404,22 +404,19 @@ class UserController extends Controller
             $clientIds = DB::table('clients')->where('user_id', $userId)->pluck('id');
 
             if ($clientIds->isNotEmpty()) {
-                $indirectMap = [
-                    'sales'            => 'ventas de sus clientes',
-                    'quotationclients' => 'cotizaciones de sus clientes',
-                    'activities'       => 'actividades de sus clientes',
-                    'products'         => 'productos de sus clientes',
-                ];
+                $clientForeignKeys = DB::select("
+                    SELECT TABLE_NAME, COLUMN_NAME
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                    WHERE TABLE_SCHEMA = DATABASE()
+                      AND REFERENCED_TABLE_NAME = 'clients'
+                      AND REFERENCED_COLUMN_NAME = 'id'
+                ");
 
-                foreach ($indirectMap as $table => $label) {
-                    if (!Schema::hasTable($table)) {
-                        continue;
-                    }
-
-                    $count = DB::table($table)->whereIn('client_id', $clientIds)->count();
+                foreach ($clientForeignKeys as $fk) {
+                    $count = DB::table($fk->TABLE_NAME)->whereIn($fk->COLUMN_NAME, $clientIds)->count();
 
                     if ($count > 0) {
-                        $dependencies[] = $count . ' ' . $label;
+                        $dependencies[] = $count . ' registros en ' . $fk->TABLE_NAME . ' (via clientes)';
                     }
                 }
             }
