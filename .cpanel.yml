@@ -1,6 +1,6 @@
-﻿---
-# Despliegue acotado para el catalogo generico de sugerencias de productos
-# y los ajustes del formulario publico de cotizaciones.
+---
+# Despliegue acotado para cambios normales de codigo.
+# Las tareas pesadas de BD/importacion se ejecutan manualmente solo cuando hacen falta.
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp.comercialsupra.cl/
@@ -38,5 +38,3 @@ deployment:
     - /bin/cp -f resources/assets/js/components/store/actions.js $DEPLOYPATH/resources/assets/js/components/store/actions.js
     - /bin/cp -f resources/assets/js/components/store/mutations.js $DEPLOYPATH/resources/assets/js/components/store/mutations.js
     - /bin/cp -f resources/assets/js/components/store/state.js $DEPLOYPATH/resources/assets/js/components/store/state.js
-    - cd $DEPLOYPATH && php artisan migrate --force
-    - cd $DEPLOYPATH && php artisan suprapp:import-product-catalog product_catalog_templates.csv --fresh
