@@ -247,6 +247,10 @@ function resolvePaginationRequest(request, fallbackPerPage = 20) {
 }
 
 const PUBLIC_QUOTATION_WHATSAPP_NUMBER = '56989483379'
+const PUBLIC_QUOTATION_REDIRECT_TARGETS = {
+    ig: 'https://www.instagram.com/',
+    fb: 'https://www.facebook.com/'
+}
 
 function resetPublicQuotationVehicleSelectors(state) {
     state.selectedVBrand = { label: '', value: '' }
@@ -298,6 +302,21 @@ function buildPublicQuotationWhatsAppUrl(payload) {
     return 'https://wa.me/' + PUBLIC_QUOTATION_WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'))
 }
 
+function resolvePublicQuotationRedirectUrl(payload) {
+    if (typeof window === 'undefined') {
+        return buildPublicQuotationWhatsAppUrl(payload)
+    }
+
+    const params = new URLSearchParams(window.location.search || '')
+    const source = String(params.get('src') || '').trim().toLowerCase()
+
+    if (source && PUBLIC_QUOTATION_REDIRECT_TARGETS[source]) {
+        return PUBLIC_QUOTATION_REDIRECT_TARGETS[source]
+    }
+
+    return buildPublicQuotationWhatsAppUrl(payload)
+}
+
 function dispatchPublicQuotationSent(payload) {
     if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') {
         return
@@ -305,13 +324,11 @@ function dispatchPublicQuotationSent(payload) {
 
     window.dispatchEvent(new CustomEvent('public-quotation-sent', {
         detail: {
-            whatsAppUrl: buildPublicQuotationWhatsAppUrl(payload),
+            redirectUrl: resolvePublicQuotationRedirectUrl(payload),
             message: 'Solicitud enviada con exito'
         }
     }))
 }
-
-
 export default { //used for changing the state
     /******************************* */
     /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n vehiculos **** */

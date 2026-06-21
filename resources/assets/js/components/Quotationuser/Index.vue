@@ -105,11 +105,10 @@
                 </template>
                 <template v-else>
                     <h3>Solicitud enviada</h3>
-                    <p>Tu solicitud fue recibida. Te llevaremos a WhatsApp para seguir con Comercial Supra.</p>
-                    <p v-if="redirectCountdown > 0">Seras redirigido a WhatsApp en {{ redirectCountdown }} segundos.</p>
+                    <p>Tu solicitud fue recibida. Te redirigiremos automaticamente al canal de origen para continuar con Comercial Supra.</p>
+                    <p v-if="redirectCountdown > 0">Seras redirigido automaticamente en {{ redirectCountdown }} segundos.</p>
                     <div class="quotation-success-modal__actions">
                         <button type="button" class="btn btn-success" @click="goToWhatsApp">Ir ahora</button>
-                        <button type="button" class="btn btn-light" @click="closeSubmissionModal">No ir a WhatsApp</button>
                     </div>
                 </template>
             </div>
@@ -334,7 +333,7 @@ export default {
             const detail = event.detail || {}
             this.resetRequestBuilder()
             this.submissionMissingPatent = !!detail.missingPatent
-            this.whatsAppRedirectUrl = detail.whatsAppUrl || ''
+            this.whatsAppRedirectUrl = detail.redirectUrl || ''
             this.clearRedirectTimers()
             this.submissionModalState = 'loading'
             this.submissionModalVisible = true
