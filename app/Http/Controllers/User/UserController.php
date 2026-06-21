@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
 class UserController extends Controller
 {
@@ -111,20 +112,52 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $mechanics = DB::table('mechanic_client')
-            ->join('users', 'users.id', '=', 'mechanic_client.user_id')
-            ->where('mechanic_client.user_id', '=', $id)->delete();
+        $user = User::findOrFail($id);
 
-        if ($mechanics) {
-            $user = User::findOrFail($id);
-            $user->delete();
-        } else {
-            $user = User::findOrFail($id);
-            $user->delete();
+        if ((int) Auth::id() === (int) $user->id) {
+            return response()->json([
+                'error' => 'No puedes eliminar el usuario con el que estas conectado.',
+            ], 422);
         }
 
+        $dependencies = $this->collectDeleteDependencies($user->id);
 
-        return;
+        if (!empty($dependencies)) {
+            return response()->json([
+                'error' => 'No se puede eliminar el usuario porque tiene datos asociados: ' . implode(', ', $dependencies) . '.',
+            ], 422);
+        }
+
+        try {
+            DB::transaction(function () use ($user) {
+                DB::table('mechanic_client')->where('user_id', $user->id)->delete();
+                DB::table('mechanic_client')->where('mechanic_id', $user->id)->delete();
+
+                if (Schema::hasTable('model_has_roles')) {
+                    DB::table('model_has_roles')
+                        ->where('model_id', $user->id)
+                        ->where('model_type', User::class)
+                        ->delete();
+                }
+
+                if (Schema::hasTable('model_has_permissions')) {
+                    DB::table('model_has_permissions')
+                        ->where('model_id', $user->id)
+                        ->where('model_type', User::class)
+                        ->delete();
+                }
+
+                $user->delete();
+            });
+        } catch (\Throwable $exception) {
+            return response()->json([
+                'error' => 'No se pudo eliminar el usuario. Revisa si aun tiene registros asociados.',
+            ], 422);
+        }
+
+        return response()->json([
+            'message' => 'Usuario eliminado con exito',
+        ]);
     }
 
     public function export()
@@ -205,10 +238,10 @@ class UserController extends Controller
 
 
         if ($total_clients >= $users[0]->cant_vehicle) {
-            return response()->json('¡Supero la cantidad de clientes!', 422);
+            return response()->json('Supero la cantidad de clientes!', 422);
         } else {
             if ($total_vehicles >= $users[0]->cant_vehicle) {
-                return response()->json('¡Supero la cantidad de vehiculos!', 422);
+                return response()->json('Supero la cantidad de vehiculos!', 422);
             } else {
                 $data = $request->all();
 
@@ -250,10 +283,10 @@ class UserController extends Controller
         $total = $data['cant_vehicle'] + $suma_vehicles;
 
         if ($data['cant_vehicle'] == 0) {
-            return response()->json('¡La cantidad no puede ser 0!', 422);
+            return response()->json('La cantidad no puede ser 0!', 422);
         } else {
             if ($total > $mechanics[0]->cant_vehicle) {
-                return response()->json('¡Error, Ya no puede crear mas vehiculos!', 422);
+                return response()->json('Error, ya no puede crear mas vehiculos!', 422);
             } else {
 
                 DB::table('users')->where('id', $id)->update(
@@ -338,4 +371,35 @@ class UserController extends Controller
         return $total_vehicles;
     }
 
+    private function collectDeleteDependencies($userId)
+    {
+        $dependencyMap = [
+            'mechanic_client' => ['column' => 'mechanic_id', 'label' => 'clientes mecanicos asociados'],
+            'vehicles' => ['column' => 'user_id', 'label' => 'vehiculos'],
+            'clients' => ['column' => 'user_id', 'label' => 'clientes'],
+            'quotationclients' => ['column' => 'user_id', 'label' => 'cotizaciones formales'],
+            'quotations' => ['column' => 'user_id', 'label' => 'cotizaciones'],
+            'sales' => ['column' => 'user_id', 'label' => 'ventas'],
+            'imports' => ['column' => 'user_id', 'label' => 'importaciones'],
+            'quotationimports' => ['column' => 'user_id', 'label' => 'cotizaciones importadas'],
+            'companies' => ['column' => 'user_id', 'label' => 'configuracion de empresa'],
+        ];
+
+        $dependencies = [];
+
+        foreach ($dependencyMap as $table => $config) {
+            if (!Schema::hasTable($table)) {
+                continue;
+            }
+
+            $count = DB::table($table)->where($config['column'], $userId)->count();
+
+            if ($count > 0) {
+                $dependencies[] = $count . ' ' . $config['label'];
+            }
+        }
+
+        return $dependencies;
+    }
 }
+
