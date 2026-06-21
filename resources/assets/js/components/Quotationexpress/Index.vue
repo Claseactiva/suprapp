@@ -304,6 +304,7 @@ export default {
         },
         showSubmissionLoadingModal() {
             this.clearRedirectTimers()
+            this.cleanupBootstrapBackdrop()
             this.whatsAppRedirectUrl = ''
             this.redirectCountdown = 0
             this.submissionMissingPatent = !String(this.formCotizacionExpress.patentchasis || '').trim()
@@ -316,6 +317,7 @@ export default {
             this.submissionMissingPatent = !!detail.missingPatent
             this.whatsAppRedirectUrl = detail.redirectUrl || ''
             this.clearRedirectTimers()
+            this.cleanupBootstrapBackdrop()
             this.submissionModalState = 'loading'
             this.submissionModalVisible = true
             this.redirectCountdown = 0
@@ -334,17 +336,21 @@ export default {
         },
         handleSubmissionFailed() {
             this.clearRedirectTimers()
+            this.cleanupBootstrapBackdrop()
             this.whatsAppRedirectUrl = ''
             this.redirectCountdown = 0
+            this.submissionMissingPatent = false
             this.submissionModalState = 'idle'
             this.submissionModalVisible = false
         },
         goToWhatsApp() {
             if (!this.whatsAppRedirectUrl) {
+                this.handleSubmissionFailed()
                 return
             }
 
             this.clearRedirectTimers()
+            this.cleanupBootstrapBackdrop()
             window.location.href = this.whatsAppRedirectUrl
         },
         closeSubmissionModal() {
@@ -353,6 +359,7 @@ export default {
             }
 
             this.clearRedirectTimers()
+            this.cleanupBootstrapBackdrop()
             this.submissionModalVisible = false
             this.submissionModalState = 'idle'
             this.submissionMissingPatent = false
@@ -373,6 +380,15 @@ export default {
                 this.templateSearchTimeoutId = null
             }
         },
+        cleanupBootstrapBackdrop() {
+            if (typeof document === 'undefined') {
+                return
+            }
+
+            document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove())
+            document.body.classList.remove('modal-open')
+            document.body.style.removeProperty('padding-right')
+        },
         resetRequestBuilder() {
             this.templateSearch = ''
             this.templateSuggestions = []
@@ -390,11 +406,15 @@ export default {
     },
     mounted() {
         window.addEventListener('public-quotation-sent', this.handleSubmissionEvent)
+        window.addEventListener('public-quotation-failed', this.handleSubmissionFailed)
+        this.cleanupBootstrapBackdrop()
         this.loadTemplateSuggestions()
     },
     beforeDestroy() {
         window.removeEventListener('public-quotation-sent', this.handleSubmissionEvent)
+        window.removeEventListener('public-quotation-failed', this.handleSubmissionFailed)
         this.clearRedirectTimers()
+        this.cleanupBootstrapBackdrop()
     }
 }
 </script>

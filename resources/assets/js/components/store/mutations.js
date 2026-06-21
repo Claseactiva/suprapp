@@ -329,6 +329,18 @@ function dispatchPublicQuotationSent(payload) {
         }
     }))
 }
+
+function dispatchPublicQuotationFailed(message = '') {
+    if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') {
+        return
+    }
+
+    window.dispatchEvent(new CustomEvent('public-quotation-failed', {
+        detail: {
+            message: String(message || '')
+        }
+    }))
+}
 export default { //used for changing the state
     /******************************* */
     /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n vehiculos **** */
@@ -3936,6 +3948,7 @@ export default { //used for changing the state
         }).catch(error => {
             state.publicQuotationSubmitting = false
             state.errorsLaravel = normalizePublicQuotationErrors(error)
+            dispatchPublicQuotationFailed(state.errorsLaravel.length ? '' : 'No se pudo enviar la solicitud')
             if (!state.errorsLaravel.length) {
                 toastr.error('No se pudo enviar la solicitud')
             }
@@ -3976,6 +3989,7 @@ export default { //used for changing the state
         }).catch(error => {
             state.publicQuotationSubmitting = false
             state.errorsLaravel = normalizePublicQuotationErrors(error)
+            dispatchPublicQuotationFailed(state.errorsLaravel.length ? '' : 'No se pudo enviar la solicitud')
             if (!state.errorsLaravel.length) {
                 toastr.error('No se pudo enviar la solicitud')
             }
