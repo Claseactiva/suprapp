@@ -248,8 +248,8 @@ function resolvePaginationRequest(request, fallbackPerPage = 20) {
 
 const PUBLIC_QUOTATION_WHATSAPP_NUMBER = '56989483379'
 const PUBLIC_QUOTATION_REDIRECT_TARGETS = {
-    ig: 'https://www.instagram.com/',
-    fb: 'https://www.facebook.com/'
+    ig: 'https://www.instagram.com/comercialsupra/',
+    fb: 'https://www.facebook.com/ComercialSupraCoquimbo'
 }
 
 function resetPublicQuotationVehicleSelectors(state) {
