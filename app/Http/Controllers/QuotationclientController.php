@@ -414,14 +414,15 @@ class QuotationclientController extends Controller
         if ($quotationuser === null) {
             $quotationclient->delete();
         } else {
-            $quotationuser = QuotationUser::where('quotation_id', '=', $quotationclient->id)->firstOrFail();
-            $quotationuservehicle = QuotationUserVehicle::where('user_id', '=', $quotationuser->id)->firstOrFail();
-            $quotationuservehicle->delete();
+            $quotationuservehicle = QuotationUserVehicle::where('user_id', '=', $quotationuser->id)->first();
+            if ($quotationuservehicle !== null) {
+                $quotationuservehicle->delete();
+            }
             $quotationuser->delete();
             $quotationclient->delete();
         }
 
-        return;
+        return response()->json(['message' => 'Cotización eliminada con éxito']);
     }
 
     public function details($id)
