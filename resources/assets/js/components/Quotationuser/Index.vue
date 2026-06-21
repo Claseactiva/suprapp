@@ -32,10 +32,10 @@
             <div class="row">
                 <h4>Veh&iacute;culo</h4>
                 <div class="input-group input-group-icon">
-                    <input v-validate="'required|min:6|max:60'"
+                    <input v-validate="'min:6|max:60'"
                         :class="{ 'input': true, 'is-invalid': errors.has('patente o chasis') }" class="form-control"
                         type="text" name="patente o chasis" v-model="formCotizacion.patentchasis"
-                        placeholder="Patente o Chasis *" />
+                        placeholder="Patente o Chasis (opcional)" />
                     <div class="input-icon"><i class="fa fa-car"></i></div>
                     <p v-show="errors.has('patente o chasis')" class="text-danger">{{ errors.first('patente o chasis') }}</p>
                 </div>
@@ -57,14 +57,13 @@
             <div class="row">
                 <div class="input-group quotation-request-builder">
                     <label class="quotation-request-builder__label" for="template-search-main">Buscar repuesto sugerido</label>
-                    <div class="quotation-request-builder__search-wrap">
+                    <div class="quotation-request-builder__search-box"><div class="quotation-request-builder__search-wrap">
                         <input id="template-search-main" ref="templateSearchInput" type="text" class="form-control"
-                            v-model="templateSearch" @input="handleTemplateInput" @keydown.enter.prevent="addSelectedTemplate"
+                            v-model="templateSearch" @input="handleTemplateInput" @focus="handleTemplateFocus" @keydown.enter.prevent="addSelectedTemplate"
                             placeholder="Ej: amortiguador, capot, bandeja..." autocomplete="off" />
                         <button type="button" class="btn btn-info quotation-request-builder__add"
                             @click.prevent="addSelectedTemplate">Agregar</button>
-                    </div>
-                    <ul v-if="templateSuggestions.length" class="quotation-request-builder__suggestion-list">
+                    </div><ul v-if="templateSuggestions.length" class="quotation-request-builder__suggestion-list">
                         <li v-for="suggestion in templateSuggestions" :key="suggestion.id" class="quotation-request-builder__suggestion-item">
                             <button type="button" class="quotation-request-builder__suggestion-row"
                                 @click.prevent="addTemplateSuggestion(suggestion)">
@@ -72,7 +71,7 @@
                                 <small class="quotation-request-builder__suggestion-category">{{ suggestion.categoria }}</small>
                             </button>
                         </li>
-                    </ul>
+                    </ul></div>
                     <div v-if="selectedTemplateParts.length" class="quotation-request-builder__selected">
                         <div class="quotation-request-builder__selected-title">Repuestos agregados</div>
                         <ol class="quotation-request-builder__selected-list">
@@ -88,27 +87,31 @@
                     <p v-if="localDescriptionError" class="text-danger mb-0">{{ localDescriptionError }}</p>
                 </div>
             </div>
-            <div class="row">
-                <h4>(*): Campos Requeridos</h4>
-            </div>
-            <div class="row">
+<div class="row">
                 <div class="input-group" style="text-align:center;">
-                    <button type="submit" class="btn btn-success" @click="scrollToTop">
-                        Enviar
+                    <button type="submit" class="btn btn-success" @click="scrollToTop" :disabled="publicQuotationSubmitting">
+                        {{ publicQuotationSubmitting ? 'Enviando...' : 'Enviar' }}
                     </button>
                 </div>
             </div>
         </form>
-
         <div v-if="submissionModalVisible" class="quotation-success-modal">
             <div class="quotation-success-modal__card">
-                <h3>Solicitud enviada</h3>
-                <p>Tu solicitud fue recibida. Te llevaremos a WhatsApp para seguir con Comercial Supra.</p>
-                <p v-if="redirectCountdown > 0">Redirigiendo en {{ redirectCountdown }}...</p>
-                <div class="quotation-success-modal__actions">
-                    <button type="button" class="btn btn-success" @click="goToWhatsApp">Ir ahora</button>
-                    <button type="button" class="btn btn-light" @click="closeSubmissionModal">Cerrar</button>
-                </div>
+                <template v-if="submissionModalState === 'loading'">
+                    <div class="quotation-success-modal__spinner"></div>
+                    <h3>Estamos enviando tu solicitud</h3>
+                    <p>Esto puede tardar unos segundos. No cierres esta ventana.</p>
+                    <p v-if="submissionMissingPatent" class="quotation-success-modal__hint">No agregaste patente o numero de chasis. Ese dato nos ayuda a ser mas precisos y es posible que te lo pidamos por WhatsApp si no encontramos una compatibilidad exacta.</p>
+                </template>
+                <template v-else>
+                    <h3>Solicitud enviada</h3>
+                    <p>Tu solicitud fue recibida. Te llevaremos a WhatsApp para seguir con Comercial Supra.</p>
+                    <p v-if="redirectCountdown > 0">Seras redirigido a WhatsApp en {{ redirectCountdown }} segundos.</p>
+                    <div class="quotation-success-modal__actions">
+                        <button type="button" class="btn btn-success" @click="goToWhatsApp">Ir ahora</button>
+                        <button type="button" class="btn btn-light" @click="closeSubmissionModal">No ir a WhatsApp</button>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -126,12 +129,16 @@ export default {
     data() {
         return {
             submissionModalVisible: false,
+            submissionModalState: 'idle',
+            submissionMissingPatent: false,
             redirectCountdown: 0,
             whatsAppRedirectUrl: '',
             redirectTimeoutId: null,
             redirectIntervalId: null,
             templateSearch: '',
             templateSuggestions: [],
+            allTemplateSuggestions: [],
+            templatesLoaded: false,
             selectedTemplateParts: [],
             additionalDescription: '',
             templateSearchTimeoutId: null,
@@ -140,7 +147,7 @@ export default {
     },
     computed: {
         ...mapState([
-            'errorsLaravel', 'formCotizacion'
+            'errorsLaravel', 'formCotizacion', 'publicQuotationSubmitting'
         ])
     },
     methods: {
@@ -151,6 +158,10 @@ export default {
             window.scrollTo(0, 0)
         },
         submitQuotation() {
+            if (this.publicQuotationSubmitting) {
+                return
+            }
+
             this.syncDescription()
 
             if (!this.formCotizacion.description || this.formCotizacion.description.trim().length < 6) {
@@ -160,34 +171,78 @@ export default {
             }
 
             this.localDescriptionError = ''
+            this.showSubmissionLoadingModal()
             this.createQuotationUser()
         },
         handleTemplateInput() {
             this.localDescriptionError = ''
-            const term = this.templateSearch.trim()
-
-            if (this.templateSearchTimeoutId) {
-                window.clearTimeout(this.templateSearchTimeoutId)
-            }
-
-            if (term.length < 2) {
+            this.filterTemplateSuggestions()
+        },
+        handleTemplateFocus() {
+            this.filterTemplateSuggestions()
+        },
+        loadTemplateSuggestions() {
+            axios.get('product-catalog-templates-suggestions', {
+                params: { limit: 500 }
+            }).then(response => {
+                this.allTemplateSuggestions = (response.data.suggestions || []).map(suggestion => ({
+                    ...suggestion,
+                    category_key: this.normalizeText(suggestion.categoria),
+                    search_blob: `${this.normalizeText(suggestion.product_name)} ${this.normalizeText(suggestion.categoria)}`.trim(),
+                }))
+                this.templatesLoaded = true
+                this.filterTemplateSuggestions()
+            }).catch(() => {
+                this.allTemplateSuggestions = []
+                this.templatesLoaded = true
+            })
+        },
+        filterTemplateSuggestions() {
+            const rawTerm = (this.templateSearch || '').trim()
+            if (rawTerm.length < 2) {
                 this.templateSuggestions = []
                 return
             }
 
-            this.templateSearchTimeoutId = window.setTimeout(() => {
-                this.fetchTemplateSuggestions(term)
-            }, 180)
-        },
-        fetchTemplateSuggestions(term) {
-            axios.get('product-catalog-templates-suggestions', {
-                params: { term, limit: 8 }
-            }).then(response => {
-                const selectedKeys = new Set(this.selectedTemplateParts.map(part => part.product_key))
-                this.templateSuggestions = (response.data.suggestions || []).filter(suggestion => !selectedKeys.has(suggestion.product_key))
-            }).catch(() => {
-                this.templateSuggestions = []
-            })
+            if (!this.templatesLoaded || !this.allTemplateSuggestions.length) {
+                return
+            }
+
+            const normalizedTerm = this.normalizeText(rawTerm)
+            const termParts = normalizedTerm.split(' ').filter(Boolean)
+            const selectedKeys = new Set(this.selectedTemplateParts.map(part => part.product_key))
+
+            this.templateSuggestions = this.allTemplateSuggestions
+                .filter(suggestion => !selectedKeys.has(suggestion.product_key))
+                .map(suggestion => {
+                    const haystack = suggestion.search_blob || ''
+                    const matches = termParts.every(part => haystack.indexOf(part) !== -1)
+
+                    if (!matches) {
+                        return null
+                    }
+
+                    let score = 0
+                    if (suggestion.product_key === normalizedTerm) score += 1000
+                    if (suggestion.product_key.indexOf(normalizedTerm) === 0) score += 500
+                    if (suggestion.category_key.indexOf(normalizedTerm) === 0) score += 250
+                    if (haystack.indexOf(normalizedTerm) !== -1) score += 100
+                    score -= suggestion.product_name.length
+
+                    return {
+                        ...suggestion,
+                        __score: score,
+                    }
+                })
+                .filter(Boolean)
+                .sort((left, right) => {
+                    if (left.__score !== right.__score) {
+                        return right.__score - left.__score
+                    }
+
+                    return left.product_name.localeCompare(right.product_name)
+                })
+                .slice(0, 8)
         },
         addSelectedTemplate() {
             const normalizedTerm = this.normalizeText(this.templateSearch)
@@ -267,21 +322,42 @@ export default {
                 .replace(/[^A-Z0-9]+/g, ' ')
                 .trim()
         },
+        showSubmissionLoadingModal() {
+            this.clearRedirectTimers()
+            this.whatsAppRedirectUrl = ''
+            this.redirectCountdown = 0
+            this.submissionMissingPatent = !String(this.formCotizacion.patentchasis || '').trim()
+            this.submissionModalState = 'loading'
+            this.submissionModalVisible = true
+        },
         handleSubmissionEvent(event) {
             const detail = event.detail || {}
             this.resetRequestBuilder()
+            this.submissionMissingPatent = !!detail.missingPatent
             this.whatsAppRedirectUrl = detail.whatsAppUrl || ''
-            this.submissionModalVisible = true
-            this.redirectCountdown = 2
             this.clearRedirectTimers()
-            this.redirectIntervalId = window.setInterval(() => {
-                if (this.redirectCountdown > 0) {
-                    this.redirectCountdown -= 1
-                }
-            }, 1000)
+            this.submissionModalState = 'loading'
+            this.submissionModalVisible = true
+            this.redirectCountdown = 0
             this.redirectTimeoutId = window.setTimeout(() => {
-                this.goToWhatsApp()
-            }, 1800)
+                this.submissionModalState = 'success'
+                this.redirectCountdown = 3
+                this.redirectIntervalId = window.setInterval(() => {
+                    if (this.redirectCountdown > 0) {
+                        this.redirectCountdown -= 1
+                    }
+                }, 1000)
+                this.redirectTimeoutId = window.setTimeout(() => {
+                    this.goToWhatsApp()
+                }, 3000)
+            }, 2000)
+        },
+        handleSubmissionFailed() {
+            this.clearRedirectTimers()
+            this.whatsAppRedirectUrl = ''
+            this.redirectCountdown = 0
+            this.submissionModalState = 'idle'
+            this.submissionModalVisible = false
         },
         goToWhatsApp() {
             if (!this.whatsAppRedirectUrl) {
@@ -292,8 +368,16 @@ export default {
             window.location.href = this.whatsAppRedirectUrl
         },
         closeSubmissionModal() {
+            if (this.submissionModalState === 'loading') {
+                return
+            }
+
             this.clearRedirectTimers()
             this.submissionModalVisible = false
+            this.submissionModalState = 'idle'
+            this.submissionMissingPatent = false
+            this.whatsAppRedirectUrl = ''
+            this.redirectCountdown = 0
         },
         clearRedirectTimers() {
             if (this.redirectTimeoutId) {
@@ -338,8 +422,16 @@ export default {
             this.localDescriptionError = ''
         }
     },
+    watch: {
+        publicQuotationSubmitting(isSubmitting) {
+            if (!isSubmitting && this.submissionModalState === 'loading' && Array.isArray(this.errorsLaravel) && this.errorsLaravel.length) {
+                this.handleSubmissionFailed()
+            }
+        }
+    },
     mounted() {
         window.addEventListener('public-quotation-sent', this.handleSubmissionEvent)
+        this.loadTemplateSuggestions()
         this.prefillFromQuery()
     },
     beforeDestroy() {
@@ -405,6 +497,10 @@ export default {
     margin-bottom: 0.5rem;
 }
 
+.quotation-request-builder__search-box {
+    position: relative;
+}
+
 .quotation-request-builder__search-wrap {
     display: flex;
     gap: 0.75rem;
@@ -425,12 +521,19 @@ export default {
 }
 
 .quotation-request-builder__suggestion-list {
+    position: absolute;
+    top: calc(100% + 0.2rem);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    max-height: 220px;
+    overflow-y: auto;
     list-style: none;
-    margin: 0.75rem 0 0;
+    margin: 0.2rem 0 0;
     padding: 0;
     border: 1px solid #d9e6ea;
     border-radius: 10px;
-    overflow: hidden;
+    overflow-x: hidden;
     background: #ffffff;
 }
 
@@ -541,6 +644,23 @@ export default {
     margin-bottom: 0.9rem;
 }
 
+.quotation-success-modal__spinner {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    border-radius: 999px;
+    border: 4px solid #d7eef4;
+    border-top-color: #158bac;
+    animation: quotation-modal-spin 0.9s linear infinite;
+}
+
+.quotation-success-modal__hint {
+    background: #f3f8fa;
+    border-radius: 12px;
+    padding: 0.85rem 0.95rem;
+    font-size: 0.92rem;
+}
+
 .quotation-success-modal__actions {
     display: flex;
     gap: 0.75rem;
@@ -548,8 +668,18 @@ export default {
     flex-wrap: wrap;
 }
 
+
+@keyframes quotation-modal-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 @media only screen and (max-width: 540px) {
-    .quotation-request-builder__search-wrap {
+    .quotation-request-builder__search-box {
+    position: relative;
+}
+
+.quotation-request-builder__search-wrap {
         flex-direction: column;
     }
 
@@ -573,3 +703,6 @@ export default {
     }
 }
 </style>
+
+
+

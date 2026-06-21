@@ -815,6 +815,7 @@ export default { //data
     },
     /******************************************* */
     errorsLaravel: [],
+    publicQuotationSubmitting: false,
     pagination: {
         'total': 0,
         'current_page': 0,

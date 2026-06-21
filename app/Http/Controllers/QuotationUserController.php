@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 
 class QuotationUserController extends Controller
@@ -39,7 +40,7 @@ class QuotationUserController extends Controller
         $name = trim($data['name']);
         $email = trim($data['email'] ?? '');
         $phone = trim($data['phone']);
-        $patentchasis = trim($data['patentchasis']);
+        $patentchasis = trim($data['patentchasis'] ?? '');
         $brand = trim($data['brand']);
         $model = trim($data['model']);
         $year = trim($data['year']);
@@ -61,7 +62,7 @@ class QuotationUserController extends Controller
             $description
         );
 
-        $this->notifyPublicQuotationSafely($name, $email, $phone, $patentchasis, $description);
+        $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
 
         return response()->json([
             'valid' => true,
@@ -122,7 +123,7 @@ class QuotationUserController extends Controller
         }
 
         if (isset($quotation)) {
-            $this->notifyPublicQuotationSafely($name, $email, $phone, $patentchasis, $description);
+            $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
         }
 
         return response()->json([
@@ -136,7 +137,7 @@ class QuotationUserController extends Controller
     public function storeUserExpress(Request $request)
     {
         $data = $request->validate([
-            'patentchasis' => 'required|min:6|max:190',
+            'patentchasis' => 'nullable|min:6|max:190',
             'brand' => 'required',
             'model' => 'required',
             'year' => 'required',
@@ -152,7 +153,7 @@ class QuotationUserController extends Controller
         $name = trim($data['name'] ?? 'Cotizacion Express Web');
         $email = trim($data['email'] ?? '');
         $phone = trim($data['phone'] ?? '');
-        $patentchasis = trim($data['patentchasis']);
+        $patentchasis = trim($data['patentchasis'] ?? '');
         $brand = trim($data['brand']);
         $model = trim($data['model']);
         $year = trim($data['year']);
@@ -174,7 +175,7 @@ class QuotationUserController extends Controller
             $description
         );
 
-        $this->notifyPublicQuotationSafely($name, $email, $phone, $patentchasis, $description);
+        $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
 
         return response()->json([
             'valid' => true,
@@ -262,25 +263,21 @@ class QuotationUserController extends Controller
             trim((string) $engine),
         ])));
     }
-
-    private function notifyPublicQuotationSafely($name, $email, $phone, $patentchasis, $description)
+    private function notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description)
     {
-        try {
-            $this->notifyPublicQuotation($name, $email, $phone, $patentchasis, $description);
-        } catch (\Throwable $exception) {
-            Log::warning('Public quotation notification failed', [
-                'target_email' => 'comercialsupra4@gmail.com',
-                'quotation_name' => $name,
-                'patentchasis' => $patentchasis,
-                'error' => $exception->getMessage(),
-            ]);
-        }
-    }
-
-    private function notifyPublicQuotation($name, $email, $phone, $patentchasis, $description)
-    {
-        $user = new User();
-        $user->email = 'comercialsupra4@gmail.com';
-        $user->notify(new EmailNotificator($name, $email, $phone, $patentchasis, $description));
+        dispatch(function () use ($name, $email, $phone, $patentchasis, $description) {
+            try {
+                Notification::route('mail', 'comercialsupra4@gmail.com')
+                    ->notify(new EmailNotificator($name, $email, $phone, $patentchasis, $description));
+            } catch (\Throwable $exception) {
+                Log::warning('Public quotation notification failed', [
+                    'target_email' => 'comercialsupra4@gmail.com',
+                    'quotation_name' => $name,
+                    'patentchasis' => $patentchasis,
+                    'error' => $exception->getMessage(),
+                ]);
+            }
+        })->afterResponse();
     }
 }
+

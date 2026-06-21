@@ -3883,6 +3883,12 @@ export default { //used for changing the state
         state.selectedVEngine = engine
     },
     createQuotationUser(state) {
+        if (state.publicQuotationSubmitting) {
+            return
+        }
+
+        state.publicQuotationSubmitting = true
+
         let url = urlCreateQuotationUser
         const payload = {
             name: (state.formCotizacion.name || '').trim(),
@@ -3895,6 +3901,7 @@ export default { //used for changing the state
         }
 
         axios.post(url, payload).then(() => {
+            state.publicQuotationSubmitting = false
             state.formCotizacion = {
                 name: '',
                 email: '',
@@ -3910,6 +3917,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             dispatchPublicQuotationSent(payload)
         }).catch(error => {
+            state.publicQuotationSubmitting = false
             state.errorsLaravel = normalizePublicQuotationErrors(error)
             if (!state.errorsLaravel.length) {
                 toastr.error('No se pudo enviar la solicitud')
@@ -3919,6 +3927,12 @@ export default { //used for changing the state
     },
 
     createQuotationUserExpress(state) {
+        if (state.publicQuotationSubmitting) {
+            return
+        }
+
+        state.publicQuotationSubmitting = true
+
         let url = urlCreateQuotationUserExpress
         const payload = {
             name: 'Cotizacion Express Web',
@@ -3931,6 +3945,7 @@ export default { //used for changing the state
         }
 
         axios.post(url, payload).then(() => {
+            state.publicQuotationSubmitting = false
             state.formCotizacionExpress = {
                 patentchasis: '',
                 brand: '',
@@ -3942,6 +3957,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             dispatchPublicQuotationSent(payload)
         }).catch(error => {
+            state.publicQuotationSubmitting = false
             state.errorsLaravel = normalizePublicQuotationErrors(error)
             if (!state.errorsLaravel.length) {
                 toastr.error('No se pudo enviar la solicitud')
