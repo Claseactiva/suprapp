@@ -399,6 +399,32 @@ class UserController extends Controller
             }
         }
 
+        // Dependencias indirectas a través de los clientes del usuario
+        if (Schema::hasTable('clients')) {
+            $clientIds = DB::table('clients')->where('user_id', $userId)->pluck('id');
+
+            if ($clientIds->isNotEmpty()) {
+                $indirectMap = [
+                    'sales'            => 'ventas de sus clientes',
+                    'quotationclients' => 'cotizaciones de sus clientes',
+                    'activities'       => 'actividades de sus clientes',
+                    'products'         => 'productos de sus clientes',
+                ];
+
+                foreach ($indirectMap as $table => $label) {
+                    if (!Schema::hasTable($table)) {
+                        continue;
+                    }
+
+                    $count = DB::table($table)->whereIn('client_id', $clientIds)->count();
+
+                    if ($count > 0) {
+                        $dependencies[] = $count . ' ' . $label;
+                    }
+                }
+            }
+        }
+
         return $dependencies;
     }
 }
