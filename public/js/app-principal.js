@@ -1,1 +1,48 @@
-!function(o){"use strict";o("#sidebarToggle").on("click",(function(e){e.preventDefault(),o("body").toggleClass("sidebar-toggled"),o(".sidebar").toggleClass("toggled")})),o("body.fixed-nav .sidebar").on("mousewheel DOMMouseScroll wheel",(function(e){if(o(window).width()>768){var t=e.originalEvent,l=t.wheelDelta||-t.detail;this.scrollTop+=30*(l<0?1:-1),e.preventDefault()}})),o(document).on("scroll",(function(){o(this).scrollTop()>100?o(".scroll-to-top").fadeIn():o(".scroll-to-top").fadeOut()})),o(document).on("click","a.scroll-to-top",(function(e){var t=o(this);o("html, body").stop().animate({scrollTop:o(t.attr("href")).offset().top},1e3,"easeInOutExpo"),e.preventDefault()}))}(jQuery);
+/******/ (() => { // webpackBootstrap
+var __webpack_exports__ = {};
+/*!*************************************************!*\
+  !*** ./resources/assets/js/sbAdmin/sb-admin.js ***!
+  \*************************************************/
+(function ($) {
+  "use strict";
+
+  // Start of use strict
+
+  // Toggle the side navigation
+  $("#sidebarToggle").on('click', function (e) {
+    e.preventDefault();
+    $("body").toggleClass("sidebar-toggled");
+    $(".sidebar").toggleClass("toggled");
+  });
+
+  // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+  $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
+    if ($(window).width() > 768) {
+      var e0 = e.originalEvent,
+        delta = e0.wheelDelta || -e0.detail;
+      this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+      e.preventDefault();
+    }
+  });
+
+  // Scroll to top button appear
+  $(document).on('scroll', function () {
+    var scrollDistance = $(this).scrollTop();
+    if (scrollDistance > 100) {
+      $('.scroll-to-top').fadeIn();
+    } else {
+      $('.scroll-to-top').fadeOut();
+    }
+  });
+
+  // Smooth scrolling using jQuery easing
+  $(document).on('click', 'a.scroll-to-top', function (event) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+      scrollTop: $($anchor.attr('href')).offset().top
+    }, 1000, 'easeInOutExpo');
+    event.preventDefault();
+  });
+})(jQuery); // End of use strict
+/******/ })()
+;

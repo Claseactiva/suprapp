@@ -551,6 +551,7 @@ export default { //methods
         context.commit('deleteQuotationclient', data.id)
         setTimeout(function () {
             context.commit('getQuotationclients', 1)
+            context.commit('getQuotationclientsform', 1)
         }, 1000)
     },
     deleteQuotationShipping(context, data) {
