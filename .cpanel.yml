@@ -1,11 +1,12 @@
----
+﻿---
 # Despliegue acotado para el catalogo generico de sugerencias de productos
-# y su administracion manual/importacion CSV.
+# y los ajustes del formulario publico de cotizaciones.
 deployment:
   tasks:
     - export DEPLOYPATH=/home/supra/suprapp.comercialsupra.cl/
     - /bin/mkdir -p $DEPLOYPATH/app/Console/Commands
     - /bin/mkdir -p $DEPLOYPATH/app/Http/Controllers
+    - /bin/mkdir -p $DEPLOYPATH/app/Http/Requests
     - /bin/mkdir -p $DEPLOYPATH/app/Models
     - /bin/mkdir -p $DEPLOYPATH/app/Services
     - /bin/mkdir -p $DEPLOYPATH/database/migrations
@@ -18,14 +19,20 @@ deployment:
     - /bin/cp -f routes/web.php $DEPLOYPATH/routes/web.php
     - /bin/cp -f app/Console/Commands/ImportProductCatalogTemplates.php $DEPLOYPATH/app/Console/Commands/ImportProductCatalogTemplates.php
     - /bin/cp -f app/Http/Controllers/ProductCatalogTemplateController.php $DEPLOYPATH/app/Http/Controllers/ProductCatalogTemplateController.php
+    - /bin/cp -f app/Http/Controllers/QuotationclientController.php $DEPLOYPATH/app/Http/Controllers/QuotationclientController.php
+    - /bin/cp -f app/Http/Controllers/QuotationUserController.php $DEPLOYPATH/app/Http/Controllers/QuotationUserController.php
+    - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
     - /bin/cp -f app/Models/ProductCatalogTemplate.php $DEPLOYPATH/app/Models/ProductCatalogTemplate.php
     - /bin/cp -f app/Services/ProductCatalogTemplateImportService.php $DEPLOYPATH/app/Services/ProductCatalogTemplateImportService.php
+    - /bin/cp -f app/Services/VehicleModelProductService.php $DEPLOYPATH/app/Services/VehicleModelProductService.php
     - /bin/cp -f database/migrations/2026_06_19_000007_create_product_catalog_templates_table.php $DEPLOYPATH/database/migrations/2026_06_19_000007_create_product_catalog_templates_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f resources/assets/js/components/Product/Index.vue $DEPLOYPATH/resources/assets/js/components/Product/Index.vue
     - /bin/cp -f resources/assets/js/components/Product/CatalogTemplates.vue $DEPLOYPATH/resources/assets/js/components/Product/CatalogTemplates.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Detalle.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleCliente.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleCliente.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
     - /bin/cp -f resources/assets/js/components/store/actions.js $DEPLOYPATH/resources/assets/js/components/store/actions.js
