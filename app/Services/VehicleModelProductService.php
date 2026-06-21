@@ -102,6 +102,12 @@ class VehicleModelProductService
             ]
         );
 
+        $this->syncProductVehicleRelation(
+            $resolvedProductId,
+            $vehicleModelId,
+            (int) $quotationclient->user_id
+        );
+
         return true;
     }
 
@@ -209,7 +215,7 @@ class VehicleModelProductService
         ];
 
         Quotationclient::with(['detailclients:id,quotationclient_id,product,detail'])
-            ->select('id', 'vehicle', 'vehicle_model_id')
+            ->select('id', 'vehicle', 'vehicle_model_id', 'user_id')
             ->chunkById(200, function (Collection $quotationclients) use (&$stats, $refreshModelId) {
                 foreach ($quotationclients as $quotationclient) {
                     $stats['quotations_scanned']++;
@@ -234,6 +240,19 @@ class VehicleModelProductService
             });
 
         return $stats;
+    }
+
+    protected function syncProductVehicleRelation(?int $productId, ?int $vehicleModelId, int $userId): void
+    {
+        if (empty($productId) || empty($vehicleModelId) || $userId <= 0) {
+            return;
+        }
+
+        ProductVehicleModel::firstOrCreate([
+            'product_id' => (int) $productId,
+            'vehicle_model_id' => (int) $vehicleModelId,
+            'user_id' => $userId,
+        ]);
     }
 
     protected function getNormalizedModels(): array

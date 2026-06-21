@@ -132,7 +132,7 @@ export default { //data
         label: '',
         value: ''
     },
-    /*** sección componentes de vehiculos */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de vehiculos */
     vehicles: [],
     rol: '',
     rol: '',
@@ -319,7 +319,7 @@ export default { //data
     idDetailvehicle: null,
     /********************************* */
     /************************************ */
-    /*** sección componentes de notas */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de notas */
     notes: [],
     note: {
         id: '',
@@ -341,7 +341,7 @@ export default { //data
     },
     /********************************* */
     /************************************ */
-    /*** sección componentes de cotizaciones */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones */
     idforms: null,
     quotationforms: [],
     selectedVehicleClient: {
@@ -371,7 +371,7 @@ export default { //data
     totalQuotationIVA: 0,
     /********************************* */
     /************************************ */
-    /*** sección componentes de cotizaciones para clientes*/
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones para clientes*/
     quotationclients: [],
     quotationclientsform: [],
     quotationshipping: [],
@@ -436,7 +436,7 @@ export default { //data
     totalProductIvaFlete: 0,
     /********************************* */
     /************************************ */
-    /*** sección componentes de cotizaciones para importaciones*/
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones para importaciones*/
     newQuotationimport: {
         import_id: '',
         user_id: '',
@@ -457,7 +457,7 @@ export default { //data
     totalQuotationimportIVA: 0,
     /********************************* */
     /********************************* */
-    /*** sección componentes de cotizaciones usuario cliente */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones usuario cliente */
     formCotizacion: {
         name: '',
         email: '',
@@ -475,7 +475,6 @@ export default { //data
         brand: '',
         model: '',
         year: '',
-        engine: '',
         description: ''
     },
 
@@ -490,7 +489,7 @@ export default { //data
     },
     quotationDesc: '',
     /************************************ */
-    /*** sección componentes de importaciones */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de importaciones */
     idImport: null,
     imports: [],
     newImport: {
@@ -520,7 +519,7 @@ export default { //data
     import: null,
     /********************************* */
     /************************************ */
-    /*** sección componentes de detalle */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de detalle */
     details: [],
     newDetail: {
         product: '',
@@ -533,7 +532,7 @@ export default { //data
     },
     /********************************* */
     /************************************ */
-    /*** sección componentes de detalle de un cliente */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de detalle de un cliente */
     detailclients: [],
     modelProductSuggestions: [],
     productCatalogTemplateSuggestions: [],
@@ -578,7 +577,7 @@ export default { //data
     },
     /********************************* */
     /************************************ */
-    /*** sección componentes de detalle de un cliente */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de detalle de un cliente */
     detailimports: [],
     newDetailimport: {
         import_id: '',
@@ -681,7 +680,7 @@ export default { //data
     totalImportIVA: 0,
     /********************************* */
     /************************************ */
-    /*** sección componentes de clientes */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de clientes */
     clients: [],
     client: {
         id: '',
@@ -727,11 +726,12 @@ export default { //data
     },
     /********************************* */
     /************************************ */
-    /*** sección componentes de productos */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de productos */
     import_file: '',
     products: [],
     productVehicleModelOptions: [],
-    productVehicleModelSearch: '',
+    productVehicleModelBrandSearch: '',
+    productVehicleModelModelSearch: '',
     selectedProductVehicleModelIds: [],
     productVehicleModelModal: {
         productId: null,
@@ -774,7 +774,7 @@ export default { //data
     },
     /*********************************** */
     /************************************ */
-    /*** sección componentes de codigos */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de codigos */
     codes: [],
     newProduct:{ name: '', codebar: '', client_id: '', detail: '', atributo: 0, utilidad: 0, flete: 0, folio: 0 },
     searchCode: {
@@ -792,14 +792,14 @@ export default { //data
 
     /*********************************** */
     /************************************ */
-    /*** sección componentes de inventarios */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de inventarios */
     newInventory: {product_id: 0, quantity: 1, price: 0, discount: 0},
     inventories: [],
     fileInvoice: null,
     searchInventory: { name: ''},
     /********************************* */
     /************************************ */
-    /*** sección de la empresa de un usuario */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n de la empresa de un usuario */
     newCompany: {
         user_id: '',
         rut: '',
@@ -904,7 +904,7 @@ export default { //data
 
     /********************************* */
     /************************************ */
-    /*** sección componentes de usuarios */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de usuarios */
     idUser: null,
     quotationusers:[],
     quotationUserMechanic:[],
@@ -957,7 +957,7 @@ export default { //data
         rut: ''
     },
     /********************************** */
-    /*** sección componentes de roles */
+    /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de roles */
     roles: [],
     newRole: {
         name: '',

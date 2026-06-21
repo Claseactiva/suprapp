@@ -14,22 +14,32 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-row align-items-end mb-3">
-                            <div class="form-group col-lg-7 mb-2">
-                                <label for="product-model-search">Filtrar modelo</label>
+                            <div class="form-group col-lg-4 mb-2">
+                                <label for="product-model-brand-search">Filtrar marca</label>
                                 <input
-                                    id="product-model-search"
+                                    id="product-model-brand-search"
                                     type="text"
                                     class="form-control"
-                                    v-model="productVehicleModelSearch"
-                                    placeholder="Marca o modelo"
+                                    v-model="brandSearch"
+                                    placeholder="Ej: Toyota"
                                 >
                             </div>
-                            <div class="form-group col-lg-5 mb-2 text-lg-right">
+                            <div class="form-group col-lg-4 mb-2">
+                                <label for="product-model-model-search">Filtrar modelo</label>
+                                <input
+                                    id="product-model-model-search"
+                                    type="text"
+                                    class="form-control"
+                                    v-model="modelSearch"
+                                    placeholder="Ej: Tercel"
+                                >
+                            </div>
+                            <div class="form-group col-lg-4 mb-2 text-lg-right">
                                 <small class="text-muted d-block mb-2">{{ selectedProductVehicleModelIds.length }} relacionado(s)</small>
-                                <button type="button" class="btn btn-outline-secondary btn-sm mr-2" @click.prevent="selectVisibleProductVehicleModels">
+                                <button type="button" class="btn btn-outline-secondary btn-sm mr-2" @click.prevent="selectVisibleFiltered">
                                     Seleccionar visibles
                                 </button>
-                                <button type="button" class="btn btn-outline-secondary btn-sm" @click.prevent="clearProductVehicleModels">
+                                <button type="button" class="btn btn-outline-secondary btn-sm" @click.prevent="clearAllFiltersAndSelection">
                                     Limpiar
                                 </button>
                             </div>
@@ -78,22 +88,30 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            brandSearch: '',
+            modelSearch: ''
+        }
+    },
     computed: {
         ...mapState([
             'productVehicleModelModal',
             'productVehicleModelOptions',
-            'productVehicleModelSearch',
             'selectedProductVehicleModelIds'
         ]),
         filteredProductVehicleModelOptions() {
-            const term = (this.productVehicleModelSearch || '').trim().toLowerCase()
-
-            if (term === '') {
-                return this.productVehicleModelOptions
-            }
+            const brandTerm = (this.brandSearch || '').trim().toLowerCase()
+            const modelTerm = (this.modelSearch || '').trim().toLowerCase()
 
             return this.productVehicleModelOptions.filter((model) => {
-                return `${model.brand} ${model.model}`.toLowerCase().includes(term)
+                const modelBrand = (model.brand || '').toLowerCase()
+                const modelName = (model.model || '').toLowerCase()
+                const combined = `${modelBrand} ${modelName}`.trim()
+                const matchesBrand = brandTerm === '' || modelBrand.includes(brandTerm) || combined.includes(brandTerm)
+                const matchesModel = modelTerm === '' || modelName.includes(modelTerm) || combined.includes(modelTerm)
+
+                return matchesBrand && matchesModel
             })
         }
     },
@@ -106,6 +124,22 @@ export default {
         ]),
         isProductVehicleModelSelected(id) {
             return this.selectedProductVehicleModelIds.includes(id)
+        },
+        clearAllFiltersAndSelection() {
+            this.brandSearch = ''
+            this.modelSearch = ''
+            this.clearProductVehicleModels()
+        },
+        selectVisibleFiltered() {
+            this.selectVisibleProductVehicleModels({
+                ids: this.filteredProductVehicleModelOptions.map((model) => model.id)
+            })
+        }
+    },
+    watch: {
+        'productVehicleModelModal.productId'() {
+            this.brandSearch = ''
+            this.modelSearch = ''
         }
     }
 }

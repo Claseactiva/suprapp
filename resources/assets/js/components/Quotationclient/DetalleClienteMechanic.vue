@@ -21,11 +21,7 @@
                                         <td>{{ quotationLocalForm.name }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Email</th>
-                                        <td>{{ quotationLocalForm.email }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Teléfono</th>
+                                        <th>Telefono</th>
                                         <td>{{ quotationLocalForm.phone }}</td>
                                     </tr>
                                     <tr>
@@ -51,15 +47,11 @@
                                         <td>{{ quotationLocalForm.model }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Año</th>
+                                        <th>Ano</th>
                                         <td>{{ quotationLocalForm.year }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Motor</th>
-                                        <td>{{ quotationLocalForm.engine }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Descripción</th>
+                                        <th>Descripcion</th>
                                         <td>{{ quotationLocalForm.description }}</td>
                                     </tr>
 
@@ -75,7 +67,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
     computed: {

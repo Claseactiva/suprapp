@@ -193,6 +193,11 @@
 
                     </div>
                     <div class="modal-footer">
+                        <a class="btn btn-success" href="#" role="button"
+                            @click.prevent="copyQuotationWhatsappText">
+                            <i class="far fa-copy"></i> Copiar WhatsApp
+                        </a>
+
                         <a class="btn btn-danger" href="#" role="button"
                             @click.prevent="pdfQuotationclient">
                             <i class="far fa-file-pdf"></i> PDF
@@ -215,6 +220,7 @@
 
 import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapGetters, mapActions } from 'vuex'
+import toastr from 'toastr'
 import SelectProduct from '../Product/SelectProduct'
 import { buildCombinedProductSuggestions } from './productSuggestionHelpers'
 
@@ -237,6 +243,87 @@ export default {
     methods:{
         ...mapActions(['createDetailclient', 'editDetailclientMechanic', 'deleteDetailclient',
                     'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProductMechanic']),
+        copyQuotationWhatsappText() {
+            if (!this.detailclients.length) {
+                toastr.warning('No hay productos para copiar')
+                return
+            }
+
+            const text = this.buildQuotationWhatsappText()
+
+            this.copyTextToClipboard(text, 'Se copio la cotizacion para WhatsApp')
+        },
+        buildQuotationWhatsappText() {
+            const lines = this.detailclients.map((detailLocal, index) => {
+                const product = (detailLocal.product || 'Producto sin nombre').trim()
+                const quantity = this.formatQuantity(detailLocal.quantity)
+                const total = this.formatPriceForCopy(Math.round((Number(detailLocal.total) || 0) * 1.19))
+                const delivery = this.normalizeDeliveryTime(detailLocal.days)
+
+                return `${index + 1}. ${product}\nCantidad: ${quantity}\nValor: ${total}\nEntrega: ${delivery}`
+            })
+
+            return `COTIZACION\n\n${lines.join('\n\n')}\n\nTotal: ${this.formatPriceForCopy(this.totalQuotationclientIVA)}`
+        },
+        copyTextToClipboard(text, successMessage) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    toastr.success(successMessage)
+                }).catch(() => {
+                    this.copyTextToClipboardLegacy(text, successMessage)
+                })
+                return
+            }
+
+            this.copyTextToClipboardLegacy(text, successMessage)
+        },
+        copyTextToClipboardLegacy(text, successMessage) {
+            const textArea = document.createElement('textarea')
+            textArea.value = text
+            textArea.setAttribute('readonly', '')
+            textArea.style.position = 'fixed'
+            textArea.style.opacity = '0'
+            document.body.appendChild(textArea)
+            textArea.select()
+
+            try {
+                const successful = document.execCommand('copy')
+
+                if (successful) {
+                    toastr.success(successMessage)
+                } else {
+                    toastr.error('No se pudo copiar la cotizacion')
+                }
+            } catch (error) {
+                toastr.error('No se pudo copiar la cotizacion')
+            } finally {
+                document.body.removeChild(textArea)
+                window.getSelection().removeAllRanges()
+            }
+        },
+        normalizeDeliveryTime(value) {
+            const text = (value || '').toString().trim()
+            return text || 'Por confirmar'
+        },
+        formatQuantity(value) {
+            const numericValue = Number(value)
+
+            if (!Number.isFinite(numericValue) || numericValue <= 0) {
+                return '1'
+            }
+
+            return Number.isInteger(numericValue)
+                ? String(numericValue)
+                : numericValue.toString().replace('.', ',')
+        },
+        formatPriceForCopy(value) {
+            const numericValue = Number(value) || 0
+            return new Intl.NumberFormat('es-CL', {
+                style: 'currency',
+                currency: 'CLP',
+                maximumFractionDigits: 0
+            }).format(numericValue)
+        },
         availableDeliveryTimes(currentValue) {
             const options = [...this.deliveryTimes]
 

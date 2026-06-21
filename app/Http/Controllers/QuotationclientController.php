@@ -58,14 +58,14 @@ class QuotationclientController extends Controller
 
         if ($user_id == 1)
             $quotationclients = DB::table('quotationclients')
-                ->join('clients', 'quotationclients.client_id', '=', 'clients.id')
+                ->leftJoin('clients', 'quotationclients.client_id', '=', 'clients.id')
                 ->select(
                     'quotationclients.id',
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
-                    'clients.rut',
-                    'clients.razonSocial',
+                    DB::raw("COALESCE(clients.rut, '') AS rut"),
+                    DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
                     'quotationclients.vehicle',
                     'quotationclients.payment',
@@ -109,14 +109,14 @@ class QuotationclientController extends Controller
         else
 
             $quotationclients = DB::table('quotationclients')
-                ->join('clients', 'quotationclients.client_id', '=', 'clients.id')
+                ->leftJoin('clients', 'quotationclients.client_id', '=', 'clients.id')
                 ->select(
                     'quotationclients.id',
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
-                    'clients.rut',
-                    'clients.razonSocial',
+                    DB::raw("COALESCE(clients.rut, '') AS rut"),
+                    DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
                     'quotationclients.vehicle',
                     'quotationclients.payment',
@@ -133,6 +133,7 @@ class QuotationclientController extends Controller
                 )
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
+                ->where('quotationclients.generado', '<>', 5)
                 ->where('quotationclients.user_id', '=', $user_id)
                 ->when($id, function ($query, $id) {
                     return $query->where('quotationclients.id', 'like', '%' . $id . '%');
@@ -172,6 +173,7 @@ class QuotationclientController extends Controller
 
     public function clientsform()
     {
+        $user_id = Auth::id();
         $id = request('id');
         $razonSocial = request('razonSocial');
         $client = request('client');
@@ -185,11 +187,11 @@ class QuotationclientController extends Controller
         }
 
         $quotationclientsform = DB::table('quotationclients')
-            ->join('clients', 'quotationclients.client_id', '=', 'clients.id')
+            ->leftJoin('clients', 'quotationclients.client_id', '=', 'clients.id')
             ->select(
                 'quotationclients.id',
-                'clients.rut',
-                'clients.razonSocial',
+                DB::raw("COALESCE(clients.rut, '') AS rut"),
+                DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                 'quotationclients.client_text',
                 'quotationclients.vehicle',
                 'quotationclients.payment',
@@ -200,8 +202,10 @@ class QuotationclientController extends Controller
                 'quotationclients.created_at'
             )
             ->orderBy('quotationclients.id', 'DESC')
-            ->where('quotationclients.generado', '=', 3)
-            ->orWhere('quotationclients.generado', '=', 5)
+            ->whereIn('quotationclients.generado', [3, 5])
+            ->when($user_id != 1, function ($query) use ($user_id) {
+                return $query->where('quotationclients.user_id', '=', $user_id);
+            })
             ->when($id, function ($query, $id) {
                 return $query->where('quotationclients.id', 'like', '%' . $id . '%');
             })
@@ -224,7 +228,6 @@ class QuotationclientController extends Controller
                 return $query->whereYear('quotationclients.created_at', $year);
             })
             ->paginate($perPage);
-
 
         return [
             'pagination_form' => [

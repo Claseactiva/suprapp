@@ -246,10 +246,75 @@ function resolvePaginationRequest(request, fallbackPerPage = 20) {
     }
 }
 
+const PUBLIC_QUOTATION_WHATSAPP_NUMBER = '56989483379'
+
+function resetPublicQuotationVehicleSelectors(state) {
+    state.selectedVBrand = { label: '', value: '' }
+    state.selectedVModel = { label: '', value: '' }
+    state.selectedVYear = { label: '', value: '' }
+    state.selectedVEngine = { label: '', value: '' }
+}
+
+function normalizePublicQuotationErrors(error) {
+    const normalizedErrors = []
+    const response = error && error.response ? error.response : null
+
+    if (response && response.status === 422 && response.data && response.data.errors) {
+        Object.keys(response.data.errors).forEach(field => {
+            const messages = response.data.errors[field]
+            ;(Array.isArray(messages) ? messages : [messages]).forEach(message => {
+                normalizedErrors.push({ field, msg: String(message) })
+            })
+        })
+    }
+
+    return normalizedErrors
+}
+
+function buildPublicQuotationWhatsAppUrl(payload) {
+    const lines = ['Hola, acabo de enviar una solicitud de cotizacion desde el formulario web.']
+    const vehicle = [payload.brand, payload.model, payload.year].filter(Boolean).join(' ')
+
+    if (payload.name) {
+        lines.push('Nombre: ' + payload.name)
+    }
+
+    if (payload.phone) {
+        lines.push('WhatsApp: ' + payload.phone)
+    }
+
+    if (payload.patentchasis) {
+        lines.push('Patente/Chasis: ' + payload.patentchasis)
+    }
+
+    if (vehicle) {
+        lines.push('Vehiculo: ' + vehicle)
+    }
+
+    if (payload.description) {
+        lines.push('Repuestos:\n' + payload.description)
+    }
+
+    return 'https://wa.me/' + PUBLIC_QUOTATION_WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'))
+}
+
+function dispatchPublicQuotationSent(payload) {
+    if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') {
+        return
+    }
+
+    window.dispatchEvent(new CustomEvent('public-quotation-sent', {
+        detail: {
+            whatsAppUrl: buildPublicQuotationWhatsAppUrl(payload),
+            message: 'Solicitud enviada con exito'
+        }
+    }))
+}
+
 
 export default { //used for changing the state
     /******************************* */
-    /****** sección vehiculos **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n vehiculos **** */
     /******************************* */
     getVehicles(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -295,7 +360,7 @@ export default { //used for changing the state
             state.selectedVEngine.label = ''
             state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Vehículo generado con éxito')
+            toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -347,7 +412,7 @@ export default { //used for changing the state
         })
             .then(response => {
                 $('#requestParts').modal('hide')
-                toastr.success('Solicitud ingresada con éxito')
+                toastr.success('Solicitud ingresada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             })
             .catch(error => {
                 toastr.success('No se pudo enviar la solicitud')
@@ -442,7 +507,7 @@ export default { //used for changing the state
     removeTrabajo(state, data) {
         let url = urlEliminarOrdenTrabajo
         axios.post(url, data).then(response => {
-            toastr.success('Orden de trabajo eliminada con éxito')
+            toastr.success('Orden de trabajo eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             state.trabajos = response.data.trabajos
             state.kilometrajeActual = response.data.ultimo_km
             state.newOrdenTrabajo.km_old = response.data.ultimo_km
@@ -518,7 +583,7 @@ export default { //used for changing the state
                 state.newOrdenTrabajo.vehicle_id = ''
                 state.errorsLaravel = []
                 $('#modalFotosOrdenTrabajo').modal('hide')
-                toastr.success('Imagen(es) subida(s) con éxito')
+                toastr.success('Imagen(es) subida(s) con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }).catch(error => {
                 state.errorsLaravel = error.response.data
             })
@@ -620,7 +685,7 @@ export default { //used for changing the state
 
     crearCheckList(state) {
         if (state.checklists.length == 0) {
-            toastr.error('¡Error, Agregue una categoria!')
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Agregue una categoria!')
         } else {
             state.crearFormatoCheckList = false
             state.crearIntervencionCheckList = true
@@ -677,14 +742,14 @@ export default { //used for changing the state
             let url = urlCrearCheckList
             axios.post(url, { checklists: state.checklists }).then(response => {
                 if (response.data && response.status === 200) {
-                    toastr.success('¡Se creo correctamente el formato del checklist!')
+                    toastr.success('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Se creo correctamente el formato del checklist!')
                     $("#CrearFormatoCheckList").modal('hide')
                 }
             }).catch(error => {
                 toastr.error(error.response.data)
             })
         } else {
-            toastr.error('¡Falta agregar intervenciones!')
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Falta agregar intervenciones!')
         }
 
     },
@@ -765,7 +830,7 @@ export default { //used for changing the state
 
     crearCategoria(state) {
         if (state.checklists.length == 0) {
-            toastr.error('¡Error, Agregue una categoria!')
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Agregue una categoria!')
         } else {
             let url = urlCrearCategoria
             axios.post(url, {
@@ -784,7 +849,7 @@ export default { //used for changing the state
 
     crearIntervencion(state, id) {
         if (state.intervenciones.length == 0) {
-            toastr.error('¡Error, Agregue una intervención!')
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Agregue una intervenciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n!')
         } else {
             let url = urlCrearIntervencion + '/' + id
             axios.post(url, {
@@ -794,7 +859,7 @@ export default { //used for changing the state
                 this.commit('mostrarFormatoCheckList')
                 $('#AgregarIntervencion').modal('hide')
                 $('#MostrarFormatoCheckList').modal('show')
-                toastr.success('Se agrego la intervención correctamente')
+                toastr.success('Se agrego la intervenciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n correctamente')
             }).catch(error => {
                 toastr.error(error.response.data)
             })
@@ -1106,7 +1171,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
 
             $('#createDetail').modal('hide')
-            toastr.success('Detalle del vehículo generado con éxito')
+            toastr.success('Detalle del vehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
 
         }).catch(error => {
             toastr.error(error.response.data)
@@ -1165,7 +1230,7 @@ export default { //used for changing the state
                 state.selectedVEngine.value = '',
                 state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Vehículo actualizado con éxito')
+            toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1194,7 +1259,7 @@ export default { //used for changing the state
     deleteImage(state, id) {
         let url = urlImages + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Imagen eliminada con éxito')
+            toastr.success('Imagen eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             $('#photo').modal('hide')
         })
     },
@@ -1216,7 +1281,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Tipo de vehiculo creado con éxito')
+            toastr.success('Tipo de vehiculo creado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1235,7 +1300,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit_tipo').modal('hide')
-            toastr.success('Tipo de vehiculo actualizada con éxito')
+            toastr.success('Tipo de vehiculo actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1264,7 +1329,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Marca y Modelo generado con éxito')
+            toastr.success('Marca y Modelo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1284,7 +1349,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Marca actualizada con éxito')
+            toastr.success('Marca actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1312,7 +1377,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Modelo generado con éxito')
+            toastr.success('Modelo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1345,7 +1410,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#edit_modelo').modal('hide')
-            toastr.success('Modelo actualizado con éxito')
+            toastr.success('Modelo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1363,7 +1428,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Modelo generado con éxito')
+            toastr.success('Modelo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1389,7 +1454,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#edit_year').modal('hide')
-            toastr.success('Modelo actualizado con éxito')
+            toastr.success('Modelo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1416,7 +1481,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Motor agregado con éxito')
+            toastr.success('Motor agregado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1433,7 +1498,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#edit_motor').modal('hide')
-            toastr.success('Motor actualizado con éxito')
+            toastr.success('Motor actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1461,7 +1526,7 @@ export default { //used for changing the state
 
 
     /******************************* */
-    /****** sección notas **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n notas **** */
     /******************************* */
     getNotes(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -1481,7 +1546,7 @@ export default { //used for changing the state
             state.newNote.detail = ''
             state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Nota generada con éxito')
+            toastr.success('Nota generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1502,7 +1567,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Nota actualizada con éxito')
+            toastr.success('Nota actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1510,11 +1575,11 @@ export default { //used for changing the state
     deleteNote(state, id) {
         let url = urlNote + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Nota eliminada con éxito')
+            toastr.success('Nota eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         })
     },
     /******************************* */
-    /****** sección cotizaciones **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n cotizaciones **** */
     /******************************* */
     getQuotations(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -1553,7 +1618,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             $('#create').modal('hide')
             $('#btn-quotation-card').click()
-            toastr.success('Cotización generada con éxito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1578,7 +1643,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('cotización actualizada con éxito')
+            toastr.success('cotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1586,7 +1651,7 @@ export default { //used for changing the state
     deleteQuotation(state, id) {
         let url = urlQuotation + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('cotización eliminada con éxito')
+            toastr.success('cotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         })
     },
     pdfQuotation(state) {
@@ -1594,7 +1659,7 @@ export default { //used for changing the state
         window.location.href = url;
     },
     /******************************* */
-    /****** sección detalles **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n detalles **** */
     /******************************* */
 
     createDetail(state) {
@@ -1612,7 +1677,7 @@ export default { //used for changing the state
                 price: 1
             }
             state.errorsLaravel = []
-            toastr.success('Detalle generado con éxito')
+            toastr.success('Detalle generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1635,7 +1700,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Detalle actualizado con éxito')
+            toastr.success('Detalle actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1643,11 +1708,11 @@ export default { //used for changing the state
     deleteDetail(state, id) {
         let url = urlDetail + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Detalle eliminado con éxito')
+            toastr.success('Detalle eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         })
     },
     /******************************* */
-    /****** sección clientes **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n clientes **** */
     /******************************* */
     getClients(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -1695,7 +1760,7 @@ export default { //used for changing the state
                         client_id: idClient,
                         name: actividad.actividadEconomica,
                     }).then(response => {
-                        toastr.success('Giro Ingresado con éxito')
+                        toastr.success('Giro Ingresado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
                     })
                 })
             }
@@ -1714,7 +1779,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             $('#create').modal('hide')
             $('#btn-client-card').click()
-            toastr.success('Cliente generado con éxito')
+            toastr.success('Cliente generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1751,7 +1816,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Cliente actualizado con éxito')
+            toastr.success('Cliente actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1763,12 +1828,12 @@ export default { //used for changing the state
     deleteClient(state) {
         let url = urlClient + '/' + state.fillClient.id
         axios.delete(url).then(response => {
-            toastr.success('cliente eliminado con éxito')
+            toastr.success('cliente eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             $('#deleteClient').modal('hide')
         })
     },
     /******************************* */
-    /****** sección cotizaciones clientes**** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n cotizaciones clientes**** */
     /******************************* */
 
 
@@ -2054,7 +2119,7 @@ export default { //used for changing the state
             state.selectedVYear = { label: '', value: '' }
             state.selectedVEngine = { label: '', value: '' }
             state.errorsLaravel = []
-            toastr.success('Cotización formal generada con éxito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n formal generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2087,13 +2152,13 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#editQuotationclient').modal('hide')
-            toastr.success('Cotización formal actualizada con éxito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n formal actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
         })
     },
     replicateQuotationclient(state, id) {
         axios.post(urlQuotationclient + '/' + id + '/replicate').then(response => {
-            toastr.success('CotizaciÃ³n formal duplicada con Ã©xito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n formal duplicada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2118,7 +2183,7 @@ export default { //used for changing the state
     deleteQuotationclient(state, id) {
         let url = urlQuotationclient + '/' + state.idQuotationclient
         axios.delete(url).then(response => {
-            toastr.success('Cotización formal eliminada con éxito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n formal eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             $('#modalDeleteQuotationClient').modal('hide')
             state.idQuotationclient = null
         })
@@ -2126,7 +2191,7 @@ export default { //used for changing the state
     deleteQuotationShipping(state, id) {
         let url = urlCreateQuotationShipping + '/' + state.idQuotationShipping
         axios.delete(url).then(response => {
-            toastr.success('Envio eliminado con éxito')
+            toastr.success('Envio eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             $('#modaldeleteQuotationShipping').modal('hide')
             state.idQuotationShipping = null
         })
@@ -2145,7 +2210,7 @@ export default { //used for changing the state
     },
 
     /******************************* */
-    /****** sección detalles de cotizaciones de clientes**** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n detalles de cotizaciones de clientes**** */
     /******************************* */
 
     createDetailclient(state) {
@@ -2191,7 +2256,7 @@ export default { //used for changing the state
                 spare_parts: spareParts
             }
             state.errorsLaravel = []
-            toastr.success('Detalle generado con éxito')
+            toastr.success('Detalle generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2268,7 +2333,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#editDetailClient').modal('hide')
-            toastr.success('Detalle actualizado con éxito')
+            toastr.success('Detalle actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2276,11 +2341,11 @@ export default { //used for changing the state
     deleteDetailclient(state, id) {
         let url = urlDetailclient + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Detalle eliminado con éxito')
+            toastr.success('Detalle eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         })
     },
     /******************************* */
-    /****** sección importaciones **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n importaciones **** */
     /******************************* */
     getImports(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -2352,7 +2417,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             $('#btn-import-card').click()
             $('#import').modal('show')
-            toastr.success('Importación generada con éxito')
+            toastr.success('ImportaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2407,7 +2472,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Importación actualizada con éxito')
+            toastr.success('ImportaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2419,7 +2484,7 @@ export default { //used for changing the state
     deleteImport(state) {
         let url = urlImport + '/' + state.idImport
         axios.delete(url).then(response => {
-            toastr.success('Importación eliminada con éxito')
+            toastr.success('ImportaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             //state.idImport = null
             $('#modalDeleteImport').modal('hide')
         })
@@ -2433,7 +2498,7 @@ export default { //used for changing the state
         window.location.href = url
     },
     /******************************* */
-    /****** sección detalles de importaciones**** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n detalles de importaciones**** */
     /******************************* */
     showModalDetailimport(state, id) {
         state.detailimports = []
@@ -2465,7 +2530,7 @@ export default { //used for changing the state
         axios.put(urlImport + '/' + state.idImport, {
             dolar: state.detailImport.dolar,
         }).then(response => {
-            toastr.success('Importación actualizada')
+            toastr.success('ImportaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n actualizada')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2531,7 +2596,7 @@ export default { //used for changing the state
                     total: 0
                 }
 
-                toastr.success('Producto agregado con éxito')
+                toastr.success('Producto agregado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }).catch(error => {
                 state.errorsLaravel = error.response.data
             })
@@ -2615,7 +2680,7 @@ export default { //used for changing the state
             },
                 state.errorsLaravel = []
             $('#editDetailImport').modal('hide')
-            toastr.success('Detalle actualizado con éxito')
+            toastr.success('Detalle actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2623,7 +2688,7 @@ export default { //used for changing the state
     deleteDetailimport(state, id) {
         let url = urlDetailimport + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Detalle eliminado con éxito')
+            toastr.success('Detalle eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         })
     },
     finishDetailimport(state) {
@@ -2633,7 +2698,7 @@ export default { //used for changing the state
             let url = urlDetailimport + '/' + localImport.id
             idImport = localImport.import_id
             axios.put(url, localImport).then(response => {
-                //toastr.success('Detalle actualizado con éxito')
+                //toastr.success('Detalle actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }).catch(error => {
                 state.errorsLaravel = error.response.data
             })
@@ -2657,14 +2722,14 @@ export default { //used for changing the state
             retiro: state.detailImportNacional.retiro,
             fleteChile: state.detailImportNacional.fleteChile,
         }).then(response => {
-            toastr.success('Importación actualizada con éxito')
+            toastr.success('ImportaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n actualizada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
 
     },
     /******************************* */
-    /****** sección cotización de importaciones**** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n cotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n de importaciones**** */
     /******************************* */
     showQuotationimport(state, id) {
         state.detailimports = []
@@ -2689,7 +2754,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             $('#btn-quotationimport-card').click()
             $('#modalQuotationImport').modal('hide')
-            toastr.success('Cotización generada con éxito')
+            toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             let url = urlQuotationimportPdf + '/' + response.data
             window.location.href = url
             //state.idImport = null
@@ -2698,7 +2763,7 @@ export default { //used for changing the state
         })
     },
     /******************************* */
-    /****** sección productos **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n productos **** */
     /******************************* */
 
     updateProductsUtilidad(state) {
@@ -2735,7 +2800,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = [];
             $('#edit').modal('hide')
-            toastr.success('Rol actualizado con éxito')
+            toastr.success('Rol actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2802,7 +2867,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('El Forma de Pago se a actualizado con éxito')
+            toastr.success('El Forma de Pago se a actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2822,7 +2887,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#editUtilidad').modal('hide')
-            toastr.success('El producto se a actualizado con éxito')
+            toastr.success('El producto se a actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2933,7 +2998,7 @@ export default { //used for changing the state
             $('#create').modal('hide')
             $('#btn-product-card').click()
 
-            toastr.success('Producto generado con éxito')
+            toastr.success('Producto generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -2952,7 +3017,8 @@ export default { //used for changing the state
             productId: product.id,
             productName: product.name
         }
-        state.productVehicleModelSearch = ''
+        state.productVehicleModelBrandSearch = ''
+        state.productVehicleModelModelSearch = ''
         state.selectedProductVehicleModelIds = []
     },
     getProductVehicleModelRelations(state, productId) {
@@ -2974,17 +3040,10 @@ export default { //used for changing the state
     clearProductVehicleModels(state) {
         state.selectedProductVehicleModelIds = []
     },
-    selectVisibleProductVehicleModels(state) {
-        const term = (state.productVehicleModelSearch || '').trim().toLowerCase()
-        const visibleIds = state.productVehicleModelOptions
-            .filter((model) => {
-                if (term === '') {
-                    return true
-                }
-
-                return `${model.brand} ${model.model}`.toLowerCase().includes(term)
-            })
-            .map((model) => model.id)
+    selectVisibleProductVehicleModels(state, data) {
+        const visibleIds = Array.isArray(data && data.ids)
+            ? data.ids.map((id) => parseInt(id, 10)).filter((id) => Number.isFinite(id))
+            : []
 
         state.selectedProductVehicleModelIds = Array.from(new Set([
             ...state.selectedProductVehicleModelIds,
@@ -3019,7 +3078,7 @@ export default { //used for changing the state
             state.fillProduct = { id: 0, name: '', codebar: '', client_id: '', detail: '', atributo: 0, utilidad: 0, flete: 0, folio: 0 }
             state.errorsLaravel = []
             $('#edit_product').modal('hide')
-            toastr.success('Producto actualizado con éxito')
+            toastr.success('Producto actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3033,12 +3092,12 @@ export default { //used for changing the state
             if (response.data) {
                 state.products = state.products.filter(product => product.id !== response.data.id)
                 $('#delete_product').modal('hide')
-                toastr.success('Producto eliminado con éxito')
+                toastr.success('Producto eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         })
     },
     /******************************* */
-    /****** sección productos de importacion **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n productos de importacion **** */
     /******************************* */
     getProductimports(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -3055,7 +3114,7 @@ export default { //used for changing the state
             if (response.status === 200 && response.data > 0) {
                 state.newUtilidad.utilidad = response.data
                 state.errorsLaravel = []
-                toastr.success('La utilidad se actualizo éxito')
+                toastr.success('La utilidad se actualizo ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -3069,7 +3128,7 @@ export default { //used for changing the state
         });
     },
     /******************************* */
-    /****** sección inventariado **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n inventariado **** */
     /******************************* */
     getInventories(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -3086,7 +3145,7 @@ export default { //used for changing the state
                 state.inventories.push(response.data)
                 state.newInventory = { product_id: state.newInventory.product_id, quantity: 1, price: 0, discount: 0 }
                 state.errorsLaravel = []
-                toastr.success('Inventario actualizado con éxito')
+                toastr.success('Inventario actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -3101,7 +3160,7 @@ export default { //used for changing the state
         axios.delete(url).then(response => {
             if (response.data) {
                 state.inventories = state.inventories.filter(inventory => inventory.id !== response.data.id)
-                toastr.success('Inventario eliminado con éxito')
+                toastr.success('Inventario eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         })
     },
@@ -3116,18 +3175,18 @@ export default { //used for changing the state
             const response = await axios.post(url, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
             if (response.data.message === "Factura ingresada correctamente") {
                 $('#upload_invoice').modal('hide')
-                toastr.success('Factura ingresada con éxito!')
-                // Ejecutar la mutación getInventories
+                toastr.success('Factura ingresada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito!')
+                // Ejecutar la mutaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n getInventories
                 this.commit('getInventories', 1);
             }
         } catch (error) {
             $('#upload_invoice').modal('hide')
-            toastr.error("Error subiendo la factura, quizás ya la ingreso previamente o no se pudo leer el formato")
+            toastr.error("Error subiendo la factura, quizÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡s ya la ingreso previamente o no se pudo leer el formato")
             throw error; // Rechazar la promesa si hay un error
         }
     },
     /******************************* */
-    /****** sección usuarios **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n usuarios **** */
     /******************************* */
     getUsers(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -3191,7 +3250,7 @@ export default { //used for changing the state
                 url: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario generado con éxito')
+            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3241,7 +3300,7 @@ export default { //used for changing the state
             state.attachment.length = []
             state.errorsLaravel = []
             $("#logo").val(null)
-            toastr.success('logo actualizado con éxito')
+            toastr.success('logo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             this.commit('getCompany')
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -3259,7 +3318,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
-            toastr.success('Usuario actualizado con éxito')
+            toastr.success('Usuario actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3275,7 +3334,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#editCantCliVehi').modal('hide')
-            toastr.success('Se han actualizado las cantidades con éxito')
+            toastr.success('Se han actualizado las cantidades con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3290,7 +3349,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#editCantVehicle').modal('hide')
-            toastr.success('La cantidad se actualizado con éxito')
+            toastr.success('La cantidad se actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -3302,19 +3361,19 @@ export default { //used for changing the state
     deleteUser(state) {
         let url = urlUser + '/' + state.fillUser.id
         axios.delete(url).then(response => {
-            toastr.success('usuario eliminada con éxito')
+            toastr.success('usuario eliminada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             $('#deleteUser').modal('hide')
             this.commit('getUsers', 1)
         })
     },
     /******************************* */
-    /****** sección empresas **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n empresas **** */
     /******************************* */
     updateCompany(state, id) {
         let url = urlCompany + '/' + id
         axios.put(url, state.newCompany).then(response => {
             state.errorsLaravel = []
-            toastr.success('Empresa actualizado con éxito')
+            toastr.success('Empresa actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             this.commit('getCompany')
         }).catch(error => {
             toastr.error(error.response.data.error)
@@ -3325,7 +3384,7 @@ export default { //used for changing the state
         let url = urlCompany
         axios.post(url, state.newCompany).then(response => {
             state.errorsLaravel = []
-            toastr.success('Empresa se creo con éxito')
+            toastr.success('Empresa se creo con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             this.commit('getCompany')
         }).catch(error => {
             toastr.error(error.response.data.error)
@@ -3334,7 +3393,7 @@ export default { //used for changing the state
 
     /**************************** */
     /******************************* */
-    /****** sección de control de roles **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n de control de roles **** */
     /******************************* */
     getRoles(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
@@ -3354,7 +3413,7 @@ export default { //used for changing the state
             state.newRole.description = ''
             state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Rol generado con éxito')
+            toastr.success('Rol generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3377,7 +3436,7 @@ export default { //used for changing the state
     deleteRole(state, id) {
         let url = urlRoles + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Rol eliminado con éxito');
+            toastr.success('Rol eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
         })
     },
     getAllRoles(state) {
@@ -3437,7 +3496,7 @@ export default { //used for changing the state
         axios.put(url, state.checkedRoles).then(response => {
             state.checkedRoles = []
             $('#editRoles').modal('hide')
-            toastr.success('Roles asignados con éxito')
+            toastr.success('Roles asignados con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3451,7 +3510,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = [];
             $('#modalQuotationShipping').modal('hide')
-            toastr.success('Se agrego la dirección correctamente')
+            toastr.success('Se agrego la direcciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n correctamente')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3508,7 +3567,7 @@ export default { //used for changing the state
         state.checkedSpecialRole = ''
         state.checkedPermissions = arr
     },
-    /****** sección select **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n select **** */
     /******************************* */
     allPagos(state) {
         let url = urlAllPago
@@ -3825,17 +3884,17 @@ export default { //used for changing the state
     },
     createQuotationUser(state) {
         let url = urlCreateQuotationUser
-        axios.post(url, {
-            name: state.formCotizacion.name,
-            email: state.formCotizacion.email,
-            phone: state.formCotizacion.phone,
-            patentchasis: state.formCotizacion.patentchasis.toUpperCase(),
+        const payload = {
+            name: (state.formCotizacion.name || '').trim(),
+            phone: (state.formCotizacion.phone || '').trim(),
+            patentchasis: (state.formCotizacion.patentchasis || '').toUpperCase(),
             brand: state.selectedVBrand.label,
             model: state.selectedVModel.label,
             year: state.selectedVYear.label,
-            engine: state.selectedVEngine.label,
-            description: state.formCotizacion.description
-        }).then(response => {
+            description: (state.formCotizacion.description || '').trim()
+        }
+
+        axios.post(url, payload).then(() => {
             state.formCotizacion = {
                 name: '',
                 email: '',
@@ -3846,49 +3905,47 @@ export default { //used for changing the state
                 year: '',
                 engine: '',
                 description: ''
-            },
-                state.errorsLaravel = []
-            alert('Solicitud ingresada con éxito')
-            return true
-        }).catch(error => {
-            state.errorsLaravel = []
-            if (error.response.status === 422) {
-                if (error.response.data.errors) {
-                    for (let key in error.response.data.errors) {
-                        state.errorsLaravel.push({
-                            field: key,
-                            msg: String(error.response.data.errors[key])
-                        })
-                    }
-                }
             }
-            return false
+            resetPublicQuotationVehicleSelectors(state)
+            state.errorsLaravel = []
+            dispatchPublicQuotationSent(payload)
+        }).catch(error => {
+            state.errorsLaravel = normalizePublicQuotationErrors(error)
+            if (!state.errorsLaravel.length) {
+                toastr.error('No se pudo enviar la solicitud')
+            }
         })
 
     },
 
     createQuotationUserExpress(state) {
         let url = urlCreateQuotationUserExpress
-        axios.post(url, {
-            patentchasis: state.formCotizacionExpress.patentchasis.toUpperCase(),
+        const payload = {
+            name: 'Cotizacion Express Web',
+            phone: '',
+            patentchasis: (state.formCotizacionExpress.patentchasis || '').toUpperCase(),
             brand: state.selectedVBrand.label,
             model: state.selectedVModel.label,
             year: state.selectedVYear.label,
-            engine: state.selectedVEngine.label,
-            description: state.formCotizacionExpress.description
-        }).then(response => {
+            description: (state.formCotizacionExpress.description || '').trim()
+        }
+
+        axios.post(url, payload).then(() => {
             state.formCotizacionExpress = {
                 patentchasis: '',
                 brand: '',
                 model: '',
                 year: '',
-                engine: '',
                 description: ''
-            },
-                state.errorsLaravel = []
-            toastr.success('Solicitud ingresada con éxito')
+            }
+            resetPublicQuotationVehicleSelectors(state)
+            state.errorsLaravel = []
+            dispatchPublicQuotationSent(payload)
         }).catch(error => {
-            state.errorsLaravel = error.response.data
+            state.errorsLaravel = normalizePublicQuotationErrors(error)
+            if (!state.errorsLaravel.length) {
+                toastr.error('No se pudo enviar la solicitud')
+            }
         })
     },
 
@@ -4117,7 +4174,7 @@ export default { //used for changing the state
     },
 
 
-    /****** sección paginacion **** */
+    /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n paginacion **** */
     /******************************* */
     paginate(state, page) {
         state.pagination.current_page = page
@@ -4304,7 +4361,7 @@ export default { //used for changing the state
         const cart = state.cart;
 
         if (newSale.quantity > newSale.totalSumQuantity) {
-            toastr.error('¡Error, Supera la cantidad disponibles!');
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Supera la cantidad disponibles!');
             return;
         }
 
@@ -4361,7 +4418,7 @@ export default { //used for changing the state
     createSale(state) {
         let url = urlCreateSale
         if (state.formapago == '') {
-            toastr.error('¡Error, Selecione la forma de pago!')
+            toastr.error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Selecione la forma de pago!')
         } else {
             let sale = {
                 total: state.cartTotal,
@@ -4552,7 +4609,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#modalCreateUserMechanic').modal('hide')
-            toastr.success('Usuario generado con éxito')
+            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -4574,7 +4631,7 @@ export default { //used for changing the state
                 //cant_vehicle: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario generado con éxito')
+            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -4617,7 +4674,7 @@ export default { //used for changing the state
                 state.newVehicle.km = ''
                 state.errorsLaravel = []
                 $('#createVehicleMechanic').modal('hide')
-                toastr.success('Vehículo generado con éxito')
+                toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }).catch(error => {
                 toastr.error(error.response.data)
             })
@@ -4721,7 +4778,7 @@ export default { //used for changing the state
             if (response.status === 200 && response.data > 0) {
                 state.newFlete.flete = response.data
                 state.errorsLaravel = []
-                toastr.success('El flete se actualizo éxito')
+                toastr.success('El flete se actualizo ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -4760,7 +4817,7 @@ export default { //used for changing the state
             if (response.status === 200) {
                 // state.newFlete.flete = response.data
                 state.errorsLaravel = []
-                toastr.success('La solicitud de repuesto se agrego con éxito')
+                toastr.success('La solicitud de repuesto se agrego con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -4801,3 +4858,4 @@ export default { //used for changing the state
     }
 
 }
+
