@@ -138,6 +138,7 @@ export default {
             templateSuggestions: [],
             allTemplateSuggestions: [],
             templatesLoaded: false,
+            templatesLoading: false,
             selectedTemplateParts: [],
             additionalDescription: '',
             templateSearchTimeoutId: null,
@@ -178,9 +179,14 @@ export default {
             this.filterTemplateSuggestions()
         },
         handleTemplateFocus() {
+            this.loadTemplateSuggestions()
             this.filterTemplateSuggestions()
         },
         loadTemplateSuggestions() {
+            if (this.templatesLoaded || this.templatesLoading) {
+                return
+            }
+            this.templatesLoading = true
             axios.get('product-catalog-templates-suggestions', {
                 params: { limit: 500 }
             }).then(response => {
@@ -190,10 +196,12 @@ export default {
                     search_blob: `${this.normalizeText(suggestion.product_name)} ${this.normalizeText(suggestion.categoria)}`.trim(),
                 }))
                 this.templatesLoaded = true
+                this.templatesLoading = false
                 this.filterTemplateSuggestions()
             }).catch(() => {
                 this.allTemplateSuggestions = []
                 this.templatesLoaded = true
+                this.templatesLoading = false
             })
         },
         filterTemplateSuggestions() {
@@ -444,7 +452,6 @@ export default {
         window.addEventListener('public-quotation-sent', this.handleSubmissionEvent)
         window.addEventListener('public-quotation-failed', this.handleSubmissionFailed)
         this.cleanupBootstrapBackdrop()
-        this.loadTemplateSuggestions()
         this.prefillFromQuery()
     },
     beforeDestroy() {
