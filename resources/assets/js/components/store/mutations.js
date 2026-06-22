@@ -335,6 +335,14 @@ function resolvePublicQuotationRedirectUrl(payload) {
     return buildPublicQuotationWhatsAppUrl(payload)
 }
 
+function resolvePublicQuotationChannel() {
+    if (typeof window === 'undefined') return 'wsp'
+    const params = new URLSearchParams(window.location.search || '')
+    const source = String(params.get('src') || '').trim().toLowerCase()
+    if (source === 'ig' || source === 'fb') return source
+    return 'wsp'
+}
+
 function dispatchPublicQuotationSent(payload) {
     if (typeof window === 'undefined' || typeof window.dispatchEvent !== 'function') {
         return
@@ -343,6 +351,7 @@ function dispatchPublicQuotationSent(payload) {
     window.dispatchEvent(new CustomEvent('public-quotation-sent', {
         detail: {
             redirectUrl: resolvePublicQuotationRedirectUrl(payload),
+            channel: resolvePublicQuotationChannel(),
             message: 'Solicitud enviada con exito'
         }
     }))

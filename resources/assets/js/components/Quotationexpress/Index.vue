@@ -90,11 +90,10 @@
                 </template>
                 <template v-else>
                     <h3>Gracias por cotizar con nosotros</h3>
-                    <p>Seras redirigido a WhatsApp, Facebook o Instagram, segun corresponda.</p>
-                    <p v-if="redirectCountdown > 0">Seras redirigido automaticamente en {{ redirectCountdown }} segundos.</p>
-                    <div class="quotation-success-modal__actions">
-                        <button type="button" class="btn btn-success" @click="goToWhatsApp">Continuar ahora</button>
-                    </div>
+                    <p v-if="redirectChannel === 'fb'">Te redirigiremos a Facebook nuevamente.</p>
+                    <p v-else-if="redirectChannel === 'ig'">Te redirigiremos a Instagram nuevamente.</p>
+                    <p v-else>Te redirigiremos a WhatsApp nuevamente.</p>
+                    <p v-if="redirectCountdown > 0">Seras redirigido en {{ redirectCountdown }} segundos.</p>
                 </template>
             </div>
         </div>
@@ -116,6 +115,7 @@ export default {
             submissionModalState: 'idle',
             submissionMissingPatent: false,
             redirectCountdown: 0,
+            redirectChannel: 'wsp',
             whatsAppRedirectUrl: '',
             redirectTimeoutId: null,
             redirectIntervalId: null,
@@ -316,6 +316,7 @@ export default {
             this.resetRequestBuilder()
             this.submissionMissingPatent = !!detail.missingPatent
             this.whatsAppRedirectUrl = detail.redirectUrl || ''
+            this.redirectChannel = detail.channel || 'wsp'
             this.clearRedirectTimers()
             this.cleanupBootstrapBackdrop()
             this.submissionModalState = 'success'
