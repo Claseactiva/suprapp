@@ -128,7 +128,7 @@
                         <th>Cliente</th>
                         <th>Vehículo</th>
                         <th width="180px">Producto</th>
-                        <th width="220px">Fecha</th>
+                        <th width="140px">Fecha</th>
                         <th width="200px">Acción</th>
                     </tr>
                 </thead>
@@ -484,17 +484,20 @@ export default {
 <style>
 .quotationclient-admin .mx-datepicker,
 .quotationclient-admin .mx-datepicker-range {
-    width: 100%;
+    width: 130px !important;
+    max-width: 100%;
 }
 
 .quotationclient-admin .mx-input {
-    padding-left: 8px;
-    padding-right: 24px;
+    padding-left: 6px;
+    padding-right: 20px;
+    font-size: 0.68rem !important;
 }
 
 .quotationclient-admin .mx-icon-calendar,
 .quotationclient-admin .mx-icon-clear {
-    right: 4px;
+    right: 3px;
+    font-size: 13px;
 }
 
 @media (min-width: 992px) {
