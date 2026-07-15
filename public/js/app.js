@@ -5639,22 +5639,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
       return summary.join('\n');
     },
-    productPreviewText: function productPreviewText(quotationLocal) {
-      var previewItems = (quotationLocal.product_preview || '').split('||').map(function (product) {
-        return product.trim();
-      }).filter(function (product) {
-        return product !== '';
-      });
-      var totalItems = parseInt(quotationLocal.detailclient_count || 0, 10);
-      if (!previewItems.length) {
-        return '-';
-      }
-      var text = previewItems.join(', ');
-      if (totalItems > previewItems.length) {
-        text += " (+".concat(totalItems - previewItems.length, ")");
-      }
-      return text;
-    },
     whatsAppUrl: function whatsAppUrl(telefono) {
       var digits = (telefono || '').replace(/\D/g, '');
       if (!digits) {
@@ -21821,12 +21805,7 @@ var render = function render() {
       attrs: {
         "data-table-label": "Vehiculo"
       }
-    }, [_vm._v(_vm._s(quotationLocal.vehicle))]), _vm._v(" "), _c("td", {
-      attrs: {
-        "data-table-label": "Producto",
-        title: _vm.productPreviewTitle(quotationLocal)
-      }
-    }, [_vm._v("\n                        " + _vm._s(_vm.productPreviewText(quotationLocal)) + "\n                    ")]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(quotationLocal.vehicle))]), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "Fecha"
       }

@@ -207,9 +207,7 @@
                         <td data-table-label="Razon Social">{{ quotationLocal.razonSocial }}</td>
                         <td data-table-label="Cliente">{{ quotationLocal.client_text }}</td>
                         <td data-table-label="Vehiculo">{{ quotationLocal.vehicle }}</td>
-                        <td data-table-label="Producto" :title="productPreviewTitle(quotationLocal)">
-                            {{ productPreviewText(quotationLocal) }}
-                        </td>
+                        <td></td>
                         <td data-table-label="Fecha">{{ quotationLocal.created_at | moment('DD/MM/YYYY H:mm a') }}</td>
                         <td class="quotationclient-actions-cell">
 
@@ -449,25 +447,6 @@ export default {
             }
 
             return summary.join('\n')
-        },
-        productPreviewText(quotationLocal) {
-            const previewItems = (quotationLocal.product_preview || '')
-                .split('||')
-                .map(product => product.trim())
-                .filter(product => product !== '')
-            const totalItems = parseInt(quotationLocal.detailclient_count || 0, 10)
-
-            if (!previewItems.length) {
-                return '-'
-            }
-
-            let text = previewItems.join(', ')
-
-            if (totalItems > previewItems.length) {
-                text += ` (+${totalItems - previewItems.length})`
-            }
-
-            return text
         },
         whatsAppUrl(telefono) {
             const digits = (telefono || '').replace(/\D/g, '')
