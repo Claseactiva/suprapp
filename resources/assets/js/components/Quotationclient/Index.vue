@@ -482,6 +482,21 @@ export default {
 </script>
 
 <style>
+.quotationclient-admin .mx-datepicker,
+.quotationclient-admin .mx-datepicker-range {
+    width: 100%;
+}
+
+.quotationclient-admin .mx-input {
+    padding-left: 8px;
+    padding-right: 24px;
+}
+
+.quotationclient-admin .mx-icon-calendar,
+.quotationclient-admin .mx-icon-clear {
+    right: 4px;
+}
+
 @media (min-width: 992px) {
     .quotationclient-admin {
         font-size: 0.88rem;
