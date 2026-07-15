@@ -127,7 +127,8 @@
                         <th>Razón Social</th>
                         <th>Cliente</th>
                         <th>Vehículo</th>
-                        <th width="200px">Fecha</th>
+                        <th width="180px">Producto</th>
+                        <th width="220px">Fecha</th>
                         <th width="200px">Acción</th>
                     </tr>
                 </thead>
@@ -153,16 +154,13 @@
                                 v-model="searchQuotationClient.vehicle" @keyup="getQuotationclients">
                         </td>
                         <td>
-                            <div class="form-inline">
-                                <input type="text" class="form-control w-25" placeholder="Dia"
-                                    v-model="searchQuotationClient.day" @keyup="getQuotationclients">
-                                <h5>/</h5>
-                                <input type="text" class="form-control w-25" placeholder="Mes"
-                                    v-model="searchQuotationClient.month" @keyup="getQuotationclients">
-                                <h5>/</h5>
-                                <input type="text" class="form-control w-25" placeholder="Año"
-                                    v-model="searchQuotationClient.year" @keyup="getQuotationclients">
-                            </div>
+                            <input type="text" class="form-control" placeholder="Ej: rodamiento"
+                                v-model="searchQuotationClient.product" @keyup="getQuotationclients">
+                        </td>
+                        <td>
+                            <date-picker v-model="dateRange" range value-type="format" format="YYYY-MM-DD"
+                                placeholder="Rango de fechas" input-class="form-control" :clearable="true"
+                                @change="getQuotationclients()" @clear="getQuotationclients()"></date-picker>
                         </td>
                         <td>
                             <div class="quotationclient-per-page-inline" title="Filas por pagina">
@@ -209,6 +207,9 @@
                         <td data-table-label="Razon Social">{{ quotationLocal.razonSocial }}</td>
                         <td data-table-label="Cliente">{{ quotationLocal.client_text }}</td>
                         <td data-table-label="Vehiculo">{{ quotationLocal.vehicle }}</td>
+                        <td data-table-label="Producto" :title="productPreviewTitle(quotationLocal)">
+                            {{ productPreviewText(quotationLocal) }}
+                        </td>
                         <td data-table-label="Fecha">{{ quotationLocal.created_at | moment('DD/MM/YYYY H:mm a') }}</td>
                         <td class="quotationclient-actions-cell">
 
@@ -371,13 +372,24 @@ import ModelSelector from '../Quotationuser/ModelSelector'
 import YearSelector from '../Quotationuser/YearSelector'
 import EngineSelector from '../Quotationuser/EngineSelector'
 import SelectTiposPagos from '../Utilidad/SelectTiposPagos'
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 
 
 export default {
-    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos },
+    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker },
     computed: {
         ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient']),
         ...mapGetters(['isActived', 'pagesNumber']),
+        dateRange: {
+            get() {
+                return [this.searchQuotationClient.date_from || null, this.searchQuotationClient.date_to || null]
+            },
+            set(value) {
+                this.searchQuotationClient.date_from = (value && value[0]) || ''
+                this.searchQuotationClient.date_to = (value && value[1]) || ''
+            }
+        }
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
@@ -437,6 +449,25 @@ export default {
             }
 
             return summary.join('\n')
+        },
+        productPreviewText(quotationLocal) {
+            const previewItems = (quotationLocal.product_preview || '')
+                .split('||')
+                .map(product => product.trim())
+                .filter(product => product !== '')
+            const totalItems = parseInt(quotationLocal.detailclient_count || 0, 10)
+
+            if (!previewItems.length) {
+                return '-'
+            }
+
+            let text = previewItems.join(', ')
+
+            if (totalItems > previewItems.length) {
+                text += ` (+${totalItems - previewItems.length})`
+            }
+
+            return text
         },
         whatsAppUrl(telefono) {
             const digits = (telefono || '').replace(/\D/g, '')

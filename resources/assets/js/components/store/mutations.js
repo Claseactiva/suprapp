@@ -1898,18 +1898,20 @@ export default { //used for changing the state
 
     getQuotationclients(state, request) {
         const { page } = resolvePaginationRequest(request, state.searchQuotationClient.per_page || 20)
-        let id = state.searchQuotationClient.id
-        let razonSocial = state.searchQuotationClient.razonSocial
-        let client = state.searchQuotationClient.client
-        let vehicle = state.searchQuotationClient.vehicle
-        let day = state.searchQuotationClient.day
-        let month = state.searchQuotationClient.month
-        let year = state.searchQuotationClient.year
-        let perPage = state.searchQuotationClient.per_page
 
-        let url = urlQuotationclient + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year + '&per_page=' + perPage
-
-        axios.get(url).then(response => {
+        axios.get(urlQuotationclient, {
+            params: {
+                page: page,
+                id: state.searchQuotationClient.id,
+                razonSocial: state.searchQuotationClient.razonSocial,
+                client: state.searchQuotationClient.client,
+                vehicle: state.searchQuotationClient.vehicle,
+                product: state.searchQuotationClient.product,
+                date_from: state.searchQuotationClient.date_from,
+                date_to: state.searchQuotationClient.date_to,
+                per_page: state.searchQuotationClient.per_page
+            }
+        }).then(response => {
             state.quotationclients = response.data.quotationclients.data
             state.pagination = response.data.pagination
         });

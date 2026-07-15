@@ -5499,7 +5499,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Client_Select__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Client/Select */ "./resources/assets/js/components/Client/Select.vue");
@@ -5520,6 +5520,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Quotationuser/YearSelector */ "./resources/assets/js/components/Quotationuser/YearSelector.vue");
 /* harmony import */ var _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Quotationuser/EngineSelector */ "./resources/assets/js/components/Quotationuser/EngineSelector.vue");
 /* harmony import */ var _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Utilidad/SelectTiposPagos */ "./resources/assets/js/components/Utilidad/SelectTiposPagos.vue");
+/* harmony import */ var vue2_datepicker__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! vue2-datepicker */ "./node_modules/vue2-datepicker/index.esm.js");
+/* harmony import */ var vue2_datepicker_index_css__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! vue2-datepicker/index.css */ "./node_modules/vue2-datepicker/index.css");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -5532,6 +5534,8 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
 
 
 
@@ -5571,10 +5575,21 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     DetalleClienteMechanic: _DetalleClienteMechanic__WEBPACK_IMPORTED_MODULE_4__["default"],
     ListarClientesForm: _ListarClientesForm__WEBPACK_IMPORTED_MODULE_12__["default"],
     ListarQuotationShipping: _ListarQuotationShipping__WEBPACK_IMPORTED_MODULE_13__["default"],
-    SelectTiposPagos: _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__["default"]
+    SelectTiposPagos: _Utilidad_SelectTiposPagos__WEBPACK_IMPORTED_MODULE_18__["default"],
+    DatePicker: vue2_datepicker__WEBPACK_IMPORTED_MODULE_19__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_19__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapGetters)(['isActived', 'pagesNumber'])), {}, {
+    dateRange: {
+      get: function get() {
+        return [this.searchQuotationClient.date_from || null, this.searchQuotationClient.date_to || null];
+      },
+      set: function set(value) {
+        this.searchQuotationClient.date_from = value && value[0] || '';
+        this.searchQuotationClient.date_to = value && value[1] || '';
+      }
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])), {}, {
     contactLinks: function contactLinks(quotationLocal) {
       var links = [];
       var messengerUrl = (quotationLocal.url || '').trim();
@@ -5623,6 +5638,22 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         summary.push('Sin productos cargados');
       }
       return summary.join('\n');
+    },
+    productPreviewText: function productPreviewText(quotationLocal) {
+      var previewItems = (quotationLocal.product_preview || '').split('||').map(function (product) {
+        return product.trim();
+      }).filter(function (product) {
+        return product !== '';
+      });
+      var totalItems = parseInt(quotationLocal.detailclient_count || 0, 10);
+      if (!previewItems.length) {
+        return '-';
+      }
+      var text = previewItems.join(', ');
+      if (totalItems > previewItems.length) {
+        text += " (+".concat(totalItems - previewItems.length, ")");
+      }
+      return text;
     },
     whatsAppUrl: function whatsAppUrl(telefono) {
       var digits = (telefono || '').replace(/\D/g, '');
@@ -21629,75 +21660,53 @@ var render = function render() {
         _vm.$set(_vm.searchQuotationClient, "vehicle", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("td", [_c("div", {
-    staticClass: "form-inline"
-  }, [_c("input", {
+  })]), _vm._v(" "), _c("td", [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.searchQuotationClient.day,
-      expression: "searchQuotationClient.day"
+      value: _vm.searchQuotationClient.product,
+      expression: "searchQuotationClient.product"
     }],
-    staticClass: "form-control w-25",
+    staticClass: "form-control",
     attrs: {
       type: "text",
-      placeholder: "Dia"
+      placeholder: "Ej: rodamiento"
     },
     domProps: {
-      value: _vm.searchQuotationClient.day
+      value: _vm.searchQuotationClient.product
     },
     on: {
       keyup: _vm.getQuotationclients,
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.searchQuotationClient, "day", $event.target.value);
+        _vm.$set(_vm.searchQuotationClient, "product", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("h5", [_vm._v("/")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.searchQuotationClient.month,
-      expression: "searchQuotationClient.month"
-    }],
-    staticClass: "form-control w-25",
+  })]), _vm._v(" "), _c("td", [_c("date-picker", {
     attrs: {
-      type: "text",
-      placeholder: "Mes"
-    },
-    domProps: {
-      value: _vm.searchQuotationClient.month
+      range: "",
+      "value-type": "format",
+      format: "YYYY-MM-DD",
+      placeholder: "Rango de fechas",
+      "input-class": "form-control",
+      clearable: true
     },
     on: {
-      keyup: _vm.getQuotationclients,
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.searchQuotationClient, "month", $event.target.value);
+      change: function change($event) {
+        return _vm.getQuotationclients();
+      },
+      clear: function clear($event) {
+        return _vm.getQuotationclients();
       }
-    }
-  }), _vm._v(" "), _c("h5", [_vm._v("/")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.searchQuotationClient.year,
-      expression: "searchQuotationClient.year"
-    }],
-    staticClass: "form-control w-25",
-    attrs: {
-      type: "text",
-      placeholder: "Año"
     },
-    domProps: {
-      value: _vm.searchQuotationClient.year
-    },
-    on: {
-      keyup: _vm.getQuotationclients,
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.searchQuotationClient, "year", $event.target.value);
-      }
+    model: {
+      value: _vm.dateRange,
+      callback: function callback($$v) {
+        _vm.dateRange = $$v;
+      },
+      expression: "dateRange"
     }
-  })])]), _vm._v(" "), _c("td", [_c("div", {
+  })], 1), _vm._v(" "), _c("td", [_c("div", {
     staticClass: "quotationclient-per-page-inline",
     attrs: {
       title: "Filas por pagina"
@@ -21813,6 +21822,11 @@ var render = function render() {
         "data-table-label": "Vehiculo"
       }
     }, [_vm._v(_vm._s(quotationLocal.vehicle))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "Producto",
+        title: _vm.productPreviewTitle(quotationLocal)
+      }
+    }, [_vm._v("\n                        " + _vm._s(_vm.productPreviewText(quotationLocal)) + "\n                    ")]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "Fecha"
       }
@@ -22112,7 +22126,11 @@ var staticRenderFns = [function () {
     }
   }, [_vm._v("Rut")]), _vm._v(" "), _c("th", [_vm._v("Razón Social")]), _vm._v(" "), _c("th", [_vm._v("Cliente")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "200px"
+      width: "180px"
+    }
+  }, [_vm._v("Producto")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "220px"
     }
   }, [_vm._v("Fecha")]), _vm._v(" "), _c("th", {
     attrs: {
@@ -36171,16 +36189,19 @@ function dispatchPublicQuotationFailed() {
   getQuotationclients: function getQuotationclients(state, request) {
     var _resolvePaginationReq11 = resolvePaginationRequest(request, state.searchQuotationClient.per_page || 20),
       page = _resolvePaginationReq11.page;
-    var id = state.searchQuotationClient.id;
-    var razonSocial = state.searchQuotationClient.razonSocial;
-    var client = state.searchQuotationClient.client;
-    var vehicle = state.searchQuotationClient.vehicle;
-    var day = state.searchQuotationClient.day;
-    var month = state.searchQuotationClient.month;
-    var year = state.searchQuotationClient.year;
-    var perPage = state.searchQuotationClient.per_page;
-    var url = urlQuotationclient + '?page=' + page + '&id=' + id + '&razonSocial=' + razonSocial + '&client=' + client + '&vehicle=' + vehicle + '&day=' + day + '&month=' + month + '&year=' + year + '&per_page=' + perPage;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(urlQuotationclient, {
+      params: {
+        page: page,
+        id: state.searchQuotationClient.id,
+        razonSocial: state.searchQuotationClient.razonSocial,
+        client: state.searchQuotationClient.client,
+        vehicle: state.searchQuotationClient.vehicle,
+        product: state.searchQuotationClient.product,
+        date_from: state.searchQuotationClient.date_from,
+        date_to: state.searchQuotationClient.date_to,
+        per_page: state.searchQuotationClient.per_page
+      }
+    }).then(function (response) {
       state.quotationclients = response.data.quotationclients.data;
       state.pagination = response.data.pagination;
     });
@@ -39358,6 +39379,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   razonSocial: '',
   client: '',
   vehicle: '',
+  product: '',
+  date_from: '',
+  date_to: '',
   day: '',
   month: '',
   year: '',

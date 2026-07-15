@@ -47,9 +47,9 @@ class QuotationclientController extends Controller
         $razonSocial = request('razonSocial');
         $client = request('client');
         $vehicle = request('vehicle');
-        $day = request('day');
-        $month = request('month');
-        $year = request('year');
+        $product = request('product');
+        $dateFrom = request('date_from');
+        $dateTo = request('date_to');
         $perPage = (int) request('per_page', 20);
         if ($perPage <= 0) {
             $perPage = 20;
@@ -95,14 +95,19 @@ class QuotationclientController extends Controller
                 ->when($vehicle, function ($query, $vehicle) {
                     return $query->where('quotationclients.vehicle', 'like', '%' . $vehicle . '%');
                 })
-                ->when($day, function ($query, $day) {
-                    return $query->whereDay('quotationclients.created_at', $day);
+                ->when($dateFrom, function ($query, $dateFrom) {
+                    return $query->whereDate('quotationclients.created_at', '>=', $dateFrom);
                 })
-                ->when($month, function ($query, $month) {
-                    return $query->whereMonth('quotationclients.created_at', $month);
+                ->when($dateTo, function ($query, $dateTo) {
+                    return $query->whereDate('quotationclients.created_at', '<=', $dateTo);
                 })
-                ->when($year, function ($query, $year) {
-                    return $query->whereYear('quotationclients.created_at', $year);
+                ->when($product, function ($query, $product) {
+                    return $query->whereExists(function ($sub) use ($product) {
+                        $sub->select(DB::raw(1))
+                            ->from('detailclients')
+                            ->whereColumn('detailclients.quotationclient_id', 'quotationclients.id')
+                            ->where('detailclients.product', 'like', '%' . $product . '%');
+                    });
                 })
                 ->paginate($perPage);
 
@@ -147,14 +152,19 @@ class QuotationclientController extends Controller
                 ->when($vehicle, function ($query, $vehicle) {
                     return $query->where('quotationclients.vehicle', 'like', '%' . $vehicle . '%');
                 })
-                ->when($day, function ($query, $day) {
-                    return $query->whereDay('quotationclients.created_at', $day);
+                ->when($dateFrom, function ($query, $dateFrom) {
+                    return $query->whereDate('quotationclients.created_at', '>=', $dateFrom);
                 })
-                ->when($month, function ($query, $month) {
-                    return $query->whereMonth('quotationclients.created_at', $month);
+                ->when($dateTo, function ($query, $dateTo) {
+                    return $query->whereDate('quotationclients.created_at', '<=', $dateTo);
                 })
-                ->when($year, function ($query, $year) {
-                    return $query->whereYear('quotationclients.created_at', $year);
+                ->when($product, function ($query, $product) {
+                    return $query->whereExists(function ($sub) use ($product) {
+                        $sub->select(DB::raw(1))
+                            ->from('detailclients')
+                            ->whereColumn('detailclients.quotationclient_id', 'quotationclients.id')
+                            ->where('detailclients.product', 'like', '%' . $product . '%');
+                    });
                 })
                 ->paginate($perPage);
 
