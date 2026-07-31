@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="body text-center">
-        <form class="form-signin" method="POST" action="{{ route('login', ['url' => $url]) }}">
+        <form class="form-signin" method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
             <img class="mb-4" src="/favicon.ico" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Por favor, registrese</h1>
@@ -16,6 +16,9 @@
             <input type="password" id="password" name="password"
                 class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Contraseña">
 
+            <input type="hidden" id="device_fingerprint" name="device_fingerprint">
+            <input type="hidden" id="device_name" name="device_name">
+
             @if ($errors->has('error'))
                 <div class="my-3">
                     <strong class="text-danger text-center">{{ $errors->first('error') }}</strong>
@@ -24,6 +27,27 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
         </form>
     </div>
+
+    <script>
+        (function () {
+            var STORAGE_KEY = 'suprapp_device_fingerprint_v1';
+            var fingerprint = '';
+            try {
+                fingerprint = window.localStorage.getItem(STORAGE_KEY) || '';
+                if (!fingerprint) {
+                    fingerprint = 'dev-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+                    window.localStorage.setItem(STORAGE_KEY, fingerprint);
+                }
+            } catch (e) {
+                fingerprint = 'dev-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+            }
+
+            var deviceName = (navigator.platform || 'Dispositivo') + ' · ' + (navigator.language || '');
+
+            document.getElementById('device_fingerprint').value = fingerprint;
+            document.getElementById('device_name').value = deviceName;
+        })();
+    </script>
 @endsection
 <style>
     html,

@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Exceptions\DeviceLimitReachedException;
+use App\Models\UserSession;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -42,37 +33,107 @@ class LoginController extends Controller
     }
 
 
-    public function login(Request $request, $url)
+    public function login(Request $request)
     {
-        $users = User::where('url', $url)->get();
-        if ($users[0]->email == $request['email']) {
-            $this->validateLogin($request);
+        $this->validateLogin($request);
 
-            // If the class is using the ThrottlesLogins trait, we can automatically throttle
-            // the login attempts for this application. We'll key this by the username and
-            // the IP address of the client making these requests into this application.
-            if (
-                method_exists($this, 'hasTooManyLoginAttempts') &&
-                $this->hasTooManyLoginAttempts($request)
-            ) {
-                $this->fireLockoutEvent($request);
+        if (
+            method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)
+        ) {
+            $this->fireLockoutEvent($request);
 
-                return $this->sendLockoutResponse($request);
-            }
-
-            if ($this->attemptLogin($request)) {
-                return $this->sendLoginResponse($request);
-            }
-
-            // If the login attempt was unsuccessful we will increment the number of attempts
-            // to login and redirect the user back to the login form. Of course, when this
-            // user surpasses their maximum number of attempts they will get locked out.
-            $this->incrementLoginAttempts($request);
-
-            return $this->sendFailedLoginResponse($request);
-        } else {
-            return redirect()->route('acceso', ['url' => $url]);
+            return $this->sendLockoutResponse($request);
         }
+
+        if ($this->attemptLogin($request)) {
+            try {
+                $this->registerDeviceSession($request);
+            } catch (DeviceLimitReachedException $e) {
+                $this->guard()->logout();
+                $request->session()->invalidate();
+
+                throw ValidationException::withMessages([
+                    $this->error() => [
+                        "Alcanzaste el limite de {$e->limit} dispositivos permitidos. Cierra sesion en otro dispositivo desde \"Mis Dispositivos\" antes de continuar."
+                    ],
+                ]);
+            }
+
+            return $this->sendLoginResponse($request);
+        }
+
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Reconoce o registra el dispositivo desde el que se hizo login,
+     * y corta el login si ya se alcanzo el limite de dispositivos.
+     *
+     * @throws DeviceLimitReachedException
+     */
+    protected function registerDeviceSession(Request $request)
+    {
+        $user = $this->guard()->user();
+
+        $fingerprint = trim((string) $request->input('device_fingerprint'));
+        if ($fingerprint === '') {
+            $fingerprint = Str::random(32);
+        }
+        $deviceName = trim((string) $request->input('device_name'));
+        if ($deviceName === '') {
+            $deviceName = 'Dispositivo';
+        }
+        $ipAddress = (string) $request->ip();
+        $userAgent = substr((string) $request->userAgent(), 0, 255);
+
+        $knownDevice = UserSession::active()
+            ->where('user_id', $user->id)
+            ->where('device_fingerprint', $fingerprint)
+            ->first();
+
+        // Si el fingerprint no coincide (modo incognito, datos borrados, etc.),
+        // se intenta reconocer el mismo dispositivo por IP + user agent antes
+        // de contarlo como uno nuevo.
+        if (!$knownDevice) {
+            $knownDevice = UserSession::active()
+                ->where('user_id', $user->id)
+                ->where('ip_address', $ipAddress)
+                ->where('user_agent', $userAgent)
+                ->where('last_seen_at', '>=', now()->subHours(24))
+                ->first();
+        }
+
+        if (!$knownDevice) {
+            $activeCount = UserSession::active()->where('user_id', $user->id)->count();
+            $limit = max(1, (int) $user->device_limit);
+
+            if ($activeCount >= $limit) {
+                $activeSessions = UserSession::active()
+                    ->where('user_id', $user->id)
+                    ->orderByDesc('last_seen_at')
+                    ->get();
+
+                throw new DeviceLimitReachedException($limit, $activeSessions);
+            }
+
+            $knownDevice = new UserSession(['user_id' => $user->id]);
+        }
+
+        $knownDevice->fill([
+            'session_token' => Str::random(64),
+            'device_fingerprint' => $fingerprint,
+            'device_name' => $deviceName,
+            'ip_address' => $ipAddress,
+            'user_agent' => $userAgent,
+            'last_seen_at' => now(),
+            'revoked_at' => null,
+        ]);
+        $knownDevice->save();
+
+        $request->session()->put('device_session_id', $knownDevice->id);
     }
 
     protected function validateLogin(Request $request)
@@ -107,33 +168,23 @@ class LoginController extends Controller
     }
 
 
-    public function showLoginForm($url = null)
+    public function showLoginForm()
     {
-        if (isset($url)) {
-            $users = User::where('url', $url)->get();
-            foreach ($users as $user) {
-                if (!empty($user->url)) {
-                    if ($user->url == $url) {
-                        return view('auth.login', ['url' => $url]);
-                    } else {
-                        return redirect()->route('acceso', ['url' => $user->url, 'name' => $user->name]);
-                    }
-                } else {
-                    return redirect()->route('acceso', ['url' => $user->url, 'name' => $user->name]);
-                }
-            }
-        } else {
-            return redirect('error_ip');
-        }
+        return view('auth.login');
     }
 
 
-    public function logout(Request $request, $url)
+    public function logout(Request $request)
     {
+        $deviceSessionId = $request->session()->get('device_session_id');
+        if ($deviceSessionId) {
+            UserSession::where('id', $deviceSessionId)->update(['revoked_at' => now()]);
+        }
+
         $this->guard()->logout();
 
         $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect()->route('acceso', ['url' => $url]);
+        return $this->loggedOut($request) ?: redirect()->route('login');
     }
 }

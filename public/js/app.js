@@ -7069,7 +7069,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -7078,9 +7082,43 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo'])),
+  data: function data() {
+    return {
+      deviceSessions: [],
+      deviceLimit: 0,
+      deviceSessionsLoading: false
+    };
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)([])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo'])), {}, {
+    getDeviceSessions: function getDeviceSessions() {
+      var _this = this;
+      this.deviceSessionsLoading = true;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('user-sessions').then(function (response) {
+        _this.deviceSessions = response.data.sessions;
+        _this.deviceLimit = response.data.limit;
+      })["finally"](function () {
+        _this.deviceSessionsLoading = false;
+      });
+    },
+    revokeDeviceSession: function revokeDeviceSession(session) {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('user-sessions/' + session.id + '/revoke').then(function (response) {
+        if (response.data.loggedOut) {
+          toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Sesion cerrada en este dispositivo');
+          window.location.href = '/login';
+          return;
+        }
+        toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Dispositivo revocado correctamente');
+        _this2.getDeviceSessions();
+      })["catch"](function () {
+        toastr__WEBPACK_IMPORTED_MODULE_2___default().error('No se pudo revocar el dispositivo');
+      });
+    }
+  }),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getUser');
@@ -25929,7 +25967,22 @@ var render = function render() {
       "aria-controls": "user",
       "aria-selected": "true"
     }
-  }, [_vm._v("Logo")])]) : _vm._e()]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Logo")])]) : _vm._e(), _vm._v(" "), _c("li", {
+    staticClass: "nav-item"
+  }, [_c("a", {
+    staticClass: "nav-link",
+    attrs: {
+      id: "devices-tab",
+      "data-toggle": "tab",
+      href: "#devices",
+      role: "tab",
+      "aria-controls": "devices",
+      "aria-selected": "false"
+    },
+    on: {
+      click: _vm.getDeviceSessions
+    }
+  }, [_vm._v("Mis Dispositivos")])])]), _vm._v(" "), _c("div", {
     staticClass: "tab-content bg-white",
     attrs: {
       id: "myTabContent"
@@ -25983,6 +26036,45 @@ var render = function render() {
   }, [_c("i", {
     staticClass: "fas fa-plus-square"
   }), _vm._v(" Editar\n                ")])])]), _vm._v(" "), _c("div", {
+    staticClass: "tab-pane fade p-4",
+    attrs: {
+      id: "devices",
+      role: "tabpanel",
+      "aria-labelledby": "devices-tab"
+    }
+  }, [_c("p", {
+    staticClass: "mb-3"
+  }, [_vm._v("Límite actual: "), _c("strong", [_vm._v(_vm._s(_vm.deviceLimit))]), _vm._v(" dispositivo(s).")]), _vm._v(" "), !_vm.deviceSessionsLoading && _vm.deviceSessions.length === 0 ? _c("div", {
+    staticClass: "alert alert-info"
+  }, [_vm._v("\n                No hay dispositivos activos registrados.\n            ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.deviceSessions, function (session) {
+    return _c("div", {
+      key: session.id,
+      staticClass: "card mb-3"
+    }, [_c("div", {
+      staticClass: "card-body d-flex justify-content-between align-items-center"
+    }, [_c("div", [_c("p", {
+      staticClass: "font-weight-bold mb-1"
+    }, [_vm._v("\n                            " + _vm._s(session.deviceName) + "\n                            "), session.isCurrent ? _c("span", {
+      staticClass: "badge badge-success ml-2"
+    }, [_vm._v("Este dispositivo")]) : _vm._e()]), _vm._v(" "), _c("p", {
+      staticClass: "mb-0 text-muted",
+      staticStyle: {
+        "font-size": "0.85rem"
+      }
+    }, [_vm._v("\n                            IP: " + _vm._s(session.ipAddress) + " · Última actividad: " + _vm._s(_vm._f("moment")(session.lastSeenAt, "DD/MM/YYYY H:mm")) + "\n                        ")])]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger btn-sm",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.revokeDeviceSession(session);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-trash-alt"
+    }), _vm._v(" Revocar\n                    ")])])]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "tab-pane fade show active p-4",
     attrs: {
       id: "company",

@@ -235,12 +235,11 @@ Route::get('/cotizar-envio/enviado/{id}', 'QuotationShippingController@cotizacio
 
 Route::post('/upload', 'ImageController@upload');
 
-Route::get('login/{url?}', 'Auth\LoginController@showLoginForm')->name('login');
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::match(['get'], 'input', 'Auth\LoginController@recibir');
-Route::post('login/{url}', 'Auth\LoginController@login');
-Route::post('logout/{url}', 'Auth\LoginController@logout')->name('logout');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::get('acceso/{url}', 'AccesoController@index')->name('acceso');
 
 Route::get('error_ip', function () {
     return view('error_ip');
@@ -250,15 +249,15 @@ Route::get('error_url', function () {
     return view('error_url');
 });
 
-
-Route::put('acceso/user-id/{url}', 'AccesoController@acceso');
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Route::post('/login-two-factor/{user}', 'Auth\LoginController@login2FA')->name('login.2fa');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'device.session'])->group(function () {
+
+    Route::get('user-sessions', 'UserSessionController@index');
+    Route::post('user-sessions/{id}/revoke', 'UserSessionController@revoke');
 
     Route::get('admin-roles', function () {
         return view('role.roles');

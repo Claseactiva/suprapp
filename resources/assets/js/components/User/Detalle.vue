@@ -10,6 +10,11 @@
                     aria-selected="true">Logo</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" id="devices-tab" data-toggle="tab" href="#devices" role="tab"
+                    aria-controls="devices" aria-selected="false" @click="getDeviceSessions">Mis Dispositivos</a>
+            </li>
+
         </ul>
         <div class="tab-content bg-white" id="myTabContent">
             <div class="tab-pane fade p-4" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -28,6 +33,32 @@
                     <button type="button" class="btn btn-success" :disabled="attachment.length === 0" @click="updateCompanyLogo">
                         <i class="fas fa-plus-square"></i> Editar
                     </button>
+                </div>
+
+            </div>
+            <div class="tab-pane fade p-4" id="devices" role="tabpanel" aria-labelledby="devices-tab">
+
+                <p class="mb-3">Límite actual: <strong>{{ deviceLimit }}</strong> dispositivo(s).</p>
+
+                <div class="alert alert-info" v-if="!deviceSessionsLoading && deviceSessions.length === 0">
+                    No hay dispositivos activos registrados.
+                </div>
+
+                <div class="card mb-3" v-for="session in deviceSessions" :key="session.id">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="font-weight-bold mb-1">
+                                {{ session.deviceName }}
+                                <span class="badge badge-success ml-2" v-if="session.isCurrent">Este dispositivo</span>
+                            </p>
+                            <p class="mb-0 text-muted" style="font-size: 0.85rem;">
+                                IP: {{ session.ipAddress }} · Última actividad: {{ session.lastSeenAt | moment('DD/MM/YYYY H:mm') }}
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" @click="revokeDeviceSession(session)">
+                            <i class="fas fa-trash-alt"></i> Revocar
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -107,14 +138,45 @@
 
 import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapGetters, mapActions } from 'vuex';
+import axios from 'axios'
+import toastr from 'toastr'
 
 export default {
+    data() {
+        return {
+            deviceSessions: [],
+            deviceLimit: 0,
+            deviceSessionsLoading: false
+        }
+    },
     computed: {
         ...mapState(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel']),
         ...mapGetters([])
     },
     methods: {
-        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo'])
+        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo']),
+        getDeviceSessions() {
+            this.deviceSessionsLoading = true
+            axios.get('user-sessions').then(response => {
+                this.deviceSessions = response.data.sessions
+                this.deviceLimit = response.data.limit
+            }).finally(() => {
+                this.deviceSessionsLoading = false
+            })
+        },
+        revokeDeviceSession(session) {
+            axios.post('user-sessions/' + session.id + '/revoke').then(response => {
+                if (response.data.loggedOut) {
+                    toastr.success('Sesion cerrada en este dispositivo')
+                    window.location.href = '/login'
+                    return
+                }
+                toastr.success('Dispositivo revocado correctamente')
+                this.getDeviceSessions()
+            }).catch(() => {
+                toastr.error('No se pudo revocar el dispositivo')
+            })
+        }
     },
     created() {
         loadProgressBar()
