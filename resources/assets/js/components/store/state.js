@@ -171,7 +171,8 @@ export default { //data
     searchVehicle: {
         patent: '',
         name: '',
-        year: ''
+        year: '',
+        client: ''
     },
     newDetailVehicle: {
         vehicle_id: '',

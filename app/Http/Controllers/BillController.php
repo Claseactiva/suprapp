@@ -218,7 +218,7 @@ class BillController extends Controller
         $fileName = "Boleta-" . $rut . "-" . $month . "-" . $time . ".pdf";
         $pdf_decoded = base64_decode($response);
 
-        $path = storage_path('app/public/images/invoice');
+        $path = public_path('storage/images/invoice');
         $pdf = fopen($path . "/" . $fileName, "w");
         
         fwrite($pdf, $pdf_decoded);
@@ -235,9 +235,9 @@ class BillController extends Controller
         $dateSave = new DateTime();
         $created = $dateSave->format('d-m-Y');
         $boleta->fecha = $created;
-        $boleta->ruta = 'app/public/images/invoice/' . $filename;
+        $boleta->ruta = 'storage/images/invoice/' . $filename;
         $boleta->save();
-        return 'app/public/images/invoice/' . $filename;
+        return 'storage/images/invoice/' . $filename;
     }
 
     public function formatRut($partialRut)

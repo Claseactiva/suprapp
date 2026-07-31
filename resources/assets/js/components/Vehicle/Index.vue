@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-lg-12">
+    <div class="col-lg-12 vehicle-admin">
 
         <h5 class="text-white">
             Nuevo Vehículo
@@ -9,57 +9,52 @@
                 <i class="fas fa-plus-circle"></i>
             </a>
         </h5>
-        <div class="table-responsive">
-            <table class="table table-responsive-new table-dark table-sm mt-3">
+        <div class="vehicle-filter-row mt-3">
+            <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Cliente"
+                v-model="searchVehicle.client" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
+
+            <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Patente"
+                v-model="searchVehicle.patent" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
+
+            <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Marca"
+                v-model="searchVehicle.name" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
+
+            <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Año"
+                v-model="searchVehicle.year" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
+        </div>
+        <div class="vehicle-table-shell mt-3">
+            <table class="table table-responsive-new table-dark table-sm vehicle-table mb-0">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Cliente</th>
-                        <th>Patente</th>
-                        <th>Chasis</th>
-                        <th>Marca</th>
-                        <th>Modelo</th>
-                        <th>Año</th>
-                        <th>Motor</th>
-                        <th>Color</th>
-                        <th>Kilometraje</th>
-                        <th>Fecha</th>
-                        <th></th>
+                        <th class="vehicle-col-id">ID</th>
+                        <th class="vehicle-col-cliente">Cliente</th>
+                        <th class="vehicle-col-patente">Patente</th>
+                        <th class="vehicle-col-chasis">Chasis</th>
+                        <th class="vehicle-col-marca">Marca</th>
+                        <th class="vehicle-col-modelo">Modelo</th>
+                        <th class="vehicle-col-anio">Año</th>
+                        <th class="vehicle-col-motor">Motor</th>
+                        <th class="vehicle-col-color">Color</th>
+                        <th class="vehicle-col-km">Kilometraje</th>
+                        <th class="vehicle-col-fecha">Fecha</th>
+                        <th class="vehicle-col-actions"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="4">
-                            <input type="text" class="form-control form-control-sm" placeholder="Patente"
-                                v-model="searchVehicle.patent" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
-                        </td>
-
-                        <td colspan="4">
-                            <input type="text" class="form-control form-control-sm" placeholder="Marca"
-                                v-model="searchVehicle.name" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
-                        </td>
-
-                        <td colspan="4">
-                            <input type="text" class="form-control form-control-sm" placeholder="Año"
-                                v-model="searchVehicle.year" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
-                        </td>
-
-                    </tr>
-
                     <tr v-for="vehicleLocal in vehicles" :key="vehicleLocal.id">
-                        <td data-table-label="ID">{{ vehicleLocal.id }}</td>
-                        <td data-table-label="Cliente">{{ vehicleLocal.user.name }}</td>
-                        <td data-table-label="Patente">{{ vehicleLocal.patent }}</td>
-                        <td data-table-label="Chasis">{{ vehicleLocal.chasis }}</td>
-                        <td data-table-label="Marca">{{ vehicleLocal.brand }}</td>
-                        <td data-table-label="Modelo">{{ vehicleLocal.model }}</td>
-                        <td data-table-label="Año">{{ vehicleLocal.year }}</td>
-                        <td data-table-label="Motor">{{ vehicleLocal.engine }}</td>
-                        <td data-table-label="Color">{{ vehicleLocal.color }}</td>
-                        <td data-table-label="Kilometraje">{{ vehicleLocal.km }}</td>
-                        <td data-table-label="Fecha">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
+                        <td data-table-label="ID" class="vehicle-col-id">{{ vehicleLocal.id }}</td>
+                        <td data-table-label="Cliente" class="vehicle-col-cliente vehicle-cell-wrap" :title="vehicleLocal.user.name">{{ vehicleLocal.user.name }}</td>
+                        <td data-table-label="Patente" class="vehicle-col-patente vehicle-cell-strong" :title="vehicleLocal.patent">{{ vehicleLocal.patent }}</td>
+                        <td data-table-label="Chasis" class="vehicle-col-chasis vehicle-cell-wrap" :title="vehicleLocal.chasis">{{ vehicleLocal.chasis }}</td>
+                        <td data-table-label="Marca" class="vehicle-col-marca vehicle-cell-wrap" :title="vehicleLocal.brand">{{ vehicleLocal.brand }}</td>
+                        <td data-table-label="Modelo" class="vehicle-col-modelo vehicle-cell-wrap" :title="vehicleLocal.model">{{ vehicleLocal.model }}</td>
+                        <td data-table-label="Año" class="vehicle-col-anio vehicle-cell-meta">{{ vehicleLocal.year }}</td>
+                        <td data-table-label="Motor" class="vehicle-col-motor vehicle-cell-wrap" :title="vehicleLocal.engine">{{ vehicleLocal.engine }}</td>
+                        <td data-table-label="Color" class="vehicle-col-color vehicle-cell-meta">{{ vehicleLocal.color }}</td>
+                        <td data-table-label="Kilometraje" class="vehicle-col-km vehicle-cell-meta">{{ vehicleLocal.km }}</td>
+                        <td data-table-label="Fecha" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
-                        <td>
+                        <td class="vehicle-col-actions vehicle-action-cell">
                             <a href="#" class="btn btn-warning btn-sm" @click.prevent="editVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
@@ -183,4 +178,125 @@ export default {
 
 </script>
 
-<style></style>
+<style>
+.vehicle-table-shell {
+    overflow-x: visible;
+}
+
+.vehicle-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.vehicle-filter-input {
+    max-width: 160px;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.4rem;
+    height: auto;
+}
+
+.vehicle-cell-strong,
+.vehicle-cell-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.vehicle-cell-strong {
+    font-weight: 600;
+}
+
+.vehicle-cell-meta {
+    font-size: 0.78rem;
+    text-align: center;
+}
+
+.vehicle-action-cell {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+}
+
+.vehicle-action-cell .btn {
+    margin: 0;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+@media (min-width: 769px) {
+    .vehicle-admin .vehicle-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .vehicle-admin .vehicle-table th,
+    .vehicle-admin .vehicle-table td {
+        padding: 0.28rem 0.32rem !important;
+        font-size: 0.74rem;
+        white-space: nowrap !important;
+        vertical-align: middle;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vehicle-admin .vehicle-col-id {
+        width: 2.8rem;
+    }
+
+    .vehicle-admin .vehicle-col-cliente {
+        width: 14%;
+    }
+
+    .vehicle-admin .vehicle-col-patente {
+        width: 6.5rem;
+    }
+
+    .vehicle-admin .vehicle-col-chasis {
+        width: 9%;
+    }
+
+    .vehicle-admin .vehicle-col-marca {
+        width: 9%;
+    }
+
+    .vehicle-admin .vehicle-col-modelo {
+        width: 9%;
+    }
+
+    .vehicle-admin .vehicle-col-anio {
+        width: 3.5rem;
+    }
+
+    .vehicle-admin .vehicle-col-motor {
+        width: 10%;
+    }
+
+    .vehicle-admin .vehicle-col-color {
+        width: 5rem;
+    }
+
+    .vehicle-admin .vehicle-col-km {
+        width: 5.5rem;
+    }
+
+    .vehicle-admin .vehicle-col-fecha {
+        width: 5rem;
+    }
+
+    .vehicle-admin .vehicle-col-actions {
+        width: 10rem;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+}
+</style>

@@ -88,7 +88,7 @@ class CompanyController extends Controller
             foreach ($uploadedFile as $file) {
 
                 $filename = time() . '.' . $file->getClientOriginalExtension();
-                $path = storage_path('app/public/images/logos/' . $filename);
+                $path = public_path('storage/images/logos/' . $filename);
 
                 $img = $manager->make($file->getRealPath());
                 $img->resize(200, 200, function ($constraint) {
@@ -112,8 +112,7 @@ class CompanyController extends Controller
     {
         try {
             $company = Company::where('user_id', '=', $user_id)->first();
-            // $rutaImagen = public_path() . $company->url;
-            $rutaImagen = getcwd() . $company->url;
+            $rutaImagen = public_path('storage' . $company->url);
 
             if (file_exists($rutaImagen)) {
                 unlink($rutaImagen);

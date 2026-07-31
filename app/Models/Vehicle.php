@@ -47,6 +47,17 @@ class Vehicle extends Model
         return $query;
     }
 
+    public function scopeClient($query)
+    {
+        $keyword = request('client');
+        if ($query && $keyword) {
+            $query->whereHas('user', function ($q) use ($keyword) {
+                $q->where('name', 'LIKE', '%' . $keyword . '%');
+            });
+        }
+        return $query;
+    }
+
     public function checklist()
     {
         return $this->hasMany('App\Models\CheckListVehicle');

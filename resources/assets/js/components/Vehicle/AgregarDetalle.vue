@@ -39,8 +39,16 @@
 
                         <div class="form-group">
                             <label>Subir Imagen</label>
-                            <input id="files" type="file" multiple class="form-control"
+                            <input id="files" type="file" multiple accept="image/*" class="form-control"
                                 @change="fileChange({ evt: $event })">
+                        </div>
+
+                        <div class="row" v-if="previews.length">
+                            <div class="col-4 col-md-3 mb-3" v-for="(preview, index) in previews" :key="index">
+                                <div class="detalle-preview">
+                                    <img :src="preview.src" :alt="preview.name">
+                                </div>
+                            </div>
                         </div>
 
                         <!--<button class="btn btn-info">Subir Imágenes</button>-->
@@ -65,16 +73,48 @@ export default {
     data() {
         return {
             attachment: [],
-            form: new FormData
+            form: new FormData,
+            previews: []
         }
     },
     computed: {
         ...mapState(['newDetailVehicle', 'kilometrajeActual', 'images', 'errorsLaravel']),
+        ...mapState({ selectedFiles: 'attachment' }),
         ...mapGetters(['completeDetailVehicleCreate'])
     },
-
+    watch: {
+        selectedFiles(files) {
+            this.previews.forEach(preview => URL.revokeObjectURL(preview.src))
+            this.previews = (files || []).map(file => ({
+                src: URL.createObjectURL(file),
+                name: file.name
+            }))
+        }
+    },
+    beforeDestroy() {
+        this.previews.forEach(preview => URL.revokeObjectURL(preview.src))
+    },
     methods: {
         ...mapActions(['createDetailVehicle', 'fileChange']),
     },
 }
 </script>
+
+<style>
+.detalle-preview {
+    position: relative;
+    padding-top: 100%;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #e9ecef;
+}
+
+.detalle-preview img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>

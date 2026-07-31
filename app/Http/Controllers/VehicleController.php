@@ -30,6 +30,7 @@ class VehicleController extends Controller
                         ->patent()
                         ->name()
                         ->year()
+                        ->client()
                         ->paginate((int) request('per_page', 20));
 
                     return [

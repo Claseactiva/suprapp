@@ -1,6 +1,7 @@
 import axios from 'axios'
 import toastr from 'toastr'
 import printJS from 'print-js'
+import { compressImage } from '../../utils/imageUtils'
 
 let $ = window.jQuery = require('jquery')
 
@@ -374,7 +375,7 @@ export default { //used for changing the state
     /******************************* */
     getVehicles(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
-        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year + '&per_page=' + perPage
+        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year + '&client=' + state.searchVehicle.client + '&per_page=' + perPage
         axios.get(url).then(response => {
 
             state.vehicles = response.data.vehicles.data
@@ -1297,7 +1298,7 @@ export default { //used for changing the state
             state.details = response.data
         })
     },
-    fileChange(state, evt) {
+    async fileChange(state, evt) {
         state.form = new FormData()
 
         state.images = []
@@ -1309,7 +1310,8 @@ export default { //used for changing the state
         }
 
         for (let i = 0; i < selectedFiles.length; i++) {
-            state.attachment.push(selectedFiles[i])
+            const compressed = await compressImage(selectedFiles[i])
+            state.attachment.push(compressed)
         }
     },
     deleteImage(state, id) {

@@ -107,7 +107,7 @@ class OrdenTrabajoController extends Controller
         foreach ($observaciones as $observacion) {
             $imagenes = ObservacionImagen::where('observaciones_id', '=', $observacion->id)->get();
             foreach ($imagenes as $imagen) {
-                unlink(storage_path($imagen->imagen));
+                unlink($this->resolveImagePath($imagen->imagen));
             }
             Observacion::findOrFail($observacion->id)->delete();
         }
@@ -115,7 +115,7 @@ class OrdenTrabajoController extends Controller
         $ordenes_trabajos = ImageOrdenTrabajo::where('trabajo_id', '=', $request->id)->get();
         foreach ($ordenes_trabajos as $orden_trabajo) {
             ImageOrdenTrabajo::findOrFail($orden_trabajo->id)->delete();
-            unlink(storage_path($orden_trabajo->url));
+            unlink($this->resolveImagePath($orden_trabajo->url));
         }
 
 
@@ -180,7 +180,7 @@ class OrdenTrabajoController extends Controller
         foreach ($uploadedFile as $file) {
 
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-            $path = storage_path('app/public/images/orden_trabajos/' . $filename);
+            $path = public_path('storage/images/orden_trabajos/' . $filename);
 
 
             $img = $manager->make($file->getRealPath());
@@ -188,7 +188,7 @@ class OrdenTrabajoController extends Controller
                 $constraint->aspectRatio();
             })->save($path);
 
-            $url = 'app/public/images/orden_trabajos/' . $filename;
+            $url = 'storage/images/orden_trabajos/' . $filename;
 
             ImageOrdenTrabajo::create(['trabajo_id' => $id, 'url' => $url]);
 
@@ -215,14 +215,14 @@ class OrdenTrabajoController extends Controller
             foreach ($imagenes as $imagen) {
 
                 $filename = uniqid() . '.' . $imagen->getClientOriginalExtension();
-                $path = storage_path('app/public/images/observaciones/' . $filename);
+                $path = public_path('storage/images/observaciones/' . $filename);
 
                 $img = $manager->make($imagen->getRealPath());
                 $img->resize(1000, 1000, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path);
 
-                $url = 'app/public/images/observaciones/' . $filename;
+                $url = 'storage/images/observaciones/' . $filename;
 
                 ObservacionImagen::create([
                     'observaciones_id' => $observacion_id,
@@ -240,8 +240,8 @@ class OrdenTrabajoController extends Controller
     {
 
         $imagen = ObservacionImagen::where('id', '=', $request->id)->first();
-        if (file_exists(storage_path($imagen->imagen))) {
-            unlink(storage_path($imagen->imagen));
+        if (file_exists($this->resolveImagePath($imagen->imagen))) {
+            unlink($this->resolveImagePath($imagen->imagen));
         }
 
         ObservacionImagen::find($request->id)->delete();
@@ -252,8 +252,8 @@ class OrdenTrabajoController extends Controller
     public function EliminarImagenObservacion(Request $request)
     {
         $imagen = ImageOrdenTrabajo::where('id', '=', $request->id)->first();
-        if (file_exists(storage_path($imagen->url))) {
-            unlink(storage_path($imagen->url));
+        if (file_exists($this->resolveImagePath($imagen->url))) {
+            unlink($this->resolveImagePath($imagen->url));
         }
 
         ImageOrdenTrabajo::find($request->id)->delete();
@@ -266,9 +266,9 @@ class OrdenTrabajoController extends Controller
 
         $observaciones = Observacion::with('imagenes')->where('id', '=', $request->id)->get();
         foreach ($observaciones[0]->imagenes as $imagen) {
-            if (file_exists(storage_path($imagen->imagen))) {
+            if (file_exists($this->resolveImagePath($imagen->imagen))) {
                 // Eliminar la imagen
-                unlink(storage_path($imagen->imagen));
+                unlink($this->resolveImagePath($imagen->imagen));
             }
         }
 

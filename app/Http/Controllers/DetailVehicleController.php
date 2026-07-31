@@ -44,7 +44,7 @@ class DetailVehicleController extends Controller
             foreach ($pics as $pic) {
 
                 $filename = uniqid() . '.' . $pic->getClientOriginalExtension();
-                $path = storage_path('app/public/images/vehicles/' . $filename);
+                $path = public_path('storage/images/vehicles/' . $filename);
 
 
                 $img = $manager->make($pic->getRealPath());
@@ -52,7 +52,7 @@ class DetailVehicleController extends Controller
                     $constraint->aspectRatio();
                 })->save($path);
 
-                $url = 'app/public/images/vehicles/' . $filename;
+                $url = 'storage/images/vehicles/' . $filename;
 
                 Image::create(['detail_vehicle_id' => $detail->id, 'url' => $url]);
             }

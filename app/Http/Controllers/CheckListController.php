@@ -384,14 +384,14 @@ class CheckListController extends Controller
             foreach ($imagenes as $imagen) {
 
                 $filename = uniqid() . '.' . $imagen->getClientOriginalExtension();
-                $path = storage_path('app/public/images/checklist/' . $filename);
+                $path = public_path('storage/images/checklist/' . $filename);
 
                 $img = $manager->make($imagen->getRealPath());
                 $img->resize(1000, 1000, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path);
 
-                $url = 'app/public/images/checklist/' . $filename;
+                $url = 'storage/images/checklist/' . $filename;
 
                 CheckListVehicleObservacionImagen::create([
                     'check_list_vehicle_observaciones_id' => $checkListVehicleObservacionId,
@@ -480,9 +480,9 @@ class CheckListController extends Controller
 
     public function eliminarImagenChecklist(Request $request)
     {
-        if (file_exists(storage_path($request->imagen))) {
+        if (file_exists($this->resolveImagePath($request->imagen))) {
             // Eliminar la imagen
-            unlink(storage_path($request->imagen));
+            unlink($this->resolveImagePath($request->imagen));
         }
 
         // Buscar y eliminar la entrada en la base de datos
@@ -501,9 +501,9 @@ class CheckListController extends Controller
 
         $observaciones = CheckListVehicleObservacion::with('imagenes')->where('id', '=', $request->id)->get();
         foreach ($observaciones[0]->imagenes as $imagen) {
-            if (file_exists(storage_path($imagen->imagen))) {
+            if (file_exists($this->resolveImagePath($imagen->imagen))) {
                 // Eliminar la imagen
-                unlink(storage_path($imagen->imagen));
+                unlink($this->resolveImagePath($imagen->imagen));
             }
         }
 
