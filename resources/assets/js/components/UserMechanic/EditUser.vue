@@ -48,12 +48,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="url">URL</label>
-                            <input type="text" name="url" class="form-control" v-model="fillUser.url" readonly=readonly>
-                        </div>
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-warning">

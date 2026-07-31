@@ -7000,9 +7000,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _EditUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditUser */ "./resources/assets/js/components/UserMechanic/EditUser.vue");
 /* harmony import */ var _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditCantVehicle */ "./resources/assets/js/components/UserMechanic/EditCantVehicle.vue");
+/* harmony import */ var _User_Dispositivos__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../User/Dispositivos */ "./resources/assets/js/components/User/Dispositivos.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -7013,13 +7014,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     EditUser: _EditUser__WEBPACK_IMPORTED_MODULE_1__["default"],
-    EditCantVehicle: _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__["default"]
+    EditCantVehicle: _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Dispositivos: _User_Dispositivos__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getMechanicClients', {
@@ -7128,6 +7131,39 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['selectedUserForDevices', 'userDeviceSessions', 'userDeviceLimit', 'userDeviceUserName'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['revokeUserDeviceSession'])), {}, {
+    revokeSession: function revokeSession(session) {
+      this.revokeUserDeviceSession({
+        userId: this.selectedUserForDevices.id,
+        sessionId: session.id
+      });
+    }
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Edit.vue?vue&type=script&lang=js":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Edit.vue?vue&type=script&lang=js ***!
@@ -7196,11 +7232,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit */ "./resources/assets/js/components/User/Edit.vue");
 /* harmony import */ var _Delete__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Delete */ "./resources/assets/js/components/User/Delete.vue");
 /* harmony import */ var _Roles_UpdateUserRoles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Roles/UpdateUserRoles */ "./resources/assets/js/components/Roles/UpdateUserRoles.vue");
 /* harmony import */ var _EditCantClientVehicle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditCantClientVehicle */ "./resources/assets/js/components/User/EditCantClientVehicle.vue");
+/* harmony import */ var _Dispositivos__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Dispositivos */ "./resources/assets/js/components/User/Dispositivos.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -7213,15 +7250,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     EditUser: _Edit__WEBPACK_IMPORTED_MODULE_1__["default"],
     DeleteUser: _Delete__WEBPACK_IMPORTED_MODULE_2__["default"],
     UpdateUserRoles: _Roles_UpdateUserRoles__WEBPACK_IMPORTED_MODULE_3__["default"],
-    EditCantClientVehicle: _EditCantClientVehicle__WEBPACK_IMPORTED_MODULE_4__["default"]
+    EditCantClientVehicle: _EditCantClientVehicle__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Dispositivos: _Dispositivos__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getUsers', {
@@ -18932,33 +18971,7 @@ var render = function render() {
         _vm.$set(_vm.newUser, "email", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "password"
-    }
-  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newUser.password,
-      expression: "newUser.password"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      required: "",
-      type: "password",
-      name: "password"
-    },
-    domProps: {
-      value: _vm.newUser.password
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newUser, "password", $event.target.value);
-      }
-    }
-  })]), _vm._v(" "), _vm._m(1)])])])]);
+  }), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -18973,6 +18986,12 @@ var staticRenderFns = [function () {
       "aria-label": "close"
     }
   }, [_c("span", [_vm._v("×")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", {
+    staticClass: "text-muted mt-2 mb-0"
+  }, [_c("small", [_vm._v("Se enviara un correo al usuario para que configure su propia contrasena.")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -25481,35 +25500,7 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.password))])]);
-  })], 2), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    attrs: {
-      "for": "url"
-    }
-  }, [_vm._v("URL")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.fillUser.url,
-      expression: "fillUser.url"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "url",
-      readonly: "readonly"
-    },
-    domProps: {
-      value: _vm.fillUser.url
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.fillUser, "url", $event.target.value);
-      }
-    }
-  })])]), _vm._v(" "), _vm._m(1)])])])]);
+  })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -25645,39 +25636,11 @@ var render = function render() {
         _vm.$set(_vm.newUser, "email", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group col-lg-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "password"
-    }
-  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newUser.password,
-      expression: "newUser.password"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      required: "",
-      type: "password",
-      name: "password"
-    },
-    domProps: {
-      value: _vm.newUser.password
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newUser, "password", $event.target.value);
-      }
-    }
-  })]), _vm._v(" "), _vm._m(1)])])])])])]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2)])])])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.users, function (userLocal) {
+  }, [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.users, function (userLocal) {
     return _c("tr", {
       key: userLocal.id
     }, [_c("td", {
@@ -25735,6 +25698,23 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
+    })]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Dispositivos"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.modalUserDevices({
+            userLocal: userLocal
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-mobile-alt"
     })])])]);
   }), 0)]), _vm._v(" "), _c("nav", [_c("ul", {
     staticClass: "pagination"
@@ -25817,7 +25797,7 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("EditCantVehicle"), _vm._v(" "), _c("EditUser")], 1)]);
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("EditCantVehicle"), _vm._v(" "), _c("EditUser"), _vm._v(" "), _c("Dispositivos")], 1)]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -25856,6 +25836,12 @@ var staticRenderFns = [function () {
   }, [_c("i", {
     staticClass: "fas fa-plus-square"
   }), _vm._v(" Guardar\n                                    ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", {
+    staticClass: "text-muted mt-2 mb-0"
+  }, [_c("small", [_vm._v("Se enviara un correo al usuario para que configure su propia contrasena.")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -26446,6 +26432,99 @@ render._withStripped = true;
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal fade",
+    attrs: {
+      id: "userDevices"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog modal-lg"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-header"
+  }, [_c("h4", [_vm._v("Dispositivos de " + _vm._s(_vm.userDeviceUserName))]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("p", {
+    staticClass: "mb-3"
+  }, [_vm._v("Límite actual: "), _c("strong", [_vm._v(_vm._s(_vm.userDeviceLimit))]), _vm._v(" dispositivo(s).")]), _vm._v(" "), _vm.userDeviceSessions.length === 0 ? _c("div", {
+    staticClass: "alert alert-info"
+  }, [_vm._v("\n                    No hay dispositivos activos registrados.\n                ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.userDeviceSessions, function (session) {
+    return _c("div", {
+      key: session.id,
+      staticClass: "card mb-3"
+    }, [_c("div", {
+      staticClass: "card-body d-flex justify-content-between align-items-center"
+    }, [_c("div", [_c("p", {
+      staticClass: "font-weight-bold mb-1"
+    }, [_vm._v("\n                                " + _vm._s(session.deviceName) + "\n                                "), session.isCurrent ? _c("span", {
+      staticClass: "badge badge-success ml-2"
+    }, [_vm._v("Este dispositivo")]) : _vm._e()]), _vm._v(" "), _c("p", {
+      staticClass: "mb-0 text-muted",
+      staticStyle: {
+        "font-size": "0.85rem"
+      }
+    }, [_vm._v("\n                                IP: " + _vm._s(session.ipAddress) + " · Última actividad: " + _vm._s(_vm._f("moment")(session.lastSeenAt, "DD/MM/YYYY H:mm")) + "\n                            ")])]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger btn-sm",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.revokeSession(session);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-trash-alt"
+    }), _vm._v(" Revocar\n                        ")])])]);
+  })], 2), _vm._v(" "), _vm._m(1)])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", [_vm._v("×")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-footer"
+  }, [_c("button", {
+    staticClass: "btn btn-secondary",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_vm._v("\n                    Cerrar\n                ")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Edit.vue?vue&type=template&id=3acff272":
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Edit.vue?vue&type=template&id=3acff272 ***!
@@ -26616,35 +26695,7 @@ var render = function render() {
       expression: "errors.has('password')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("password")))])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    attrs: {
-      "for": "url"
-    }
-  }, [_vm._v("URL")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.fillUser.url,
-      expression: "fillUser.url"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "url",
-      readonly: "readonly"
-    },
-    domProps: {
-      value: _vm.fillUser.url
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.fillUser, "url", $event.target.value);
-      }
-    }
-  })])]), _vm._v(" "), _vm._m(1)])])])]);
+  }, [_vm._v(_vm._s(_vm.errors.first("password")))])])]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -26956,56 +27007,11 @@ var render = function render() {
         key: index
       }, [index === "email" ? _c("div", [_vm._v("\n                                                " + _vm._s(errorItem[0]) + "\n                                            ")]) : _vm._e()]);
     }), 0);
-  })], 2), _vm._v(" "), _c("div", {
-    staticClass: "form-group col-lg-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "password"
-    }
-  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate",
-      value: "required",
-      expression: "'required'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newUser.password,
-      expression: "newUser.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("password")
-    },
-    attrs: {
-      type: "password",
-      name: "password"
-    },
-    domProps: {
-      value: _vm.newUser.password
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newUser, "password", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, key) {
-    return _c("div", {
-      key: key["errors"],
-      staticClass: "text-danger"
-    }, _vm._l(error, function (errorItem, index) {
-      return _c("div", {
-        key: index
-      }, [index === "password" ? _c("div", [_vm._v("\n                                                " + _vm._s(errorItem[0]) + "\n                                            ")]) : _vm._e()]);
-    }), 0);
-  })], 2), _vm._v(" "), _vm._m(1)])])])])])]), _vm._v(" "), _c("div", {
+  })], 2), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2)])])])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.users, function (userLocal) {
+  }, [_vm._m(3), _vm._v(" "), _c("tbody", _vm._l(_vm.users, function (userLocal) {
     return _c("tr", {
       key: userLocal.id
     }, [_c("td", {
@@ -27074,6 +27080,23 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
+    })]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Dispositivos"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.modalUserDevices({
+            userLocal: userLocal
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-mobile-alt"
     })]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-danger",
       attrs: {
@@ -27222,7 +27245,7 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])])])]), _vm._v(" "), _c("EditUser"), _vm._v(" "), _c("DeleteUser"), _vm._v(" "), _c("EditCantClientVehicle"), _vm._v(" "), _c("UpdateUserRoles")], 1);
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])])])]), _vm._v(" "), _c("EditUser"), _vm._v(" "), _c("DeleteUser"), _vm._v(" "), _c("EditCantClientVehicle"), _vm._v(" "), _c("UpdateUserRoles"), _vm._v(" "), _c("Dispositivos")], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -27261,6 +27284,12 @@ var staticRenderFns = [function () {
   }, [_c("i", {
     staticClass: "fas fa-plus-square"
   }), _vm._v(" Guardar\n                                    ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", {
+    staticClass: "text-muted mt-2 mb-0"
+  }, [_c("small", [_vm._v("Se enviara un correo al usuario para que configure su propia contrasena.")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -33825,6 +33854,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   editUser: function editUser(context, data) {
     context.commit('editUser', data.userLocal);
   },
+  modalUserDevices: function modalUserDevices(context, data) {
+    context.commit('modalUserDevices', data.userLocal);
+  },
+  revokeUserDeviceSession: function revokeUserDeviceSession(context, data) {
+    context.commit('revokeUserDeviceSession', data);
+  },
   updateCompanyLogo: function updateCompanyLogo(context) {
     context.commit('updateCompanyLogo');
   },
@@ -37763,10 +37798,7 @@ function dispatchPublicQuotationFailed() {
       id: state.idUser,
       name: state.newUser.name,
       email: state.newUser.email,
-      password: state.newUser.password,
-      //cant_client: state.newUser.cant_client,
       cant_vehicle: state.newUser.cant_vehicle
-      //url: window.location.host + "/acceso/" + md5(state.newUser.password)
     }).then(function (response) {
       state.newUser = {
         id: '',
@@ -37776,7 +37808,7 @@ function dispatchPublicQuotationFailed() {
         url: ''
       };
       state.errorsLaravel = [];
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -37786,10 +37818,32 @@ function dispatchPublicQuotationFailed() {
     state.fillUser.name = user.name;
     state.fillUser.email = user.email;
     state.fillUser.password = user.password;
-    state.fillUser.url = window.location.host + "/acceso/" + user.url;
     state.fillUser.logo = user.logo;
     state.fillUser.cantidad = user.cantidad;
     $("#edit").modal('show');
+  },
+  modalUserDevices: function modalUserDevices(state, userLocal) {
+    state.selectedUserForDevices = userLocal;
+    state.userDeviceSessions = [];
+    state.userDeviceLimit = 0;
+    $('#userDevices').modal('show');
+    this.commit('getUserDeviceSessions', userLocal.id);
+  },
+  getUserDeviceSessions: function getUserDeviceSessions(state, userId) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('users/' + userId + '/sessions').then(function (response) {
+      state.userDeviceSessions = response.data.sessions;
+      state.userDeviceLimit = response.data.limit;
+      state.userDeviceUserName = response.data.userName;
+    });
+  },
+  revokeUserDeviceSession: function revokeUserDeviceSession(state, data) {
+    var _this11 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('users/' + data.userId + '/sessions/' + data.sessionId + '/revoke').then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Dispositivo revocado correctamente');
+      _this11.commit('getUserDeviceSessions', data.userId);
+    })["catch"](function () {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo revocar el dispositivo');
+    });
   },
   uploadLogo: function uploadLogo(state, evt) {
     state.form = new FormData();
@@ -37804,7 +37858,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   updateCompanyLogo: function updateCompanyLogo(state) {
-    var _this11 = this;
+    var _this12 = this;
     var url = urlCompanyLogo;
     var config = {
       headers: {
@@ -37819,7 +37873,7 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $("#logo").val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('logo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-      _this11.commit('getCompany');
+      _this12.commit('getCompany');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -37875,12 +37929,12 @@ function dispatchPublicQuotationFailed() {
     $('#deleteUser').modal('show');
   },
   deleteUser: function deleteUser(state) {
-    var _this12 = this;
+    var _this13 = this;
     var url = urlUser + '/' + state.fillUser.id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario eliminado con exito');
       $('#deleteUser').modal('hide');
-      _this12.commit('getUsers', 1);
+      _this13.commit('getUsers', 1);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el usuario'));
     });
@@ -37889,23 +37943,23 @@ function dispatchPublicQuotationFailed() {
   /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n empresas **** */
   /******************************* */
   updateCompany: function updateCompany(state, id) {
-    var _this13 = this;
+    var _this14 = this;
     var url = urlCompany + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-      _this13.commit('getCompany');
+      _this14.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
   },
   createCompany: function createCompany(state) {
-    var _this14 = this;
+    var _this15 = this;
     var url = urlCompany;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa se creo con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-      _this14.commit('getCompany');
+      _this15.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
@@ -38798,7 +38852,7 @@ function dispatchPublicQuotationFailed() {
     state.productForm.total = Math.round(state.productForm.value * 1.19);
   },
   createSale: function createSale(state) {
-    var _this15 = this;
+    var _this16 = this;
     var url = urlCreateSale;
     if (state.formapago == '') {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Selecione la forma de pago!');
@@ -38834,10 +38888,10 @@ function dispatchPublicQuotationFailed() {
           };
           toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Venta generada con exito!');
           $('#create').modal('hide');
-          _this15.commit('allSales', {
+          _this16.commit('allSales', {
             page: 1
           });
-          _this15.commit('allProductsSale');
+          _this16.commit('allProductsSale');
         })["catch"](function (error) {
           toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
         });
@@ -38877,7 +38931,7 @@ function dispatchPublicQuotationFailed() {
     window.location.href = url;
   },
   eliminarVenta: function eliminarVenta(state, id) {
-    var _this16 = this;
+    var _this17 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var url, response;
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -38891,7 +38945,7 @@ function dispatchPublicQuotationFailed() {
             response = _context4.sent;
             if (response.data.status === true) {
               toastr__WEBPACK_IMPORTED_MODULE_1___default().success('La Venta se anulo correctamente');
-              _this16.commit('allSales', {
+              _this17.commit('allSales', {
                 page: 1
               });
             }
@@ -38972,10 +39026,8 @@ function dispatchPublicQuotationFailed() {
   },
   createMechanicClient: function createMechanicClient(state) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('mechanic-client/' + state.idforms, {
-      // axios.post('mechanic-client',{
       name: state.newUser.name,
-      email: state.newUser.email,
-      password: state.newUser.password
+      email: state.newUser.email
     }).then(function (response) {
       state.newUser = {
         id: '',
@@ -38985,7 +39037,7 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       $('#modalCreateUserMechanic').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -38993,9 +39045,7 @@ function dispatchPublicQuotationFailed() {
   createMechanicClient2: function createMechanicClient2(state) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('mechanic-client2', {
       name: state.newUser.name,
-      email: state.newUser.email,
-      password: state.newUser.password
-      //cant_vehicle: state.newUser.cant_vehicle
+      email: state.newUser.email
     }).then(function (response) {
       state.newUser = {
         id: '',
@@ -39005,7 +39055,7 @@ function dispatchPublicQuotationFailed() {
         //cant_vehicle: ''
       };
       state.errorsLaravel = [];
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
     });
@@ -39019,7 +39069,7 @@ function dispatchPublicQuotationFailed() {
     state.selectedMechanicClient = client;
   },
   createVehicleMechanicClient: function createVehicleMechanicClient(state) {
-    var _this17 = this;
+    var _this18 = this;
     var id_user = null;
     if (state.selectedMechanicClient != null) {
       id_user = state.selectedMechanicClient.value;
@@ -39045,7 +39095,7 @@ function dispatchPublicQuotationFailed() {
         state.newVehicle.km = '';
         state.errorsLaravel = [];
         $('#createVehicleMechanic').modal('hide');
-        _this17.commit('getClientVehicles');
+        _this18.commit('getClientVehicles');
         toastr__WEBPACK_IMPORTED_MODULE_1___default().success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
       })["catch"](function (error) {
         toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
@@ -39152,10 +39202,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   actualizarCorrelativo: function actualizarCorrelativo(state) {
-    var _this18 = this;
+    var _this19 = this;
     var url = urlActualizarCorrelativo;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
-      _this18.commit('getQuotationclients', {
+      _this19.commit('getQuotationclients', {
         page: 1
       });
     })["catch"](function (error) {
@@ -39183,21 +39233,21 @@ function dispatchPublicQuotationFailed() {
     });
   },
   eliminarCategoria: function eliminarCategoria(state, id) {
-    var _this19 = this;
+    var _this20 = this;
     var url = urlEliminarCategoriaChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this19.commit('mostrarFormatoCheckList');
+      _this20.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   eliminarIntervencion: function eliminarIntervencion(state, id) {
-    var _this20 = this;
+    var _this21 = this;
     var url = urlEliminarIntervencionChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this20.commit('mostrarFormatoCheckList');
+      _this21.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -39228,13 +39278,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var _options$optionsUser$;
+var _selectedUserForDevic;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_options$optionsUser$ = {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_selectedUserForDevic = {
   //data
+  selectedUserForDevices: null,
+  userDeviceSessions: [],
+  userDeviceLimit: 0,
+  userDeviceUserName: '',
   options: [],
   //arreglo para ser utilizado en el componente v-select para volcar los objetos
   optionsUser: [],
@@ -39363,7 +39417,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de vehiculos */
   vehicles: [],
   rol: ''
-}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "rol", ''), "vehicle", {
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "rol", ''), "vehicle", {
   id: '',
   user_id: '',
   patent: '',
@@ -39417,7 +39471,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "editarCategoriaForm", {
   id_categoria: 0,
   categoria: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "editarIntervencionForm", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "editarIntervencionForm", {
   id_intervencion: 0,
   intervencion: ''
 }), "columnaExiste", []), "columnaEstado", []), "columnaObservacion", {
@@ -39425,7 +39479,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   id_vehicle: 0,
   observacion: '',
   imagenes: []
-}), "mostrarchecklistvehicles", []), "checklistvehicles", []), "checklists", []), "formatchecklists", []), "editarIntervenciones", []), "categorias", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "ordenestrabajos", []), "intervenciones", []), "condiciones", []), "id_checklist", 0), "id_vehicle", 0), "trabajos", []), "observaciones", []), "roleschecklists", []), "km_old", 0), "vehiculotipos", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "vehiculotipo", {
+}), "mostrarchecklistvehicles", []), "checklistvehicles", []), "checklists", []), "formatchecklists", []), "editarIntervenciones", []), "categorias", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "ordenestrabajos", []), "intervenciones", []), "condiciones", []), "id_checklist", 0), "id_vehicle", 0), "trabajos", []), "observaciones", []), "roleschecklists", []), "km_old", 0), "vehiculotipos", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "vehiculotipo", {
   id: '',
   tipo_vehiculo: ''
 }), "vehiclebrands", []), "vehiclebrand", {
@@ -39449,7 +39503,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "newVehicleYear", {
   v_id: '',
   v_year: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "vehicleyears", []), "vehicleyear", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "vehicleyears", []), "vehicleyear", {
   id: '',
   v_year: '',
   model: ''
@@ -39484,7 +39538,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchVehicleBrand", {
   brand: '',
   model: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "vehicleDetails", []), "details", []), "detail", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "vehicleDetails", []), "details", []), "detail", {
   id: '',
   km: '',
   note: ''
@@ -39502,7 +39556,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchNote", {
   price: '',
   detail: ''
-}), "idforms", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "quotationforms", []), "selectedVehicleClient", {
+}), "idforms", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationforms", []), "selectedVehicleClient", {
   label: '',
   value: ''
 }), "quotations", []), "newQuotation", {
@@ -39519,7 +39573,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchQuotation", {
   client: '',
   patent: ''
-}), "idQuotation", null), "totalQuotation", 0), "totalQuotationIVA", 0), "quotationclients", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "quotationclientsform", []), "quotationshipping", []), "checkEnviado", []), "checkRealizado", []), "cerrarObservacion", []), "newQuotationclient", {
+}), "idQuotation", null), "totalQuotation", 0), "totalQuotationIVA", 0), "quotationclients", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationclientsform", []), "quotationshipping", []), "checkEnviado", []), "checkRealizado", []), "cerrarObservacion", []), "newQuotationclient", {
   client_id: '',
   state: '',
   payment: '',
@@ -39564,7 +39618,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   per_page: 20
 }), "searchShipping", {
   id: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "idQuotationclient", null), "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "idQuotationclient", null), "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
   import_id: '',
   user_id: '',
   client_id: '',
@@ -39577,7 +39631,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   client_id: '',
   payment: '',
   state: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "idQuotationimport", null), "totalQuotationimport", 0), "totalQuotationimportIVA", 0), "formCotizacion", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "idQuotationimport", null), "totalQuotationimport", 0), "totalQuotationimportIVA", 0), "formCotizacion", {
   name: '',
   email: '',
   phone: '',
@@ -39610,7 +39664,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   other1: '',
   other2: '',
   total: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fillImport", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillImport", {
   id: '',
   name: '',
   dolar: '',
@@ -39642,7 +39696,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   total: 0,
   days: '24 a 48 Hrs',
   spare_parts: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fillDetailclient", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillDetailclient", {
   id: '',
   quotationclient_id: '',
   product: '',
@@ -39747,7 +39801,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   guia: 0,
   retiro: 0,
   fleteChile: 0
-}), "totalNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
+}), "totalNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
   id: '',
   user_id: '',
   name: '',
@@ -39772,7 +39826,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fillClient", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillClient", {
   id: '',
   user_id: '',
   name: '',
@@ -39791,7 +39845,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "product", {
   name: '',
   detail: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "newUtilidad", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newUtilidad", {
   utilidad: ''
 }), "newTipoPago", {
   pago: '',
@@ -39820,7 +39874,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   id: '',
   categoria: '',
   nombre: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "searchProductCatalogTemplate", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchProductCatalogTemplate", {
   categoria: '',
   nombre: ''
 }), "productCatalogTemplateImportFile", null), "search", {
@@ -39849,7 +39903,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   quantity: 1,
   price: 0,
   discount: 0
-}), "inventories", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fileInvoice", null), "searchInventory", {
+}), "inventories", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fileInvoice", null), "searchInventory", {
   name: ''
 }), "newCompany", {
   user_id: '',
@@ -39884,7 +39938,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "offset_form", 2), "pagination_marca", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_form", 2), "pagination_marca", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -39919,7 +39973,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "offset_motor", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "users", []), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_motor", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "users", []), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
   name: '',
   email: '',
   password: '',
@@ -39934,7 +39988,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   //mecanico: '',
   //cant_client: 0,
   cant_vehicle: 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fillUser", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillUser", {
   id: '',
   name: '',
   email: '',
@@ -39967,14 +40021,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillQuotationShipping", {
   id: '',
   direccion: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "fillFacebookShipping", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillFacebookShipping", {
   id: '',
   url: ''
 }), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
+}), "optionsCode", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -39994,7 +40048,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
+}), "cartNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -40009,11 +40063,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   producto: '',
   cantidad: '',
   precio: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "arrayBoleta", []), "newFlete", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "arrayBoleta", []), "newFlete", {
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_options$optionsUser$, "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 
@@ -75849,6 +75903,45 @@ component.options.__file = "resources/assets/js/components/User/Detalle.vue"
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/User/Dispositivos.vue":
+/*!**************************************************************!*\
+  !*** ./resources/assets/js/components/User/Dispositivos.vue ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dispositivos.vue?vue&type=template&id=5bf16c82 */ "./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82");
+/* harmony import */ var _Dispositivos_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dispositivos.vue?vue&type=script&lang=js */ "./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Dispositivos_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__.render,
+  _Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/User/Dispositivos.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/User/Edit.vue":
 /*!******************************************************!*\
   !*** ./resources/assets/js/components/User/Edit.vue ***!
@@ -78635,6 +78728,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js":
+/*!**************************************************************************************!*\
+  !*** ./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dispositivos_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dispositivos.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dispositivos_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/User/Edit.vue?vue&type=script&lang=js":
 /*!******************************************************************************!*\
   !*** ./resources/assets/js/components/User/Edit.vue?vue&type=script&lang=js ***!
@@ -80616,6 +80725,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Detalle_vue_vue_type_template_id_8055d96c__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Detalle_vue_vue_type_template_id_8055d96c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Detalle.vue?vue&type=template&id=8055d96c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Detalle.vue?vue&type=template&id=8055d96c");
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82":
+/*!********************************************************************************************!*\
+  !*** ./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82 ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Dispositivos_vue_vue_type_template_id_5bf16c82__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dispositivos.vue?vue&type=template&id=5bf16c82 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Dispositivos.vue?vue&type=template&id=5bf16c82");
 
 
 /***/ }),

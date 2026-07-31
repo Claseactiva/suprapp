@@ -16,10 +16,9 @@
                         <label for="email">Correo</label>
                         <input required type="email" name="email" class="form-control" v-model="newUser.email">
 
-
-                        <label for="password">Contraseña</label>
-                        <input required type="password" name="password" class="form-control" v-model="newUser.password">
-
+                        <p class="text-muted mt-2 mb-0">
+                            <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
+                        </p>
 
                     </div>
                     <div class="modal-footer">

@@ -1039,6 +1039,12 @@ export default { //methods
     editUser(context, data) {
         context.commit('editUser', data.userLocal)
     },
+    modalUserDevices(context, data) {
+        context.commit('modalUserDevices', data.userLocal)
+    },
+    revokeUserDeviceSession(context, data) {
+        context.commit('revokeUserDeviceSession', data)
+    },
     updateCompanyLogo(context) {
         context.commit('updateCompanyLogo')
     },

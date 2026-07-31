@@ -240,6 +240,9 @@ Route::match(['get'], 'input', 'Auth\LoginController@recibir');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::get('error_ip', function () {
     return view('error_ip');
@@ -258,6 +261,8 @@ Route::middleware(['auth', 'device.session'])->group(function () {
 
     Route::get('user-sessions', 'UserSessionController@index');
     Route::post('user-sessions/{id}/revoke', 'UserSessionController@revoke');
+    Route::get('users/{userId}/sessions', 'UserSessionController@indexForUser');
+    Route::post('users/{userId}/sessions/{sessionId}/revoke', 'UserSessionController@revokeForUser');
 
     Route::get('admin-roles', function () {
         return view('role.roles');

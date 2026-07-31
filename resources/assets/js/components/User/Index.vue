@@ -58,23 +58,6 @@
                                     </div>
 
 
-                                    <div class="form-group col-lg-3">
-                                        <label for="password">Contraseña</label>
-                                        <input v-validate="'required'"
-                                            :class="{ 'input': true, 'is-invalid': errors.has('password') }"
-                                            type="password" name="password" class="form-control"
-                                            v-model="newUser.password">
-
-                                        <div v-for="(error, key) in errorsLaravel" class="text-danger"
-                                            :key="key['errors']">
-                                            <div v-for="(errorItem, index) in error" :key="index">
-                                                <div v-if="index === 'password'">
-                                                    {{ errorItem[0] }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="col-lg-3 mt-2">
                                         <label></label>
                                         <button type="submit" class="btn btn-success form-control">
@@ -83,6 +66,9 @@
                                     </div>
 
                                 </div>
+                                <p class="text-muted mt-2 mb-0">
+                                    <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
+                                </p>
                             </form>
                         </div>
                     </div>
@@ -122,6 +108,11 @@
                                     data-toggle="tooltip" data-placement="top" title="Editar">
                                     <i class="far fa-edit"></i>
                                 </a>
+
+                                <button class="btn btn-info" @click.prevent="modalUserDevices({ userLocal })"
+                                    data-toggle="tooltip" data-placement="top" title="Dispositivos">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </button>
 
                                 <a href="#" class="btn btn-danger"
                                     @click.prevent="modalDeleteUser({ id: userLocal.id })" data-toggle="tooltip"
@@ -192,6 +183,7 @@
         <DeleteUser></DeleteUser>
         <EditCantClientVehicle></EditCantClientVehicle>
         <UpdateUserRoles></UpdateUserRoles>
+        <Dispositivos></Dispositivos>
 
     </div>
 
@@ -207,16 +199,17 @@ import DeleteUser from './Delete'
 
 import UpdateUserRoles from '../Roles/UpdateUserRoles'
 import EditCantClientVehicle from './EditCantClientVehicle'
+import Dispositivos from './Dispositivos'
 
 export default {
-    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle },
+    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
         ...mapActions(['getUsers', 'createUser',
-            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser'])
+            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices'])
     },
     created() {
         loadProgressBar()

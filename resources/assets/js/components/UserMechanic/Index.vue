@@ -37,12 +37,6 @@
                                             v-model="newUser.email">
                                     </div>
 
-                                    <div class="form-group col-lg-3">
-                                        <label for="password">Contraseña</label>
-                                        <input required type="password" name="password" class="form-control"
-                                            v-model="newUser.password">
-                                    </div>
-
                                     <div class="col-lg-3 mt-2">
                                         <label></label>
                                         <button type="submit" class="btn btn-success form-control">
@@ -51,6 +45,9 @@
                                     </div>
 
                                 </div>
+                                <p class="text-muted mt-2 mb-0">
+                                    <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
+                                </p>
                             </form>
                         </div>
                     </div>
@@ -87,6 +84,11 @@
                                     data-toggle="tooltip" data-placement="top" title="Editar">
                                     <i class="far fa-edit"></i>
                                 </a>
+
+                                <button class="btn btn-info" @click.prevent="modalUserDevices({ userLocal })"
+                                    data-toggle="tooltip" data-placement="top" title="Dispositivos">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </button>
 
                             </td>
                         </tr>
@@ -136,6 +138,7 @@
             </div>
             <EditCantVehicle></EditCantVehicle>
             <EditUser></EditUser>
+            <Dispositivos></Dispositivos>
         </div>
     </div>
 
@@ -148,15 +151,16 @@ import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import EditUser from './EditUser'
 import EditCantVehicle from './EditCantVehicle'
+import Dispositivos from '../User/Dispositivos'
 
 export default {
-    components: { EditUser, EditCantVehicle },
+    components: { EditUser, EditCantVehicle, Dispositivos },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
-        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle'])
+        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices'])
     },
     created() {
         loadProgressBar()

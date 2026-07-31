@@ -3253,10 +3253,7 @@ export default { //used for changing the state
             id: state.idUser,
             name: state.newUser.name,
             email: state.newUser.email,
-            password: state.newUser.password,
-            //cant_client: state.newUser.cant_client,
             cant_vehicle: state.newUser.cant_vehicle
-            //url: window.location.host + "/acceso/" + md5(state.newUser.password)
         }).then(response => {
             state.newUser = {
                 id: '',
@@ -3266,7 +3263,7 @@ export default { //used for changing the state
                 url: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3277,10 +3274,34 @@ export default { //used for changing the state
         state.fillUser.name = user.name
         state.fillUser.email = user.email
         state.fillUser.password = user.password
-        state.fillUser.url = window.location.host + "/acceso/" + user.url
         state.fillUser.logo = user.logo
         state.fillUser.cantidad = user.cantidad
         $("#edit").modal('show')
+    },
+
+    modalUserDevices(state, userLocal) {
+        state.selectedUserForDevices = userLocal
+        state.userDeviceSessions = []
+        state.userDeviceLimit = 0
+        $('#userDevices').modal('show')
+        this.commit('getUserDeviceSessions', userLocal.id)
+    },
+
+    getUserDeviceSessions(state, userId) {
+        axios.get('users/' + userId + '/sessions').then(response => {
+            state.userDeviceSessions = response.data.sessions
+            state.userDeviceLimit = response.data.limit
+            state.userDeviceUserName = response.data.userName
+        })
+    },
+
+    revokeUserDeviceSession(state, data) {
+        axios.post('users/' + data.userId + '/sessions/' + data.sessionId + '/revoke').then(response => {
+            toastr.success('Dispositivo revocado correctamente')
+            this.commit('getUserDeviceSessions', data.userId)
+        }).catch(() => {
+            toastr.error('No se pudo revocar el dispositivo')
+        })
     },
 
     uploadLogo(state, evt) {
@@ -4632,10 +4653,8 @@ export default { //used for changing the state
     createMechanicClient(state) {
 
         axios.post('mechanic-client/' + state.idforms, {
-            // axios.post('mechanic-client',{
             name: state.newUser.name,
             email: state.newUser.email,
-            password: state.newUser.password,
         }).then(response => {
             state.newUser = {
                 id: '',
@@ -4645,7 +4664,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#modalCreateUserMechanic').modal('hide')
-            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -4656,8 +4675,6 @@ export default { //used for changing the state
         axios.post('mechanic-client2', {
             name: state.newUser.name,
             email: state.newUser.email,
-            password: state.newUser.password,
-            //cant_vehicle: state.newUser.cant_vehicle
         }).then(response => {
             state.newUser = {
                 id: '',
@@ -4667,7 +4684,7 @@ export default { //used for changing the state
                 //cant_vehicle: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
         })

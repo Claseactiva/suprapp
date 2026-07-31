@@ -4,13 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\User;
 use App\Models\Vehicle;
+use App\Notifications\SetInitialPasswordNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -39,11 +42,7 @@ class UserController extends Controller
 
         $this->validate($request, [
             'name' => 'required|min:4|max:190',
-            'email' => [
-                'required', 'email', 'min:6', 'max:150',
-                \Illuminate\Validation\Rule::unique('users')->ignore(User::find($id))
-            ],
-            'password' => 'required|min:6|max:190',
+            'email' => 'required|email|min:6|max:150|unique:users,email',
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'name.min' => 'El campo nombre debe tener al menos 6 caracteres',
@@ -51,25 +50,42 @@ class UserController extends Controller
             'email.required' => 'El campo correo electrónico es obligatorio',
             'email.min' => 'El campo de correo electrónico debe tener al menos 6 caracteres',
             'email.max' => 'El campo de correo electrónico debe tener a lo más 150 caracteres',
-            'password.required' => 'El campo contraseña es obligatorio',
-            'password.min' => 'El campo de contraseña debe tener al menos 6 caracteres',
-            'password.max' => 'El campo de contraseña debe tener a lo más 150 caracteres',
+            'email.unique' => 'Ya existe un usuario con ese correo electrónico',
         ]);
 
-        $data = $request->all();
+        $user = $this->createUserAndSendActivation([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
 
-        $data['password'] = bcrypt($data['password']);
-        $data['url'] = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
-        $data['cant_vehicle'] = 5;
-        $data['cant_client'] = 5;
-
-        DB::table('quotationclients')->where('id', $id)->update(
-            [
+        if ($id) {
+            DB::table('quotationclients')->where('id', $id)->update([
                 'generado_client' => 1,
-            ]
-        );
+            ]);
+        }
 
-        return $id;
+        return $user;
+    }
+
+    /**
+     * Crea el usuario con una contraseña provisoria inutilizable y le envia
+     * un correo para que configure su propia contraseña (reutiliza el
+     * mecanismo estandar de "olvide mi contraseña" de Laravel).
+     */
+    private function createUserAndSendActivation(array $data)
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt(Str::random(40)),
+            'cant_vehicle' => $data['cant_vehicle'] ?? 5,
+            'cant_client' => $data['cant_client'] ?? 5,
+        ]);
+
+        $token = Password::createToken($user);
+        $user->notify(new SetInitialPasswordNotification($token));
+
+        return $user;
     }
 
     public function show()
@@ -103,7 +119,6 @@ class UserController extends Controller
 
         $data = $request->all();
         $data['password'] = bcrypt($data['password']);
-        $data['url'] = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
 
         User::find($id)->update($data);
 
@@ -191,7 +206,20 @@ class UserController extends Controller
     public function storeclient(Request $request)
     {
         $id = request('id');
-        $user = $this->store($request);
+
+        $this->validate($request, [
+            'name' => 'required|min:4|max:190',
+            'email' => 'required|email|min:6|max:150|unique:users,email',
+        ], [
+            'name.required' => 'El campo nombre es obligatorio',
+            'email.required' => 'El campo correo electrónico es obligatorio',
+            'email.unique' => 'Ya existe un usuario con ese correo electrónico',
+        ]);
+
+        $user = $this->createUserAndSendActivation([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
 
         $user->roles()->sync(array(0 => '3'));
 
@@ -207,6 +235,8 @@ class UserController extends Controller
                 'generado_client' => 1,
             ]
         );
+
+        return $user;
     }
 
     public function storeclient2(Request $request)
@@ -243,13 +273,19 @@ class UserController extends Controller
             if ($total_vehicles >= $users[0]->cant_vehicle) {
                 return response()->json('Supero la cantidad de vehiculos!', 422);
             } else {
-                $data = $request->all();
+                $this->validate($request, [
+                    'name' => 'required|min:4|max:190',
+                    'email' => 'required|email|min:6|max:150|unique:users,email',
+                ], [
+                    'name.required' => 'El campo nombre es obligatorio',
+                    'email.required' => 'El campo correo electrónico es obligatorio',
+                    'email.unique' => 'Ya existe un usuario con ese correo electrónico',
+                ]);
 
-                $data['password'] = bcrypt($data['password']);
-                $data['url'] = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
-                $data['cant_vehicle'] = 5;
-
-                $user = User::create($data);
+                $user = $this->createUserAndSendActivation([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                ]);
                 $user->roles()->sync(array(0 => '3'));
 
                 DB::table('mechanic_client')->insertOrIgnore(
@@ -258,6 +294,8 @@ class UserController extends Controller
                         'mechanic_id' => Auth::id()
                     ]
                 );
+
+                return $user;
             }
         }
     }
