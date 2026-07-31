@@ -30,11 +30,10 @@ let urlEliminarOrdenTrabajo = 'eliminar_ordentrabajo'
 let urlActualizarOrdenTrabajo = 'actualizar_ordentrabajo'
 let urlTrabajo = 'trabajos'
 let urlObservacion = 'observaciones'
-let urlSubirFotosOrdenTrabajo = 'subirfotosordentrabajo'
 let urlEliminarObservacion = 'eliminarObservacion'
 let urlEliminarEditarObservacion = 'eliminarEditarObservacion'
-let urlFotosOrdenTrabajo = 'fotosordentrabajo'
 let urlSubirObservacion = 'subirobservacion'
+let urlActualizarObservacion = 'actualizarObservacion'
 let urlUpload = 'upload'
 
 let urlVehicleBrand = 'vehiclebrands'
@@ -142,7 +141,6 @@ let urlCheckListVehicles = 'checklistvehicles'
 let urlMostrarCheckListVehicles = 'mostrarCheckListVehicles'
 let urlEliminarCategoriaChecklist = 'eliminarCategoriaChecklist'
 let urlEliminarIntervencionChecklist = 'eliminarIntervencionChecklist'
-let urlEliminarImagenObservacion = 'eliminarImagenObservacion'
 
 let urlMostrarCheckList = 'mostrarCheckList'
 
@@ -487,11 +485,6 @@ export default { //used for changing the state
     },
 
 
-    modalFotosOrdenTrabajo(state, id) {
-        state.newOrdenTrabajo.vehicle_id = id
-        $("#modalFotosOrdenTrabajo").modal('show')
-    },
-
     modalObservacion(state, id) {
         state.newOrdenTrabajo.vehicle_id = id
         $("#modalObservacion").modal('show')
@@ -582,6 +575,16 @@ export default { //used for changing the state
         })
     },
 
+    actualizarObservacion(state, data) {
+        axios.post(urlActualizarObservacion, data).then(response => {
+            state.errorsLaravel = []
+            toastr.success('La observacion se actualizo correctamente')
+            this.commit('getObservaciones', state.newOrdenTrabajo.vehicle_id)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+
     getTrabajos(state, id) {
         let url = urlTrabajo + '/' + id
         axios.get(url).then(response => {
@@ -610,72 +613,6 @@ export default { //used for changing the state
     },
 
 
-    getFotosOrdenTrabajo(state, id) {
-        let url = urlFotosOrdenTrabajo + '/' + id
-        axios.get(url).then(response => {
-            state.trabajos = response.data
-        })
-    },
-
-    AgregarFotosOrdenTrabajo(state) {
-        for (let i = 0; i < state.attachment.length; i++) {
-            state.form.append('pics[]', state.attachment[i])
-        }
-
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-
-        //vehicle_id: state.newOrdenTrabajo.vehicle_id = id,
-
-        let url = urlSubirFotosOrdenTrabajo
-        if (state.attachment.length > 0) {
-
-            state.form.append('id', state.newOrdenTrabajo.vehicle_id)
-            $("#files").val(null)
-
-            axios.post(url, state.form, config).then(response => {
-                state.newOrdenTrabajo.vehicle_id = ''
-                state.errorsLaravel = []
-                $('#modalFotosOrdenTrabajo').modal('hide')
-                toastr.success('Imagen(es) subida(s) con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
-            }).catch(error => {
-                state.errorsLaravel = error.response.data
-            })
-        }
-
-    },
-
-    subirFotosOrdenTrabajo(state, evt) {
-        state.form = new FormData()
-
-        state.images = []
-        state.attachment = []
-        let selectedFiles = evt.target.files
-
-        if (!selectedFiles.length) {
-            return false
-        }
-
-        for (let i = 0; i < selectedFiles.length; i++) {
-            state.attachment.push(selectedFiles[i])
-        }
-    },
-
-    borrarImagenOrdenTrabajo(state, imagen) {
-        let url = urlEliminarImagenObservacion
-        axios.post(url, imagen).then(response => {
-            state.errorsLaravel = []
-            toastr.success('La imagen se elimino correctamente')
-            this.commit('getFotosOrdenTrabajo', response.data.id)
-        }).catch(error => {
-            state.errorsLaravel = error.response.data
-        })
-    },
-
-
     AgregarObservacion(state) {
         const config = {
             headers: {
@@ -685,18 +622,23 @@ export default { //used for changing the state
 
         let url = urlSubirObservacion
 
+        const formToSend = state.form
         for (let i = 0; i < state.attachment.length; i++) {
-            state.form.append('imagenes_observacion[]', state.attachment[i])
+            formToSend.append('imagenes_observacion[]', state.attachment[i])
         }
 
-        state.form.append('id', state.newOrdenTrabajo.vehicle_id)
-        state.form.append('observacion', state.newOrdenTrabajo.observacion)
+        formToSend.append('id', state.newOrdenTrabajo.vehicle_id)
+        formToSend.append('observacion', state.newOrdenTrabajo.observacion)
         $("#filesObservacion").val(null)
 
-        axios.post(url, state.form, config).then(response => {
+        // Se resetea antes de enviar para que un doble clic no vuelva a
+        // adjuntar las mismas imagenes sobre el mismo FormData.
+        state.form = new FormData()
+        state.attachment = []
+
+        axios.post(url, formToSend, config).then(response => {
             state.newOrdenTrabajo.vehicle_id = ''
             state.newOrdenTrabajo.observacion = ''
-            state.attachment.length = []
             state.errorsLaravel = []
             $('#modalObservacion').modal('hide')
 
@@ -710,7 +652,7 @@ export default { //used for changing the state
         })
     },
 
-    subirFotosObservacion(state, evt) {
+    async subirFotosObservacion(state, evt) {
         state.form = new FormData()
 
         state.images = []
@@ -722,7 +664,8 @@ export default { //used for changing the state
         }
 
         for (let i = 0; i < selectedFiles.length; i++) {
-            state.attachment.push(selectedFiles[i])
+            const compressed = await compressImage(selectedFiles[i])
+            state.attachment.push(compressed)
         }
     },
 
@@ -1212,15 +1155,21 @@ export default { //used for changing the state
             }
         }
 
+        const formToSend = state.form
         for (let i = 0; i < state.attachment.length; i++) {
-            state.form.append('pics[]', state.attachment[i])
+            formToSend.append('pics[]', state.attachment[i])
         }
-        state.form.append('vehicle_id', state.newDetailVehicle.vehicle_id)
-        state.form.append('km', state.newDetailVehicle.km)
-        state.form.append('note', state.newDetailVehicle.note)
+        formToSend.append('vehicle_id', state.newDetailVehicle.vehicle_id)
+        formToSend.append('km', state.newDetailVehicle.km)
+        formToSend.append('note', state.newDetailVehicle.note)
+
+        // Se resetea antes de enviar para que un doble clic no vuelva a
+        // adjuntar las mismas imagenes sobre el mismo FormData.
+        state.form = new FormData()
+        state.attachment = []
 
         let url = urlDetailVehicle
-        axios.post(url, state.form, config).then(response => {
+        axios.post(url, formToSend, config).then(response => {
             state.newDetailVehicle.vehicle_id = ''
             state.newDetailVehicle.km = ''
             state.newDetailVehicle.note = ''
@@ -1313,6 +1262,9 @@ export default { //used for changing the state
             const compressed = await compressImage(selectedFiles[i])
             state.attachment.push(compressed)
         }
+    },
+    removeAttachment(state, index) {
+        state.attachment.splice(index, 1)
     },
     deleteImage(state, id) {
         let url = urlImages + '/' + id
@@ -1961,7 +1913,6 @@ export default { //used for changing the state
     setcheckRealizado(state, value) {
         $('#modalAlertaInformacion').modal('show')
         this.commit('getObservaciones', value[0])
-        this.commit('getFotosOrdenTrabajo', value[0])
         state.id_trabajo = value[0]
         state.checkRealizado = value
     },

@@ -47,6 +47,10 @@
                             <div class="col-4 col-md-3 mb-3" v-for="(preview, index) in previews" :key="index">
                                 <div class="detalle-preview">
                                     <img :src="preview.src" :alt="preview.name">
+                                    <button type="button" class="btn btn-danger btn-sm preview-remove"
+                                        title="Quitar" @click.prevent="removePreview(index)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +100,9 @@ export default {
     },
     methods: {
         ...mapActions(['createDetailVehicle', 'fileChange']),
+        removePreview(index) {
+            this.$store.commit('removeAttachment', index)
+        }
     },
 }
 </script>
@@ -116,5 +123,22 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.preview-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    line-height: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    border: 2px solid #fff;
+    z-index: 2;
 }
 </style>

@@ -64,10 +64,6 @@ export default { //methods
         context.commit('modalOrdenTrabajo', data.vehicleLocal)
         context.commit('getTrabajos', data.vehicleLocal.id)
     },
-    modalFotosOrdenTrabajo(context, data) {
-        context.commit('modalFotosOrdenTrabajo', data.id)
-        context.commit('getFotosOrdenTrabajo', data.id)
-    },
     modalObservacion(context, data) {
         context.commit('modalObservacion', data.id)
         context.commit('getObservaciones', data.id)
@@ -80,6 +76,9 @@ export default { //methods
     borrarImagenObservacion(context, data) {
         context.commit('borrarImagenObservacion', data)
     },
+    actualizarObservacion(context, data) {
+        context.commit('actualizarObservacion', data)
+    },
     guardarOrdenTrabajo(context, data) {
         context.commit('guardarOrdenTrabajo', data.km_old)
         context.commit('getClientVehicles')
@@ -91,10 +90,6 @@ export default { //methods
 
     getObservaciones(context, data) {
         context.commit('getObservaciones', data)
-    },
-
-    AgregarFotosOrdenTrabajo(context) {
-        context.commit('AgregarFotosOrdenTrabajo')
     },
 
     AgregarObservacion(context) {
@@ -399,9 +394,6 @@ export default { //methods
     /********************************** */
     subirFotosObservacion(context, data) {
         context.commit('subirFotosObservacion', data.evt)
-    },
-    subirFotosOrdenTrabajo(context, data) {
-        context.commit('subirFotosOrdenTrabajo', data.evt)
     },
     fileChange(context, data) {
         context.commit('fileChange', data.evt)
@@ -1570,10 +1562,6 @@ export default { //methods
 
     cerrarRealizado(context, data) {
         context.commit('cerrarRealizado', data.id)
-    },
-
-    borrarImagenOrdenTrabajo(context, imagen) {
-        context.commit('borrarImagenOrdenTrabajo', imagen)
     },
 
     editarTrabajo(context, data) {

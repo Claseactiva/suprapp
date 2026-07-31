@@ -198,6 +198,16 @@ class OrdenTrabajoController extends Controller
     }
 
 
+    public function ActualizarObservacion(Request $request)
+    {
+        $observacion = Observacion::findOrFail($request->id);
+        $observacion->update([
+            'observacion' => $request->observacion,
+        ]);
+
+        return response()->json($observacion);
+    }
+
     public function AgregarObservacion(Request $request)
     {
         $arreglo = array();

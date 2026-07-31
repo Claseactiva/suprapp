@@ -108,6 +108,7 @@ Route::get('trabajos/{id}', 'OrdenTrabajoController@trabajos');
 Route::post('eliminarImagenObservacion', 'OrdenTrabajoController@EliminarImagenObservacion');
 Route::post('eliminarObservacion', 'OrdenTrabajoController@EliminarObservacion');
 Route::post('eliminarEditarObservacion', 'OrdenTrabajoController@EliminarEditarObservacion');
+Route::post('actualizarObservacion', 'OrdenTrabajoController@ActualizarObservacion');
 Route::post('actualizar_ordentrabajo', 'OrdenTrabajoController@ActualizarOrdentrabajo');
 Route::post('eliminar_ordentrabajo', 'OrdenTrabajoController@EliminarOrdentrabajo');
 

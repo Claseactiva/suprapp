@@ -65,25 +65,25 @@
 
                             </div>
                             <div class="col-12">
-                                <div class="orden-modal-table-shell mt-3">
-                                    <table class="table table-responsive-new table-dark table-sm orden-modal-table mb-0">
+                                <div class="table-responsive">
+                                    <table class="table table-responsive-new table-dark table-sm mt-3">
                                         <thead>
                                             <tr>
-                                                <th class="modal-col-id">#</th>
-                                                <th class="modal-col-trabajo">Trabajo</th>
-                                                <th class="modal-col-km">Kilometraje</th>
-                                                <th class="modal-col-fecha">Fecha</th>
-                                                <th class="modal-col-actions"></th>
+                                                <th>#</th>
+                                                <th>Trabajo</th>
+                                                <th>Kilometraje</th>
+                                                <th>Fecha</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <tr v-for="trabajo in trabajos" :key="trabajo.id">
-                                                <td data-table-label="id" class="modal-col-id">{{ trabajo.id }}</td>
-                                                <td data-table-label="trabajo" class="modal-col-trabajo orden-cell-wrap" :title="trabajo.descripcion">{{ trabajo.descripcion }}</td>
-                                                <td data-table-label="kilometraje" class="modal-col-km orden-cell-meta">{{ trabajo.km }}</td>
-                                                <td data-table-label="fecha" class="modal-col-fecha orden-cell-meta">{{ trabajo.created_at | moment('DD/MM/YYYY h:mm a') }}</td>
-                                                <td class="modal-col-actions orden-action-cell">
+                                                <td data-table-label="id">{{ trabajo.id }}</td>
+                                                <td data-table-label="trabajo">{{ trabajo.descripcion }}</td>
+                                                <td data-table-label="kilometraje">{{ trabajo.km }}</td>
+                                                <td data-table-label="fecha">{{ trabajo.created_at | moment('DD/MM/YYYY h:mm a') }}</td>
+                                                <td class="text-right">
                                                     <a href="#" class="btn btn-warning btn-sm"
                                                         @click.prevent="editarTrabajo(trabajo)" data-toggle="tooltip"
                                                         data-placement="top" title="Eliminar">
@@ -151,48 +151,3 @@ export default {
     },
 }
 </script>
-
-<style>
-.orden-modal-table-shell {
-    overflow-x: visible;
-}
-
-@media (min-width: 769px) {
-    .orden-modal-table {
-        table-layout: fixed;
-        width: 100%;
-    }
-
-    .orden-modal-table th,
-    .orden-modal-table td {
-        padding: 0.28rem 0.32rem !important;
-        font-size: 0.74rem;
-        white-space: nowrap !important;
-        vertical-align: middle;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .orden-modal-table .modal-col-id {
-        width: 3rem;
-    }
-
-    .orden-modal-table .modal-col-trabajo {
-        width: 45%;
-    }
-
-    .orden-modal-table .modal-col-km {
-        width: 6rem;
-    }
-
-    .orden-modal-table .modal-col-fecha {
-        width: 8rem;
-    }
-
-    .orden-modal-table .modal-col-actions {
-        width: 6rem;
-        overflow: visible !important;
-        text-overflow: clip !important;
-    }
-}
-</style>
