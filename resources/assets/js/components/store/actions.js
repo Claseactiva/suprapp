@@ -1045,6 +1045,15 @@ export default { //methods
     revokeUserDeviceSession(context, data) {
         context.commit('revokeUserDeviceSession', data)
     },
+    getCantidadVehiculoOptions(context) {
+        context.commit('getCantidadVehiculoOptions')
+    },
+    createCantidadVehiculoOption(context) {
+        context.commit('createCantidadVehiculoOption')
+    },
+    deleteCantidadVehiculoOption(context, id) {
+        context.commit('deleteCantidadVehiculoOption', id)
+    },
     updateCompanyLogo(context) {
         context.commit('updateCompanyLogo')
     },

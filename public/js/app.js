@@ -7213,8 +7213,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['totalvehiadmin', 'fillCantCliVehi', 'cantCliVehiAdmin', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['getTotalVehiAdmin', 'updateCantCliVehi']))
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['totalvehiadmin', 'fillCantCliVehi', 'cantCliVehiAdmin', 'errorsLaravel', 'cantidadVehiculoOptions'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)([])), {}, {
+    newCantidadVehiculoOption: {
+      get: function get() {
+        return this.$store.state.newCantidadVehiculoOption;
+      },
+      set: function set(value) {
+        this.$store.state.newCantidadVehiculoOption = value;
+      }
+    }
+  }),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['getTotalVehiAdmin', 'updateCantCliVehi', 'createCantidadVehiculoOption', 'deleteCantidadVehiculoOption']))
 });
 
 /***/ }),
@@ -18797,54 +18806,7 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.email))])]);
-  }), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "password"
-    }
-  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate",
-      value: "required",
-      expression: "'required'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newUser.password,
-      expression: "newUser.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("password")
-    },
-    attrs: {
-      type: "password",
-      name: "password"
-    },
-    domProps: {
-      value: _vm.newUser.password
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newUser, "password", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("p", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.errors.has("password"),
-      expression: "errors.has('password')"
-    }],
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("password")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
-    return _c("div", {
-      key: index,
-      staticClass: "text-danger"
-    }, [_c("p", [_vm._v(_vm._s(error.password))])]);
-  })], 2), _vm._v(" "), _vm._m(1)])])])]);
+  }), _vm._v(" "), _vm._m(1)], 2), _vm._v(" "), _vm._m(2)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -18859,6 +18821,12 @@ var staticRenderFns = [function () {
       "aria-label": "close"
     }
   }, [_c("span", [_vm._v("×")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", {
+    staticClass: "text-muted mt-2 mb-0"
+  }, [_c("small", [_vm._v("Se enviara un correo al usuario para que configure su propia contrasena.")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -26800,40 +26768,84 @@ var render = function render() {
       disabled: "",
       value: "0"
     }
-  }, [_vm._v("Seleccione Cantidad")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "1",
-      selected: ""
+  }, [_vm._v("Seleccione Cantidad")]), _vm._v(" "), _vm._l(_vm.cantidadVehiculoOptions, function (opt) {
+    return _c("option", {
+      key: opt.id,
+      domProps: {
+        value: opt.value
+      }
+    }, [_vm._v("\n                                1 - " + _vm._s(opt.value) + "\n                            ")]);
+  })], 2)]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Administrar opciones")]), _vm._v(" "), _c("div", {
+    staticClass: "d-flex flex-wrap",
+    staticStyle: {
+      gap: "0.4rem"
     }
-  }, [_vm._v("1 - 1")]), _vm._v(" "), _c("option", {
+  }, _vm._l(_vm.cantidadVehiculoOptions, function (opt) {
+    return _c("span", {
+      key: "chip-" + opt.id,
+      staticClass: "badge badge-secondary p-2"
+    }, [_vm._v("\n                                " + _vm._s(opt.value) + "\n                                "), _c("a", {
+      staticClass: "text-danger ml-1",
+      attrs: {
+        href: "#",
+        title: "Eliminar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.deleteCantidadVehiculoOption(opt.id);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-times"
+    })])]);
+  }), 0), _vm._v(" "), _c("div", {
+    staticClass: "input-group mt-2"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newCantidadVehiculoOption,
+      expression: "newCantidadVehiculoOption"
+    }],
+    staticClass: "form-control",
     attrs: {
-      value: "5"
+      type: "number",
+      min: "1",
+      placeholder: "Nueva cantidad"
+    },
+    domProps: {
+      value: _vm.newCantidadVehiculoOption
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.newCantidadVehiculoOption = $event.target.value;
+      }
     }
-  }, [_vm._v("1 - 5")]), _vm._v(" "), _c("option", {
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-secondary",
     attrs: {
-      value: "10"
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.createCantidadVehiculoOption.apply(null, arguments);
+      }
     }
-  }, [_vm._v("1 - 10")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "30"
-    }
-  }, [_vm._v("1 - 30")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "50"
-    }
-  }, [_vm._v("1 - 50")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "100"
-    }
-  }, [_vm._v("1 - 100")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "500"
-    }
-  }, [_vm._v("1 - 500")]), _vm._v(" "), _c("option", {
-    attrs: {
-      value: "1000"
-    }
-  }, [_vm._v("1 - 1000")])])])]), _vm._v(" "), _vm._m(1)])])])]);
+  }, [_c("i", {
+    staticClass: "fas fa-plus"
+  }), _vm._v(" Agregar\n                                ")])])]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.value))])]);
+  })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -33860,6 +33872,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   revokeUserDeviceSession: function revokeUserDeviceSession(context, data) {
     context.commit('revokeUserDeviceSession', data);
   },
+  getCantidadVehiculoOptions: function getCantidadVehiculoOptions(context) {
+    context.commit('getCantidadVehiculoOptions');
+  },
+  createCantidadVehiculoOption: function createCantidadVehiculoOption(context) {
+    context.commit('createCantidadVehiculoOption');
+  },
+  deleteCantidadVehiculoOption: function deleteCantidadVehiculoOption(context, id) {
+    context.commit('deleteCantidadVehiculoOption', id);
+  },
   updateCompanyLogo: function updateCompanyLogo(context) {
     context.commit('updateCompanyLogo');
   },
@@ -38026,7 +38047,34 @@ function dispatchPublicQuotationFailed() {
       state.fillCantCliVehi.cant_vehicle = user.cant_vehicle;
       state.fillCantCliVehi.rol = user.roles[0].name;
       $("#editCantCliVehi").modal('show');
+      this.commit('getCantidadVehiculoOptions');
     }
+  },
+  getCantidadVehiculoOptions: function getCantidadVehiculoOptions(state) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('vehicle-quantity-options').then(function (response) {
+      state.cantidadVehiculoOptions = response.data;
+    });
+  },
+  createCantidadVehiculoOption: function createCantidadVehiculoOption(state) {
+    var _this16 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicle-quantity-options', {
+      value: state.newCantidadVehiculoOption
+    }).then(function (response) {
+      state.newCantidadVehiculoOption = '';
+      state.errorsLaravel = [];
+      _this16.commit('getCantidadVehiculoOptions');
+    })["catch"](function (error) {
+      state.errorsLaravel = error.response.data;
+    });
+  },
+  deleteCantidadVehiculoOption: function deleteCantidadVehiculoOption(state, id) {
+    var _this17 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('vehicle-quantity-options/' + id).then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Opcion eliminada correctamente');
+      _this17.commit('getCantidadVehiculoOptions');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo eliminar la opcion');
+    });
   },
   editCantVehicle: function editCantVehicle(state, user) {
     state.fillCantVehicle.id = user.id;
@@ -38852,7 +38900,7 @@ function dispatchPublicQuotationFailed() {
     state.productForm.total = Math.round(state.productForm.value * 1.19);
   },
   createSale: function createSale(state) {
-    var _this16 = this;
+    var _this18 = this;
     var url = urlCreateSale;
     if (state.formapago == '') {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡Error, Selecione la forma de pago!');
@@ -38888,10 +38936,10 @@ function dispatchPublicQuotationFailed() {
           };
           toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Venta generada con exito!');
           $('#create').modal('hide');
-          _this16.commit('allSales', {
+          _this18.commit('allSales', {
             page: 1
           });
-          _this16.commit('allProductsSale');
+          _this18.commit('allProductsSale');
         })["catch"](function (error) {
           toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
         });
@@ -38931,7 +38979,7 @@ function dispatchPublicQuotationFailed() {
     window.location.href = url;
   },
   eliminarVenta: function eliminarVenta(state, id) {
-    var _this17 = this;
+    var _this19 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var url, response;
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -38945,7 +38993,7 @@ function dispatchPublicQuotationFailed() {
             response = _context4.sent;
             if (response.data.status === true) {
               toastr__WEBPACK_IMPORTED_MODULE_1___default().success('La Venta se anulo correctamente');
-              _this17.commit('allSales', {
+              _this19.commit('allSales', {
                 page: 1
               });
             }
@@ -39069,7 +39117,7 @@ function dispatchPublicQuotationFailed() {
     state.selectedMechanicClient = client;
   },
   createVehicleMechanicClient: function createVehicleMechanicClient(state) {
-    var _this18 = this;
+    var _this20 = this;
     var id_user = null;
     if (state.selectedMechanicClient != null) {
       id_user = state.selectedMechanicClient.value;
@@ -39095,7 +39143,7 @@ function dispatchPublicQuotationFailed() {
         state.newVehicle.km = '';
         state.errorsLaravel = [];
         $('#createVehicleMechanic').modal('hide');
-        _this18.commit('getClientVehicles');
+        _this20.commit('getClientVehicles');
         toastr__WEBPACK_IMPORTED_MODULE_1___default().success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
       })["catch"](function (error) {
         toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
@@ -39202,10 +39250,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   actualizarCorrelativo: function actualizarCorrelativo(state) {
-    var _this19 = this;
+    var _this21 = this;
     var url = urlActualizarCorrelativo;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
-      _this19.commit('getQuotationclients', {
+      _this21.commit('getQuotationclients', {
         page: 1
       });
     })["catch"](function (error) {
@@ -39233,21 +39281,21 @@ function dispatchPublicQuotationFailed() {
     });
   },
   eliminarCategoria: function eliminarCategoria(state, id) {
-    var _this20 = this;
+    var _this22 = this;
     var url = urlEliminarCategoriaChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this20.commit('mostrarFormatoCheckList');
+      _this22.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   eliminarIntervencion: function eliminarIntervencion(state, id) {
-    var _this21 = this;
+    var _this23 = this;
     var url = urlEliminarIntervencionChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this21.commit('mostrarFormatoCheckList');
+      _this23.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -39289,6 +39337,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   userDeviceSessions: [],
   userDeviceLimit: 0,
   userDeviceUserName: '',
+  cantidadVehiculoOptions: [],
+  newCantidadVehiculoOption: '',
   options: [],
   //arreglo para ser utilizado en el componente v-select para volcar los objetos
   optionsUser: [],

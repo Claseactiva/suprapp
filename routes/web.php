@@ -24,6 +24,7 @@ Route::ApiResource('users', 'User\UserController');
 Route::get('quotation-roles', 'User\UserController@quotation_roles');
 Route::put('cant-vehicle-user/{id}', 'User\UserController@updateCantVehicleUser');
 Route::put('cant-cli-vehi-user/{id}', 'User\UserController@updateCantCliVehiUser');
+Route::ApiResource('vehicle-quantity-options', 'VehicleQuantityOptionController')->only(['index', 'store', 'destroy']);
 Route::get('total-vehi/{id}', 'User\UserController@totalVehi');
 Route::get('total-cli', 'User\UserController@totalCli');
 Route::get('total-cli-admin/{id}', 'User\UserController@totalCliAdmin');

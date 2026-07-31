@@ -3,6 +3,8 @@ export default { //data
     userDeviceSessions: [],
     userDeviceLimit: 0,
     userDeviceUserName: '',
+    cantidadVehiculoOptions: [],
+    newCantidadVehiculoOption: '',
     options: [], //arreglo para ser utilizado en el componente v-select para volcar los objetos
     optionsUser: [],
     optionsPago: [],

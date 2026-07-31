@@ -3495,7 +3495,35 @@ export default { //used for changing the state
             state.fillCantCliVehi.cant_vehicle = user.cant_vehicle
             state.fillCantCliVehi.rol = user.roles[0].name
             $("#editCantCliVehi").modal('show')
+            this.commit('getCantidadVehiculoOptions')
         }
+    },
+
+    getCantidadVehiculoOptions(state) {
+        axios.get('vehicle-quantity-options').then(response => {
+            state.cantidadVehiculoOptions = response.data
+        })
+    },
+
+    createCantidadVehiculoOption(state) {
+        axios.post('vehicle-quantity-options', {
+            value: state.newCantidadVehiculoOption
+        }).then(response => {
+            state.newCantidadVehiculoOption = ''
+            state.errorsLaravel = []
+            this.commit('getCantidadVehiculoOptions')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+
+    deleteCantidadVehiculoOption(state, id) {
+        axios.delete('vehicle-quantity-options/' + id).then(response => {
+            toastr.success('Opcion eliminada correctamente')
+            this.commit('getCantidadVehiculoOptions')
+        }).catch(error => {
+            toastr.error('No se pudo eliminar la opcion')
+        })
     },
     editCantVehicle(state, user) {
         state.fillCantVehicle.id = user.id

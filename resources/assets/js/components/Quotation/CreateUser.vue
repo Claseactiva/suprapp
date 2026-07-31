@@ -35,18 +35,9 @@
                             <p>{{ error.email }}</p>
                         </div>
 
-                        <label for="password">Contraseña</label>
-                        <input v-validate="'required'"
-                                :class="{'input': true, 'is-invalid': errors.has('password') }"
-                                type="password"
-                                name="password"
-                                class="form-control" v-model="newUser.password">
-                        <p v-show="errors.has('password')"
-                            class="text-danger">{{ errors.first('password') }}</p>
-
-                        <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
-                            <p>{{ error.password }}</p>
-                        </div>
+                        <p class="text-muted mt-2 mb-0">
+                            <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
+                        </p>
 
                     </div>
                     <div class="modal-footer">
