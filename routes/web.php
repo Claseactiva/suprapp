@@ -12,6 +12,64 @@
 */
 use Illuminate\Support\Facades\Route;
 
+// RUTA TEMPORAL: escribir el .env de produccion sin acceso a terminal/FTP.
+// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE UNA VEZ.
+Route::get('deploy-fix-env-272b7c87e12439b9be94331daa7e221ccf30739e', function () {
+    $content = <<<'EOT'
+APP_NAME=Suprapp
+APP_ENV=production
+APP_KEY=base64:+LWXtVvbPYIHPs43KK45qc8QqCTSBOAqk1vELTFb/iY=
+APP_DEBUG=false
+APP_URL=https://suprapp.comercialsupra.cl
+
+LOG_CHANNEL=stack
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+# DB_DATABASE=supra_suprapp_2024
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+DB_DATABASE=supra_suprapp_2024
+DB_USERNAME=supra_admin
+DB_PASSWORD=PWs4Ln=67{)R
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+#QUEUE_DRIVER=sync
+QUEUE_DRIVER=database
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.googlemail.com
+MAIL_PORT=465
+MAIL_USERNAME=suprapp.mailer@gmail.com
+MAIL_PASSWORD=nlelwslabkvklqbk
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=suprapp.mailer@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+EOT;
+
+    file_put_contents(base_path('.env'), $content);
+
+    return 'OK, .env actualizado. Largo escrito: ' . strlen($content) . ' bytes.';
+});
+
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
