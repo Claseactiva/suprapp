@@ -24,6 +24,13 @@
                         <input  type="text"
                                 class="form-control" v-model="newRole.description">
 
+                        <label for="default_cant_vehicle" class="mt-2">Cantidad de Vehiculos por defecto</label>
+                        <select class="form-control" v-model="newRole.default_cant_vehicle">
+                            <option value="">Sin definir</option>
+                            <option v-for="opt in cantidadVehiculoOptions" :key="opt.id" :value="opt.value">
+                                1 - {{ opt.value }}
+                            </option>
+                        </select>
 
                         <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
                             <p>{{ error.name }}</p>
@@ -48,12 +55,15 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
     computed:{
-        ...mapState(['newRole', 'errorsLaravel']),
+        ...mapState(['newRole', 'errorsLaravel', 'cantidadVehiculoOptions']),
         ...mapGetters(['completeRoleCreate'])
     },
     methods:{
-        ...mapActions(['createRole'])
+        ...mapActions(['createRole', 'getCantidadVehiculoOptions'])
     },
+    created() {
+        this.getCantidadVehiculoOptions()
+    }
 }
 </script>
 

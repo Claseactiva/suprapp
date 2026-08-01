@@ -2812,11 +2812,12 @@ export default { //used for changing the state
             state.fillRole = {
                 id: '',
                 name: '',
-                description: ''
+                description: '',
+                default_cant_vehicle: ''
             }
             state.errorsLaravel = [];
             $('#edit').modal('hide')
-            toastr.success('Rol actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Rol actualizado conÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -3447,9 +3448,11 @@ export default { //used for changing the state
         axios.post(url, {
             name: state.newRole.name,
             description: state.newRole.description,
+            default_cant_vehicle: state.newRole.default_cant_vehicle || null,
         }).then(response => {
             state.newRole.name = ''
             state.newRole.description = ''
+            state.newRole.default_cant_vehicle = ''
             state.errorsLaravel = []
             $('#create').modal('hide')
             toastr.success('Rol generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
@@ -3463,6 +3466,7 @@ export default { //used for changing the state
         state.fillRole.id = role.id
         state.fillRole.name = role.name
         state.fillRole.description = role.description
+        state.fillRole.default_cant_vehicle = role.default_cant_vehicle || ''
         state.checkedSpecialRole = role.special
 
         role.permissions.forEach(permission => {
@@ -3471,6 +3475,7 @@ export default { //used for changing the state
 
 
         $("#edit").modal('show')
+        this.commit('getCantidadVehiculoOptions')
     },
     deleteRole(state, id) {
         let url = urlRoles + '/' + id

@@ -972,12 +972,14 @@ export default { //data
     roles: [],
     newRole: {
         name: '',
-        description: ''
+        description: '',
+        default_cant_vehicle: ''
     },
     fillRole: {
         id: '',
         name: '',
         description: '',
+        default_cant_vehicle: '',
         special: '',
         permissions: []
     },

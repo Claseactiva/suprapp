@@ -234,6 +234,12 @@
                         <i class="fas fa-cogs"></i>
                         <span>Roles de Usuario</span></a>
                 </li>
+
+                <li id="cantidad-vehiculos" class="nav-item {{ request()->routeIs('admin-cantidad-vehiculos') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin-cantidad-vehiculos') }}">
+                        <i class="fas fa-list-ol"></i>
+                        <span>Opciones de Cantidad</span></a>
+                </li>
             @endcan
 
 

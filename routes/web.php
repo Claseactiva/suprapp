@@ -269,6 +269,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
         return view('role.roles');
     })->name('admin-roles'); //->middleware('permission:roles');
 
+    Route::get('admin-cantidad-vehiculos', function () {
+        return view('admin.cantidad-vehiculos');
+    })->name('admin-cantidad-vehiculos'); //->middleware('permission:roles');
+
     Route::get('admin-clientes', function () {
         return view('admin.clientes');
     })->name('admin-clientes'); //->middleware('permission:clientes');

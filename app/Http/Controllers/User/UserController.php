@@ -222,6 +222,7 @@ class UserController extends Controller
         ]);
 
         $user->roles()->sync(array(0 => '3'));
+        $this->applyRoleDefaultQuantity($user);
 
         DB::table('mechanic_client')->insertOrIgnore(
             [
@@ -287,6 +288,7 @@ class UserController extends Controller
                     'email' => $request->input('email'),
                 ]);
                 $user->roles()->sync(array(0 => '3'));
+                $this->applyRoleDefaultQuantity($user);
 
                 DB::table('mechanic_client')->insertOrIgnore(
                     [
@@ -303,6 +305,21 @@ class UserController extends Controller
     public function updateRole(Request $request, User $user)
     {
         $user->roles()->sync($request->all());
+        $this->applyRoleDefaultQuantity($user);
+    }
+
+    /**
+     * Si el rol asignado tiene una cantidad de vehiculos por defecto
+     * configurada, se la aplica al usuario. El admin puede seguir
+     * sobreescribiendola despues por usuario individual.
+     */
+    private function applyRoleDefaultQuantity(User $user)
+    {
+        $role = $user->roles()->first();
+
+        if ($role && $role->default_cant_vehicle !== null) {
+            $user->update(['cant_vehicle' => $role->default_cant_vehicle]);
+        }
     }
 
     public function updateCantVehicleUser(Request $request, $id)

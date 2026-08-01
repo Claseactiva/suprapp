@@ -17,6 +17,7 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Vehiculos (default)</th>
                         <th>Accion</th>
                     </tr>
                 </thead>
@@ -25,6 +26,9 @@
                         <td data-table-label="ID">{{ roleLocal.id }}</td>
                         <td data-table-label="nombre">{{ roleLocal.name }}</td>
                         <td data-table-label="descripcion">{{ roleLocal.description }}</td>
+                        <td data-table-label="Vehiculos (default)">
+                            {{ roleLocal.default_cant_vehicle !== null ? '1 - ' + roleLocal.default_cant_vehicle : 'Sin definir' }}
+                        </td>
                         <td>
                             <a href="#" class="btn btn-warning btn-sm" @click.prevent="editRole({ roleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
