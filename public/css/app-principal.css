@@ -9684,6 +9684,35 @@ body.admin-compact .sidebar .nav-item .nav-link span {
     line-height: 1.2;
 }
 
+.sidebar-group-toggle {
+    display: flex !important;
+    align-items: center;
+}
+
+.sidebar-group-caret {
+    font-size: 0.65rem !important;
+    transition: transform 0.2s ease;
+}
+
+.sidebar-group-toggle.collapsed .sidebar-group-caret {
+    transform: rotate(-90deg);
+}
+
+.sidebar-group-menu {
+    padding-left: 0;
+    margin: 0;
+}
+
+.sidebar-group-menu .nav-link {
+    padding-left: 2.1rem !important;
+    opacity: 0.9;
+}
+
+.sidebar-group-menu .nav-item.active .nav-link {
+    opacity: 1;
+    font-weight: 600;
+}
+
 body.admin-compact .card {
     margin-bottom: 0.75rem;
 }

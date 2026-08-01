@@ -79,104 +79,6 @@
                 </li>
             @endcan
 
-            @can('productos')
-                <li id="productos" class="nav-item {{ request()->routeIs('admin-productos') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-productos') }}">
-                        <i class="fas fa-dolly-flatbed"></i>
-                        <span>Productos</span></a>
-                </li>
-            @endcan
-
-            @can('stocks')
-                <li id="inventario" class="nav-item {{ request()->routeIs('admin-inventario') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-inventario') }}">
-                        <i class="fas fa-dolly-flatbed"></i>
-                        <span>Inventario</span></a>
-                </li>
-            @endcan
-
-            @can('lista-precios')
-                <li id="lista-precios" class="nav-item {{ request()->routeIs('admin-lista-precios') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-lista-precios') }}">
-                        <i class="fas fa-dolly-flatbed"></i>
-                        <span>Lista de precios</span></a>
-                </li>
-            @endcan
-
-            @can('utilidades')
-                <li id="utilidad" class="nav-item {{ request()->routeIs('admin-utilidad') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-utilidad') }}">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <span>Formas de Pagos</span></a>
-                </li>
-            @endcan
-
-            @can('vehiculos')
-                <li id="vehiculos" class="nav-item {{ request()->routeIs('admin-vehiculos') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-vehiculos') }}">
-                        <i class="fas fa-car"></i>
-                        <span>Registro Vehículos</span></a>
-                </li>
-            @endcan
-
-            @can('ordenes_trabajo')
-                <li id="orden-trabajos" class="nav-item {{ request()->routeIs('admin-orden-trabajos') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-orden-trabajos') }}">
-                        <i class="fas fa-wrench"></i>
-                        <span>Ordenes de Trabajos</span></a>
-                </li>
-            @endcan
-
-            @can('check-list')
-                <li id="orden-trabajos" class="nav-item {{ request()->routeIs('admin-check-list') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-check-list') }}">
-                        <i class="fas fa-clipboard-check"></i>
-                        <span>Check List</span></a>
-                </li>
-            @endcan
-
-            @can('vehiculos_mecanicos')
-                <li id="vehiculos-m" class="nav-item {{ request()->routeIs('admin-vehiculosM') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-vehiculosM') }}">
-                        <i class="fas fa-car"></i>
-                        <span>Registro Vehículos (Mecánico)</span></a>
-                </li>
-            @endcan
-
-            @can('marcas')
-                <li id="marcas" class="nav-item {{ request()->routeIs('admin-marca-vehiculos') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-marca-vehiculos') }}">
-                        <i class="fas fa-car"></i>
-                        <span>Marcas y Modelos de Vehículos</span></a>
-                </li>
-            @endcan
-
-            @can('notas')
-                <li id="notas" class="nav-item {{ request()->routeIs('admin-notas') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-notas') }}">
-                        <i class="fas fa-file"></i>
-                        <span>Notas</span></a>
-                </li>
-            @endcan
-
-            @can('ventas')
-                <li id="ventas" class="nav-item {{ request()->routeIs('admin-ventas') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-ventas') }}">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Ventas</span>
-                    </a>
-                </li>
-            @endcan
-
-            @can('cotizaciones_simples')
-                <li id="cotizaciones"
-                    class="nav-item {{ request()->routeIs('admin-cotizacion-express') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-cotizacion-express') }}">
-                        <i class="fas fa-file-signature"></i>
-                        <span>Cotizaciones Express</span></a>
-                </li>
-            @endcan
-
             @can('cotizaciones')
                 <li id="cotizaciones"
                     class="nav-item {{ request()->routeIs('admin-cotizaciones-formales') ? 'active' : '' }}">
@@ -194,54 +96,175 @@
                 </li>
             @endcan
 
-
-
-            @can('boletas')
-                <li id="bills" class="nav-item {{ request()->routeIs('admin-boleta') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-boleta') }}">
-                        <i class="fas fa-file-signature"></i>
-                        <span>Boletas</span></a>
+            @canany(['vehiculos', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
+                @php
+                    $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos');
+                @endphp
+                <li class="nav-item">
+                    <a class="nav-link sidebar-group-toggle {{ $vehiculosGroupActive ? '' : 'collapsed' }}" href="#"
+                        data-toggle="collapse" data-target="#sidebarGroupVehiculos" aria-expanded="{{ $vehiculosGroupActive ? 'true' : 'false' }}">
+                        <i class="fas fa-car"></i>
+                        <span>Vehículos</span>
+                        <i class="fas fa-chevron-down ml-auto sidebar-group-caret"></i>
+                    </a>
+                    <ul id="sidebarGroupVehiculos" class="collapse list-unstyled sidebar-group-menu {{ $vehiculosGroupActive ? 'show' : '' }}">
+                        @can('vehiculos')
+                            <li class="nav-item {{ request()->routeIs('admin-vehiculos') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-vehiculos') }}">
+                                    <span>Registro Vehículos</span></a>
+                            </li>
+                        @endcan
+                        @can('vehiculos_mecanicos')
+                            <li class="nav-item {{ request()->routeIs('admin-vehiculosM') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-vehiculosM') }}">
+                                    <span>Registro Vehículos (Mecánico)</span></a>
+                            </li>
+                        @endcan
+                        @can('ordenes_trabajo')
+                            <li class="nav-item {{ request()->routeIs('admin-orden-trabajos') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-orden-trabajos') }}">
+                                    <span>Ordenes de Trabajos</span></a>
+                            </li>
+                        @endcan
+                        @can('check-list')
+                            <li class="nav-item {{ request()->routeIs('admin-check-list') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-check-list') }}">
+                                    <span>Check List</span></a>
+                            </li>
+                        @endcan
+                        @can('marcas')
+                            <li class="nav-item {{ request()->routeIs('admin-marca-vehiculos') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-marca-vehiculos') }}">
+                                    <span>Marcas y Modelos de Vehículos</span></a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
-            @endcan
+            @endcanany
 
-            @can('importaciones')
-                <li id="imports" class="nav-item {{ request()->routeIs('admin-importaciones') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-importaciones') }}">
-                        <i class="fas fa-file-signature"></i>
-                        <span>Importaciones</span></a>
+            @canany(['cotizaciones_simples', 'ventas', 'boletas'])
+                @php
+                    $comercialGroupActive = request()->routeIs('admin-cotizacion-express', 'admin-ventas', 'admin-boleta');
+                @endphp
+                <li class="nav-item">
+                    <a class="nav-link sidebar-group-toggle {{ $comercialGroupActive ? '' : 'collapsed' }}" href="#"
+                        data-toggle="collapse" data-target="#sidebarGroupComercial" aria-expanded="{{ $comercialGroupActive ? 'true' : 'false' }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Comercial</span>
+                        <i class="fas fa-chevron-down ml-auto sidebar-group-caret"></i>
+                    </a>
+                    <ul id="sidebarGroupComercial" class="collapse list-unstyled sidebar-group-menu {{ $comercialGroupActive ? 'show' : '' }}">
+                        @can('cotizaciones_simples')
+                            <li class="nav-item {{ request()->routeIs('admin-cotizacion-express') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-cotizacion-express') }}">
+                                    <span>Cotizaciones Express</span></a>
+                            </li>
+                        @endcan
+                        @can('ventas')
+                            <li class="nav-item {{ request()->routeIs('admin-ventas') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-ventas') }}">
+                                    <span>Ventas</span></a>
+                            </li>
+                        @endcan
+                        @can('boletas')
+                            <li class="nav-item {{ request()->routeIs('admin-boleta') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-boleta') }}">
+                                    <span>Boletas</span></a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
-            @endcan
+            @endcanany
 
-            @can('usuarios')
-                <li id="users" class="nav-item {{ request()->routeIs('admin-usuarios') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-usuarios') }}">
-                        <i class="fas fa-users"></i>
-                        <span>Usuarios</span></a>
+            @canany(['productos', 'stocks', 'lista-precios', 'utilidades', 'importaciones'])
+                @php
+                    $catalogoGroupActive = request()->routeIs('admin-productos', 'admin-inventario', 'admin-lista-precios', 'admin-utilidad', 'admin-importaciones');
+                @endphp
+                <li class="nav-item">
+                    <a class="nav-link sidebar-group-toggle {{ $catalogoGroupActive ? '' : 'collapsed' }}" href="#"
+                        data-toggle="collapse" data-target="#sidebarGroupCatalogo" aria-expanded="{{ $catalogoGroupActive ? 'true' : 'false' }}">
+                        <i class="fas fa-dolly-flatbed"></i>
+                        <span>Catálogo</span>
+                        <i class="fas fa-chevron-down ml-auto sidebar-group-caret"></i>
+                    </a>
+                    <ul id="sidebarGroupCatalogo" class="collapse list-unstyled sidebar-group-menu {{ $catalogoGroupActive ? 'show' : '' }}">
+                        @can('productos')
+                            <li class="nav-item {{ request()->routeIs('admin-productos') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-productos') }}">
+                                    <span>Productos</span></a>
+                            </li>
+                        @endcan
+                        @can('stocks')
+                            <li class="nav-item {{ request()->routeIs('admin-inventario') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-inventario') }}">
+                                    <span>Inventario</span></a>
+                            </li>
+                        @endcan
+                        @can('lista-precios')
+                            <li class="nav-item {{ request()->routeIs('admin-lista-precios') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-lista-precios') }}">
+                                    <span>Lista de precios</span></a>
+                            </li>
+                        @endcan
+                        @can('utilidades')
+                            <li class="nav-item {{ request()->routeIs('admin-utilidad') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-utilidad') }}">
+                                    <span>Formas de Pagos</span></a>
+                            </li>
+                        @endcan
+                        @can('importaciones')
+                            <li class="nav-item {{ request()->routeIs('admin-importaciones') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-importaciones') }}">
+                                    <span>Importaciones</span></a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
-            @endcan
+            @endcanany
 
-            @can('usuarios_mecanicos')
-                <li id="mechanic-users" class="nav-item {{ request()->routeIs('admin-usuariosM') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-usuariosM') }}">
-                        <i class="fas fa-users"></i>
-                        <span>Usuarios (mecánico)</span></a>
-                </li>
-            @endcan
-
-            @can('roles')
-                <li id="roles" class="nav-item {{ request()->routeIs('admin-roles') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-roles') }}">
+            @canany(['usuarios', 'usuarios_mecanicos', 'roles', 'notas'])
+                @php
+                    $adminGroupActive = request()->routeIs('admin-usuarios', 'admin-usuariosM', 'admin-roles', 'admin-cantidad-vehiculos', 'admin-notas');
+                @endphp
+                <li class="nav-item">
+                    <a class="nav-link sidebar-group-toggle {{ $adminGroupActive ? '' : 'collapsed' }}" href="#"
+                        data-toggle="collapse" data-target="#sidebarGroupAdmin" aria-expanded="{{ $adminGroupActive ? 'true' : 'false' }}">
                         <i class="fas fa-cogs"></i>
-                        <span>Roles de Usuario</span></a>
+                        <span>Administración</span>
+                        <i class="fas fa-chevron-down ml-auto sidebar-group-caret"></i>
+                    </a>
+                    <ul id="sidebarGroupAdmin" class="collapse list-unstyled sidebar-group-menu {{ $adminGroupActive ? 'show' : '' }}">
+                        @can('usuarios')
+                            <li class="nav-item {{ request()->routeIs('admin-usuarios') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-usuarios') }}">
+                                    <span>Usuarios</span></a>
+                            </li>
+                        @endcan
+                        @can('usuarios_mecanicos')
+                            <li class="nav-item {{ request()->routeIs('admin-usuariosM') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-usuariosM') }}">
+                                    <span>Usuarios (mecánico)</span></a>
+                            </li>
+                        @endcan
+                        @can('roles')
+                            <li class="nav-item {{ request()->routeIs('admin-roles') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-roles') }}">
+                                    <span>Roles de Usuario</span></a>
+                            </li>
+                            <li class="nav-item {{ request()->routeIs('admin-cantidad-vehiculos') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-cantidad-vehiculos') }}">
+                                    <span>Opciones de Cantidad</span></a>
+                            </li>
+                        @endcan
+                        @can('notas')
+                            <li class="nav-item {{ request()->routeIs('admin-notas') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-notas') }}">
+                                    <span>Notas</span></a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
-
-                <li id="cantidad-vehiculos" class="nav-item {{ request()->routeIs('admin-cantidad-vehiculos') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin-cantidad-vehiculos') }}">
-                        <i class="fas fa-list-ol"></i>
-                        <span>Opciones de Cantidad</span></a>
-                </li>
-            @endcan
-
+            @endcanany
 
         </ul>
 
