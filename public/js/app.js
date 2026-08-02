@@ -3285,7 +3285,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     Editar: _Editar__WEBPACK_IMPORTED_MODULE_2__["default"],
     Eliminar: _Delete__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['clients', 'newClient', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived', 'pagesNumber', 'completeClientCreate'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['clients', 'newClient', 'pagination', 'offset', 'errorsLaravel', 'siiLoading'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived', 'pagesNumber', 'completeClientCreate'])),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['getClients', 'createClient', 'detailClient', 'editClient', 'modalDeleteClient', 'deleteClient', 'changePageClient', 'searchSii'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
@@ -11337,6 +11337,9 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("a", {
     staticClass: "btn btn-info btn-block mt-2",
+    "class": {
+      disabled: _vm.siiLoading
+    },
     attrs: {
       href: "#",
       "data-toggle": "tooltip",
@@ -11346,12 +11349,14 @@ var render = function render() {
     on: {
       click: function click($event) {
         $event.preventDefault();
-        return _vm.searchSii.apply(null, arguments);
+        !_vm.siiLoading && _vm.searchSii();
       }
     }
-  }, [_c("i", {
+  }, [_vm.siiLoading ? _c("span", [_c("i", {
+    staticClass: "fas fa-spinner fa-spin"
+  }), _vm._v(" Buscando en el SII...\n                                    ")]) : _c("span", [_c("i", {
     staticClass: "far fa-edit"
-  }), _vm._v(" Cargar Datos\n                                ")])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" Cargar Datos\n                                    ")])])]), _vm._v(" "), _c("div", {
     staticClass: "col-lg-4"
   }, [_c("label", {
     attrs: {
@@ -38896,25 +38901,42 @@ function dispatchPublicQuotationFailed() {
     state.pagination.current_page = page;
   },
   searchSii: function searchSii(state) {
-    var rutSii = state.newClient.rut;
+    var rutSii = (state.newClient.rut || '').trim();
     rutSii = rutSii.split('.').join('');
+    if (!rutSii) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('Ingresa un RUT antes de buscar');
+      return;
+    }
     var settings = {
       "async": true,
       "crossDomain": true,
+      "timeout": 20000,
       "url": "https://dev-api.haulmer.com/v2/dte/taxpayer/" + rutSii,
       "method": "GET",
       "headers": {
         "apikey": "928e15a2d14d4a6292345f04960f4bd3"
       }
     };
+    state.siiLoading = true;
     $.ajax(settings).done(function (response) {
-      state.newClient.razonSocial = response.razonSocial;
-      state.newClient.email = response.email;
-      state.newClient.phone = response.telefono;
-      state.newClient.address = response.direccion;
-      state.newClient.comuna = response.comuna;
-      state.newClient.giro = response.actividades[0].giro;
-      state.newClient.activity = response.actividades;
+      state.newClient.razonSocial = response.razonSocial || '';
+      state.newClient.email = response.email || '';
+      state.newClient.phone = response.telefono || '';
+      state.newClient.address = response.direccion || '';
+      state.newClient.comuna = response.comuna || '';
+      state.newClient.giro = response.actividades && response.actividades[0] ? response.actividades[0].giro : '';
+      state.newClient.activity = response.actividades || [];
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Datos cargados desde el SII');
+    }).fail(function (jqXHR, textStatus) {
+      if (textStatus === 'timeout') {
+        toastr__WEBPACK_IMPORTED_MODULE_1___default().error('El SII no respondio a tiempo (el servicio de pruebas a veces demora en "despertar"). Intenta de nuevo en unos segundos.');
+      } else if (jqXHR.status === 400) {
+        toastr__WEBPACK_IMPORTED_MODULE_1___default().error('El RUT no tiene un formato valido para el SII (ej: 76515046-9)');
+      } else {
+        toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo obtener los datos del SII, intenta de nuevo');
+      }
+    }).always(function () {
+      state.siiLoading = false;
     });
   },
   sumTotalProductMechanic: function sumTotalProductMechanic(state) {
@@ -40015,7 +40037,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), "newClient", {
+}), "siiLoading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newClient", {
   user_id: '',
   rut: '',
   name: '',
@@ -40027,7 +40049,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillClient", {
+}), "fillClient", {
   id: '',
   user_id: '',
   name: '',
@@ -40043,10 +40065,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "import_file", ''), "products", []), "productVehicleModelOptions", []), "productVehicleModelBrandSearch", ''), "productVehicleModelModelSearch", ''), "selectedProductVehicleModelIds", []), "productVehicleModelModal", {
   productId: null,
   productName: ''
-}), "product", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "product", {
   name: '',
   detail: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newUtilidad", {
+}), "newUtilidad", {
   utilidad: ''
 }), "newTipoPago", {
   pago: '',
@@ -40071,11 +40093,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "productCatalogTemplates", []), "newProductCatalogTemplate", {
   categoria: '',
   nombre: ''
-}), "fillProductCatalogTemplate", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillProductCatalogTemplate", {
   id: '',
   categoria: '',
   nombre: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchProductCatalogTemplate", {
+}), "searchProductCatalogTemplate", {
   categoria: '',
   nombre: ''
 }), "productCatalogTemplateImportFile", null), "search", {
@@ -40104,7 +40126,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   quantity: 1,
   price: 0,
   discount: 0
-}), "inventories", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fileInvoice", null), "searchInventory", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "inventories", []), "fileInvoice", null), "searchInventory", {
   name: ''
 }), "newCompany", {
   user_id: '',
@@ -40132,14 +40154,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_shipping", 2), "pagination_form", {
+}), "offset_shipping", 2), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pagination_form", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_form", 2), "pagination_marca", {
+}), "offset_form", 2), "pagination_marca", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -40167,19 +40189,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_year", 5), "pagination_motor", {
+}), "offset_year", 5), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pagination_motor", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_motor", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "users", []), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
+}), "offset_motor", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationUserMechanic", []), "users", []), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
   name: '',
   email: '',
   password: '',
   logo: ''
-}), "newUser", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newUser", {
   id: '',
   name: '',
   email: '',
@@ -40189,7 +40211,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   //mecanico: '',
   //cant_client: 0,
   cant_vehicle: 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillUser", {
+}), "fillUser", {
   id: '',
   name: '',
   email: '',
@@ -40221,17 +40243,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   permissions: []
 }), "userRoles", []), "fillUserRoles", {
   name: null
-}), "fillQuotationShipping", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillQuotationShipping", {
   id: '',
   direccion: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillFacebookShipping", {
+}), "fillFacebookShipping", {
   id: '',
   url: ''
 }), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -40251,7 +40273,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -40262,15 +40284,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   producto: '',
   cantidad: '',
   precio: ''
-}), "data2", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "data2", {
   producto: '',
   cantidad: '',
   precio: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "arrayBoleta", []), "newFlete", {
+}), "arrayBoleta", []), "newFlete", {
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 

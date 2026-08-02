@@ -37,9 +37,16 @@
 
                                 <div class="col-lg-4">
                                     <label for=""></label>
-                                    <a href="#" class="btn btn-info btn-block mt-2" @click.prevent="searchSii"
+                                    <a href="#" class="btn btn-info btn-block mt-2"
+                                        :class="{ disabled: siiLoading }"
+                                        @click.prevent="!siiLoading && searchSii()"
                                         data-toggle="tooltip" data-placement="top" title="Buscar Datos en el Sii">
-                                        <i class="far fa-edit"></i> Cargar Datos
+                                        <span v-if="siiLoading">
+                                            <i class="fas fa-spinner fa-spin"></i> Buscando en el SII...
+                                        </span>
+                                        <span v-else>
+                                            <i class="far fa-edit"></i> Cargar Datos
+                                        </span>
                                     </a>
                                 </div>
 
@@ -273,7 +280,7 @@ import Eliminar from './Delete'
 export default {
     components: { Detalle, Editar, Eliminar },
     computed: {
-        ...mapState(['clients', 'newClient', 'pagination', 'offset', 'errorsLaravel']),
+        ...mapState(['clients', 'newClient', 'pagination', 'offset', 'errorsLaravel', 'siiLoading']),
         ...mapGetters(['isActived', 'pagesNumber', 'completeClientCreate'])
     },
     methods: {

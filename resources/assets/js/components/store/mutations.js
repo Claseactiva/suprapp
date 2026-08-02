@@ -4270,11 +4270,18 @@ export default { //used for changing the state
         state.pagination.current_page = page
     },
     searchSii(state) {
-        let rutSii = state.newClient.rut
+        let rutSii = (state.newClient.rut || '').trim()
         rutSii = rutSii.split('.').join('')
+
+        if (!rutSii) {
+            toastr.error('Ingresa un RUT antes de buscar')
+            return
+        }
+
         let settings = {
             "async": true,
             "crossDomain": true,
+            "timeout": 20000,
             "url": "https://dev-api.haulmer.com/v2/dte/taxpayer/" + rutSii,
             "method": "GET",
             "headers": {
@@ -4282,14 +4289,27 @@ export default { //used for changing the state
             }
         }
 
+        state.siiLoading = true
+
         $.ajax(settings).done(function (response) {
-            state.newClient.razonSocial = response.razonSocial
-            state.newClient.email = response.email
-            state.newClient.phone = response.telefono
-            state.newClient.address = response.direccion
-            state.newClient.comuna = response.comuna
-            state.newClient.giro = response.actividades[0].giro
-            state.newClient.activity = response.actividades
+            state.newClient.razonSocial = response.razonSocial || ''
+            state.newClient.email = response.email || ''
+            state.newClient.phone = response.telefono || ''
+            state.newClient.address = response.direccion || ''
+            state.newClient.comuna = response.comuna || ''
+            state.newClient.giro = (response.actividades && response.actividades[0]) ? response.actividades[0].giro : ''
+            state.newClient.activity = response.actividades || []
+            toastr.success('Datos cargados desde el SII')
+        }).fail(function (jqXHR, textStatus) {
+            if (textStatus === 'timeout') {
+                toastr.error('El SII no respondio a tiempo (el servicio de pruebas a veces demora en "despertar"). Intenta de nuevo en unos segundos.')
+            } else if (jqXHR.status === 400) {
+                toastr.error('El RUT no tiene un formato valido para el SII (ej: 76515046-9)')
+            } else {
+                toastr.error('No se pudo obtener los datos del SII, intenta de nuevo')
+            }
+        }).always(function () {
+            state.siiLoading = false
         });
     },
     sumTotalProductMechanic(state) {

@@ -706,6 +706,7 @@ export default { //data
         type: '',
         activities: {}
     },
+    siiLoading: false,
     newClient: {
         user_id: '',
         rut: '',
