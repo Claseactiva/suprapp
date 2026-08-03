@@ -75,6 +75,7 @@ deployment:
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
     - /bin/cp -f public/css/app-principal.css $DEPLOYPATH/public/css/app-principal.css
+    - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/cp -f resources/assets/js/app.js $DEPLOYPATH/resources/assets/js/app.js
     - /bin/cp -f resources/assets/js/components/Client/Index.vue $DEPLOYPATH/resources/assets/js/components/Client/Index.vue
     - /bin/cp -f resources/assets/js/components/OrdenTrabajos/AgregarObservacion.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/AgregarObservacion.vue
