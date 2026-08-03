@@ -204,9 +204,9 @@
                         </td>
                         <td data-table-label="Estado">{{ quotationLocal.state }}</td>
                         <td data-table-label="Rut">{{ quotationLocal.rut }}</td>
-                        <td data-table-label="Razon Social">{{ quotationLocal.razonSocial }}</td>
-                        <td data-table-label="Cliente">{{ quotationLocal.client_text }}</td>
-                        <td data-table-label="Vehiculo">{{ quotationLocal.vehicle }}</td>
+                        <td data-table-label="Razon Social" class="quotationclient-wrap-cell">{{ quotationLocal.razonSocial }}</td>
+                        <td data-table-label="Cliente" class="quotationclient-wrap-cell">{{ quotationLocal.client_text }}</td>
+                        <td data-table-label="Vehiculo" class="quotationclient-wrap-cell">{{ quotationLocal.vehicle }}</td>
                         <td></td>
                         <td data-table-label="Fecha">{{ quotationLocal.created_at | moment('DD/MM/YYYY H:mm a') }}</td>
                         <td class="quotationclient-actions-cell">
@@ -596,6 +596,11 @@ export default {
     .quotationclient-admin .quotationclient-status-cell,
     .quotationclient-admin .quotationclient-actions-cell {
         white-space: nowrap;
+    }
+
+    .quotationclient-admin .quotationclient-wrap-cell {
+        white-space: normal !important;
+        word-break: break-word;
     }
 
     .quotationclient-admin .quotationclient-id-preview {

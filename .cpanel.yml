@@ -90,6 +90,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleCliente.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleCliente.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleMechanic.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Index.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
     - /bin/cp -f resources/assets/js/components/Roles/CreateRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/CreateRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/EditRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/EditRole.vue
