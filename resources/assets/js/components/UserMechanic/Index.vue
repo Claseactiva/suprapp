@@ -136,6 +136,88 @@
                 </nav>
 
             </div>
+
+            <h5 class="text-white mt-4">
+                Trabajadores del Taller
+            </h5>
+
+            <div id="accordionWorkers">
+                <div class="card">
+
+                    <div class="card-header p-0" id="headingWorkers">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block text-left p-3" data-toggle="collapse"
+                                data-target="#collapseWorkers" aria-expanded="true" aria-controls="collapseWorkers">
+                                Nuevo Trabajador
+                                <span class="text-right"><i class="fas fa-arrows-alt-v"></i></span>
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div id="collapseWorkers" class="collapse" aria-labelledby="headingWorkers"
+                        data-parent="#accordionWorkers">
+                        <div class="card-body">
+                            <form action="POST" v-on:submit.prevent="createTallerWorker">
+                                <div class="row">
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="nombre-trabajador">Nombre</label>
+                                        <input required type="text" name="nombre-trabajador" class="form-control"
+                                            v-model="newTallerWorker.name">
+                                    </div>
+
+                                    <div class="form-group col-lg-3">
+                                        <label for="correo-trabajador">Email</label>
+                                        <input required type="email" name="correo-trabajador" class="form-control"
+                                            v-model="newTallerWorker.email">
+                                    </div>
+
+                                    <div class="col-lg-3 mt-2">
+                                        <label></label>
+                                        <button type="submit" class="btn btn-success form-control">
+                                            <i class="fas fa-plus-square"></i> Guardar
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <p class="text-muted mt-2 mb-0">
+                                    <small>Podra operar Ordenes de Trabajo, Check List, Vehiculos y pedidos de
+                                        repuestos del taller. Se enviara un correo para que configure su propia
+                                        contrasena.</small>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-responsive-new table-dark table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="workerLocal in tallerWorkers" :key="workerLocal.id">
+                            <td data-table-label="ID">{{ workerLocal.id }}</td>
+                            <td data-table-label="nombre">{{ workerLocal.name }}</td>
+                            <td data-table-label="email">{{ workerLocal.email }}</td>
+
+                            <td class="text-right">
+                                <button class="btn btn-danger" @click.prevent="revokeTallerWorker({ id: workerLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Revocar acceso">
+                                    <i class="fas fa-user-slash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <EditCantVehicle></EditCantVehicle>
             <EditUser></EditUser>
             <Dispositivos></Dispositivos>
@@ -156,15 +238,16 @@ import Dispositivos from '../User/Dispositivos'
 export default {
     components: { EditUser, EditCantVehicle, Dispositivos },
     computed: {
-        ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
+        ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
-        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices'])
+        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker'])
     },
     created() {
         loadProgressBar()
         this.$store.dispatch('getMechanicClients', { page: 1 })
+        this.$store.dispatch('getTallerWorkers')
     }
 }
 

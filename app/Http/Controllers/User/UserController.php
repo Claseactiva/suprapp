@@ -182,7 +182,7 @@ class UserController extends Controller
 
     public function clients()
     {
-        $user_id = Auth::id();
+        $user_id = Auth::user()->effectiveTallerId();
 
         $clients = DB::table('users')
             ->join('mechanic_client', 'users.id', '=', 'mechanic_client.user_id')
@@ -242,7 +242,7 @@ class UserController extends Controller
 
     public function storeclient2(Request $request)
     {
-        $id = Auth::id();
+        $id = Auth::user()->effectiveTallerId();
 
 
         $total_clients = DB::table('users')
@@ -293,13 +293,94 @@ class UserController extends Controller
                 DB::table('mechanic_client')->insertOrIgnore(
                     [
                         'user_id' => $user->id,
-                        'mechanic_id' => Auth::id()
+                        'mechanic_id' => $id
                     ]
                 );
 
                 return $user;
             }
         }
+    }
+
+    public function team()
+    {
+        $userIds = Auth::user()->teamUserIds();
+
+        $team = User::whereIn('id', $userIds)->select('id', 'name')->get();
+
+        return $team;
+    }
+
+    public function workers()
+    {
+        $tallerId = Auth::user()->effectiveTallerId();
+
+        $workers = DB::table('users')
+            ->join('taller_workers', 'users.id', '=', 'taller_workers.user_id')
+            ->where('taller_workers.taller_id', '=', $tallerId)
+            ->select('users.id', 'users.name', 'users.email', 'users.created_at')
+            ->get();
+
+        return $workers;
+    }
+
+    public function storeWorker(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|min:4|max:190',
+            'email' => 'required|email|min:6|max:150|unique:users,email',
+        ], [
+            'name.required' => 'El campo nombre es obligatorio',
+            'email.required' => 'El campo correo electrónico es obligatorio',
+            'email.unique' => 'Ya existe un usuario con ese correo electrónico',
+        ]);
+
+        $tallerId = Auth::user()->effectiveTallerId();
+
+        $user = $this->createUserAndSendActivation([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
+
+        $user->roles()->sync(array(0 => '14'));
+
+        DB::table('taller_workers')->insertOrIgnore(
+            [
+                'user_id' => $user->id,
+                'taller_id' => $tallerId,
+            ]
+        );
+
+        return $user;
+    }
+
+    public function revokeWorker($id)
+    {
+        $tallerId = Auth::user()->effectiveTallerId();
+
+        $link = DB::table('taller_workers')
+            ->where('user_id', $id)
+            ->where('taller_id', $tallerId)
+            ->first();
+
+        if (!$link) {
+            return response()->json([
+                'error' => 'El trabajador no pertenece a tu taller.',
+            ], 422);
+        }
+
+        DB::table('taller_workers')->where('user_id', $id)->delete();
+
+        if (Schema::hasTable('model_has_roles')) {
+            DB::table('model_has_roles')
+                ->where('model_id', $id)
+                ->where('model_type', User::class)
+                ->delete();
+        }
+
+        return response()->json([
+            'message' => 'Acceso revocado con exito',
+        ]);
     }
 
     public function updateRole(Request $request, User $user)

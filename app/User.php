@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -60,5 +61,48 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * true si es un trabajador (sub-usuario) de un taller, no el dueño.
+     * Se usa para restringir la vista de OT solo a las que le fueron asignadas.
+     */
+    public function isTallerWorker()
+    {
+        return $this->hasRole('Workshop Personal');
+    }
+
+    /**
+     * Id del taller bajo el que opera este usuario: el propio id si es Workshop
+     * (o cualquier otro rol), o el taller vinculado si es Workshop Personal (trabajador).
+     */
+    public function effectiveTallerId()
+    {
+        if ($this->hasRole('Workshop Personal')) {
+            $link = DB::table('taller_workers')->where('user_id', $this->id)->first();
+
+            if ($link) {
+                return (int) $link->taller_id;
+            }
+        }
+
+        return $this->id;
+    }
+
+    /**
+     * Ids de usuario del taller (el taller mismo + todos sus trabajadores),
+     * usado para filtrar listados (OT, Check List, Vehiculos) sin alterar
+     * el user_id con el que se crea cada registro.
+     */
+    public function teamUserIds()
+    {
+        $tallerId = $this->effectiveTallerId();
+
+        $workerIds = DB::table('taller_workers')
+            ->where('taller_id', $tallerId)
+            ->pluck('user_id')
+            ->all();
+
+        return array_values(array_unique(array_merge([$tallerId], $workerIds)));
     }
 }
