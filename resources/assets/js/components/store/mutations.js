@@ -47,6 +47,7 @@ let urlAllVehicleModel = 'vehiclemodels-all'
 
 
 let urlVehicleMotor = 'vehiclemotors'
+let urlMotor = 'motors'
 
 let urlVBrand = 'vbrands-all'
 let urlVModel = 'vmodels-all'
@@ -397,11 +398,15 @@ export default { //used for changing the state
             engine: state.selectedVEngine.label,
             color: state.newVehicle.color,
             km: state.newVehicle.km,
+            motor_number: state.newVehicle.motor_number,
+            arreglo_cpl: state.newVehicle.arreglo_cpl,
         }).then(response => {
             state.newVehicle.patent = ''
             state.newVehicle.chasis = ''
             state.newVehicle.color = ''
             state.newVehicle.km = ''
+            state.newVehicle.motor_number = ''
+            state.newVehicle.arreglo_cpl = ''
             state.selectedVBrand.label = ''
             state.selectedVModel.label = ''
             state.selectedVYear.label = ''
@@ -1539,6 +1544,73 @@ export default { //used for changing the state
         state.selectedMotorSpec = motorspec
     },
 
+    /******************************* */
+    /****** motor (activo fisico) *** */
+    /******************************* */
+    getMotors(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_motors.per_page || 10)
+        let url = 'motors-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
+        axios.get(url).then(response => {
+            state.motors = response.data.motors.data
+            state.pagination_motors = response.data.pagination_motors
+        });
+    },
+    createMotor(state) {
+        axios.post(urlMotor, {
+            motor_number: state.newMotor.motor_number,
+            arreglo_cpl: state.newMotor.arreglo_cpl
+        }).then(response => {
+            state.newMotor = {
+                motor_number: '',
+                arreglo_cpl: ''
+            }
+            state.errorsLaravel = []
+            toastr.success('Motor agregado con exito')
+            this.commit('getMotors', 1)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    editMotor(state, motor) {
+        state.fillMotor.id = motor.id
+        state.fillMotor.motor_number = motor.motor_number
+        state.fillMotor.arreglo_cpl = motor.arreglo_cpl
+        $('#edit_motor_asset').modal('show')
+    },
+    updateMotor(state, id) {
+        axios.put(urlMotor + '/' + id, state.fillMotor).then(response => {
+            state.errorsLaravel = []
+            $('#edit_motor_asset').modal('hide')
+            toastr.success('Motor actualizado con exito')
+            this.commit('getMotors', 1)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    linkMotor(state, { id, patent }) {
+        axios.post(urlMotor + '/' + id + '/link', { patent }).then(response => {
+            state.motorLinkPatent = ''
+            state.errorsLaravel = []
+            toastr.success('Motor vinculado con exito')
+            this.commit('getMotors', 1)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    unlinkMotor(state, id) {
+        axios.post(urlMotor + '/' + id + '/unlink').then(response => {
+            toastr.success('Motor desvinculado con exito')
+            this.commit('getMotors', 1)
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+    getMotorHistory(state, id) {
+        axios.get(urlMotor + '/' + id + '/history').then(response => {
+            state.motorHistory = response.data
+            $('#historial_motor').modal('show')
+        })
+    },
 
     /******************************* */
     /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n notas **** */
@@ -4735,11 +4807,15 @@ export default { //used for changing the state
                 engine: state.selectedVEngine.label,
                 color: state.newVehicle.color,
                 km: state.newVehicle.km,
+                motor_number: state.newVehicle.motor_number,
+                arreglo_cpl: state.newVehicle.arreglo_cpl,
             }).then(response => {
                 state.newVehicle.patent = ''
                 state.newVehicle.chasis = ''
                 state.newVehicle.color = ''
                 state.newVehicle.km = ''
+                state.newVehicle.motor_number = ''
+                state.newVehicle.arreglo_cpl = ''
                 state.errorsLaravel = []
                 $('#createVehicleMechanic').modal('hide')
                 this.commit('getClientVehicles')

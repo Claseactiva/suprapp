@@ -53,6 +53,12 @@
                         <label for="engine">Motor</label>
                         <EngineSelector/>
 
+                        <label for="motor_number">N° de Motor</label>
+                        <input type="text" name="motor_number" class="form-control" v-model="newVehicle.motor_number">
+
+                        <label for="arreglo_cpl">Arreglo / CPL</label>
+                        <input type="text" name="arreglo_cpl" class="form-control" v-model="newVehicle.arreglo_cpl">
+
                         <label for="color">Color</label>
                         <input v-validate="'required|min:2|max:190'"
                                 :class="{'input': true, 'is-invalid': errors.has('color') }"

@@ -397,6 +397,31 @@ export default { //methods
     setMotorSpec(context, data) {
         context.commit('setMotorSpec', data)
     },
+
+    getMotors(context, data) {
+        context.commit('getMotors', data)
+    },
+    createMotor(context) {
+        context.commit('createMotor')
+    },
+    editMotor(context, data) {
+        context.commit('editMotor', data.motorLocal)
+    },
+    updateMotor(context, data) {
+        context.commit('updateMotor', data.id)
+    },
+    changePageMotors(context, data) {
+        context.commit('getMotors', data)
+    },
+    linkMotor(context, data) {
+        context.commit('linkMotor', data)
+    },
+    unlinkMotor(context, id) {
+        context.commit('unlinkMotor', id)
+    },
+    getMotorHistory(context, id) {
+        context.commit('getMotorHistory', id)
+    },
     /********************************** */
     subirFotosObservacion(context, data) {
         context.commit('subirFotosObservacion', data.evt)

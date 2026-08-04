@@ -139,7 +139,9 @@ export default { //data
         model: '',
         year: '',
         color: '',
-        km: ''
+        km: '',
+        motor_number: '',
+        arreglo_cpl: ''
     },
     fillVehicle: {
         id: '',
@@ -881,6 +883,28 @@ export default { //data
         'to': 0,
     },
     offset_motorspec: 5,
+
+    motors: [],
+    newMotor: {
+        motor_number: '',
+        arreglo_cpl: ''
+    },
+    fillMotor: {
+        id: '',
+        motor_number: '',
+        arreglo_cpl: ''
+    },
+    motorLinkPatent: '',
+    motorHistory: [],
+    pagination_motors: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 10,
+        'last_page': 0,
+        'from': 0,
+        'to': 0,
+    },
+    offset_motors: 5,
 
     attachment: [],
     form: new FormData(),

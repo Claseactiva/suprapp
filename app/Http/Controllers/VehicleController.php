@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Models\Vehicle;
 use App\Models\DetailVehicle;
+use App\Models\Motor;
+use App\Models\MotorAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -118,7 +120,10 @@ class VehicleController extends Controller
                 $data['user_id'] = Auth::id();
             }
 
-            Vehicle::create($data);
+            DB::transaction(function () use ($data, $request) {
+                $vehicle = Vehicle::create($data);
+                $this->attachMotorIfProvided($request, $vehicle);
+            });
         }
     }
 
@@ -179,7 +184,10 @@ class VehicleController extends Controller
                     $data['user_id'] = Auth::id();
                 }
 
-                Vehicle::create($data);
+                DB::transaction(function () use ($data, $request) {
+                    $vehicle = Vehicle::create($data);
+                    $this->attachMotorIfProvided($request, $vehicle);
+                });
             }
         }
     }
@@ -265,5 +273,27 @@ class VehicleController extends Controller
             ],
             'vehicles' => $vehicles
         ];
+    }
+
+    private function attachMotorIfProvided(Request $request, Vehicle $vehicle)
+    {
+        $motorNumber = $request->input('motor_number');
+        $arregloCpl = $request->input('arreglo_cpl');
+
+        if (blank($motorNumber) && blank($arregloCpl)) {
+            return;
+        }
+
+        $motor = Motor::create([
+            'motor_number' => $motorNumber ?: null,
+            'arreglo_cpl' => $arregloCpl ?: null,
+        ]);
+
+        MotorAssignment::create([
+            'motor_id' => $motor->id,
+            'vehicle_id' => $vehicle->id,
+            'fecha_inicio' => now(),
+            'fecha_fin' => null,
+        ]);
     }
 }

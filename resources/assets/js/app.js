@@ -19,6 +19,7 @@ import store from './components/store/index'
 Vue.component('vehicle-mechanic-component', require('./components/VehicleMechanic/Index.vue').default)
 Vue.component('vehicle-component', require('./components/Vehicle/Index.vue').default)
 Vue.component('vehicle-brand-component', require('./components/VehicleBrand/Index.vue').default)
+Vue.component('motor-component', require('./components/Motor/Index.vue').default)
 Vue.component('vehicle-model-component', require('./components/VehicleModel/Index.vue').default)
 
 //seccion de roles y permisos para permisos

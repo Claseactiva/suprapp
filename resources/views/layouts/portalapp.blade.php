@@ -27,7 +27,13 @@
 
 </head>
 
-<body id="page-top" class="sidebar-toggled admin-compact">
+<body id="page-top" class="sidebar-toggled admin-compact bg-photo-light">
+
+    <script>
+        if (localStorage.getItem('theme-light-tables') === '1') {
+            document.body.classList.add('theme-light-tables');
+        }
+    </script>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
@@ -98,7 +104,7 @@
 
             @canany(['vehiculos', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
                 @php
-                    $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos');
+                    $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos', 'admin-motores');
                 @endphp
                 <li class="nav-item">
                     <a class="nav-link sidebar-group-toggle {{ $vehiculosGroupActive ? '' : 'collapsed' }}" href="#"
@@ -136,6 +142,12 @@
                             <li class="nav-item {{ request()->routeIs('admin-marca-vehiculos') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-marca-vehiculos') }}">
                                     <span>Marcas y Modelos de Vehículos</span></a>
+                            </li>
+                        @endcan
+                        @can('vehiculos')
+                            <li class="nav-item {{ request()->routeIs('admin-motores') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-motores') }}">
+                                    <span>Motores</span></a>
                             </li>
                         @endcan
                     </ul>

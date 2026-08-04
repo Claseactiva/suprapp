@@ -15,6 +15,11 @@
                     aria-controls="devices" aria-selected="false" @click="getDeviceSessions">Mis Dispositivos</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" id="appearance-tab" data-toggle="tab" href="#appearance" role="tab"
+                    aria-controls="appearance" aria-selected="false">Apariencia</a>
+            </li>
+
         </ul>
         <div class="tab-content bg-white" id="myTabContent">
             <div class="tab-pane fade p-4" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -60,6 +65,19 @@
                         </button>
                     </div>
                 </div>
+
+            </div>
+            <div class="tab-pane fade p-4" id="appearance" role="tabpanel" aria-labelledby="appearance-tab">
+
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="lightTablesSwitch"
+                        v-model="lightTables" @change="toggleLightTables">
+                    <label class="custom-control-label" for="lightTablesSwitch">Tablas en fondo claro</label>
+                </div>
+                <p class="text-muted mt-2" style="font-size: 0.85rem;">
+                    Invierte el color de las tablas (fondo oscuro con letras blancas &rarr; fondo claro con letras oscuras).
+                    Esta preferencia se guarda en este navegador.
+                </p>
 
             </div>
             <div class="tab-pane fade show active p-4" id="company" role="tabpanel" aria-labelledby="company-tab">
@@ -146,7 +164,8 @@ export default {
         return {
             deviceSessions: [],
             deviceLimit: 0,
-            deviceSessionsLoading: false
+            deviceSessionsLoading: false,
+            lightTables: localStorage.getItem('theme-light-tables') === '1'
         }
     },
     computed: {
@@ -176,6 +195,10 @@ export default {
             }).catch(() => {
                 toastr.error('No se pudo revocar el dispositivo')
             })
+        },
+        toggleLightTables() {
+            document.body.classList.toggle('theme-light-tables', this.lightTables)
+            localStorage.setItem('theme-light-tables', this.lightTables ? '1' : '0')
         }
     },
     created() {

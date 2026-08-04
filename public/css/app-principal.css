@@ -8998,7 +8998,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-image: url(../img/background.jpg);
+  --wrapper-bg-image: url(../img/fondo1.png);
+  background-image: var(--wrapper-bg-image);
   background-size: contain;
 }
 
@@ -10052,6 +10053,41 @@ body.admin-compact .close {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+}
+
+/* Overlay sobre la imagen de fondo para mantener legible el texto/tablas encima.
+   Se combina como una segunda capa de background-image (no reemplaza la foto),
+   asi que la imagen sigue viniendo de --wrapper-bg-image (sb-admin.css).
+   - bg-photo-light: para fotos claras/luminosas -> overlay oscuro mas fuerte.
+   - bg-photo-dark: para fotos ya oscuras -> overlay mas sutil, para no aplanarlas. */
+body.bg-photo-light #wrapper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--wrapper-bg-image);
+}
+
+body.bg-photo-dark #wrapper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--wrapper-bg-image);
+}
+
+/* Preferencia de usuario (guardada en localStorage, boton en Mi Perfil):
+   invierte las tablas oscuras (Bootstrap .table-dark) a fondo claro con texto oscuro. */
+body.theme-light-tables .table-dark,
+body.theme-light-tables .table-dark > th,
+body.theme-light-tables .table-dark > td {
+    background-color: #fff;
+    color: #212529;
+    border-color: #dee2e6;
+}
+
+body.theme-light-tables .table-dark.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.theme-light-tables .table-dark.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+body.theme-light-tables .table-dark thead th {
+    border-color: #dee2e6;
 }
 
 .vehiclebrand-search-input {

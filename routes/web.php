@@ -75,6 +75,12 @@ Route::ApiResource('motorspecs', 'MotorSpecController')->only(['index', 'store',
 Route::get('motorspecs-all', 'MotorSpecController@index');
 Route::get('select-motorspec', 'MotorSpecController@selectMotorSpecs');
 
+Route::ApiResource('motors', 'MotorController')->only(['index', 'store', 'update']);
+Route::get('motors-all', 'MotorController@index');
+Route::post('motors/{id}/link', 'MotorController@link');
+Route::post('motors/{id}/unlink', 'MotorController@unlink');
+Route::get('motors/{id}/history', 'MotorController@history');
+
 
 Route::get('vmr-all/{brand}', 'VehicleModelController@vmr');
 Route::get('mm-all', 'VehicleModelController@mm');
@@ -324,6 +330,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
     Route::get('admin-marca-vehiculos', function () {
         return view('admin.marcas-vehiculo');
     })->name('admin-marca-vehiculos'); //->middleware('permission:marca-vehiculos');
+
+    Route::get('admin-motores', function () {
+        return view('admin.motores');
+    })->name('admin-motores'); //->middleware('permission:vehiculos');
 
     Route::get('admin-modelo-vehiculos', function () {
         return view('admin.modelos-vehiculo');

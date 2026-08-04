@@ -163,6 +163,32 @@ export default { //computed propeties
 
         return pagesArray;
     },
+    isActived_motors(state, getters) {
+        return state.pagination_motors.current_page
+    },
+    pagesNumber_motors(state, getters) {
+        if (!state.pagination_motors.to) {
+            return [];
+        }
+
+        var from = state.pagination_motors.current_page - state.offset_motors
+        if (from < 1) {
+            from = 1;
+        }
+
+        var to = from + (state.offset_motors * 2);
+        if (to >= state.pagination_motors.last_page) {
+            to = state.pagination_motors.last_page;
+        }
+
+        var pagesArray = [];
+        while (from <= to) {
+            pagesArray.push(from);
+            from++;
+        }
+
+        return pagesArray;
+    },
     isActived_motor(state, getters) {
         return state.pagination_motor.current_page
     },

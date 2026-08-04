@@ -62,4 +62,14 @@ class Vehicle extends Model
     {
         return $this->hasMany('App\Models\CheckListVehicle');
     }
+
+    public function motorAssignments()
+    {
+        return $this->hasMany('App\Models\MotorAssignment');
+    }
+
+    public function currentMotor()
+    {
+        return $this->hasOne('App\Models\MotorAssignment')->whereNull('fecha_fin');
+    }
 }
