@@ -6,9 +6,9 @@
 
                     <div class="card-header p-0" id="headingOne">
                     <h5 class="mb-0">
-                        <button id="btn-type-card" class="btn btn-block text-left p-3" data-toggle="collapse" data-target="#nuevo_motor"
+                        <button id="btn-type-card" class="btn btn-block text-left vehiclebrand-collapse-header" data-toggle="collapse" data-target="#nuevo_motor"
                             aria-expanded="true" aria-controls="collapseOne">
-                        Nuevo Motor
+                        Vincular Motor a Modelo
                         <span class="text-right"><i class="fas fa-arrows-alt-v"></i></span>
                         </button>
                     </h5>
@@ -25,22 +25,25 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <label for="year">Año</label>
-                                        <SelectYearMotor></SelectYearMotor>
+                                        <label for="motor_spec">Motor</label>
+                                        <SelectMotorSpec></SelectMotorSpec>
+
+                                        <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                            <p>{{ error.motor_spec_id }}</p>
+                                        </div>
                                     </div>
 
                                     <div class="col-12">
-
-                                        <label for="v_engine">Motor</label>
-                                        <input v-validate="'required|min:2|max:190'"
-                                                :class="{'input': true, 'is-invalid': errors.has('v_engine') }"
-                                                type="text"
-                                                name="v_engine"
-                                                class="form-control" v-model="newVehicleMotor.v_engine">
-                                        <p v-show="errors.has('v_engine')" class="text-danger">{{ errors.first('v_engine') }}</p>
+                                        <label for="year">Año</label>
+                                        <input v-validate="'required|numeric|min_value:1900|max_value:2100'"
+                                                :class="{'input': true, 'is-invalid': errors.has('year') }"
+                                                type="number"
+                                                name="year"
+                                                class="form-control" v-model="newVehicleMotor.year">
+                                        <p v-show="errors.has('year')" class="text-danger">{{ errors.first('year') }}</p>
 
                                         <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
-                                            <p>{{ error.v_engine }}</p>
+                                            <p>{{ error.year }}</p>
                                         </div>
                                     </div>
 
@@ -59,13 +62,16 @@
             </div>
         </div>
         <div class="col-12">
+            <input type="text" class="form-control mb-3 vehiclebrand-search-input" id="search_motor" placeholder="Ej: mazda, yaris..."
+                v-model="searchVehicleMotor" @input="getVehiculoMotors({ page: 1, search: searchVehicleMotor })">
             <div class="table-responsive">
                 <table class="table table-responsive-new table-dark table-sm mt-3">
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Marca</th>
                             <th>Modelo</th>
-                            <th>Año</th>
+                            <th>Período</th>
                             <th>Motor</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -73,12 +79,13 @@
                     <tbody>
                         <tr v-for="vehiculoMotorLocal in vehiclemotors" :key="vehiculoMotorLocal.id">
                             <td data-table-label="ID">{{ vehiculoMotorLocal.id }}</td>
+                            <td data-table-label="MARCA">{{ vehiculoMotorLocal.brand }}</td>
                             <td data-table-label="MODELO">{{ vehiculoMotorLocal.model }}</td>
-                            <td data-table-label="AÑO">{{ vehiculoMotorLocal.year }}</td>
+                            <td data-table-label="PERIODO">{{ vehiculoMotorLocal.year_from }}<span v-if="vehiculoMotorLocal.year_from !== vehiculoMotorLocal.year_to"> - {{ vehiculoMotorLocal.year_to }}</span></td>
                             <td data-table-label="MOTOR">{{ vehiculoMotorLocal.motor }}</td>
-                            
+
                             <td width="10px">
-                                <a href="#" class="btn btn-warning btn-sm"
+                                <a href="#" class="btn btn-warning btn-icon-sm"
                                     @click.prevent="editVehiculoMotor( { vehiculoMotorLocal } )"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -90,35 +97,35 @@
                     </tbody>
                 </table>
             </div>
-            <nav>
+            <nav class="mt-3">
                 <ul class="pagination">
                     <li class="page-item" v-if="pagination_motor.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: 1, search: searchVehicleMotor})">
                             <span>Primera</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motor.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: pagination_motor.current_page - 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: pagination_motor.current_page - 1, search: searchVehicleMotor})">
                             <span>Atrás</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-for="page in pagesNumber_motor"
                         v-bind:class="[ page == isActived_motor ? 'active' : '' ]" :key="page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page, search: searchVehicleMotor})">
                             {{ page }}
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motor.current_page < pagination_motor.last_page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: pagination_motor.current_page + 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehiculoMotor({page: pagination_motor.current_page + 1, search: searchVehicleMotor})">
                             <span>Siguiente</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motor.current_page < pagination_motor.last_page">
-                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehiculoMotor({page:pagination_motor.last_page})">
+                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehiculoMotor({page:pagination_motor.last_page, search: searchVehicleMotor})">
                             <span>Última</span>
                         </a>
                     </li>
@@ -132,18 +139,23 @@
 
 import { loadProgressBar } from 'axios-progress-bar'
 import SelectModelMotor from './SelectModelMotor'
-import SelectYearMotor from './SelectYearMotor'
+import SelectMotorSpec from './SelectMotorSpec'
 import EditarMotor from './EditarMotor'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-    components: {SelectModelMotor, SelectYearMotor, EditarMotor},
+    components: {SelectModelMotor, SelectMotorSpec, EditarMotor},
+    data() {
+        return {
+            searchVehicleMotor: ''
+        }
+    },
     computed:{
         ...mapState(['newVehicleMotor', 'errorsLaravel' ,'vehiclemotors', 'pagination_motor', 'offset_motor']),
         ...mapGetters(['isActived_motor', 'pagesNumber_motor'])
     },
     methods:{
-        ...mapActions(['createVehicleMotor', 'editVehiculoMotor','changePageVehiculoMotor'])
+        ...mapActions(['createVehicleMotor', 'editVehiculoMotor','changePageVehiculoMotor', 'getVehiculoMotors'])
     },
     created(){
         loadProgressBar();

@@ -33,7 +33,7 @@
                         <td data-table-label="Modelo">{{ vehiclemodelLocal.model }}</td>
 
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm"
+                            <a href="#" class="btn btn-warning btn-icon-sm"
                                 @click.prevent="editVehicleModel({ vehiclemodelLocal })" data-toggle="tooltip"
                                 data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>

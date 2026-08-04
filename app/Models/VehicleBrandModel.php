@@ -13,10 +13,4 @@ class VehicleBrandModel extends Model
     
     public $timestamps = false;
 
-
-    public function vehicleYears()
-    {
-        return $this->hasMany('App\Models\VehicleYear','v_id');
-    }
-
 }

@@ -6,7 +6,7 @@
 
                     <div class="card-header p-0" id="headingOne">
                     <h5 class="mb-0">
-                        <button id="btn-brand-card" class="btn btn-block text-left p-3" data-toggle="collapse" data-target="#nueva_marca"
+                        <button id="btn-brand-card" class="btn btn-block text-left vehiclebrand-collapse-header" data-toggle="collapse" data-target="#nueva_marca"
                             aria-expanded="true" aria-controls="collapseOne">
                         Nueva Marca
                         <span class="text-right"><i class="fas fa-arrows-alt-v"></i></span>
@@ -49,6 +49,8 @@
             </div>
         </div>
         <div class="col-12">
+            <input type="text" class="form-control mb-3 vehiclebrand-search-input" id="search_marca" placeholder="Ej: mazda, toyota..."
+                v-model="searchVehicleBrandText" @input="getVehicleBrands({ page: 1, search: searchVehicleBrandText })">
             <div class="table-responsive">
                 <table class="table table-responsive-new table-dark table-sm mt-3">
                     <thead>
@@ -63,7 +65,7 @@
                             <td data-table-label="ID">{{ vehiclebrandLocal.id }}</td>
                             <td data-table-label="MARCA">{{ vehiclebrandLocal.brand }}</td>
                             <td width="10px">
-                                <a href="#" class="btn btn-warning btn-sm"
+                                <a href="#" class="btn btn-warning btn-icon-sm"
                                     @click.prevent="editVehicleBrand( { vehiclebrandLocal } )"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -75,36 +77,36 @@
                     </tbody>
                 </table>
             </div>
-            
-            <nav>
+
+            <nav class="mt-3">
                 <ul class="pagination">
                     <li class="page-item" v-if="pagination_marca.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: 1, search: searchVehicleBrandText})">
                             <span>Primera</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_marca.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: pagination_marca.current_page - 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: pagination_marca.current_page - 1, search: searchVehicleBrandText})">
                             <span>Atrás</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-for="page in pagesNumber_marca"
                         v-bind:class="[ page == isActived_marca ? 'active' : '' ]" :key="page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page, search: searchVehicleBrandText})">
                             {{ page }}
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_marca.current_page < pagination_marca.last_page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: pagination_marca.current_page + 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleBrand({page: pagination_marca.current_page + 1, search: searchVehicleBrandText})">
                             <span>Siguiente</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_marca.current_page < pagination_marca.last_page">
-                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehicleBrand({page:pagination_marca.last_page})">
+                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehicleBrand({page:pagination_marca.last_page, search: searchVehicleBrandText})">
                             <span>Última</span>
                         </a>
                     </li>
@@ -122,12 +124,17 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     components: {EditarMarca},
+    data() {
+        return {
+            searchVehicleBrandText: ''
+        }
+    },
     computed:{
         ...mapState(['newVehicleBrand', 'errorsLaravel', 'vehiclebrands', 'pagination_marca', 'offset_marca']),
         ...mapGetters(['isActived_marca', 'pagesNumber_marca'])
     },
     methods:{
-        ...mapActions(['createVehicleBrand', 'editVehicleBrand','changePageVehicleBrand'])
+        ...mapActions(['createVehicleBrand', 'editVehicleBrand','changePageVehicleBrand', 'getVehicleBrands'])
     },
     created(){
         loadProgressBar();

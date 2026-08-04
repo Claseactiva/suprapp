@@ -94,7 +94,15 @@ class VehicleBrandController extends Controller
 
    public function all()
    {
-        $all = VehicleBrand::orderBy('id', 'ASC')->paginate((int) request('per_page', 20));
+        $search = request('search');
+
+        $query = VehicleBrand::orderBy('brand');
+
+        if ($search) {
+            $query->where('brand', 'LIKE', "%{$search}%");
+        }
+
+        $all = $query->paginate((int) request('per_page', 10));
 
         return [
             'pagination_marca' => [

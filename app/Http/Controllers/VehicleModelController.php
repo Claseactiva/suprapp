@@ -15,14 +15,26 @@ class VehicleModelController extends Controller
     */
    public function index()
    {
-       
-        $models = VehicleModel::select(DB::raw('vehicle_models.id as id,
+        $search = request('search');
+
+        $query = VehicleModel::select(DB::raw('vehicle_models.id as id,
                                                 vehicle_brands.brand as brand,
                                                 vehicle_tipos.tipo_vehiculo as tipo,
                                                 vehicle_models.model'))
                 ->join('vehicle_brands', 'vehicle_brands.id', '=', 'vehicle_models.brand_id')
-                ->join('vehicle_tipos', 'vehicle_tipos.id', '=', 'vehicle_models.tipo_id')
-                ->paginate((int) request('per_page', 20));
+                ->join('vehicle_tipos', 'vehicle_tipos.id', '=', 'vehicle_models.tipo_id');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('vehicle_brands.brand', 'LIKE', "%{$search}%")
+                    ->orWhere('vehicle_models.model', 'LIKE', "%{$search}%")
+                    ->orWhere('vehicle_tipos.tipo_vehiculo', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $models = $query->orderBy('vehicle_brands.brand')
+            ->orderBy('vehicle_models.model')
+            ->paginate((int) request('per_page', 10));
 
        return [
            'pagination_modelo' => [

@@ -11,18 +11,47 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        
+
                         <div class="col-0">
-                            <label for="v_engine">Motor</label>
-                            <input v-validate="'required|min:2|max:190'"
-                                    :class="{'input': true, 'is-invalid': errors.has('v_engine') }"
-                                    type="text"
-                                    name="v_engine"
-                                    class="form-control" v-model="fillVehicleMotor.v_engine">
-                            <p v-show="errors.has('v_engine')" class="text-danger">{{ errors.first('v_engine') }}</p>
+                            <label for="motor_spec_id">Motor</label>
+                            <v-select
+                                name="motor_spec_id"
+                                placeholder="Seleccionar Motor..."
+                                @input="setFillMotorSpec"
+                                :options="optionsMotorSpec"
+                                :value="selectedFillMotorSpec">
+                            </v-select>
 
                             <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
-                                <p>{{ error.v_engine }}</p>
+                                <p>{{ error.motor_spec_id }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-0 mt-2">
+                            <label for="year_from">Año desde</label>
+                            <input v-validate="'required|numeric|min_value:1900|max_value:2100'"
+                                    :class="{'input': true, 'is-invalid': errors.has('year_from') }"
+                                    type="number"
+                                    name="year_from"
+                                    class="form-control" v-model="fillVehicleMotor.year_from">
+                            <p v-show="errors.has('year_from')" class="text-danger">{{ errors.first('year_from') }}</p>
+
+                            <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                <p>{{ error.year_from }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-0 mt-2">
+                            <label for="year_to">Año hasta</label>
+                            <input v-validate="'required|numeric|min_value:1900|max_value:2100'"
+                                    :class="{'input': true, 'is-invalid': errors.has('year_to') }"
+                                    type="number"
+                                    name="year_to"
+                                    class="form-control" v-model="fillVehicleMotor.year_to">
+                            <p v-show="errors.has('year_to')" class="text-danger">{{ errors.first('year_to') }}</p>
+
+                            <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                <p>{{ error.year_to }}</p>
                             </div>
                         </div>
                     </div>
@@ -42,10 +71,16 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
     computed:{
-        ...mapState(['fillVehicleMotor', 'errorsLaravel'])
+        ...mapState(['fillVehicleMotor', 'errorsLaravel', 'optionsMotorSpec']),
+        selectedFillMotorSpec() {
+            return this.optionsMotorSpec.find(option => option.value === this.fillVehicleMotor.motor_spec_id) || { label: '', value: '' }
+        }
     },
     methods:{
-        ...mapActions(['updateVehicleMotor'])
+        ...mapActions(['updateVehicleMotor']),
+        setFillMotorSpec(option) {
+            this.fillVehicleMotor.motor_spec_id = option ? option.value : ''
+        }
     },
 }
 </script>

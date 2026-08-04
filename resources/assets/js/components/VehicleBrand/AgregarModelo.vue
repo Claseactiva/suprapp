@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header p-0" id="headingOne">
                     <h5 class="mb-0">
-                        <button id="btn-type-card" class="btn btn-block text-left p-3" data-toggle="collapse" data-target="#nuevo_modelo"
+                        <button id="btn-type-card" class="btn btn-block text-left vehiclebrand-collapse-header" data-toggle="collapse" data-target="#nuevo_modelo"
                             aria-expanded="true" aria-controls="collapseOne">
                         Nuevo Modelo
                         <span class="text-right"><i class="fas fa-arrows-alt-v"></i></span>
@@ -58,6 +58,8 @@
             </div>
         </div>
         <div class="col-12">
+            <input type="text" class="form-control mb-3 vehiclebrand-search-input" id="search_modelo" placeholder="Ej: mazda, yaris..."
+                v-model="searchVehicleModelText" @input="getVehicleModels({ page: 1, search: searchVehicleModelText })">
             <div class="table-responsive">
                 <table class="table table-responsive-new table-dark table-sm mt-3">
                     <thead>
@@ -75,9 +77,9 @@
                             <td data-table-label="MODELO">{{ vehiclemodelLocal.model }}</td>
                             <td data-table-label="MARCA">{{ vehiclemodelLocal.brand }}</td>
                             <td data-table-label="TIPO DE VEHICULO">{{ vehiclemodelLocal.tipo }}</td>
-                            
+
                             <td width="10px">
-                                <a href="#" class="btn btn-warning btn-sm"
+                                <a href="#" class="btn btn-warning btn-icon-sm"
                                     @click.prevent="editVehicleModel( { vehiclemodelLocal } )"
                                     data-toggle="tooltip"
                                     data-placement="top"
@@ -89,35 +91,35 @@
                     </tbody>
                 </table>
             </div>
-            <nav>
+            <nav class="mt-3">
                 <ul class="pagination">
                     <li class="page-item" v-if="pagination_modelo.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: 1, search: searchVehicleModelText})">
                             <span>Primera</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_modelo.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: pagination_modelo.current_page - 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: pagination_modelo.current_page - 1, search: searchVehicleModelText})">
                             <span>Atrás</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-for="page in pagesNumber_modelo"
                         v-bind:class="[ page == isActived_modelo ? 'active' : '' ]" :key="page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page, search: searchVehicleModelText})">
                             {{ page }}
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_modelo.current_page < pagination_modelo.last_page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: pagination_modelo.current_page + 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageVehicleModel({page: pagination_modelo.current_page + 1, search: searchVehicleModelText})">
                             <span>Siguiente</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_modelo.current_page < pagination_modelo.last_page">
-                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehicleModel({page:pagination_modelo.last_page})">
+                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageVehicleModel({page:pagination_modelo.last_page, search: searchVehicleModelText})">
                             <span>Última</span>
                         </a>
                     </li>
@@ -137,12 +139,17 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     components: {EditarModelo, SelectBrand, TiposSelector},
+    data() {
+        return {
+            searchVehicleModelText: ''
+        }
+    },
     computed:{
         ...mapState(['newVehicleModelo', 'errorsLaravel', 'vehiclemodels', 'pagination_modelo', 'offset_modelo']),
         ...mapGetters(['isActived_modelo', 'pagesNumber_modelo'])
     },
     methods:{
-        ...mapActions(['createVehicleModel','editVehicleModel', 'changePageVehicleModel'])
+        ...mapActions(['createVehicleModel','editVehicleModel', 'changePageVehicleModel', 'getVehicleModels'])
     },
     created(){
         loadProgressBar();

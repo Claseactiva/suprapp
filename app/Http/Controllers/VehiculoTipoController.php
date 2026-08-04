@@ -91,7 +91,15 @@ class VehiculoTipoController extends Controller
 
    public function all()
    {
-        $all = TipoVehiculo::orderBy('id', 'ASC')->paginate((int) request('per_page', 20));
+        $search = request('search');
+
+        $query = TipoVehiculo::orderBy('tipo_vehiculo');
+
+        if ($search) {
+            $query->where('tipo_vehiculo', 'LIKE', "%{$search}%");
+        }
+
+        $all = $query->paginate((int) request('per_page', 10));
 
         return [
             'pagination_tipo' => [

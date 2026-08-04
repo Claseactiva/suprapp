@@ -510,15 +510,28 @@ class QuotationclientController extends Controller
     public function all()
     {
 
-        $vehiclemodels = VehicleModel::select(DB::raw('vehicle_models.id as id,
-                                                        vehicle_models.model as model,
-                                                        vehicle_years.v_year as year,
-                                                        vehicle_engines.v_engine as motor'))
-            ->join('vehicle_years', 'vehicle_models.id', '=', 'vehicle_years.v_id')
-            ->join('vehicle_engines', 'vehicle_years.id', '=', 'vehicle_engines.year_id')
+        $rows = VehicleModel::select(DB::raw('vehicle_models.id as id,
+                                                vehicle_models.model as model,
+                                                vehicle_engines.year_from as year_from,
+                                                vehicle_engines.year_to as year_to,
+                                                motor_specs.raw_label as motor'))
+            ->join('vehicle_engines', 'vehicle_models.id', '=', 'vehicle_engines.vehicle_model_id')
+            ->join('motor_specs', 'motor_specs.id', '=', 'vehicle_engines.motor_spec_id')
             ->get();
 
-        return $vehiclemodels;
+        $vehiclemodels = collect();
+        foreach ($rows as $row) {
+            for ($year = $row->year_from; $year <= $row->year_to; $year++) {
+                $vehiclemodels->push([
+                    'id' => $row->id,
+                    'model' => $row->model,
+                    'year' => $year,
+                    'motor' => $row->motor,
+                ]);
+            }
+        }
+
+        return $vehiclemodels->values();
     }
 
 
