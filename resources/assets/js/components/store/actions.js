@@ -341,32 +341,6 @@ export default { //methods
         context.commit('getVehicleModels', data)
     },
 
-    createVehicleYear(context) {
-        context.commit('createVehicleYear')
-        setTimeout(function () {
-            context.commit('getVehicleYears', 1)
-        }, 1000)
-
-    },
-    editVehicleYear(context, data) {
-        context.commit('editVehicleYear', data.vehicleyearLocal)
-    },
-    updateVehicleYear(context, data) {
-        context.commit('updateVehicleYear', data.id)
-        setTimeout(function () {
-            context.commit('getVehicleYears', 1)
-        }, 1000)
-    },
-
-    getVehicleYears(context, data) {
-        context.commit('getVehicleYears', data)
-    },
-
-    changePageVehicleYear(context, data) {
-        context.commit('paginate', data.page)
-        context.commit('getVehicleYears', data)
-    },
-
     createVehicleMotor(context, data) {
         context.commit('createVehicleMotor', data.id)
         setTimeout(function () {
@@ -390,6 +364,38 @@ export default { //methods
     changePageVehiculoMotor(context, data) {
         context.commit('paginate', data.page)
         context.commit('getVehiculoMotors', data)
+    },
+
+    createMotorSpec(context) {
+        context.commit('createMotorSpec')
+        setTimeout(function () {
+            context.commit('getMotorSpecs', 1)
+        }, 1000)
+    },
+    editMotorSpec(context, data) {
+        context.commit('editMotorSpec', data.motorspecLocal)
+    },
+    updateMotorSpec(context, data) {
+        context.commit('updateMotorSpec', data.id)
+        setTimeout(function () {
+            context.commit('getMotorSpecs', 1)
+        }, 1000)
+    },
+    deleteMotorSpec(context, id) {
+        context.commit('deleteMotorSpec', id)
+    },
+    getMotorSpecs(context, data) {
+        context.commit('getMotorSpecs', data)
+    },
+    changePageMotorSpec(context, data) {
+        context.commit('paginate', data.page)
+        context.commit('getMotorSpecs', data)
+    },
+    allMotorSpecs(context, data) {
+        context.commit('allMotorSpecs', data)
+    },
+    setMotorSpec(context, data) {
+        context.commit('setMotorSpec', data)
     },
     /********************************** */
     subirFotosObservacion(context, data) {
@@ -1203,12 +1209,6 @@ export default { //methods
     allTiposVehiculos(context, data) {
         context.commit('allTiposVehiculos', data)
     },
-    allVehicleMotors(context, data) {
-        context.commit('allVehicleMotors', data)
-    },
-    allVehicleYears(context, data) {
-        context.commit('allVehicleYears', data)
-    },
     setVehicleBrand(context, data) {
         context.commit('setVehicleBrand', data)
         context.commit('allVehicleModels', data)
@@ -1222,49 +1222,12 @@ export default { //methods
     setVehiculoTipo(context, data) {
         context.commit('setVehiculoTipo', data)
     },
-    setVehicleMotor(context, data) {
-        context.commit('setVehicleMotor', data)
-    },
-    setVehicleYear(context, data) {
-        context.commit('setVehicleYear', data)
-    },
     /*************SELECT RELACIONADOS ****************/
-    allVBR(context, data) {
-        context.commit('allVBR', data)
-    },
-    setVBR(context, data) {
-        context.commit('setVBR', data)
-        context.commit('setVMR', {
-            label: '',
-            value: ''
-        })
-        context.commit('allVMR', data)
-    },
-    allVMR(context, data) {
-        context.commit('allVMR', data)
-    },
-    setVMR(context, data) {
-        context.commit('setVMR', data)
-        context.commit('allVMR', data)
-    },
-
     allMM(context, data) {
         context.commit('allMM', data)
     },
     setMM(context, data) {
         context.commit('setMM', data)
-        context.commit('setYM', {
-            label: '',
-            value: ''
-        })
-        context.commit('allYM', data)
-    },
-    allYM(context, data) {
-        context.commit('allYM', data)
-    },
-    setYM(context, data) {
-        context.commit('setYM', data)
-        context.commit('allYM', data)
     },
     /*************seccion formulario de cotizacion  ****************/
 
@@ -1494,6 +1457,35 @@ export default { //methods
             context.commit('getMechanicClients')
             //context.commit('getTotalCli')
             //context.commit('getTotalVehi')
+        }, 500)
+    },
+
+    getTallerWorkers(context) {
+        context.commit('getTallerWorkers');
+    },
+
+    createTallerWorker(context) {
+        context.commit('createTallerWorker')
+        setTimeout(function () {
+            context.commit('getTallerWorkers')
+        }, 500)
+    },
+
+    revokeTallerWorker(context, worker) {
+        context.commit('revokeTallerWorker', worker)
+        setTimeout(function () {
+            context.commit('getTallerWorkers')
+        }, 500)
+    },
+
+    getTallerTeam(context) {
+        context.commit('getTallerTeam');
+    },
+
+    assignOrdenTrabajo(context, data) {
+        context.commit('assignOrdenTrabajo', data)
+        setTimeout(function () {
+            context.commit('getOrdenesTrabajos')
         }, 500)
     },
 

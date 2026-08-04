@@ -47,7 +47,7 @@
                             <div class="col-4 col-md-3 mb-3" v-for="(preview, index) in previews" :key="index">
                                 <div class="detalle-preview">
                                     <img :src="preview.src" :alt="preview.name">
-                                    <button type="button" class="btn btn-danger btn-sm preview-remove"
+                                    <button type="button" class="btn btn-danger btn-icon-sm preview-remove"
                                         title="Quitar" @click.prevent="removePreview(index)">
                                         <i class="fas fa-times"></i>
                                     </button>

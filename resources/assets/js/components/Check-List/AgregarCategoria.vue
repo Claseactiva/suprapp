@@ -43,7 +43,7 @@
                                             <td>{{ index + 1 }}</td>
                                             <td>{{ checklist.categoria }}</td>
                                             <td class="text-right">
-                                                <a href="#" class="btn btn-danger btn-sm"
+                                                <a href="#" class="btn btn-danger btn-icon-sm"
                                                     @click.prevent="eliminarCategoria" data-toggle="tooltip"
                                                     data-placement="top" title="Eliminar">
                                                     <i class="fas fa-trash-alt"></i>

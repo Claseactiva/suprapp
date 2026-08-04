@@ -15,6 +15,7 @@
                         <th>Patente</th>
                         <th>Kilometraje</th>
                         <th>Fecha</th>
+                        <th>Asignado a</th>
                         <th>Trabajos</th>
                     </tr>
                 </thead>
@@ -26,6 +27,17 @@
                             <td data-table-label="Patente">{{ ordentrabajoLocal.vehicle.patent }}</td>
                             <td data-table-label="Kilometraje">{{ ordentrabajoLocal.km }}</td>
                             <td data-table-label="Fecha">{{ ordentrabajoLocal.updated_at | moment('DD/MM/YYYY') }}</td>
+
+                            <td data-table-label="Asignado a" @click.stop>
+                                <select class="form-control form-control-sm d-inline-block w-auto"
+                                    :value="ordentrabajoLocal.assigned_to"
+                                    @change="assignOrdenTrabajo({ id: ordentrabajoLocal.id, assigned_to: $event.target.value || null })">
+                                    <option :value="null">Sin asignar</option>
+                                    <option v-for="member in tallerTeam" :key="member.id" :value="member.id">
+                                        {{ member.name }}
+                                    </option>
+                                </select>
+                            </td>
 
                             <td>
                                 <span class="badge badge-secondary" title="Total de trabajos">{{ (ordentrabajoLocal.trabajo || []).length }}</span>
@@ -68,7 +80,7 @@
                                                     <label :for="trabajo.id"></label>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn btn-warning btn-sm"
+                                                    <a href="#" class="btn btn-warning btn-icon-sm"
                                                         v-if="trabajo.realizado === 0"
                                                         @click.prevent="modalObservacion({ id: trabajo.id })"
                                                         title="Editar">
@@ -102,7 +114,7 @@ import AlertaInformacion from './AlertaInformacion.vue'
 export default {
     components: { AgregarObservacion, AlertaInformacion },
     computed: {
-        ...mapState(['ordenestrabajos', 'trabajos', 'checkRealizado', 'cerrarObservacion']),
+        ...mapState(['ordenestrabajos', 'trabajos', 'checkRealizado', 'cerrarObservacion', 'tallerTeam']),
         ...mapGetters(['isActived', 'pagesNumber']),
         totalOrdenes() {
             return this.ordenestrabajos.length
@@ -120,11 +132,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['getOrdenesTrabajos', 'modalObservacion', 'removeTrabajo'])
+        ...mapActions(['getOrdenesTrabajos', 'modalObservacion', 'removeTrabajo', 'getTallerTeam', 'assignOrdenTrabajo'])
     },
     created() {
         loadProgressBar();
         this.$store.dispatch('getOrdenesTrabajos')
+        this.$store.dispatch('getTallerTeam')
     }
 }
 

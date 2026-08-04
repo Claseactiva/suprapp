@@ -55,7 +55,7 @@
                                             <td>{{ detailLocal.price }}</td>
                                             <td>
 
-                                                <a href="#" class="btn btn-danger btn-sm"
+                                                <a href="#" class="btn btn-danger btn-icon-sm"
                                                     @click.prevent="deleteDetail( { id: detailLocal.id } )"
                                                     data-toggle="tooltip"
                                                     data-placement="top"

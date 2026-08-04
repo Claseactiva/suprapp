@@ -80,7 +80,7 @@
 										<i class="fas fa-file-invoice-dollar"></i> Recibo
 									</a>
 
-									<a href="#" class="btn btn-danger btn-sm"
+									<a href="#" class="btn btn-danger btn-icon-sm"
 										@click.prevent="eliminarVenta({ id: sale.id })" role="button">
 										<i class="fas fa-trash-alt"></i>
 									</a>

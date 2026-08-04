@@ -61,7 +61,7 @@
 													<td data-table-label="VALOR TOTAL">{{ product.total | currency('$', 0, { thousandsSeparator: '.' }) }}
 													</td>
 													<td>
-														<a href="#" class="btn btn-danger btn-sm"
+														<a href="#" class="btn btn-danger btn-icon-sm"
 															@click.prevent="removeFromCart({ id: product.id })"
 															data-toggle="tooltip" data-placement="top" title="Eliminar">
 															<i class="fas fa-ban"></i>
@@ -88,7 +88,7 @@
 													<td>Descuento:</td>
 													<td>{{ aplicardescuento }}%</td>
 													<td>
-														<a href="#" class="btn btn-danger btn-sm"
+														<a href="#" class="btn btn-danger btn-icon-sm"
 															@click.prevent="removeDescuento()" data-toggle="tooltip"
 															data-placement="top" title="Eliminar">
 															<i class="fas fa-ban"></i>

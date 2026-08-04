@@ -90,7 +90,7 @@
                             Detalle
                         </a>
 
-                        <a href="#" class="btn btn-danger btn-sm"
+                        <a href="#" class="btn btn-danger btn-icon-sm"
                             @click.prevent="showModalDeleteQuotationclient({ id: quotationformLocal.id })"
                             data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <i class="far fa-trash-alt"></i>

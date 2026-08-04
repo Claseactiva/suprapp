@@ -98,7 +98,7 @@
                         <td>{{ quotationLocal.description }}</td>
                         <td>{{ quotationLocal.created_at |  moment('DD/MM/YYYY') }}</td>
                         <td width="150px">
-                            <a href="#" class="btn btn-warning btn-sm"
+                            <a href="#" class="btn btn-warning btn-icon-sm"
                                 @click.prevent="showModalDetail({ id: quotationLocal.id })"
                                 data-toggle="tooltip"
                                 data-placement="top"

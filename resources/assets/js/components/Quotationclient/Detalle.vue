@@ -164,13 +164,13 @@
                                         <td data-table-label="Total Neto ($)">{{ formatPrice(detailLocal.price_neto) }}</td>
                                         <td data-table-label="Total + IVA ($)"><b>{{ formatPrice(detailLocal.total) }}</b></td>
                                         <td>
-                                            <a href="#" class="btn btn-warning btn-sm"
+                                            <a href="#" class="btn btn-warning btn-icon-sm"
                                                 @click.prevent="editDetailclient({ detailLocal })" data-toggle="tooltip"
                                                 data-placement="top" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
 
-                                            <a href="#" class="btn btn-danger btn-sm"
+                                            <a href="#" class="btn btn-danger btn-icon-sm"
                                                 @click.prevent="deleteDetailclient({ id: detailLocal.id })"
                                                 data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                 <i class="fas fa-ban"></i>

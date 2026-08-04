@@ -46,10 +46,7 @@ let urlVehicleModel = 'vehiclemodels'
 let urlAllVehicleModel = 'vehiclemodels-all'
 
 
-let urlVehicleYear = 'vehicleyears'
 let urlVehicleMotor = 'vehiclemotors'
-let urlSelectVehiculoMotor = 'select-motor'
-let urlSelectVehiculoYear = 'select-year'
 
 let urlVBrand = 'vbrands-all'
 let urlVModel = 'vmodels-all'
@@ -57,11 +54,7 @@ let urlVYear = 'vyears-all'
 let urlVEngine = 'vengines-all'
 let urlCiudad = 'ciudad-all'
 
-let urlVBR = 'vbr-all'
-let urlVMR = 'vmr-all'
-
 let urlMM = 'mm-all'
-let urlYM = 'ym-all'
 
 let urlCreateQuotationUser = 'quotationuser'
 let urlCreateQuotationUserExpress = 'quotationuserexpress'
@@ -1274,8 +1267,8 @@ export default { //used for changing the state
         })
     },
     getVehiculoTipos(state, request) {
-        const { page, perPage } = resolvePaginationRequest(request, state.pagination_tipo.per_page || 20)
-        let url = 'vehiculotipos-all?page=' + page + '&per_page=' + perPage
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_tipo.per_page || 10)
+        let url = 'vehiculotipos-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
         axios.get(url).then(response => {
             state.vehiculotipos = response.data.vehiculotipos.data
             state.pagination_tipo = response.data.pagination_tipo
@@ -1316,8 +1309,8 @@ export default { //used for changing the state
         })
     },
     getVehicleBrands(state, request) {
-        const { page, perPage } = resolvePaginationRequest(request, state.pagination_marca.per_page || 20)
-        let url = 'vehiclebrands-all?page=' + page + '&per_page=' + perPage
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_marca.per_page || 10)
+        let url = 'vehiclebrands-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
 
         axios.get(url).then(response => {
             state.vehiclebrands = response.data.vehiclebrands.data
@@ -1365,8 +1358,8 @@ export default { //used for changing the state
         })
     },
     getVehicleModels(state, request) {
-        const { page, perPage } = resolvePaginationRequest(request, state.pagination_modelo.per_page || 20)
-        let url = urlVehicleModel + '?page=' + page + '&per_page=' + perPage //+ '&model=' + state.searchVehicleBrand.model
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_modelo.per_page || 10)
+        let url = urlVehicleModel + '?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
         axios.get(url).then(response => {
             state.vehiclemodels = response.data.vehiclemodels.data
             state.pagination_modelo = response.data.pagination_modelo
@@ -1426,72 +1419,21 @@ export default { //used for changing the state
         })
     },
 
-    createVehicleYear(state) {
-        let url = 'newvehicleyear'
-        axios.post(url, {
-            v_id: state.selectedVMR.value,
-            v_year: state.newVehicleYear.v_year.toUpperCase()
-        }).then(response => {
-            state.newVehicleYear = {
-                v_id: '',
-                v_year: ''
-            },
-                state.errorsLaravel = []
-            $('#create').modal('hide')
-            toastr.success('Modelo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
-        }).catch(error => {
-            state.errorsLaravel = error.response.data
-        })
-    },
-    editVehicleYear(state, vehicleyear) {
-        /*state.optionsVehicleModel.forEach(model => {
-            if (model.label == vehicleyear.model) {
-                state.selectedVehicleModel = model
-            }
-        })*/
-        state.fillVehicleYear.id = vehicleyear.id
-        state.fillVehicleYear.v_year = vehicleyear.year
-        $("#edit_year").modal('show')
-    },
-    updateVehicleYear(state, id) {
-        let url = urlVehicleYear + '/' + id
-        //state.fillVehicleYear.model = state.selectedVehicleModel.value
-        axios.put(url, state.fillVehicleYear).then(response => {
-            state.fillVehicleYear = {
-                id: '',
-                v_year: ''
-                //model: ''
-            },
-                state.errorsLaravel = []
-            $('#edit_year').modal('hide')
-            toastr.success('Modelo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
-        }).catch(error => {
-            state.errorsLaravel = error.response.data
-        })
-    },
-
-    getVehicleYears(state, request) {
-        const { page, perPage } = resolvePaginationRequest(request, state.pagination_year.per_page || 20)
-        let url = 'vehicleyears-all?page=' + page + '&per_page=' + perPage
-        axios.get(url).then(response => {
-            state.vehicleyears = response.data.vehicleyears.data
-            state.pagination_year = response.data.pagination_year
-        });
-    },
-
     createVehicleMotor(state) {
         let url = 'newvehiclemotor'
         axios.post(url, {
-            v_engine: state.newVehicleMotor.v_engine.toUpperCase(),
-            year_id: state.selectedYM.value
+            vehicle_model_id: state.selectedMM.value,
+            motor_spec_id: state.selectedMotorSpec.value,
+            year: state.newVehicleMotor.year
         }).then(response => {
             state.newVehicleMotor = {
-                year_id: '',
-                v_engine: ''
+                vehicle_model_id: '',
+                motor_spec_id: '',
+                year: ''
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
-            toastr.success('Motor agregado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Motor agregado con exito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1499,39 +1441,102 @@ export default { //used for changing the state
 
     updateVehicleMotor(state, id) {
         let url = urlVehicleMotor + '/' + id
-        //state.fillVehicleMotor.year_id = state.selectedVehicleYear.value
         axios.put(url, state.fillVehicleMotor).then(response => {
             state.fillVehicleMotor = {
                 id: '',
-                //year_id: '',
-                v_engine: ''
+                motor_spec_id: '',
+                year_from: '',
+                year_to: ''
             },
                 state.errorsLaravel = []
             $('#edit_motor').modal('hide')
-            toastr.success('Motor actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Motor actualizado con exito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
     },
 
     editVehiculoMotor(state, vehiclemotor) {
-        /*state.optionsYear.forEach(year => {
-            if (year.label == vehiclemotor.year) {
-                state.selectedVehicleYear = year
-            }
-        })*/
         state.fillVehicleMotor.id = vehiclemotor.id
-        state.fillVehicleMotor.v_engine = vehiclemotor.motor
+        state.fillVehicleMotor.motor_spec_id = vehiclemotor.motor_spec_id
+        state.fillVehicleMotor.year_from = vehiclemotor.year_from
+        state.fillVehicleMotor.year_to = vehiclemotor.year_to
         $("#edit_motor").modal('show')
     },
 
     getVehiculoMotors(state, request) {
-        const { page, perPage } = resolvePaginationRequest(request, state.pagination_motor.per_page || 20)
-        let url = 'vehiclemotors-all?page=' + page + '&per_page=' + perPage
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_motor.per_page || 10)
+        let url = 'vehiclemotors-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
         axios.get(url).then(response => {
             state.vehiclemotors = response.data.vehiclemotors.data
             state.pagination_motor = response.data.pagination_motor
         });
+    },
+
+    getMotorSpecs(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_motorspec.per_page || 10)
+        let url = 'motorspecs-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '')
+        axios.get(url).then(response => {
+            state.motorspecs = response.data.motorspecs.data
+            state.pagination_motorspec = response.data.pagination_motorspec
+        });
+    },
+    createMotorSpec(state) {
+        let url = 'motorspecs'
+        axios.post(url, {
+            cilindrada: state.newMotorSpec.cilindrada,
+            combustible: state.newMotorSpec.combustible
+        }).then(response => {
+            state.newMotorSpec = {
+                cilindrada: '',
+                combustible: ''
+            },
+                state.errorsLaravel = []
+            $('#create_motorspec').modal('hide')
+            toastr.success('Especificacion de motor agregada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    editMotorSpec(state, motorspec) {
+        state.fillMotorSpec.id = motorspec.id
+        state.fillMotorSpec.raw_label = motorspec.raw_label
+        $("#edit_motorspec").modal('show')
+    },
+    updateMotorSpec(state, id) {
+        let url = 'motorspecs/' + id
+        axios.put(url, state.fillMotorSpec).then(response => {
+            state.fillMotorSpec = {
+                id: '',
+                raw_label: ''
+            },
+                state.errorsLaravel = []
+            $('#edit_motorspec').modal('hide')
+            toastr.success('Especificacion de motor actualizada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteMotorSpec(state, id) {
+        let url = 'motorspecs/' + id
+        axios.delete(url).then(response => {
+            state.motorspecs = state.motorspecs.filter(spec => spec.id !== id)
+            toastr.success('Especificacion de motor eliminada con exito')
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+    allMotorSpecs(state) {
+        let url = 'select-motorspec'
+        axios.get(url).then(response => {
+            state.optionsMotorSpec = []
+            response.data.forEach(spec => {
+                state.optionsMotorSpec.push({ label: spec.raw_label, value: spec.id })
+            })
+        });
+    },
+    setMotorSpec(state, motorspec) {
+        state.selectedMotorSpec = motorspec
     },
 
 
@@ -3749,77 +3754,7 @@ export default { //used for changing the state
     },
 
 
-    allVehicleMotors(state) {
-        let url = urlSelectVehiculoMotor
-        axios.get(url).then(response => {
-            state.optionsMotores = []
-            response.data.forEach((vehiclemotor) => {
-                state.optionsMotores.push({
-                    label: vehiclemotor.v_engine,
-                    value: vehiclemotor.id
-                })
-            });
-        });
-    },
-
-    setVehicleMotor(state, vehiclemotor) {
-        state.selectedVehicleMotor = vehiclemotor
-    },
-
-    allVehicleYears(state) {
-        let url = urlSelectVehiculoYear
-        axios.get(url).then(response => {
-            state.optionsYear = []
-            response.data.forEach((vehicleyear) => {
-                state.optionsYear.push({
-                    label: vehicleyear.v_year,
-                    value: vehicleyear.id
-                })
-            });
-        });
-    },
-
-    setVehicleYear(state, vehicleyear) {
-        state.selectedVehicleYear = vehicleyear
-    },
     /****************SELECT RELACIONADOS ****************************************/
-    allVBR(state) {
-        let url = urlVBR
-        axios.get(url).then(response => {
-            state.optionsVBR = []
-            response.data.forEach((vbr) => {
-                state.optionsVBR.push({
-                    label: vbr.brand,
-                    value: vbr.id
-                })
-            });
-        });
-    },
-    setVBR(state, brand) {
-        state.selectedVBR = brand
-    },
-    allVMR(state) {
-        if (state.selectedVBR.label != '') {
-            let url = urlVMR + '/' + state.selectedVBR.value
-            axios.get(url).then(response => {
-                state.optionsVMR = []
-                if (response.data != null) {
-                    response.data.forEach((vmr) => {
-                        state.optionsVMR.push({
-                            label: vmr.model,
-                            value: vmr.id
-                        })
-                    });
-                }
-            }).catch(error => {
-
-            })
-        }
-    },
-    setVMR(state, model) {
-        state.selectedVMR = model
-    },
-
     allMM(state) {
         let url = urlMM
         axios.get(url).then(response => {
@@ -3835,29 +3770,6 @@ export default { //used for changing the state
     setMM(state, model) {
         state.selectedMM = model
     },
-    allYM(state) {
-        if (state.selectedMM.label != '') {
-            let url = urlYM + '/' + state.selectedMM.value
-            axios.get(url).then(response => {
-                state.optionsYM = []
-                if (response.data != null) {
-                    response.data.forEach((ym) => {
-                        state.optionsYM.push({
-                            label: ym.v_year,
-                            value: ym.id
-                        })
-                    });
-                }
-            }).catch(error => {
-
-            })
-        }
-    },
-    setYM(state, v_year) {
-        state.selectedYM = v_year
-    },
-
-
 
 
     /****************formulario de cotizacion ****************************************/
@@ -3937,7 +3849,7 @@ export default { //used for changing the state
     },
     allVEngines(state) {
         if (state.selectedVYear.label != '') {
-            let url = urlVEngine + '/' + state.selectedVYear.value
+            let url = urlVEngine + '/' + state.selectedVModel.value + '/' + state.selectedVYear.value
             axios.get(url).then(response => {
                 state.optionsVEngine = []
                 if (response.data != null) {
@@ -4740,6 +4652,56 @@ export default { //used for changing the state
             toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
+        })
+    },
+
+    getTallerWorkers(state) {
+        axios.get('taller-workers')
+            .then((response) => {
+                state.tallerWorkers = response.data
+            })
+    },
+
+    createTallerWorker(state) {
+
+        axios.post('taller-worker', {
+            name: state.newTallerWorker.name,
+            email: state.newTallerWorker.email,
+        }).then(response => {
+            state.newTallerWorker = {
+                name: '',
+                email: ''
+            }
+            state.errorsLaravel = []
+            toastr.success('Trabajador creado. Se envio un correo para que configure su contrasena.')
+        }).catch(error => {
+            toastr.error(error.response.data)
+        })
+    },
+
+    revokeTallerWorker(state, worker) {
+        axios.delete('taller-worker/' + worker.id)
+            .then(response => {
+                toastr.success('Acceso revocado con exito')
+            }).catch(error => {
+                toastr.error(error.response.data)
+            })
+    },
+
+    getTallerTeam(state) {
+        axios.get('taller-team')
+            .then((response) => {
+                state.tallerTeam = response.data
+            })
+    },
+
+    assignOrdenTrabajo(state, data) {
+        axios.put('ordentrabajo/' + data.id, {
+            assigned_to: data.assigned_to
+        }).then(response => {
+            toastr.success('Asignacion actualizada')
+        }).catch(error => {
+            toastr.error('No se pudo actualizar la asignacion')
         })
     },
 

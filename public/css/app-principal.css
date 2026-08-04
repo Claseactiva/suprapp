@@ -10025,6 +10025,39 @@ body.admin-compact .close {
     }
 }
 
+.btn-icon-sm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    font-size: 0.75rem;
+    line-height: 1;
+    border-radius: 0.2rem;
+}
+
+.btn-icon-sm + .btn-icon-sm {
+    margin-left: 0.18rem;
+}
+
+.vehiclebrand-collapse-header {
+    padding: 0.5rem 1rem !important;
+}
+
+/* El fondo con background-size: contain (sb-admin.css) deja franjas negras
+   alrededor de la imagen; cover la hace llenar toda la pantalla sin recortes raros. */
+#wrapper {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.vehiclebrand-search-input {
+    max-width: 280px;
+}
+
 .modal.modal-fullscreen .modal-dialog {
   width: 100%;
   height: 100%;

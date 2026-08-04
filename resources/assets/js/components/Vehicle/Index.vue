@@ -55,7 +55,7 @@
                         <td data-table-label="Fecha" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
                         <td class="vehicle-col-actions vehicle-action-cell">
-                            <a href="#" class="btn btn-warning btn-sm" @click.prevent="editVehicle({ vehicleLocal })"
+                            <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
                             </a>

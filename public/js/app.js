@@ -4044,7 +4044,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     AgregarObservacion: _AgregarObservacion__WEBPACK_IMPORTED_MODULE_1__["default"],
     AlertaInformacion: _AlertaInformacion_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['ordenestrabajos', 'trabajos', 'checkRealizado', 'cerrarObservacion'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isActived', 'pagesNumber'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['ordenestrabajos', 'trabajos', 'checkRealizado', 'cerrarObservacion', 'tallerTeam'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['isActived', 'pagesNumber'])), {}, {
     totalOrdenes: function totalOrdenes() {
       return this.ordenestrabajos.length;
     },
@@ -4064,10 +4064,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
     }
   }),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['getOrdenesTrabajos', 'modalObservacion', 'removeTrabajo'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['getOrdenesTrabajos', 'modalObservacion', 'removeTrabajo', 'getTallerTeam', 'assignOrdenTrabajo'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getOrdenesTrabajos');
+    this.$store.dispatch('getTallerTeam');
   }
 });
 
@@ -7024,13 +7025,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     EditCantVehicle: _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__["default"],
     Dispositivos: _User_Dispositivos__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getMechanicClients', {
       page: 1
     });
+    this.$store.dispatch('getTallerWorkers');
   }
 });
 
@@ -7493,8 +7495,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   components: {
     EditarMarca: _EditarMarca__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  data: function data() {
+    return {
+      searchVehicleBrandText: ''
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newVehicleBrand', 'errorsLaravel', 'vehiclebrands', 'pagination_marca', 'offset_marca'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['isActived_marca', 'pagesNumber_marca'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createVehicleBrand', 'editVehicleBrand', 'changePageVehicleBrand'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createVehicleBrand', 'editVehicleBrand', 'changePageVehicleBrand', 'getVehicleBrands'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getVehicleBrands', {
@@ -7539,8 +7546,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     SelectBrand: _SelectBrand__WEBPACK_IMPORTED_MODULE_2__["default"],
     TiposSelector: _TiposSelector__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  data: function data() {
+    return {
+      searchVehicleModelText: ''
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newVehicleModelo', 'errorsLaravel', 'vehiclemodels', 'pagination_modelo', 'offset_modelo'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived_modelo', 'pagesNumber_modelo'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleModel', 'editVehicleModel', 'changePageVehicleModel'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleModel', 'editVehicleModel', 'changePageVehicleModel', 'getVehicleModels'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getVehicleModels', {
@@ -7565,7 +7577,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _SelectModelMotor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectModelMotor */ "./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue");
-/* harmony import */ var _SelectYearMotor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectYearMotor */ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue");
+/* harmony import */ var _SelectMotorSpec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectMotorSpec */ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue");
 /* harmony import */ var _EditarMotor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EditarMotor */ "./resources/assets/js/components/VehicleBrand/EditarMotor.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -7582,14 +7594,64 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     SelectModelMotor: _SelectModelMotor__WEBPACK_IMPORTED_MODULE_1__["default"],
-    SelectYearMotor: _SelectYearMotor__WEBPACK_IMPORTED_MODULE_2__["default"],
+    SelectMotorSpec: _SelectMotorSpec__WEBPACK_IMPORTED_MODULE_2__["default"],
     EditarMotor: _EditarMotor__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
+  data: function data() {
+    return {
+      searchVehicleMotor: ''
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newVehicleMotor', 'errorsLaravel', 'vehiclemotors', 'pagination_motor', 'offset_motor'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived_motor', 'pagesNumber_motor'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleMotor', 'editVehiculoMotor', 'changePageVehiculoMotor'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleMotor', 'editVehiculoMotor', 'changePageVehiculoMotor', 'getVehiculoMotors'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getVehiculoMotors', {
+      page: 1
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
+/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _EditarMotorSpec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditarMotorSpec */ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    EditarMotorSpec: _EditarMotorSpec__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      searchMotorSpec: ''
+    };
+  },
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newMotorSpec', 'errorsLaravel', 'motorspecs', 'pagination_motorspec', 'offset_motorspec'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['isActived_motorspec', 'pagesNumber_motorspec'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createMotorSpec', 'editMotorSpec', 'deleteMotorSpec', 'changePageMotorSpec', 'getMotorSpecs'])),
+  created: function created() {
+    (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
+    this.$store.dispatch('getMotorSpecs', {
       page: 1
     });
   }
@@ -7625,57 +7687,16 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   components: {
     EditarTipo: _EditarTipo__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  data: function data() {
+    return {
+      searchVehiculoTipoText: ''
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newVehiculoTipo', 'errorsLaravel', 'vehiculotipos', 'pagination_tipo', 'offset_tipo'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['isActived_tipo', 'pagesNumber_tipo'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createVehiculoTipo', 'editVehiculoTipo', 'changePageVehiculoTipo'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createVehiculoTipo', 'editVehiculoTipo', 'changePageVehiculoTipo', 'getVehiculoTipos'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getVehiculoTipos', {
-      page: 1
-    });
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
-/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _SelectBrandYear__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectBrandYear */ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue");
-/* harmony import */ var _SelectModelYear__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SelectModelYear */ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue");
-/* harmony import */ var _EditarYear__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./EditarYear */ "./resources/assets/js/components/VehicleBrand/EditarYear.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {
-    SelectBrandYear: _SelectBrandYear__WEBPACK_IMPORTED_MODULE_1__["default"],
-    SelectModelYear: _SelectModelYear__WEBPACK_IMPORTED_MODULE_2__["default"],
-    EditarYear: _EditarYear__WEBPACK_IMPORTED_MODULE_3__["default"]
-  },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newVehicleYear', 'errorsLaravel', 'vehicleyears', 'pagination_year', 'offset_year'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['isActived_year', 'pagesNumber_year'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleYear', 'editVehicleYear', 'AgregarVehicleMotor', 'changePageVehicleYear'])),
-  created: function created() {
-    (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
-    this.$store.dispatch('getVehicleYears', {
       page: 1
     });
   }
@@ -7729,8 +7750,48 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillVehicleMotor', 'errorsLaravel'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateVehicleMotor']))
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillVehicleMotor', 'errorsLaravel', 'optionsMotorSpec'])), {}, {
+    selectedFillMotorSpec: function selectedFillMotorSpec() {
+      var _this = this;
+      return this.optionsMotorSpec.find(function (option) {
+        return option.value === _this.fillVehicleMotor.motor_spec_id;
+      }) || {
+        label: '',
+        value: ''
+      };
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateVehicleMotor'])), {}, {
+    setFillMotorSpec: function setFillMotorSpec(option) {
+      this.fillVehicleMotor.motor_spec_id = option ? option.value : '';
+    }
+  })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillMotorSpec', 'errorsLaravel'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateMotorSpec']))
 });
 
 /***/ }),
@@ -7761,32 +7822,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js ***!
-  \************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillVehicleYear', 'errorsLaravel'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateVehicleYear']))
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/Index.vue?vue&type=script&lang=js":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/Index.vue?vue&type=script&lang=js ***!
@@ -7803,7 +7838,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AgregarMarca__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AgregarMarca */ "./resources/assets/js/components/VehicleBrand/AgregarMarca.vue");
 /* harmony import */ var _AgregarTipo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AgregarTipo */ "./resources/assets/js/components/VehicleBrand/AgregarTipo.vue");
 /* harmony import */ var _AgregarModelo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AgregarModelo */ "./resources/assets/js/components/VehicleBrand/AgregarModelo.vue");
-/* harmony import */ var _AgregarYear__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AgregarYear */ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue");
+/* harmony import */ var _AgregarMotorSpec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AgregarMotorSpec */ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue");
 /* harmony import */ var _AgregarMotor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AgregarMotor */ "./resources/assets/js/components/VehicleBrand/AgregarMotor.vue");
 
 
@@ -7817,7 +7852,7 @@ __webpack_require__.r(__webpack_exports__);
     AgregarMarca: _AgregarMarca__WEBPACK_IMPORTED_MODULE_1__["default"],
     AgregarTipo: _AgregarTipo__WEBPACK_IMPORTED_MODULE_2__["default"],
     AgregarModelo: _AgregarModelo__WEBPACK_IMPORTED_MODULE_3__["default"],
-    AgregarYear: _AgregarYear__WEBPACK_IMPORTED_MODULE_4__["default"],
+    AgregarMotorSpec: _AgregarMotorSpec__WEBPACK_IMPORTED_MODULE_4__["default"],
     AgregarMotor: _AgregarMotor__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 });
@@ -7853,35 +7888,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js ***!
-  \*****************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['errorsLaravel', 'optionsVBR', 'selectedVBR'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setVBR'])),
-  created: function created() {
-    this.$store.dispatch('allVBR');
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=script&lang=js":
 /*!******************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=script&lang=js ***!
@@ -7911,9 +7917,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js ***!
   \*****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -7931,34 +7937,11 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['errorsLaravel', 'optionsVMR', 'selectedVMR', 'selectedVBR'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setVMR']))
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js ***!
-  \*****************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['errorsLaravel', 'optionsYM', 'selectedYM', 'selectedMM'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setYM']))
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['errorsLaravel', 'optionsMotorSpec', 'selectedMotorSpec'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setMotorSpec'])),
+  created: function created() {
+    this.$store.dispatch('allMotorSpecs');
+  }
 });
 
 /***/ }),
@@ -8823,7 +8806,7 @@ var render = function render() {
     }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(checklist.categoria))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -8978,7 +8961,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(intervencion.intervencion))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -9666,7 +9649,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(checklist.categoria))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -9822,7 +9805,7 @@ var render = function render() {
       }, [_c("td", [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(intervencion.intervencion))]), _vm._v(" "), _c("td", {
         staticClass: "text-right"
       }, [_c("a", {
-        staticClass: "btn btn-danger btn-sm",
+        staticClass: "btn btn-danger btn-icon-sm",
         attrs: {
           href: "#",
           "data-toggle": "tooltip",
@@ -10529,7 +10512,7 @@ var render = function render() {
     staticClass: "list-group mb-3"
   }, [_vm._l(_vm.formatchecklists, function (formatchecklist, index) {
     return [_c("li", {
-      staticClass: "list-group-item bg-secondary"
+      staticClass: "list-group-item bg-dark text-white"
     }, [_c("div", {
       staticClass: "row"
     }, [_c("div", {
@@ -10549,7 +10532,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-plus"
     }), _vm._v(" Intervencion\n                                        ")]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       on: {
         click: function click($event) {
           $event.preventDefault();
@@ -10561,7 +10544,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-trash-alt"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         title: "Editar"
       },
@@ -10585,7 +10568,7 @@ var render = function render() {
       }, [_vm._v("\n                                        " + _vm._s(intervencion.intervencion) + "\n                                    ")]), _vm._v(" "), _c("div", {
         staticClass: "col-auto"
       }, [_c("a", {
-        staticClass: "btn btn-danger btn-sm",
+        staticClass: "btn btn-danger btn-icon-sm",
         attrs: {
           title: "Eliminar"
         },
@@ -10600,7 +10583,7 @@ var render = function render() {
       }, [_c("i", {
         staticClass: "fas fa-trash-alt"
       })]), _vm._v(" "), _c("a", {
-        staticClass: "btn btn-warning btn-sm",
+        staticClass: "btn btn-warning btn-icon-sm",
         attrs: {
           title: "Editar"
         },
@@ -11785,7 +11768,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-info"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -11803,7 +11786,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -12166,7 +12149,7 @@ var render = function render() {
     })]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("button", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         type: "button"
       },
@@ -12615,7 +12598,7 @@ var render = function render() {
         }
       }
     })]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -13634,7 +13617,7 @@ var render = function render() {
         }
       }
     })]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -13652,7 +13635,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -14248,7 +14231,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-file-contract"
     }), _vm._v("\n                            Cotización\n                        ")]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -15442,7 +15425,7 @@ var render = function render() {
         "data-table-label": "FECHA"
       }
     }, [_vm._v(_vm._s(_vm._f("moment")(noteLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -15460,7 +15443,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -15746,7 +15729,7 @@ var render = function render() {
         alt: preview.name
       }
     }), _vm._v(" "), _c("button", {
-      staticClass: "btn btn-danger btn-sm preview-remove",
+      staticClass: "btn btn-danger btn-icon-sm preview-remove",
       attrs: {
         type: "button",
         title: "Quitar"
@@ -15808,7 +15791,7 @@ var render = function render() {
     }), _vm._v(" "), observacion.observacion ? _c("div", {
       staticClass: "col-12 mt-3"
     }, [_c("h5", [_vm._v("\n                                        Observación\n                                        "), _vm.editingId !== observacion.id ? _c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         title: "Editar"
@@ -16059,7 +16042,40 @@ var render = function render() {
       attrs: {
         "data-table-label": "Fecha"
       }
-    }, [_vm._v(_vm._s(_vm._f("moment")(ordentrabajoLocal.updated_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", [_c("span", {
+    }, [_vm._v(_vm._s(_vm._f("moment")(ordentrabajoLocal.updated_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "Asignado a"
+      },
+      on: {
+        click: function click($event) {
+          $event.stopPropagation();
+        }
+      }
+    }, [_c("select", {
+      staticClass: "form-control form-control-sm d-inline-block w-auto",
+      domProps: {
+        value: ordentrabajoLocal.assigned_to
+      },
+      on: {
+        change: function change($event) {
+          return _vm.assignOrdenTrabajo({
+            id: ordentrabajoLocal.id,
+            assigned_to: $event.target.value || null
+          });
+        }
+      }
+    }, [_c("option", {
+      domProps: {
+        value: null
+      }
+    }, [_vm._v("Sin asignar")]), _vm._v(" "), _vm._l(_vm.tallerTeam, function (member) {
+      return _c("option", {
+        key: member.id,
+        domProps: {
+          value: member.id
+        }
+      }, [_vm._v("\n                                    " + _vm._s(member.name) + "\n                                ")]);
+    })], 2)]), _vm._v(" "), _c("td", [_c("span", {
       staticClass: "badge badge-secondary",
       attrs: {
         title: "Total de trabajos"
@@ -16148,7 +16164,7 @@ var render = function render() {
           "for": trabajo.id
         }
       })]), _vm._v(" "), _c("td", [trabajo.realizado === 0 ? _c("a", {
-        staticClass: "btn btn-warning btn-sm",
+        staticClass: "btn btn-warning btn-icon-sm",
         attrs: {
           href: "#",
           title: "Editar"
@@ -16170,7 +16186,7 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Patente")]), _vm._v(" "), _c("th", [_vm._v("Kilometraje")]), _vm._v(" "), _c("th", [_vm._v("Fecha")]), _vm._v(" "), _c("th", [_vm._v("Trabajos")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Patente")]), _vm._v(" "), _c("th", [_vm._v("Kilometraje")]), _vm._v(" "), _c("th", [_vm._v("Fecha")]), _vm._v(" "), _c("th", [_vm._v("Asignado a")]), _vm._v(" "), _c("th", [_vm._v("Trabajos")])])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -16426,7 +16442,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(_vm._f("moment")(trabajo.created_at, "DD/MM/YYYY h:mm a")))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -16442,7 +16458,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -16737,7 +16753,7 @@ var render = function render() {
         "data-table-label": "Nombre"
       }
     }, [_vm._v(_vm._s(template.nombre))]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         title: "Editar"
@@ -16753,7 +16769,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         title: "Eliminar"
@@ -17479,7 +17495,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-car-side"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "modal",
@@ -17517,7 +17533,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-boxes"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "modal",
@@ -19449,7 +19465,7 @@ var render = function render() {
         "data-table-label": "Total + IVA ($)"
       }
     }, [_c("b", [_vm._v(_vm._s(_vm.formatPrice(detailLocal.total)))])]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -19467,7 +19483,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -20768,7 +20784,7 @@ var render = function render() {
     }, [_c("b", [_vm._v(_vm._s(_vm._f("currency")(Math.round(detailLocal.total * 1.19), "", 0, {
       thousandsSeparator: "."
     })))])]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -20786,7 +20802,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -21817,17 +21833,20 @@ var render = function render() {
     }, [_vm._v(_vm._s(quotationLocal.rut))]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-wrap-cell",
       attrs: {
-        "data-table-label": "Razon Social"
+        "data-table-label": "Razon Social",
+        title: quotationLocal.razonSocial
       }
     }, [_vm._v(_vm._s(quotationLocal.razonSocial))]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-wrap-cell",
       attrs: {
-        "data-table-label": "Cliente"
+        "data-table-label": "Cliente",
+        title: quotationLocal.client_text
       }
     }, [_vm._v(_vm._s(quotationLocal.client_text))]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-wrap-cell",
       attrs: {
-        "data-table-label": "Vehiculo"
+        "data-table-label": "Vehiculo",
+        title: quotationLocal.vehicle
       }
     }, [_vm._v(_vm._s(quotationLocal.vehicle))]), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", {
       attrs: {
@@ -21861,43 +21880,7 @@ var render = function render() {
       }, [_c("i", {
         "class": contactLink.icon + " mr-2"
       }), _vm._v(_vm._s(contactLink.title) + "\n                                ")]);
-    }), 0)]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
-      staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
-      attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placeemnt": "top",
-        title: "Crear Usuario"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.modalCreateUserFromQuotation({
-            id: quotationLocal.id
-          });
-        }
-      }
-    }, [_c("i", {
-      staticClass: "fas fa-user-plus"
-    })]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && quotationLocal.generado == 5 ? _c("a", {
-      staticClass: "btn btn-light btn-sm quotationclient-icon-btn",
-      attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placeemnt": "top",
-        title: "Crear Usuario"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.modalCreateUserMechanicFromQuotation({
-            id: quotationLocal.id
-          });
-        }
-      }
-    }, [_c("i", {
-      staticClass: "fas fa-user-plus"
-    })]) : _vm._e(), _vm._v(" "), quotationLocal.tipo_detalle == 0 ? _c("a", {
+    }), 0)]) : _vm._e(), _vm._v(" "), quotationLocal.tipo_detalle == 0 ? _c("a", {
       staticClass: "btn btn-info btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
@@ -21933,13 +21916,44 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-list-ul"
-    })]) : _vm._e(), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-warning btn-sm quotationclient-icon-btn",
+    })]) : _vm._e(), _vm._v(" "), _c("div", {
+      staticClass: "btn-group dropleft quotationclient-more-group"
+    }, [_vm._m(4, true), _vm._v(" "), _c("div", {
+      staticClass: "dropdown-menu dropdown-menu-right quotationclient-contact-menu"
+    }, [quotationLocal.generado_client == 0 && (quotationLocal.generado == 1 || quotationLocal.generado == 2) ? _c("a", {
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Editar cabecera"
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.modalCreateUserFromQuotation({
+            id: quotationLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-user-plus mr-2"
+    }), _vm._v("Crear Usuario\n                                ")]) : _vm._e(), _vm._v(" "), quotationLocal.generado_client == 0 && quotationLocal.generado == 5 ? _c("a", {
+      staticClass: "dropdown-item",
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.modalCreateUserMechanicFromQuotation({
+            id: quotationLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-user-plus mr-2"
+    }), _vm._v("Crear Usuario\n                                ")]) : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "dropdown-item",
+      attrs: {
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -21950,14 +21964,11 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-edit"
-    })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-secondary btn-sm quotationclient-icon-btn",
+      staticClass: "fas fa-edit mr-2"
+    }), _vm._v("Editar cabecera\n                                ")]), _vm._v(" "), _c("a", {
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Duplicar"
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -21968,8 +21979,8 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "far fa-copy"
-    })]), _vm._v(" "), _c("a", {
+      staticClass: "far fa-copy mr-2"
+    }), _vm._v("Duplicar\n                                ")])])]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-danger btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
@@ -22121,23 +22132,43 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", {
     attrs: {
-      width: "60px"
+      width: "4%"
     }
-  }, [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Generado")]), _vm._v(" "), _c("th", [_vm._v("Estado")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("ID")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "100px"
+      width: "5%"
     }
-  }, [_vm._v("Rut")]), _vm._v(" "), _c("th", [_vm._v("Razón Social")]), _vm._v(" "), _c("th", [_vm._v("Cliente")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Generado")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "180px"
+      width: "7%"
+    }
+  }, [_vm._v("Estado")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "8%"
+    }
+  }, [_vm._v("Rut")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "17%"
+    }
+  }, [_vm._v("Razón Social")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "15%"
+    }
+  }, [_vm._v("Cliente")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "15%"
+    }
+  }, [_vm._v("Vehículo")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "7%"
     }
   }, [_vm._v("Producto")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "140px"
+      width: "11%"
     }
   }, [_vm._v("Fecha")]), _vm._v(" "), _c("th", {
     attrs: {
-      width: "200px"
+      width: "11%"
     }
   }, [_vm._v("Acción")])])]);
 }, function () {
@@ -22154,6 +22185,21 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fas fa-comments"
+  })]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split quotationclient-icon-btn",
+    attrs: {
+      type: "button",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false",
+      title: "Más acciones"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-ellipsis-v"
   })]);
 }];
 render._withStripped = true;
@@ -22460,7 +22506,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-plus-square"
     }), _vm._v("\n                        Detalle\n                    ")]) : _vm._e(), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -22629,7 +22675,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "col-12"
+    staticClass: "col-12 quotationshipping-admin"
   }, [_c("h5", {
     staticClass: "text-white"
   }, [_vm._v("\n        Envios\n    ")]), _vm._v(" "), _c("div", {
@@ -22718,7 +22764,13 @@ var render = function render() {
         "data-table-label": "ENVIADO"
       }
     }, [_c("button", {
-      staticClass: "button",
+      staticClass: "btn btn-sm quotationshipping-icon-btn quotationshipping-enviado-btn",
+      attrs: {
+        type: "button",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Enviado (clic para deshacer)"
+      },
       on: {
         click: function click($event) {
           $event.preventDefault();
@@ -22727,7 +22779,11 @@ var render = function render() {
           });
         }
       }
-    }, [_c("span", [_vm._v("Enviado")])])]) : _c("td", {
+    }, [_c("i", {
+      staticClass: "fas fa-check"
+    }), _vm._v(" "), _c("i", {
+      staticClass: "fas fa-times"
+    })])]) : _c("td", {
       attrs: {
         "data-table-label": "ENVIADO"
       }
@@ -22769,8 +22825,10 @@ var render = function render() {
         "for": quotationshippingLocal.id
       }
     })]), _vm._v(" "), _c("td", {
+      staticClass: "quotationshipping-wrap-cell",
       attrs: {
-        "data-table-label": "Nombre"
+        "data-table-label": "Nombre",
+        title: quotationshippingLocal.nombre
       }
     }, [_vm._v(_vm._s(quotationshippingLocal.nombre))]), _vm._v(" "), _c("td", {
       attrs: {
@@ -22785,24 +22843,31 @@ var render = function render() {
         "data-table-label": "ciudad"
       }
     }, [_vm._v(_vm._s(quotationshippingLocal.ciudad))]), _vm._v(" "), _c("td", {
+      staticClass: "quotationshipping-wrap-cell",
       attrs: {
-        "data-table-label": "direccion"
+        "data-table-label": "direccion",
+        title: quotationshippingLocal.direccion
       }
     }, [_vm._v(_vm._s(quotationshippingLocal.direccion))]), _vm._v(" "), _c("td", {
+      staticClass: "quotationshipping-wrap-cell",
       attrs: {
-        "data-table-label": "sucursal"
+        "data-table-label": "sucursal",
+        title: quotationshippingLocal.sucursal
       }
     }, [_vm._v(_vm._s(quotationshippingLocal.sucursal))]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "fecha"
       }
-    }, [_vm._v(_vm._s(quotationshippingLocal.created_at))]), _vm._v(" "), _c("td", {
-      staticClass: "text-right"
+    }, [_vm._v(_vm._s(_vm._f("moment")(quotationshippingLocal.created_at, "DD/MM/YYYY H:mm")))]), _vm._v(" "), _c("td", {
+      staticClass: "quotationshipping-actions-cell"
+    }, [_c("div", {
+      staticClass: "btn-group dropleft quotationshipping-icon-group"
+    }, [_vm._m(1, true), _vm._v(" "), _c("div", {
+      staticClass: "dropdown-menu dropdown-menu-right quotationshipping-menu"
     }, [_c("a", {
-      staticClass: "btn btn-primary btn-sm",
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        role: "button"
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -22813,21 +22878,23 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fab fa-facebook-f"
-    })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-success btn-sm",
+      staticClass: "fab fa-facebook-f mr-2"
+    }), _vm._v("Facebook\n                                ")]), _vm._v(" "), _c("a", {
+      staticClass: "dropdown-item",
       attrs: {
         href: "https://wa.me/+569" + quotationshippingLocal.telefono,
-        target: "_blank",
-        role: "button"
+        target: "_blank"
       }
     }, [_c("i", {
-      staticClass: "fab fa-whatsapp"
-    })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-secondary btn-sm",
+      staticClass: "fab fa-whatsapp mr-2"
+    }), _vm._v("WhatsApp\n                                ")])])]), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-secondary btn-sm quotationshipping-icon-btn",
       attrs: {
         href: "#",
-        role: "button"
+        role: "button",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Ver envío"
       },
       on: {
         click: function click($event) {
@@ -22840,10 +22907,13 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-shipping-fast"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-info btn-sm",
+      staticClass: "btn btn-info btn-sm quotationshipping-icon-btn",
       attrs: {
         href: "#",
-        role: "button"
+        role: "button",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "PDF"
       },
       on: {
         click: function click($event) {
@@ -22856,10 +22926,13 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-file-alt"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-sm quotationshipping-icon-btn",
       attrs: {
         href: "#",
-        role: "button"
+        role: "button",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Eliminar"
       },
       on: {
         click: function click($event) {
@@ -23006,7 +23079,62 @@ var render = function render() {
 var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Enviado")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("RUT")]), _vm._v(" "), _c("th", [_vm._v("Telefono")]), _vm._v(" "), _c("th", [_vm._v("Ciudad")]), _vm._v(" "), _c("th", [_vm._v("Dirección")]), _vm._v(" "), _c("th", [_vm._v("Sucursal")]), _vm._v(" "), _c("th", [_vm._v("Fecha")]), _vm._v(" "), _c("th")])]);
+  return _c("thead", [_c("tr", [_c("th", {
+    attrs: {
+      width: "4%"
+    }
+  }, [_vm._v("ID")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "5%"
+    }
+  }, [_vm._v("Enviado")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "15%"
+    }
+  }, [_vm._v("Nombre")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "8%"
+    }
+  }, [_vm._v("RUT")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "9%"
+    }
+  }, [_vm._v("Telefono")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "9%"
+    }
+  }, [_vm._v("Ciudad")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "16%"
+    }
+  }, [_vm._v("Dirección")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "15%"
+    }
+  }, [_vm._v("Sucursal")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "8%"
+    }
+  }, [_vm._v("Fecha")]), _vm._v(" "), _c("th", {
+    attrs: {
+      width: "11%"
+    }
+  }, [_vm._v("Acción")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split quotationshipping-icon-btn",
+    attrs: {
+      type: "button",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false",
+      title: "Contacto"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-comments"
+  })]);
 }];
 render._withStripped = true;
 
@@ -24304,7 +24432,7 @@ var render = function render() {
         "data-table-label": "Vehiculos (default)"
       }
     }, [_vm._v("\n                        " + _vm._s(roleLocal.default_cant_vehicle !== null ? "1 - " + roleLocal.default_cant_vehicle : "Sin definir") + "\n                    ")]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -24322,7 +24450,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -24811,7 +24939,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-file-invoice-dollar"
     }), _vm._v(" Recibo\n\t\t\t\t\t\t\t\t")]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         role: "button"
@@ -25194,7 +25322,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(_vm._f("currency")(product.total, "$", 0, {
       thousandsSeparator: "."
     })) + "\n\t\t\t\t\t\t\t\t\t\t\t\t")]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-danger btn-sm",
+      staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -25225,7 +25353,7 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm._f("currency")(_vm.cartTotal, "$", 0, {
     thousandsSeparator: "."
   })))]), _vm._v(" "), _c("td")]), _vm._v(" "), _c("tr", [_c("td"), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", [_vm._v("Forma de Pago:")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.formapago))]), _vm._v(" "), _c("td")]), _vm._v(" "), _c("tr", [_c("td"), _vm._v(" "), _c("td"), _vm._v(" "), _c("td", [_vm._v("Descuento:")]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.aplicardescuento) + "%")]), _vm._v(" "), _c("td", [_c("a", {
-    staticClass: "btn btn-danger btn-sm",
+    staticClass: "btn btn-danger btn-icon-sm",
     attrs: {
       href: "#",
       "data-toggle": "tooltip",
@@ -25883,7 +26011,131 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("EditCantVehicle"), _vm._v(" "), _c("EditUser"), _vm._v(" "), _c("Dispositivos")], 1)]);
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("h5", {
+    staticClass: "text-white mt-4"
+  }, [_vm._v("\n            Trabajadores del Taller\n        ")]), _vm._v(" "), _c("div", {
+    attrs: {
+      id: "accordionWorkers"
+    }
+  }, [_c("div", {
+    staticClass: "card"
+  }, [_vm._m(4), _vm._v(" "), _c("div", {
+    staticClass: "collapse",
+    attrs: {
+      id: "collapseWorkers",
+      "aria-labelledby": "headingWorkers",
+      "data-parent": "#accordionWorkers"
+    }
+  }, [_c("div", {
+    staticClass: "card-body"
+  }, [_c("form", {
+    attrs: {
+      action: "POST"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.createTallerWorker.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "form-group col-lg-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "nombre-trabajador"
+    }
+  }, [_vm._v("Nombre")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newTallerWorker.name,
+      expression: "newTallerWorker.name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      required: "",
+      type: "text",
+      name: "nombre-trabajador"
+    },
+    domProps: {
+      value: _vm.newTallerWorker.name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newTallerWorker, "name", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group col-lg-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "correo-trabajador"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newTallerWorker.email,
+      expression: "newTallerWorker.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      required: "",
+      type: "email",
+      name: "correo-trabajador"
+    },
+    domProps: {
+      value: _vm.newTallerWorker.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newTallerWorker, "email", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _vm._m(5)]), _vm._v(" "), _vm._m(6)])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "table-responsive"
+  }, [_c("table", {
+    staticClass: "table table-responsive-new table-dark table-sm mt-3"
+  }, [_vm._m(7), _vm._v(" "), _c("tbody", _vm._l(_vm.tallerWorkers, function (workerLocal) {
+    return _c("tr", {
+      key: workerLocal.id
+    }, [_c("td", {
+      attrs: {
+        "data-table-label": "ID"
+      }
+    }, [_vm._v(_vm._s(workerLocal.id))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "nombre"
+      }
+    }, [_vm._v(_vm._s(workerLocal.name))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "email"
+      }
+    }, [_vm._v(_vm._s(workerLocal.email))]), _vm._v(" "), _c("td", {
+      staticClass: "text-right"
+    }, [_c("button", {
+      staticClass: "btn btn-danger",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Revocar acceso"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.revokeTallerWorker({
+            id: workerLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-user-slash"
+    })])])]);
+  }), 0)])]), _vm._v(" "), _c("EditCantVehicle"), _vm._v(" "), _c("EditUser"), _vm._v(" "), _c("Dispositivos")], 1)]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -25932,6 +26184,52 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v("Puede crear")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "card-header p-0",
+    attrs: {
+      id: "headingWorkers"
+    }
+  }, [_c("h5", {
+    staticClass: "mb-0"
+  }, [_c("button", {
+    staticClass: "btn btn-block text-left p-3",
+    attrs: {
+      "data-toggle": "collapse",
+      "data-target": "#collapseWorkers",
+      "aria-expanded": "true",
+      "aria-controls": "collapseWorkers"
+    }
+  }, [_vm._v("\n                            Nuevo Trabajador\n                            "), _c("span", {
+    staticClass: "text-right"
+  }, [_c("i", {
+    staticClass: "fas fa-arrows-alt-v"
+  })])])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-lg-3 mt-2"
+  }, [_c("label"), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-success form-control",
+    attrs: {
+      type: "submit"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-plus-square"
+  }), _vm._v(" Guardar\n                                    ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", {
+    staticClass: "text-muted mt-2 mb-0"
+  }, [_c("small", [_vm._v("Podra operar Ordenes de Trabajo, Check List, Vehiculos y pedidos de\n                                    repuestos del taller. Se enviara un correo para que configure su propia\n                                    contrasena.")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -27982,7 +28280,34 @@ var render = function render() {
     }, [_c("p", [_vm._v(_vm._s(error.brand))])]);
   })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
-  }, [_c("div", {
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchVehicleBrandText,
+      expression: "searchVehicleBrandText"
+    }],
+    staticClass: "form-control mb-3 vehiclebrand-search-input",
+    attrs: {
+      type: "text",
+      id: "search_marca",
+      placeholder: "Ej: mazda, toyota..."
+    },
+    domProps: {
+      value: _vm.searchVehicleBrandText
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchVehicleBrandText = $event.target.value;
+      }, function ($event) {
+        return _vm.getVehicleBrands({
+          page: 1,
+          search: _vm.searchVehicleBrandText
+        });
+      }]
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -28002,7 +28327,7 @@ var render = function render() {
         width: "10px"
       }
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -28020,7 +28345,9 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", [_c("ul", {
+  }), 0)])]), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
     staticClass: "pagination"
   }, [_vm.pagination_marca.current_page > 1 ? _c("li", {
     staticClass: "page-item"
@@ -28033,7 +28360,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleBrand({
-          page: 1
+          page: 1,
+          search: _vm.searchVehicleBrandText
         });
       }
     }
@@ -28048,7 +28376,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleBrand({
-          page: _vm.pagination_marca.current_page - 1
+          page: _vm.pagination_marca.current_page - 1,
+          search: _vm.searchVehicleBrandText
         });
       }
     }
@@ -28066,7 +28395,8 @@ var render = function render() {
         click: function click($event) {
           $event.preventDefault();
           return _vm.changePageVehicleBrand({
-            page: page
+            page: page,
+            search: _vm.searchVehicleBrandText
           });
         }
       }
@@ -28082,7 +28412,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleBrand({
-          page: _vm.pagination_marca.current_page + 1
+          page: _vm.pagination_marca.current_page + 1,
+          search: _vm.searchVehicleBrandText
         });
       }
     }
@@ -28097,7 +28428,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleBrand({
-          page: _vm.pagination_marca.last_page
+          page: _vm.pagination_marca.last_page,
+          search: _vm.searchVehicleBrandText
         });
       }
     }
@@ -28114,7 +28446,7 @@ var staticRenderFns = [function () {
   }, [_c("h5", {
     staticClass: "mb-0"
   }, [_c("button", {
-    staticClass: "btn btn-block text-left p-3",
+    staticClass: "btn btn-block text-left vehiclebrand-collapse-header",
     attrs: {
       id: "btn-brand-card",
       "data-toggle": "collapse",
@@ -28259,7 +28591,34 @@ var render = function render() {
     }
   }, [_vm._v("Tipo de vehiculo")]), _vm._v(" "), _c("TiposSelector")], 1), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
-  }, [_c("div", {
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchVehicleModelText,
+      expression: "searchVehicleModelText"
+    }],
+    staticClass: "form-control mb-3 vehiclebrand-search-input",
+    attrs: {
+      type: "text",
+      id: "search_modelo",
+      placeholder: "Ej: mazda, yaris..."
+    },
+    domProps: {
+      value: _vm.searchVehicleModelText
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchVehicleModelText = $event.target.value;
+      }, function ($event) {
+        return _vm.getVehicleModels({
+          page: 1,
+          search: _vm.searchVehicleModelText
+        });
+      }]
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -28287,7 +28646,7 @@ var render = function render() {
         width: "10px"
       }
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -28305,7 +28664,9 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", [_c("ul", {
+  }), 0)])]), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
     staticClass: "pagination"
   }, [_vm.pagination_modelo.current_page > 1 ? _c("li", {
     staticClass: "page-item"
@@ -28318,7 +28679,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleModel({
-          page: 1
+          page: 1,
+          search: _vm.searchVehicleModelText
         });
       }
     }
@@ -28333,7 +28695,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleModel({
-          page: _vm.pagination_modelo.current_page - 1
+          page: _vm.pagination_modelo.current_page - 1,
+          search: _vm.searchVehicleModelText
         });
       }
     }
@@ -28351,7 +28714,8 @@ var render = function render() {
         click: function click($event) {
           $event.preventDefault();
           return _vm.changePageVehicleModel({
-            page: page
+            page: page,
+            search: _vm.searchVehicleModelText
           });
         }
       }
@@ -28367,7 +28731,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleModel({
-          page: _vm.pagination_modelo.current_page + 1
+          page: _vm.pagination_modelo.current_page + 1,
+          search: _vm.searchVehicleModelText
         });
       }
     }
@@ -28382,7 +28747,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehicleModel({
-          page: _vm.pagination_modelo.last_page
+          page: _vm.pagination_modelo.last_page,
+          search: _vm.searchVehicleModelText
         });
       }
     }
@@ -28399,7 +28765,7 @@ var staticRenderFns = [function () {
   }, [_c("h5", {
     staticClass: "mb-0"
   }, [_c("button", {
-    staticClass: "btn btn-block text-left p-3",
+    staticClass: "btn btn-block text-left vehiclebrand-collapse-header",
     attrs: {
       id: "btn-type-card",
       "data-toggle": "collapse",
@@ -28491,60 +28857,92 @@ var render = function render() {
     staticClass: "col-12"
   }, [_c("label", {
     attrs: {
-      "for": "year"
+      "for": "motor_spec"
     }
-  }, [_vm._v("Año")]), _vm._v(" "), _c("SelectYearMotor")], 1), _vm._v(" "), _c("div", {
+  }, [_vm._v("Motor")]), _vm._v(" "), _c("SelectMotorSpec"), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.motor_spec_id))])]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "col-12"
   }, [_c("label", {
     attrs: {
-      "for": "v_engine"
+      "for": "year"
     }
-  }, [_vm._v("Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Año")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "validate",
       rawName: "v-validate",
-      value: "required|min:2|max:190",
-      expression: "'required|min:2|max:190'"
+      value: "required|numeric|min_value:1900|max_value:2100",
+      expression: "'required|numeric|min_value:1900|max_value:2100'"
     }, {
       name: "model",
       rawName: "v-model",
-      value: _vm.newVehicleMotor.v_engine,
-      expression: "newVehicleMotor.v_engine"
+      value: _vm.newVehicleMotor.year,
+      expression: "newVehicleMotor.year"
     }],
     staticClass: "form-control",
     "class": {
       input: true,
-      "is-invalid": _vm.errors.has("v_engine")
+      "is-invalid": _vm.errors.has("year")
     },
     attrs: {
-      type: "text",
-      name: "v_engine"
+      type: "number",
+      name: "year"
     },
     domProps: {
-      value: _vm.newVehicleMotor.v_engine
+      value: _vm.newVehicleMotor.year
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.newVehicleMotor, "v_engine", $event.target.value);
+        _vm.$set(_vm.newVehicleMotor, "year", $event.target.value);
       }
     }
   }), _vm._v(" "), _c("p", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.errors.has("v_engine"),
-      expression: "errors.has('v_engine')"
+      value: _vm.errors.has("year"),
+      expression: "errors.has('year')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("v_engine")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+  }, [_vm._v(_vm._s(_vm.errors.first("year")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
     return _c("div", {
       key: index,
       staticClass: "text-danger"
-    }, [_c("p", [_vm._v(_vm._s(error.v_engine))])]);
+    }, [_c("p", [_vm._v(_vm._s(error.year))])]);
   })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
-  }, [_c("div", {
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchVehicleMotor,
+      expression: "searchVehicleMotor"
+    }],
+    staticClass: "form-control mb-3 vehiclebrand-search-input",
+    attrs: {
+      type: "text",
+      id: "search_motor",
+      placeholder: "Ej: mazda, yaris..."
+    },
+    domProps: {
+      value: _vm.searchVehicleMotor
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchVehicleMotor = $event.target.value;
+      }, function ($event) {
+        return _vm.getVehiculoMotors({
+          page: 1,
+          search: _vm.searchVehicleMotor
+        });
+      }]
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -28557,13 +28955,17 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(vehiculoMotorLocal.id))]), _vm._v(" "), _c("td", {
       attrs: {
+        "data-table-label": "MARCA"
+      }
+    }, [_vm._v(_vm._s(vehiculoMotorLocal.brand))]), _vm._v(" "), _c("td", {
+      attrs: {
         "data-table-label": "MODELO"
       }
     }, [_vm._v(_vm._s(vehiculoMotorLocal.model))]), _vm._v(" "), _c("td", {
       attrs: {
-        "data-table-label": "AÑO"
+        "data-table-label": "PERIODO"
       }
-    }, [_vm._v(_vm._s(vehiculoMotorLocal.year))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(vehiculoMotorLocal.year_from)), vehiculoMotorLocal.year_from !== vehiculoMotorLocal.year_to ? _c("span", [_vm._v(" - " + _vm._s(vehiculoMotorLocal.year_to))]) : _vm._e()]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "MOTOR"
       }
@@ -28572,7 +28974,7 @@ var render = function render() {
         width: "10px"
       }
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -28590,7 +28992,9 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", [_c("ul", {
+  }), 0)])]), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
     staticClass: "pagination"
   }, [_vm.pagination_motor.current_page > 1 ? _c("li", {
     staticClass: "page-item"
@@ -28603,7 +29007,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoMotor({
-          page: 1
+          page: 1,
+          search: _vm.searchVehicleMotor
         });
       }
     }
@@ -28618,7 +29023,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoMotor({
-          page: _vm.pagination_motor.current_page - 1
+          page: _vm.pagination_motor.current_page - 1,
+          search: _vm.searchVehicleMotor
         });
       }
     }
@@ -28636,7 +29042,8 @@ var render = function render() {
         click: function click($event) {
           $event.preventDefault();
           return _vm.changePageVehiculoMotor({
-            page: page
+            page: page,
+            search: _vm.searchVehicleMotor
           });
         }
       }
@@ -28652,7 +29059,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoMotor({
-          page: _vm.pagination_motor.current_page + 1
+          page: _vm.pagination_motor.current_page + 1,
+          search: _vm.searchVehicleMotor
         });
       }
     }
@@ -28667,7 +29075,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoMotor({
-          page: _vm.pagination_motor.last_page
+          page: _vm.pagination_motor.last_page,
+          search: _vm.searchVehicleMotor
         });
       }
     }
@@ -28684,7 +29093,7 @@ var staticRenderFns = [function () {
   }, [_c("h5", {
     staticClass: "mb-0"
   }, [_c("button", {
-    staticClass: "btn btn-block text-left p-3",
+    staticClass: "btn btn-block text-left vehiclebrand-collapse-header",
     attrs: {
       id: "btn-type-card",
       "data-toggle": "collapse",
@@ -28692,7 +29101,7 @@ var staticRenderFns = [function () {
       "aria-expanded": "true",
       "aria-controls": "collapseOne"
     }
-  }, [_vm._v("\n                    Nuevo Motor\n                    "), _c("span", {
+  }, [_vm._v("\n                    Vincular Motor a Modelo\n                    "), _c("span", {
     staticClass: "text-right"
   }, [_c("i", {
     staticClass: "fas fa-arrows-alt-v"
@@ -28713,7 +29122,384 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Año")]), _vm._v(" "), _c("th", [_vm._v("Motor")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Período")]), _vm._v(" "), _c("th", [_vm._v("Motor")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004 ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-12"
+  }, [_c("div", {
+    attrs: {
+      id: "accordion2"
+    }
+  }, [_c("div", {
+    staticClass: "card"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "collapse",
+    attrs: {
+      id: "nuevo_motorspec",
+      "aria-labelledby": "headingMotorSpec",
+      "data-parent": "#accordion2"
+    }
+  }, [_c("div", {
+    staticClass: "card-body"
+  }, [_c("form", {
+    attrs: {
+      action: "POST"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.createMotorSpec.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col"
+  }, [_c("label", {
+    attrs: {
+      "for": "cilindrada"
+    }
+  }, [_vm._v("Cilindrada")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|decimal:2|min_value:0",
+      expression: "'required|decimal:2|min_value:0'"
+    }, {
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newMotorSpec.cilindrada,
+      expression: "newMotorSpec.cilindrada"
+    }],
+    staticClass: "form-control",
+    "class": {
+      input: true,
+      "is-invalid": _vm.errors.has("cilindrada")
+    },
+    attrs: {
+      type: "number",
+      step: "0.1",
+      name: "cilindrada"
+    },
+    domProps: {
+      value: _vm.newMotorSpec.cilindrada
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newMotorSpec, "cilindrada", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("p", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("cilindrada"),
+      expression: "errors.has('cilindrada')"
+    }],
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.first("cilindrada")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.cilindrada))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col"
+  }, [_c("label", {
+    attrs: {
+      "for": "combustible"
+    }
+  }, [_vm._v("Combustible")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required",
+      expression: "'required'"
+    }, {
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newMotorSpec.combustible,
+      expression: "newMotorSpec.combustible"
+    }],
+    staticClass: "form-control",
+    "class": {
+      input: true,
+      "is-invalid": _vm.errors.has("combustible")
+    },
+    attrs: {
+      name: "combustible"
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.$set(_vm.newMotorSpec, "combustible", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: ""
+    }
+  }, [_vm._v("Seleccionar...")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "BENCINA"
+    }
+  }, [_vm._v("BENCINA")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "DIESEL"
+    }
+  }, [_vm._v("DIESEL")]), _vm._v(" "), _c("option", {
+    attrs: {
+      value: "ELECTRICO"
+    }
+  }, [_vm._v("ELECTRICO")])]), _vm._v(" "), _c("p", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("combustible"),
+      expression: "errors.has('combustible')"
+    }],
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.first("combustible")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.combustible))])]);
+  })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-12"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchMotorSpec,
+      expression: "searchMotorSpec"
+    }],
+    staticClass: "form-control mb-3 vehiclebrand-search-input",
+    attrs: {
+      type: "text",
+      id: "search_motorspec",
+      placeholder: "Buscar motor..."
+    },
+    domProps: {
+      value: _vm.searchMotorSpec
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchMotorSpec = $event.target.value;
+      }, function ($event) {
+        return _vm.getMotorSpecs({
+          page: 1,
+          search: _vm.searchMotorSpec
+        });
+      }]
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "table-responsive"
+  }, [_c("table", {
+    staticClass: "table table-responsive-new table-dark table-sm mt-3"
+  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.motorspecs, function (motorspecLocal) {
+    return _c("tr", {
+      key: motorspecLocal.id
+    }, [_c("td", {
+      attrs: {
+        "data-table-label": "ID"
+      }
+    }, [_vm._v(_vm._s(motorspecLocal.id))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "MOTOR"
+      }
+    }, [_vm._v(_vm._s(motorspecLocal.raw_label))]), _vm._v(" "), _c("td", {
+      attrs: {
+        width: "20px"
+      }
+    }, [_c("a", {
+      staticClass: "btn btn-warning btn-icon-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Editar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.editMotorSpec({
+            motorspecLocal: motorspecLocal
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "far fa-edit"
+    })]), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-danger btn-icon-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Eliminar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.deleteMotorSpec(motorspecLocal.id);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "far fa-trash-alt"
+    })])])]);
+  }), 0)])]), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
+    staticClass: "pagination"
+  }, [_vm.pagination_motorspec.current_page > 1 ? _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link border-light bg-dark",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changePageMotorSpec({
+          page: 1
+        });
+      }
+    }
+  }, [_c("span", [_vm._v("Primera")])])]) : _vm._e(), _vm._v(" "), _vm.pagination_motorspec.current_page > 1 ? _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link border-light bg-dark",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changePageMotorSpec({
+          page: _vm.pagination_motorspec.current_page - 1
+        });
+      }
+    }
+  }, [_c("span", [_vm._v("Atrás")])])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.pagesNumber_motorspec, function (page) {
+    return _c("li", {
+      key: page,
+      staticClass: "page-item",
+      "class": [page == _vm.isActived_motorspec ? "active" : ""]
+    }, [_c("a", {
+      staticClass: "page-link border-light bg-dark",
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.changePageMotorSpec({
+            page: page
+          });
+        }
+      }
+    }, [_vm._v("\n                        " + _vm._s(page) + "\n                    ")])]);
+  }), _vm._v(" "), _vm.pagination_motorspec.current_page < _vm.pagination_motorspec.last_page ? _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link border-light bg-dark",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changePageMotorSpec({
+          page: _vm.pagination_motorspec.current_page + 1
+        });
+      }
+    }
+  }, [_c("span", [_vm._v("Siguiente")])])]) : _vm._e(), _vm._v(" "), _vm.pagination_motorspec.current_page < _vm.pagination_motorspec.last_page ? _c("li", {
+    staticClass: "page-item"
+  }, [_c("a", {
+    staticClass: "page-link border-light bg-dark",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changePageMotorSpec({
+          page: _vm.pagination_motorspec.last_page
+        });
+      }
+    }
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("EditarMotorSpec")], 1);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "card-header p-0",
+    attrs: {
+      id: "headingMotorSpec"
+    }
+  }, [_c("h5", {
+    staticClass: "mb-0"
+  }, [_c("button", {
+    staticClass: "btn btn-block text-left vehiclebrand-collapse-header",
+    attrs: {
+      id: "btn-type-card",
+      "data-toggle": "collapse",
+      "data-target": "#nuevo_motorspec",
+      "aria-expanded": "true",
+      "aria-controls": "collapseOne"
+    }
+  }, [_vm._v("\n                    Especificaciones de Motor\n                    "), _c("span", {
+    staticClass: "text-right"
+  }, [_c("i", {
+    staticClass: "fas fa-arrows-alt-v"
+  })])])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "col-lg-3 mt-2"
+  }, [_c("label"), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-success form-control",
+    attrs: {
+      type: "submit"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-plus-square"
+  }), _vm._v(" Guardar\n                                    ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Motor")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -28817,7 +29603,34 @@ var render = function render() {
     }, [_c("p", [_vm._v(_vm._s(error.tipo_vehiculo))])]);
   })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
-  }, [_c("div", {
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchVehiculoTipoText,
+      expression: "searchVehiculoTipoText"
+    }],
+    staticClass: "form-control mb-3 vehiclebrand-search-input",
+    attrs: {
+      type: "text",
+      id: "search_tipo",
+      placeholder: "Ej: camioneta, sedan..."
+    },
+    domProps: {
+      value: _vm.searchVehiculoTipoText
+    },
+    on: {
+      input: [function ($event) {
+        if ($event.target.composing) return;
+        _vm.searchVehiculoTipoText = $event.target.value;
+      }, function ($event) {
+        return _vm.getVehiculoTipos({
+          page: 1,
+          search: _vm.searchVehiculoTipoText
+        });
+      }]
+    }
+  }), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -28837,7 +29650,7 @@ var render = function render() {
         width: "10px"
       }
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -28855,7 +29668,9 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", [_c("ul", {
+  }), 0)])]), _vm._v(" "), _c("nav", {
+    staticClass: "mt-3"
+  }, [_c("ul", {
     staticClass: "pagination"
   }, [_vm.pagination_tipo.current_page > 1 ? _c("li", {
     staticClass: "page-item"
@@ -28868,7 +29683,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoTipo({
-          page: 1
+          page: 1,
+          search: _vm.searchVehiculoTipoText
         });
       }
     }
@@ -28883,7 +29699,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoTipo({
-          page: _vm.pagination_tipo.current_page - 1
+          page: _vm.pagination_tipo.current_page - 1,
+          search: _vm.searchVehiculoTipoText
         });
       }
     }
@@ -28901,7 +29718,8 @@ var render = function render() {
         click: function click($event) {
           $event.preventDefault();
           return _vm.changePageVehiculoTipo({
-            page: page
+            page: page,
+            search: _vm.searchVehiculoTipoText
           });
         }
       }
@@ -28917,7 +29735,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoTipo({
-          page: _vm.pagination_tipo.current_page + 1
+          page: _vm.pagination_tipo.current_page + 1,
+          search: _vm.searchVehiculoTipoText
         });
       }
     }
@@ -28932,7 +29751,8 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageVehiculoTipo({
-          page: _vm.pagination_tipo.last_page
+          page: _vm.pagination_tipo.last_page,
+          search: _vm.searchVehiculoTipoText
         });
       }
     }
@@ -28949,7 +29769,7 @@ var staticRenderFns = [function () {
   }, [_c("h5", {
     staticClass: "mb-0"
   }, [_c("button", {
-    staticClass: "btn btn-block text-left p-3",
+    staticClass: "btn btn-block text-left vehiclebrand-collapse-header",
     attrs: {
       id: "btn-type-card",
       "data-toggle": "collapse",
@@ -28979,291 +29799,6 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Tipo de vehiculo")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
-}];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02 ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render),
-/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    attrs: {
-      id: "accordion"
-    }
-  }, [_c("div", {
-    staticClass: "card"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "collapse",
-    attrs: {
-      id: "nuevo_year",
-      "aria-labelledby": "headingOne",
-      "data-parent": "#accordion"
-    }
-  }, [_c("div", {
-    staticClass: "card-body"
-  }, [_c("form", {
-    attrs: {
-      action: "POST"
-    },
-    on: {
-      submit: function submit($event) {
-        $event.preventDefault();
-        return _vm.createVehicleYear.apply(null, arguments);
-      }
-    }
-  }, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("label", {
-    attrs: {
-      "for": "model"
-    }
-  }, [_vm._v("Marca")]), _vm._v(" "), _c("SelectBrandYear")], 1), _vm._v(" "), _c("div", {
-    staticClass: "col-12"
-  }, [_c("label", {
-    attrs: {
-      "for": "model"
-    }
-  }, [_vm._v("Modelo")]), _vm._v(" "), _c("SelectModelYear")], 1), _vm._v(" "), _c("div", {
-    staticClass: "col-12"
-  }, [_c("label", {
-    attrs: {
-      "for": "v_year"
-    }
-  }, [_vm._v("Año")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate",
-      value: "required|numeric|max:9999",
-      expression: "'required|numeric|max:9999'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newVehicleYear.v_year,
-      expression: "newVehicleYear.v_year"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("v_year")
-    },
-    attrs: {
-      type: "number",
-      name: "v_year"
-    },
-    domProps: {
-      value: _vm.newVehicleYear.v_year
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.newVehicleYear, "v_year", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("p", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.errors.has("v_id"),
-      expression: "errors.has('v_id')"
-    }],
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("v_year")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
-    return _c("div", {
-      key: index,
-      staticClass: "text-danger"
-    }, [_c("p", [_vm._v(_vm._s(error.v_year))])]);
-  })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "table-responsive"
-  }, [_c("table", {
-    staticClass: "table table-responsive-new table-dark table-sm mt-3"
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", _vm._l(_vm.vehicleyears, function (vehicleyearLocal) {
-    return _c("tr", {
-      key: vehicleyearLocal.id
-    }, [_c("td", {
-      attrs: {
-        "data-table-label": "ID"
-      }
-    }, [_vm._v(_vm._s(vehicleyearLocal.id))]), _vm._v(" "), _c("td", {
-      attrs: {
-        "data-table-label": "MARCA"
-      }
-    }, [_vm._v(_vm._s(vehicleyearLocal.brand))]), _vm._v(" "), _c("td", {
-      attrs: {
-        "data-table-label": "MODELO"
-      }
-    }, [_vm._v(_vm._s(vehicleyearLocal.model))]), _vm._v(" "), _c("td", {
-      attrs: {
-        "data-table-label": "AÑO"
-      }
-    }, [_vm._v(_vm._s(vehicleyearLocal.year))]), _vm._v(" "), _c("td", {
-      attrs: {
-        width: "10px"
-      }
-    }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
-      attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Editar"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.editVehicleYear({
-            vehicleyearLocal: vehicleyearLocal
-          });
-        }
-      }
-    }, [_c("i", {
-      staticClass: "far fa-edit"
-    })])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", [_c("ul", {
-    staticClass: "pagination"
-  }, [_vm.pagination_year.current_page > 1 ? _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link border-light bg-dark",
-    attrs: {
-      href: "#"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
-        return _vm.changePageVehicleYear({
-          page: 1
-        });
-      }
-    }
-  }, [_c("span", [_vm._v("Primera")])])]) : _vm._e(), _vm._v(" "), _vm.pagination_year.current_page > 1 ? _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link border-light bg-dark",
-    attrs: {
-      href: "#"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
-        return _vm.changePageVehicleYear({
-          page: _vm.pagination_year.current_page - 1
-        });
-      }
-    }
-  }, [_c("span", [_vm._v("Atrás")])])]) : _vm._e(), _vm._v(" "), _vm._l(_vm.pagesNumber_year, function (page) {
-    return _c("li", {
-      key: page,
-      staticClass: "page-item",
-      "class": [page == _vm.isActived_year ? "active" : ""]
-    }, [_c("a", {
-      staticClass: "page-link border-light bg-dark",
-      attrs: {
-        href: "#"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.changePageVehicleYear({
-            page: page
-          });
-        }
-      }
-    }, [_vm._v("\n                        " + _vm._s(page) + "\n                    ")])]);
-  }), _vm._v(" "), _vm.pagination_year.current_page < _vm.pagination_year.last_page ? _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link border-light bg-dark",
-    attrs: {
-      href: "#"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
-        return _vm.changePageVehicleYear({
-          page: _vm.pagination_year.current_page + 1
-        });
-      }
-    }
-  }, [_c("span", [_vm._v("Siguiente")])])]) : _vm._e(), _vm._v(" "), _vm.pagination_year.current_page < _vm.pagination_year.last_page ? _c("li", {
-    staticClass: "page-item"
-  }, [_c("a", {
-    staticClass: "page-link border-light bg-dark",
-    attrs: {
-      href: "#"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
-        return _vm.changePageVehicleYear({
-          page: _vm.pagination_year.last_page
-        });
-      }
-    }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("EditarYear")], 1);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "card-header p-0",
-    attrs: {
-      id: "headingOne"
-    }
-  }, [_c("h5", {
-    staticClass: "mb-0"
-  }, [_c("button", {
-    staticClass: "btn btn-block text-left p-3",
-    attrs: {
-      id: "btn-type-card",
-      "data-toggle": "collapse",
-      "data-target": "#nuevo_year",
-      "aria-expanded": "true",
-      "aria-controls": "collapseOne"
-    }
-  }, [_vm._v("\n                    Nuevo Año\n                    "), _c("span", {
-    staticClass: "text-right"
-  }, [_c("i", {
-    staticClass: "fas fa-arrows-alt-v"
-  })])])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "col-lg-3 mt-2"
-  }, [_c("label"), _vm._v(" "), _c("button", {
-    staticClass: "btn btn-success form-control",
-    attrs: {
-      type: "submit"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-plus-square"
-  }), _vm._v(" Guardar\n                                    ")])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Año")]), _vm._v(" "), _c("th")])]);
 }];
 render._withStripped = true;
 
@@ -29431,51 +29966,121 @@ var render = function render() {
     staticClass: "col-0"
   }, [_c("label", {
     attrs: {
-      "for": "v_engine"
+      "for": "motor_spec_id"
     }
-  }, [_vm._v("Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Motor")]), _vm._v(" "), _c("v-select", {
+    attrs: {
+      name: "motor_spec_id",
+      placeholder: "Seleccionar Motor...",
+      options: _vm.optionsMotorSpec,
+      value: _vm.selectedFillMotorSpec
+    },
+    on: {
+      input: _vm.setFillMotorSpec
+    }
+  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.motor_spec_id))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col-0 mt-2"
+  }, [_c("label", {
+    attrs: {
+      "for": "year_from"
+    }
+  }, [_vm._v("Año desde")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "validate",
       rawName: "v-validate",
-      value: "required|min:2|max:190",
-      expression: "'required|min:2|max:190'"
+      value: "required|numeric|min_value:1900|max_value:2100",
+      expression: "'required|numeric|min_value:1900|max_value:2100'"
     }, {
       name: "model",
       rawName: "v-model",
-      value: _vm.fillVehicleMotor.v_engine,
-      expression: "fillVehicleMotor.v_engine"
+      value: _vm.fillVehicleMotor.year_from,
+      expression: "fillVehicleMotor.year_from"
     }],
     staticClass: "form-control",
     "class": {
       input: true,
-      "is-invalid": _vm.errors.has("v_engine")
+      "is-invalid": _vm.errors.has("year_from")
     },
     attrs: {
-      type: "text",
-      name: "v_engine"
+      type: "number",
+      name: "year_from"
     },
     domProps: {
-      value: _vm.fillVehicleMotor.v_engine
+      value: _vm.fillVehicleMotor.year_from
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.fillVehicleMotor, "v_engine", $event.target.value);
+        _vm.$set(_vm.fillVehicleMotor, "year_from", $event.target.value);
       }
     }
   }), _vm._v(" "), _c("p", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.errors.has("v_engine"),
-      expression: "errors.has('v_engine')"
+      value: _vm.errors.has("year_from"),
+      expression: "errors.has('year_from')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("v_engine")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+  }, [_vm._v(_vm._s(_vm.errors.first("year_from")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
     return _c("div", {
       key: index,
       staticClass: "text-danger"
-    }, [_c("p", [_vm._v(_vm._s(error.v_engine))])]);
+    }, [_c("p", [_vm._v(_vm._s(error.year_from))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col-0 mt-2"
+  }, [_c("label", {
+    attrs: {
+      "for": "year_to"
+    }
+  }, [_vm._v("Año hasta")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|numeric|min_value:1900|max_value:2100",
+      expression: "'required|numeric|min_value:1900|max_value:2100'"
+    }, {
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillVehicleMotor.year_to,
+      expression: "fillVehicleMotor.year_to"
+    }],
+    staticClass: "form-control",
+    "class": {
+      input: true,
+      "is-invalid": _vm.errors.has("year_to")
+    },
+    attrs: {
+      type: "number",
+      name: "year_to"
+    },
+    domProps: {
+      value: _vm.fillVehicleMotor.year_to
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillVehicleMotor, "year_to", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("p", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("year_to"),
+      expression: "errors.has('year_to')"
+    }],
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.first("year_to")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.year_to))])]);
   })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
@@ -29484,6 +30089,127 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "modal-header"
   }, [_c("h4", [_vm._v("Editar Motor")]), _vm._v(" "), _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal",
+      "aria-label": "Close"
+    }
+  }, [_c("span", [_vm._v("×")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-footer"
+  }, [_c("button", {
+    staticClass: "btn btn-warning",
+    attrs: {
+      type: "submit"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-edit"
+  }), _vm._v(" Editar\n                    ")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("form", {
+    attrs: {
+      action: "POST"
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.updateMotorSpec({
+          id: _vm.fillMotorSpec.id
+        });
+      }
+    }
+  }, [_c("div", {
+    staticClass: "modal fade",
+    attrs: {
+      id: "edit_motorspec"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog"
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("div", {
+    staticClass: "col-0"
+  }, [_c("label", {
+    attrs: {
+      "for": "raw_label"
+    }
+  }, [_vm._v("Motor")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|min:1|max:90",
+      expression: "'required|min:1|max:90'"
+    }, {
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillMotorSpec.raw_label,
+      expression: "fillMotorSpec.raw_label"
+    }],
+    staticClass: "form-control",
+    "class": {
+      input: true,
+      "is-invalid": _vm.errors.has("raw_label")
+    },
+    attrs: {
+      type: "text",
+      name: "raw_label"
+    },
+    domProps: {
+      value: _vm.fillMotorSpec.raw_label
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillMotorSpec, "raw_label", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("p", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("raw_label"),
+      expression: "errors.has('raw_label')"
+    }],
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.first("raw_label")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.raw_label))])]);
+  })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "modal-header"
+  }, [_c("h4", [_vm._v("Editar Especificación de Motor")]), _vm._v(" "), _c("button", {
     staticClass: "close",
     attrs: {
       type: "button",
@@ -29629,127 +30355,6 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6 ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render),
-/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("form", {
-    attrs: {
-      action: "POST"
-    },
-    on: {
-      submit: function submit($event) {
-        $event.preventDefault();
-        return _vm.updateVehicleYear({
-          id: _vm.fillVehicleYear.id
-        });
-      }
-    }
-  }, [_c("div", {
-    staticClass: "modal fade",
-    attrs: {
-      id: "edit_year"
-    }
-  }, [_c("div", {
-    staticClass: "modal-dialog"
-  }, [_c("div", {
-    staticClass: "modal-content"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
-    staticClass: "modal-body"
-  }, [_c("div", {
-    staticClass: "col-0"
-  }, [_c("label", {
-    attrs: {
-      "for": "year"
-    }
-  }, [_vm._v("Año")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate",
-      value: "required|numeric|max:9999",
-      expression: "'required|numeric|max:9999'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.fillVehicleYear.v_year,
-      expression: "fillVehicleYear.v_year"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("year")
-    },
-    attrs: {
-      type: "number",
-      name: "year"
-    },
-    domProps: {
-      value: _vm.fillVehicleYear.v_year
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.fillVehicleYear, "v_year", $event.target.value);
-      }
-    }
-  }), _vm._v(" "), _c("p", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.errors.has("year"),
-      expression: "errors.has('year')"
-    }],
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("v_year")))]), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
-    return _c("div", {
-      key: index,
-      staticClass: "text-danger"
-    }, [_c("p", [_vm._v(_vm._s(error.v_year))])]);
-  })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
-};
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "modal-header"
-  }, [_c("h4", [_vm._v("Editar Año")]), _vm._v(" "), _c("button", {
-    staticClass: "close",
-    attrs: {
-      type: "button",
-      "data-dismiss": "modal",
-      "aria-label": "Close"
-    }
-  }, [_c("span", [_vm._v("×")])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "modal-footer"
-  }, [_c("button", {
-    staticClass: "btn btn-warning",
-    attrs: {
-      type: "submit"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-edit"
-  }), _vm._v(" Editar\n                    ")])]);
-}];
-render._withStripped = true;
-
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/Index.vue?vue&type=template&id=40408cd5":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/Index.vue?vue&type=template&id=40408cd5 ***!
@@ -29768,18 +30373,18 @@ var render = function render() {
   return _c("div", {
     staticClass: "col-lg-12"
   }, [_c("div", {
-    staticClass: "row"
+    staticClass: "row mb-4"
   }, [_c("div", {
+    staticClass: "col-xl-6 col-md-12 mb-4 mb-xl-0"
+  }, [_c("AgregarTipo")], 1), _vm._v(" "), _c("div", {
     staticClass: "col-xl-6 col-md-12"
-  }, [_c("AgregarMarca")], 1), _vm._v(" "), _c("div", {
-    staticClass: "col-xl-6 col-md-12"
-  }, [_c("AgregarTipo")], 1)]), _vm._v(" "), _c("div", {
-    staticClass: "row"
+  }, [_c("AgregarMarca")], 1)]), _vm._v(" "), _c("div", {
+    staticClass: "row mb-4"
   }, [_c("div", {
-    staticClass: "col-xl-6 col-md-12"
+    staticClass: "col-xl-6 col-md-12 mb-4 mb-xl-0"
   }, [_c("AgregarModelo")], 1), _vm._v(" "), _c("div", {
     staticClass: "col-xl-6 col-md-12"
-  }, [_c("AgregarYear")], 1)]), _vm._v(" "), _c("div", {
+  }, [_c("AgregarMotorSpec")], 1)]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-xl-6 col-md-12"
@@ -29838,39 +30443,6 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render),
-/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("v-select", {
-    attrs: {
-      name: "marca",
-      placeholder: "Seleccionar Marca",
-      options: _vm.optionsVBR,
-      value: _vm.selectedVBR
-    },
-    on: {
-      input: _vm.setVBR
-    }
-  });
-};
-var staticRenderFns = [];
-render._withStripped = true;
-
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=template&id=0d295835":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=template&id=0d295835 ***!
@@ -29904,9 +30476,9 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6 ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12 ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -29921,48 +30493,13 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("v-select", {
     attrs: {
-      name: "modelo",
-      placeholder: "Seleccionar Modelo...",
-      disabled: _vm.selectedVBR.label == "",
-      options: _vm.optionsVMR,
-      value: _vm.selectedVMR
+      name: "motor_spec",
+      placeholder: "Seleccionar Motor...",
+      options: _vm.optionsMotorSpec,
+      value: _vm.selectedMotorSpec
     },
     on: {
-      input: _vm.setVMR
-    }
-  });
-};
-var staticRenderFns = [];
-render._withStripped = true;
-
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render),
-/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function render() {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("v-select", {
-    attrs: {
-      name: "año",
-      placeholder: "Seleccionar año...",
-      disabled: _vm.selectedMM.label == "",
-      options: _vm.optionsYM,
-      value: _vm.selectedYM
-    },
-    on: {
-      input: _vm.setYM
+      input: _vm.setMotorSpec
     }
   });
 };
@@ -31177,7 +31714,7 @@ var render = function render() {
         "data-table-label": "Modelo"
       }
     }, [_vm._v(_vm._s(vehiclemodelLocal.model))]), _vm._v(" "), _c("td", [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -31774,7 +32311,7 @@ var render = function render() {
         alt: preview.name
       }
     }), _vm._v(" "), _c("button", {
-      staticClass: "btn btn-danger btn-sm preview-remove",
+      staticClass: "btn btn-danger btn-icon-sm preview-remove",
       attrs: {
         type: "button",
         title: "Quitar"
@@ -32540,7 +33077,7 @@ var render = function render() {
     }, [_vm._v(_vm._s(_vm._f("moment")(vehicleLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
       staticClass: "vehicle-col-actions vehicle-action-cell"
     }, [_c("a", {
-      staticClass: "btn btn-warning btn-sm",
+      staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
         "data-toggle": "tooltip",
@@ -33337,28 +33874,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     context.commit('paginate', data.page);
     context.commit('getVehicleModels', data);
   },
-  createVehicleYear: function createVehicleYear(context) {
-    context.commit('createVehicleYear');
-    setTimeout(function () {
-      context.commit('getVehicleYears', 1);
-    }, 1000);
-  },
-  editVehicleYear: function editVehicleYear(context, data) {
-    context.commit('editVehicleYear', data.vehicleyearLocal);
-  },
-  updateVehicleYear: function updateVehicleYear(context, data) {
-    context.commit('updateVehicleYear', data.id);
-    setTimeout(function () {
-      context.commit('getVehicleYears', 1);
-    }, 1000);
-  },
-  getVehicleYears: function getVehicleYears(context, data) {
-    context.commit('getVehicleYears', data);
-  },
-  changePageVehicleYear: function changePageVehicleYear(context, data) {
-    context.commit('paginate', data.page);
-    context.commit('getVehicleYears', data);
-  },
   createVehicleMotor: function createVehicleMotor(context, data) {
     context.commit('createVehicleMotor', data.id);
     setTimeout(function () {
@@ -33380,6 +33895,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   changePageVehiculoMotor: function changePageVehiculoMotor(context, data) {
     context.commit('paginate', data.page);
     context.commit('getVehiculoMotors', data);
+  },
+  createMotorSpec: function createMotorSpec(context) {
+    context.commit('createMotorSpec');
+    setTimeout(function () {
+      context.commit('getMotorSpecs', 1);
+    }, 1000);
+  },
+  editMotorSpec: function editMotorSpec(context, data) {
+    context.commit('editMotorSpec', data.motorspecLocal);
+  },
+  updateMotorSpec: function updateMotorSpec(context, data) {
+    context.commit('updateMotorSpec', data.id);
+    setTimeout(function () {
+      context.commit('getMotorSpecs', 1);
+    }, 1000);
+  },
+  deleteMotorSpec: function deleteMotorSpec(context, id) {
+    context.commit('deleteMotorSpec', id);
+  },
+  getMotorSpecs: function getMotorSpecs(context, data) {
+    context.commit('getMotorSpecs', data);
+  },
+  changePageMotorSpec: function changePageMotorSpec(context, data) {
+    context.commit('paginate', data.page);
+    context.commit('getMotorSpecs', data);
+  },
+  allMotorSpecs: function allMotorSpecs(context, data) {
+    context.commit('allMotorSpecs', data);
+  },
+  setMotorSpec: function setMotorSpec(context, data) {
+    context.commit('setMotorSpec', data);
   },
   /********************************** */subirFotosObservacion: function subirFotosObservacion(context, data) {
     context.commit('subirFotosObservacion', data.evt);
@@ -34181,12 +34727,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   allTiposVehiculos: function allTiposVehiculos(context, data) {
     context.commit('allTiposVehiculos', data);
   },
-  allVehicleMotors: function allVehicleMotors(context, data) {
-    context.commit('allVehicleMotors', data);
-  },
-  allVehicleYears: function allVehicleYears(context, data) {
-    context.commit('allVehicleYears', data);
-  },
   setVehicleBrand: function setVehicleBrand(context, data) {
     context.commit('setVehicleBrand', data);
     context.commit('allVehicleModels', data);
@@ -34200,47 +34740,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   setVehiculoTipo: function setVehiculoTipo(context, data) {
     context.commit('setVehiculoTipo', data);
   },
-  setVehicleMotor: function setVehicleMotor(context, data) {
-    context.commit('setVehicleMotor', data);
-  },
-  setVehicleYear: function setVehicleYear(context, data) {
-    context.commit('setVehicleYear', data);
-  },
-  /*************SELECT RELACIONADOS ****************/allVBR: function allVBR(context, data) {
-    context.commit('allVBR', data);
-  },
-  setVBR: function setVBR(context, data) {
-    context.commit('setVBR', data);
-    context.commit('setVMR', {
-      label: '',
-      value: ''
-    });
-    context.commit('allVMR', data);
-  },
-  allVMR: function allVMR(context, data) {
-    context.commit('allVMR', data);
-  },
-  setVMR: function setVMR(context, data) {
-    context.commit('setVMR', data);
-    context.commit('allVMR', data);
-  },
-  allMM: function allMM(context, data) {
+  /*************SELECT RELACIONADOS ****************/allMM: function allMM(context, data) {
     context.commit('allMM', data);
   },
   setMM: function setMM(context, data) {
     context.commit('setMM', data);
-    context.commit('setYM', {
-      label: '',
-      value: ''
-    });
-    context.commit('allYM', data);
-  },
-  allYM: function allYM(context, data) {
-    context.commit('allYM', data);
-  },
-  setYM: function setYM(context, data) {
-    context.commit('setYM', data);
-    context.commit('allYM', data);
   },
   /*************seccion formulario de cotizacion  ****************/setCiudad: function setCiudad(context, data) {
     context.commit('setCiudad', data);
@@ -34437,11 +34941,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     //context.commit('getTotalCli')
     //context.commit('getTotalVehi')
   }, 500);
+}), "getTallerWorkers", function getTallerWorkers(context) {
+  context.commit('getTallerWorkers');
+}), "createTallerWorker", function createTallerWorker(context) {
+  context.commit('createTallerWorker');
+  setTimeout(function () {
+    context.commit('getTallerWorkers');
+  }, 500);
+}), "revokeTallerWorker", function revokeTallerWorker(context, worker) {
+  context.commit('revokeTallerWorker', worker);
+  setTimeout(function () {
+    context.commit('getTallerWorkers');
+  }, 500);
+}), "getTallerTeam", function getTallerTeam(context) {
+  context.commit('getTallerTeam');
+}), "assignOrdenTrabajo", function assignOrdenTrabajo(context, data) {
+  context.commit('assignOrdenTrabajo', data);
+  setTimeout(function () {
+    context.commit('getOrdenesTrabajos');
+  }, 500);
 }), "getClientVehicles", function getClientVehicles(context) {
   context.commit('getClientVehicles');
 }), "editVehicleMechanic", function editVehicleMechanic(context) {
   context.commit('editVehicleMechanic', data.vehicleLocal);
-}), "updateVehicleMechanic", function updateVehicleMechanic(context, data) {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_getVehicles$getVehic, "updateVehicleMechanic", function updateVehicleMechanic(context, data) {
   context.commit('updateVehicle', data.id);
   setTimeout(function () {
     context.commit('getClientVehicles');
@@ -34460,7 +34983,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   }, 500);
 }), "getQuotationUsers", function getQuotationUsers(context, data) {
   context.commit('getQuotationUsers');
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_getVehicles$getVehic, "getQuotationUsersMechanic", function getQuotationUsersMechanic(context) {
+}), "getQuotationUsersMechanic", function getQuotationUsersMechanic(context) {
   context.commit('getQuotationUsersMechanic');
 }), "modalCreateUserFromQuotation", function modalCreateUserFromQuotation(context, data) {
   context.commit('modalCreateUserFromQuotation', data.id);
@@ -34471,7 +34994,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 }), "updateFleteDefect", function updateFleteDefect(context) {
   context.commit('updateFleteDefect');
   context.commit('getProducts', 1);
-}), "getFletes", function getFletes(context, data) {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_getVehicles$getVehic, "getFletes", function getFletes(context, data) {
   context.commit('getFletes', data);
 }), "actualizarCorrelativo", function actualizarCorrelativo(context) {
   context.commit('actualizarCorrelativo');
@@ -34481,7 +35004,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   context.commit('eliminarCategoria', data.id);
 }), "eliminarIntervencionFormatCheckList", function eliminarIntervencionFormatCheckList(context, id) {
   context.commit('eliminarIntervencionFormatCheckList', id);
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_getVehicles$getVehic, "cerrarRealizado", function cerrarRealizado(context, data) {
+}), "cerrarRealizado", function cerrarRealizado(context, data) {
   context.commit('cerrarRealizado', data.id);
 }), "editarTrabajo", function editarTrabajo(context, data) {
   context.commit('editarTrabajo', data);
@@ -34611,20 +35134,20 @@ __webpack_require__.r(__webpack_exports__);
     }
     return pagesArray;
   },
-  isActived_year: function isActived_year(state, getters) {
-    return state.pagination_year.current_page;
+  isActived_motorspec: function isActived_motorspec(state, getters) {
+    return state.pagination_motorspec.current_page;
   },
-  pagesNumber_year: function pagesNumber_year(state, getters) {
-    if (!state.pagination_year.to) {
+  pagesNumber_motorspec: function pagesNumber_motorspec(state, getters) {
+    if (!state.pagination_motorspec.to) {
       return [];
     }
-    var from = state.pagination_year.current_page - state.offset_year;
+    var from = state.pagination_motorspec.current_page - state.offset_motorspec;
     if (from < 1) {
       from = 1;
     }
-    var to = from + state.offset_year * 2;
-    if (to >= state.pagination_year.last_page) {
-      to = state.pagination_year.last_page;
+    var to = from + state.offset_motorspec * 2;
+    if (to >= state.pagination_motorspec.last_page) {
+      to = state.pagination_motorspec.last_page;
     }
     var pagesArray = [];
     while (from <= to) {
@@ -34710,9 +35233,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   getVehicleModel: function getVehicleModel(state, getters) {
     return state.vehiclebrand;
-  },
-  getVehicleYear: function getVehicleYear(state, getters) {
-    return state.vehicleyear;
   },
   getVehicleMotor: function getVehicleMotor(state, getters) {
     return state.vehiclemotor;
@@ -34870,19 +35390,13 @@ var urlVehiculoTipo = 'vehiculotipos';
 var urlSelectVehiculoTipo = 'select-tipos';
 var urlVehicleModel = 'vehiclemodels';
 var urlAllVehicleModel = 'vehiclemodels-all';
-var urlVehicleYear = 'vehicleyears';
 var urlVehicleMotor = 'vehiclemotors';
-var urlSelectVehiculoMotor = 'select-motor';
-var urlSelectVehiculoYear = 'select-year';
 var urlVBrand = 'vbrands-all';
 var urlVModel = 'vmodels-all';
 var urlVYear = 'vyears-all';
 var urlVEngine = 'vengines-all';
 var urlCiudad = 'ciudad-all';
-var urlVBR = 'vbr-all';
-var urlVMR = 'vmr-all';
 var urlMM = 'mm-all';
-var urlYM = 'ym-all';
 var urlCreateQuotationUser = 'quotationuser';
 var urlCreateQuotationUserExpress = 'quotationuserexpress';
 var urlPendingQuotations = 'pendingquotations';
@@ -35992,10 +36506,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   getVehiculoTipos: function getVehiculoTipos(state, request) {
-    var _resolvePaginationReq3 = resolvePaginationRequest(request, state.pagination_tipo.per_page || 20),
+    var _resolvePaginationReq3 = resolvePaginationRequest(request, state.pagination_tipo.per_page || 10),
       page = _resolvePaginationReq3.page,
       perPage = _resolvePaginationReq3.perPage;
-    var url = 'vehiculotipos-all?page=' + page + '&per_page=' + perPage;
+    var url = 'vehiculotipos-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '');
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.vehiculotipos = response.data.vehiculotipos.data;
       state.pagination_tipo = response.data.pagination_tipo;
@@ -36035,10 +36549,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   getVehicleBrands: function getVehicleBrands(state, request) {
-    var _resolvePaginationReq4 = resolvePaginationRequest(request, state.pagination_marca.per_page || 20),
+    var _resolvePaginationReq4 = resolvePaginationRequest(request, state.pagination_marca.per_page || 10),
       page = _resolvePaginationReq4.page,
       perPage = _resolvePaginationReq4.perPage;
-    var url = 'vehiclebrands-all?page=' + page + '&per_page=' + perPage;
+    var url = 'vehiclebrands-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '');
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.vehiclebrands = response.data.vehiclebrands.data;
       state.pagination_marca = response.data.pagination_marca;
@@ -36083,10 +36597,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   getVehicleModels: function getVehicleModels(state, request) {
-    var _resolvePaginationReq5 = resolvePaginationRequest(request, state.pagination_modelo.per_page || 20),
+    var _resolvePaginationReq5 = resolvePaginationRequest(request, state.pagination_modelo.per_page || 10),
       page = _resolvePaginationReq5.page,
       perPage = _resolvePaginationReq5.perPage;
-    var url = urlVehicleModel + '?page=' + page + '&per_page=' + perPage; //+ '&model=' + state.searchVehicleBrand.model
+    var url = urlVehicleModel + '?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '');
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.vehiclemodels = response.data.vehiclemodels.data;
       state.pagination_modelo = response.data.pagination_modelo;
@@ -36143,107 +36657,125 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = error.response.data;
     });
   },
-  createVehicleYear: function createVehicleYear(state) {
-    var url = 'newvehicleyear';
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
-      v_id: state.selectedVMR.value,
-      v_year: state.newVehicleYear.v_year.toUpperCase()
-    }).then(function (response) {
-      state.newVehicleYear = {
-        v_id: '',
-        v_year: ''
-      }, state.errorsLaravel = [];
-      $('#create').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Modelo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-    })["catch"](function (error) {
-      state.errorsLaravel = error.response.data;
-    });
-  },
-  editVehicleYear: function editVehicleYear(state, vehicleyear) {
-    /*state.optionsVehicleModel.forEach(model => {
-        if (model.label == vehicleyear.model) {
-            state.selectedVehicleModel = model
-        }
-    })*/
-    state.fillVehicleYear.id = vehicleyear.id;
-    state.fillVehicleYear.v_year = vehicleyear.year;
-    $("#edit_year").modal('show');
-  },
-  updateVehicleYear: function updateVehicleYear(state, id) {
-    var url = urlVehicleYear + '/' + id;
-    //state.fillVehicleYear.model = state.selectedVehicleModel.value
-    axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.fillVehicleYear).then(function (response) {
-      state.fillVehicleYear = {
-        id: '',
-        v_year: ''
-        //model: ''
-      }, state.errorsLaravel = [];
-      $('#edit_year').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Modelo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-    })["catch"](function (error) {
-      state.errorsLaravel = error.response.data;
-    });
-  },
-  getVehicleYears: function getVehicleYears(state, request) {
-    var _resolvePaginationReq6 = resolvePaginationRequest(request, state.pagination_year.per_page || 20),
-      page = _resolvePaginationReq6.page,
-      perPage = _resolvePaginationReq6.perPage;
-    var url = 'vehicleyears-all?page=' + page + '&per_page=' + perPage;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-      state.vehicleyears = response.data.vehicleyears.data;
-      state.pagination_year = response.data.pagination_year;
-    });
-  },
   createVehicleMotor: function createVehicleMotor(state) {
     var url = 'newvehiclemotor';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
-      v_engine: state.newVehicleMotor.v_engine.toUpperCase(),
-      year_id: state.selectedYM.value
+      vehicle_model_id: state.selectedMM.value,
+      motor_spec_id: state.selectedMotorSpec.value,
+      year: state.newVehicleMotor.year
     }).then(function (response) {
       state.newVehicleMotor = {
-        year_id: '',
-        v_engine: ''
+        vehicle_model_id: '',
+        motor_spec_id: '',
+        year: ''
       }, state.errorsLaravel = [];
       $('#create').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor agregado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor agregado con exito');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   updateVehicleMotor: function updateVehicleMotor(state, id) {
     var url = urlVehicleMotor + '/' + id;
-    //state.fillVehicleMotor.year_id = state.selectedVehicleYear.value
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.fillVehicleMotor).then(function (response) {
       state.fillVehicleMotor = {
         id: '',
-        //year_id: '',
-        v_engine: ''
+        motor_spec_id: '',
+        year_from: '',
+        year_to: ''
       }, state.errorsLaravel = [];
       $('#edit_motor').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor actualizado con exito');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   editVehiculoMotor: function editVehiculoMotor(state, vehiclemotor) {
-    /*state.optionsYear.forEach(year => {
-        if (year.label == vehiclemotor.year) {
-            state.selectedVehicleYear = year
-        }
-    })*/
     state.fillVehicleMotor.id = vehiclemotor.id;
-    state.fillVehicleMotor.v_engine = vehiclemotor.motor;
+    state.fillVehicleMotor.motor_spec_id = vehiclemotor.motor_spec_id;
+    state.fillVehicleMotor.year_from = vehiclemotor.year_from;
+    state.fillVehicleMotor.year_to = vehiclemotor.year_to;
     $("#edit_motor").modal('show');
   },
   getVehiculoMotors: function getVehiculoMotors(state, request) {
-    var _resolvePaginationReq7 = resolvePaginationRequest(request, state.pagination_motor.per_page || 20),
-      page = _resolvePaginationReq7.page,
-      perPage = _resolvePaginationReq7.perPage;
-    var url = 'vehiclemotors-all?page=' + page + '&per_page=' + perPage;
+    var _resolvePaginationReq6 = resolvePaginationRequest(request, state.pagination_motor.per_page || 10),
+      page = _resolvePaginationReq6.page,
+      perPage = _resolvePaginationReq6.perPage;
+    var url = 'vehiclemotors-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '');
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.vehiclemotors = response.data.vehiclemotors.data;
       state.pagination_motor = response.data.pagination_motor;
     });
+  },
+  getMotorSpecs: function getMotorSpecs(state, request) {
+    var _resolvePaginationReq7 = resolvePaginationRequest(request, state.pagination_motorspec.per_page || 10),
+      page = _resolvePaginationReq7.page,
+      perPage = _resolvePaginationReq7.perPage;
+    var url = 'motorspecs-all?page=' + page + '&per_page=' + perPage + (request && request.search ? '&search=' + encodeURIComponent(request.search) : '');
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+      state.motorspecs = response.data.motorspecs.data;
+      state.pagination_motorspec = response.data.pagination_motorspec;
+    });
+  },
+  createMotorSpec: function createMotorSpec(state) {
+    var url = 'motorspecs';
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
+      cilindrada: state.newMotorSpec.cilindrada,
+      combustible: state.newMotorSpec.combustible
+    }).then(function (response) {
+      state.newMotorSpec = {
+        cilindrada: '',
+        combustible: ''
+      }, state.errorsLaravel = [];
+      $('#create_motorspec').modal('hide');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Especificacion de motor agregada con exito');
+    })["catch"](function (error) {
+      state.errorsLaravel = error.response.data;
+    });
+  },
+  editMotorSpec: function editMotorSpec(state, motorspec) {
+    state.fillMotorSpec.id = motorspec.id;
+    state.fillMotorSpec.raw_label = motorspec.raw_label;
+    $("#edit_motorspec").modal('show');
+  },
+  updateMotorSpec: function updateMotorSpec(state, id) {
+    var url = 'motorspecs/' + id;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.fillMotorSpec).then(function (response) {
+      state.fillMotorSpec = {
+        id: '',
+        raw_label: ''
+      }, state.errorsLaravel = [];
+      $('#edit_motorspec').modal('hide');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Especificacion de motor actualizada con exito');
+    })["catch"](function (error) {
+      state.errorsLaravel = error.response.data;
+    });
+  },
+  deleteMotorSpec: function deleteMotorSpec(state, id) {
+    var url = 'motorspecs/' + id;
+    axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
+      state.motorspecs = state.motorspecs.filter(function (spec) {
+        return spec.id !== id;
+      });
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Especificacion de motor eliminada con exito');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
+    });
+  },
+  allMotorSpecs: function allMotorSpecs(state) {
+    var url = 'select-motorspec';
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
+      state.optionsMotorSpec = [];
+      response.data.forEach(function (spec) {
+        state.optionsMotorSpec.push({
+          label: spec.raw_label,
+          value: spec.id
+        });
+      });
+    });
+  },
+  setMotorSpec: function setMotorSpec(state, motorspec) {
+    state.selectedMotorSpec = motorspec;
   },
   /******************************* */
   /****** secciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n notas **** */
@@ -38443,71 +38975,7 @@ function dispatchPublicQuotationFailed() {
   setVehiculoTipo: function setVehiculoTipo(state, vehiculotipo) {
     state.selectedVehiculoTipo = vehiculotipo;
   },
-  allVehicleMotors: function allVehicleMotors(state) {
-    var url = urlSelectVehiculoMotor;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-      state.optionsMotores = [];
-      response.data.forEach(function (vehiclemotor) {
-        state.optionsMotores.push({
-          label: vehiclemotor.v_engine,
-          value: vehiclemotor.id
-        });
-      });
-    });
-  },
-  setVehicleMotor: function setVehicleMotor(state, vehiclemotor) {
-    state.selectedVehicleMotor = vehiclemotor;
-  },
-  allVehicleYears: function allVehicleYears(state) {
-    var url = urlSelectVehiculoYear;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-      state.optionsYear = [];
-      response.data.forEach(function (vehicleyear) {
-        state.optionsYear.push({
-          label: vehicleyear.v_year,
-          value: vehicleyear.id
-        });
-      });
-    });
-  },
-  setVehicleYear: function setVehicleYear(state, vehicleyear) {
-    state.selectedVehicleYear = vehicleyear;
-  },
-  /****************SELECT RELACIONADOS ****************************************/allVBR: function allVBR(state) {
-    var url = urlVBR;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-      state.optionsVBR = [];
-      response.data.forEach(function (vbr) {
-        state.optionsVBR.push({
-          label: vbr.brand,
-          value: vbr.id
-        });
-      });
-    });
-  },
-  setVBR: function setVBR(state, brand) {
-    state.selectedVBR = brand;
-  },
-  allVMR: function allVMR(state) {
-    if (state.selectedVBR.label != '') {
-      var url = urlVMR + '/' + state.selectedVBR.value;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-        state.optionsVMR = [];
-        if (response.data != null) {
-          response.data.forEach(function (vmr) {
-            state.optionsVMR.push({
-              label: vmr.model,
-              value: vmr.id
-            });
-          });
-        }
-      })["catch"](function (error) {});
-    }
-  },
-  setVMR: function setVMR(state, model) {
-    state.selectedVMR = model;
-  },
-  allMM: function allMM(state) {
+  /****************SELECT RELACIONADOS ****************************************/allMM: function allMM(state) {
     var url = urlMM;
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.optionsMM = [];
@@ -38521,25 +38989,6 @@ function dispatchPublicQuotationFailed() {
   },
   setMM: function setMM(state, model) {
     state.selectedMM = model;
-  },
-  allYM: function allYM(state) {
-    if (state.selectedMM.label != '') {
-      var url = urlYM + '/' + state.selectedMM.value;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
-        state.optionsYM = [];
-        if (response.data != null) {
-          response.data.forEach(function (ym) {
-            state.optionsYM.push({
-              label: ym.v_year,
-              value: ym.id
-            });
-          });
-        }
-      })["catch"](function (error) {});
-    }
-  },
-  setYM: function setYM(state, v_year) {
-    state.selectedYM = v_year;
   },
   /****************formulario de cotizacion ****************************************/allCiudad: function allCiudad(state) {
     var url = urlCiudad;
@@ -38611,7 +39060,7 @@ function dispatchPublicQuotationFailed() {
   },
   allVEngines: function allVEngines(state) {
     if (state.selectedVYear.label != '') {
-      var url = urlVEngine + '/' + state.selectedVYear.value;
+      var url = urlVEngine + '/' + state.selectedVModel.value + '/' + state.selectedVYear.value;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
         state.optionsVEngine = [];
         if (response.data != null) {
@@ -39284,6 +39733,47 @@ function dispatchPublicQuotationFailed() {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
     });
   },
+  getTallerWorkers: function getTallerWorkers(state) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('taller-workers').then(function (response) {
+      state.tallerWorkers = response.data;
+    });
+  },
+  createTallerWorker: function createTallerWorker(state) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('taller-worker', {
+      name: state.newTallerWorker.name,
+      email: state.newTallerWorker.email
+    }).then(function (response) {
+      state.newTallerWorker = {
+        name: '',
+        email: ''
+      };
+      state.errorsLaravel = [];
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Trabajador creado. Se envio un correo para que configure su contrasena.');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
+    });
+  },
+  revokeTallerWorker: function revokeTallerWorker(state, worker) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('taller-worker/' + worker.id).then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Acceso revocado con exito');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
+    });
+  },
+  getTallerTeam: function getTallerTeam(state) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('taller-team').then(function (response) {
+      state.tallerTeam = response.data;
+    });
+  },
+  assignOrdenTrabajo: function assignOrdenTrabajo(state, data) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().put('ordentrabajo/' + data.id, {
+      assigned_to: data.assigned_to
+    }).then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Asignacion actualizada');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo actualizar la asignacion');
+    });
+  },
   getClientVehicles: function getClientVehicles(state) {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('client-vehicles').then(function (response) {
       state.vehicles = response.data;
@@ -39527,8 +40017,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   optionsVehicleBrand: [],
   optionsVehicleModel: [],
   optionsTiposVehiculo: [],
-  optionsMotores: [],
-  optionsYear: [],
+  optionsMotorSpec: [],
   optionsVBrand: [],
   optionsVModel: [],
   optionsVYear: [],
@@ -39558,23 +40047,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     label: '',
     value: ''
   },
-  optionsVBR: [],
-  optionsVMR: [],
   optionsMM: [],
-  optionsYM: [],
-  selectedVBR: {
-    label: '',
-    value: ''
-  },
-  selectedVMR: {
-    label: '',
-    value: ''
-  },
   selectedMM: {
-    label: '',
-    value: ''
-  },
-  selectedYM: {
     label: '',
     value: ''
   },
@@ -39582,11 +40056,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     label: '',
     value: ''
   },
-  selectedVehicleMotor: {
-    label: '',
-    value: ''
-  },
-  selectedVehicleYear: {
+  selectedMotorSpec: {
     label: '',
     value: ''
   },
@@ -39726,16 +40196,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   tipo_id: ''
 }), "newVehiculoTipo", {
   tipo_vehiculo: ''
-}), "newVehicleYear", {
-  v_id: '',
-  v_year: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "vehicleyears", []), "vehicleyear", {
-  id: '',
-  v_year: '',
-  model: ''
 }), "newVehicleMotor", {
-  year_id: '',
-  v_engine: ''
+  vehicle_model_id: '',
+  motor_spec_id: '',
+  year: ''
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "motorspecs", []), "newMotorSpec", {
+  cilindrada: '',
+  combustible: ''
 }), "newVehicleBrand", {
   brand: ''
   //model: '',
@@ -39753,18 +40220,18 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   model: '',
   brand_id: '',
   tipo_id: ''
-}), "fillVehicleYear", {
-  id: '',
-  v_year: ''
-  //model: ''
 }), "fillVehicleMotor", {
   id: '',
-  //year_id: '',
-  v_engine: ''
+  motor_spec_id: '',
+  year_from: '',
+  year_to: ''
+}), "fillMotorSpec", {
+  id: '',
+  raw_label: ''
 }), "searchVehicleBrand", {
   brand: '',
   model: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "vehicleDetails", []), "details", []), "detail", {
+}), "vehicleDetails", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "details", []), "detail", {
   id: '',
   km: '',
   note: ''
@@ -39782,7 +40249,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchNote", {
   price: '',
   detail: ''
-}), "idforms", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationforms", []), "selectedVehicleClient", {
+}), "idforms", null), "quotationforms", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "selectedVehicleClient", {
   label: '',
   value: ''
 }), "quotations", []), "newQuotation", {
@@ -39799,7 +40266,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchQuotation", {
   client: '',
   patent: ''
-}), "idQuotation", null), "totalQuotation", 0), "totalQuotationIVA", 0), "quotationclients", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationclientsform", []), "quotationshipping", []), "checkEnviado", []), "checkRealizado", []), "cerrarObservacion", []), "newQuotationclient", {
+}), "idQuotation", null), "totalQuotation", 0), "totalQuotationIVA", 0), "quotationclients", []), "quotationclientsform", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationshipping", []), "checkEnviado", []), "checkRealizado", []), "cerrarObservacion", []), "newQuotationclient", {
   client_id: '',
   state: '',
   payment: '',
@@ -39844,7 +40311,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   per_page: 20
 }), "searchShipping", {
   id: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "idQuotationclient", null), "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
+}), "idQuotationclient", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
   import_id: '',
   user_id: '',
   client_id: '',
@@ -39857,7 +40324,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   client_id: '',
   payment: '',
   state: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "idQuotationimport", null), "totalQuotationimport", 0), "totalQuotationimportIVA", 0), "formCotizacion", {
+}), "idQuotationimport", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalQuotationimport", 0), "totalQuotationimportIVA", 0), "formCotizacion", {
   name: '',
   email: '',
   phone: '',
@@ -39890,7 +40357,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   other1: '',
   other2: '',
   total: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillImport", {
+}), "fillImport", {
   id: '',
   name: '',
   dolar: '',
@@ -39900,7 +40367,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   other1: '',
   other2: '',
   total: ''
-}), "searchImport", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchImport", {
   name: ''
 }), "import", null), "details", []), "newDetail", {
   product: '',
@@ -39922,7 +40389,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   total: 0,
   days: '24 a 48 Hrs',
   spare_parts: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillDetailclient", {
+}), "fillDetailclient", {
   id: '',
   quotationclient_id: '',
   product: '',
@@ -39937,7 +40404,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalIVA: 0,
   days: '',
   spare_parts: ''
-}), "deliveryTimes", []), "defaultDeliveryTime", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "deliveryTimes", []), "defaultDeliveryTime", {
   id: '',
   label: '24 a 48 Hrs'
 }), "newDeliveryTime", {
@@ -40027,7 +40494,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   guia: 0,
   retiro: 0,
   fleteChile: 0
-}), "totalNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
+}), "totalNeto", 0), "totalNacional", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
   id: '',
   user_id: '',
   name: '',
@@ -40040,7 +40507,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), "siiLoading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newClient", {
+}), "siiLoading", false), "newClient", {
   user_id: '',
   rut: '',
   name: '',
@@ -40052,7 +40519,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), "fillClient", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillClient", {
   id: '',
   user_id: '',
   name: '',
@@ -40068,10 +40535,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "import_file", ''), "products", []), "productVehicleModelOptions", []), "productVehicleModelBrandSearch", ''), "productVehicleModelModelSearch", ''), "selectedProductVehicleModelIds", []), "productVehicleModelModal", {
   productId: null,
   productName: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "product", {
+}), "product", {
   name: '',
   detail: ''
-}), "newUtilidad", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newUtilidad", {
   utilidad: ''
 }), "newTipoPago", {
   pago: '',
@@ -40096,11 +40563,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "productCatalogTemplates", []), "newProductCatalogTemplate", {
   categoria: '',
   nombre: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillProductCatalogTemplate", {
+}), "fillProductCatalogTemplate", {
   id: '',
   categoria: '',
   nombre: ''
-}), "searchProductCatalogTemplate", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchProductCatalogTemplate", {
   categoria: '',
   nombre: ''
 }), "productCatalogTemplateImportFile", null), "search", {
@@ -40129,7 +40596,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   quantity: 1,
   price: 0,
   discount: 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "inventories", []), "fileInvoice", null), "searchInventory", {
+}), "inventories", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fileInvoice", null), "searchInventory", {
   name: ''
 }), "newCompany", {
   user_id: '',
@@ -40157,54 +40624,57 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_shipping", 2), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pagination_form", {
+}), "offset_shipping", 2), "pagination_form", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_form", 2), "pagination_marca", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_form", 2), "pagination_marca", {
   'total': 0,
   'current_page': 0,
-  'per_page': 20,
+  'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
 }), "offset_marca", 5), "pagination_tipo", {
   'total': 0,
   'current_page': 0,
-  'per_page': 20,
+  'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
 }), "offset_tipo", 5), "pagination_modelo", {
   'total': 0,
   'current_page': 0,
-  'per_page': 20,
+  'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_modelo", 5), "pagination_year", {
+}), "offset_modelo", 5), "pagination_motor", {
   'total': 0,
   'current_page': 0,
-  'per_page': 20,
+  'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_year", 5), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pagination_motor", {
+}), "offset_motor", 5), "pagination_motorspec", {
   'total': 0,
   'current_page': 0,
-  'per_page': 20,
+  'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_motor", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationUserMechanic", []), "users", []), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_motorspec", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "users", []), "tallerWorkers", []), "tallerTeam", []), "newTallerWorker", {
+  name: '',
+  email: ''
+}), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationRoles", []), "user", {
   name: '',
   email: '',
   password: '',
   logo: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newUser", {
+}), "newUser", {
   id: '',
   name: '',
   email: '',
@@ -40244,22 +40714,22 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   default_cant_vehicle: '',
   special: '',
   permissions: []
-}), "userRoles", []), "fillUserRoles", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "userRoles", []), "fillUserRoles", {
   name: null
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillQuotationShipping", {
+}), "fillQuotationShipping", {
   id: '',
   direccion: ''
 }), "fillFacebookShipping", {
   id: '',
   url: ''
-}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
+}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
+}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
-}), "selectedPrice", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "selectedPrice", {
   label: '',
   value: ''
 }), "newSale", {
@@ -40276,10 +40746,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
+}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
-}), "resultado", 'Archivo no Generado'), "data1", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "resultado", 'Archivo no Generado'), "data1", {
   fecha: new Date(),
   giroEmisor: '',
   dirOrigen: '',
@@ -40287,7 +40757,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   producto: '',
   cantidad: '',
   precio: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "data2", {
+}), "data2", {
   producto: '',
   cantidad: '',
   precio: ''
@@ -40295,7 +40765,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 
@@ -44948,7 +45418,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.quotationclient-admin .mx-datepicker,\n.quotationclient-admin .mx-datepicker-range {\n    width: 130px !important;\n    max-width: 100%;\n}\n.quotationclient-admin .mx-input {\n    padding-left: 6px;\n    padding-right: 20px;\n    font-size: 0.68rem !important;\n}\n.quotationclient-admin .mx-icon-calendar,\n.quotationclient-admin .mx-icon-clear {\n    right: 3px;\n    font-size: 13px;\n}\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .quotationclient-form-layout,\n    .quotationclient-admin .quotationclient-form-row {\n        align-items: flex-end;\n}\n.quotationclient-admin .quotationclient-checkbox-row {\n        display: flex;\n        align-items: center;\n        gap: 0.4rem;\n}\n.quotationclient-admin .quotationclient-checkbox-row input[type=\"checkbox\"] {\n        margin-top: 0;\n}\n.quotationclient-admin .quotationclient-form-actions {\n        margin-top: 0.1rem;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .quotationclient-status-cell,\n    .quotationclient-admin .quotationclient-actions-cell {\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-wrap-cell {\n        white-space: normal !important;\n        word-break: break-word;\n}\n.quotationclient-admin .quotationclient-id-preview {\n        cursor: help;\n        display: inline-block;\n        border-bottom: 1px dotted rgba(255, 255, 255, 0.35);\n        line-height: 1.1;\n}\n.quotationclient-admin .quotationclient-per-page-inline {\n        display: flex;\n        align-items: center;\n        justify-content: flex-end;\n        gap: 0.3rem;\n}\n.quotationclient-admin .quotationclient-per-page-inline label {\n        margin-bottom: 0;\n        font-size: 0.74rem;\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-per-page-inline .form-control {\n        width: 72px;\n}\n.quotationclient-admin .quotationclient-icon-btn {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: 28px;\n        height: 28px;\n        padding: 0;\n        margin-right: 0.18rem;\n        border-radius: 0.2rem;\n}\n.quotationclient-admin .quotationclient-icon-btn:last-child {\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-group {\n        vertical-align: middle;\n        margin-right: 0.18rem;\n}\n.quotationclient-admin .quotationclient-contact-group .quotationclient-icon-btn {\n        width: 34px;\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-menu {\n        min-width: 11.5rem;\n        font-size: 0.78rem;\n}\n.quotationclient-admin .quotationclient-contact-menu .dropdown-item {\n        padding: 0.35rem 0.75rem;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.quotationclient-admin .mx-datepicker,\n.quotationclient-admin .mx-datepicker-range {\n    width: 130px !important;\n    max-width: 100%;\n}\n.quotationclient-admin .mx-input {\n    padding-left: 6px;\n    padding-right: 20px;\n    font-size: 0.68rem !important;\n}\n.quotationclient-admin .mx-icon-calendar,\n.quotationclient-admin .mx-icon-clear {\n    right: 3px;\n    font-size: 13px;\n}\n@media (min-width: 992px) {\n.quotationclient-admin {\n        font-size: 0.88rem;\n}\n.quotationclient-admin h5 {\n        font-size: 1rem;\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin label {\n        margin-bottom: 0.2rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .mb-3,\n    .quotationclient-admin .row.mb-3 {\n        margin-bottom: 0.6rem !important;\n}\n.quotationclient-admin .quotationclient-form-layout,\n    .quotationclient-admin .quotationclient-form-row {\n        align-items: flex-end;\n}\n.quotationclient-admin .quotationclient-checkbox-row {\n        display: flex;\n        align-items: center;\n        gap: 0.4rem;\n}\n.quotationclient-admin .quotationclient-checkbox-row input[type=\"checkbox\"] {\n        margin-top: 0;\n}\n.quotationclient-admin .quotationclient-form-actions {\n        margin-top: 0.1rem;\n}\n.quotationclient-admin .card {\n        margin-bottom: 0.5rem;\n}\n.quotationclient-admin .card-header {\n        padding: 0.45rem 0.75rem;\n}\n.quotationclient-admin .card-body {\n        padding: 0.85rem;\n}\n.quotationclient-admin #btn-quotation-card {\n        padding: 0.7rem 0.9rem !important;\n        font-size: 0.9rem;\n}\n.quotationclient-admin .form-control,\n    .quotationclient-admin .v-select .dropdown-toggle {\n        min-height: 31px;\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n        font-size: 0.8rem;\n}\n.quotationclient-admin .v-select .selected-tag,\n    .quotationclient-admin .v-select input {\n        font-size: 0.8rem;\n}\n.quotationclient-admin .btn {\n        padding: 0.24rem 0.5rem;\n        font-size: 0.78rem;\n        line-height: 1.25;\n}\n.quotationclient-admin .btn.form-control {\n        height: 31px;\n        padding-top: 0.22rem;\n        padding-bottom: 0.22rem;\n}\n.quotationclient-admin .table {\n        margin-top: 0.75rem !important;\n        font-size: 0.77rem;\n        table-layout: fixed;\n}\n.quotationclient-admin .table th,\n    .quotationclient-admin .table td {\n        padding: 0.32rem 0.42rem;\n        vertical-align: middle;\n}\n.quotationclient-admin .quotationclient-status-cell,\n    .quotationclient-admin .quotationclient-actions-cell {\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-actions-cell {\n        text-align: right;\n}\n.quotationclient-admin .quotationclient-wrap-cell {\n        white-space: nowrap !important;\n        overflow: hidden;\n        text-overflow: ellipsis;\n}\n.quotationclient-admin .quotationclient-id-preview {\n        cursor: help;\n        display: inline-block;\n        border-bottom: 1px dotted rgba(255, 255, 255, 0.35);\n        line-height: 1.1;\n}\n.quotationclient-admin .quotationclient-per-page-inline {\n        display: flex;\n        align-items: center;\n        justify-content: flex-end;\n        gap: 0.3rem;\n}\n.quotationclient-admin .quotationclient-per-page-inline label {\n        margin-bottom: 0;\n        font-size: 0.74rem;\n        white-space: nowrap;\n}\n.quotationclient-admin .quotationclient-per-page-inline .form-control {\n        width: 72px;\n}\n.quotationclient-admin .quotationclient-icon-btn {\n        display: inline-flex;\n        align-items: center;\n        justify-content: center;\n        width: 22px;\n        height: 22px;\n        padding: 0;\n        margin-right: 0.18rem;\n        border-radius: 0.2rem;\n}\n.quotationclient-admin .quotationclient-icon-btn:last-child {\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-group,\n    .quotationclient-admin .quotationclient-more-group {\n        vertical-align: middle;\n        margin-right: 0.18rem;\n}\n.quotationclient-admin .quotationclient-contact-group .quotationclient-icon-btn,\n    .quotationclient-admin .quotationclient-more-group .quotationclient-icon-btn {\n        width: 26px;\n        margin-right: 0;\n}\n.quotationclient-admin .quotationclient-contact-menu {\n        min-width: 11.5rem;\n        font-size: 0.78rem;\n}\n.quotationclient-admin .quotationclient-contact-menu .dropdown-item {\n        padding: 0.35rem 0.75rem;\n}\n.quotationclient-admin .table .form-control {\n        height: 28px;\n        min-height: 28px;\n        padding-left: 0.35rem;\n        padding-right: 0.35rem;\n}\n.quotationclient-admin .pagination {\n        margin-bottom: 0;\n}\n.quotationclient-admin .page-link {\n        padding: 0.3rem 0.55rem;\n        font-size: 0.78rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -44972,7 +45442,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button {\r\n    border-radius: 0.2rem;\r\n    background-color: #28a745;\r\n    border: none;\r\n    color: #FFFFFF;\r\n    text-align: center;\r\n    font-size: 0.875rem;\r\n    padding: 0.25rem 0.5rem;\r\n    width: 100%;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\n}\n.button:hover {\r\n    background-color: #dc3545;\n}\n.button:hover span {\r\n    display: none\n}\n.button:hover:before {\r\n    content: '\\26CC'\n}\n.button:hover span {\r\n    padding-right: 25px;\n}\n.button:hover span:after {\r\n    opacity: 1;\r\n    right: 0;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button {\r\n    border-radius: 0.2rem;\r\n    background-color: #28a745;\r\n    border: none;\r\n    color: #FFFFFF;\r\n    text-align: center;\r\n    font-size: 0.875rem;\r\n    padding: 0.25rem 0.5rem;\r\n    width: 100%;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\n}\n.button:hover {\r\n    background-color: #dc3545;\n}\n.button:hover span {\r\n    display: none\n}\n.button:hover:before {\r\n    content: '\\26CC'\n}\n.button:hover span {\r\n    padding-right: 25px;\n}\n.button:hover span:after {\r\n    opacity: 1;\r\n    right: 0;\n}\n@media (min-width: 992px) {\n.quotationshipping-admin .table {\r\n        table-layout: fixed;\n}\n.quotationshipping-admin .table th,\r\n    .quotationshipping-admin .table td {\r\n        white-space: nowrap;\r\n        vertical-align: middle;\n}\n.quotationshipping-admin .quotationshipping-wrap-cell {\r\n        white-space: nowrap !important;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\n}\n.quotationshipping-admin .quotationshipping-actions-cell {\r\n        text-align: right;\n}\n.quotationshipping-admin .quotationshipping-icon-btn {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        width: 22px;\r\n        height: 22px;\r\n        padding: 0;\r\n        margin-right: 0.18rem;\r\n        border-radius: 0.2rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group {\r\n        vertical-align: middle;\r\n        margin-right: 0.18rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group .quotationshipping-icon-btn {\r\n        width: 26px;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-menu {\r\n        min-width: 10rem;\r\n        font-size: 0.85rem;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn {\r\n        background-color: #28a745;\r\n        border: none;\r\n        color: #fff;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn .fa-times {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover {\r\n        background-color: #dc3545;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-check {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-times {\r\n        display: inline;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -76640,6 +77110,45 @@ component.options.__file = "resources/assets/js/components/VehicleBrand/AgregarM
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AgregarMotorSpec.vue?vue&type=template&id=384d1004 */ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004");
+/* harmony import */ var _AgregarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AgregarMotorSpec.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AgregarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/AgregarTipo.vue":
 /*!*********************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/AgregarTipo.vue ***!
@@ -76675,45 +77184,6 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/assets/js/components/VehicleBrand/AgregarTipo.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue":
-/*!*********************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/AgregarYear.vue ***!
-  \*********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AgregarYear.vue?vue&type=template&id=5dd0ba02 */ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02");
-/* harmony import */ var _AgregarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AgregarYear.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AgregarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__.render,
-  _AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/assets/js/components/VehicleBrand/AgregarYear.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -76796,6 +77266,45 @@ component.options.__file = "resources/assets/js/components/VehicleBrand/EditarMo
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue":
+/*!*************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0 */ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0");
+/* harmony import */ var _EditarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditarMotorSpec.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__.render,
+  _EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/EditarTipo.vue":
 /*!********************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/EditarTipo.vue ***!
@@ -76831,45 +77340,6 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/assets/js/components/VehicleBrand/EditarTipo.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/EditarYear.vue":
-/*!********************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/EditarYear.vue ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditarYear.vue?vue&type=template&id=c59e64b6 */ "./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6");
-/* harmony import */ var _EditarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditarYear.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _EditarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__.render,
-  _EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/assets/js/components/VehicleBrand/EditarYear.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -76952,45 +77422,6 @@ component.options.__file = "resources/assets/js/components/VehicleBrand/SelectBr
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue":
-/*!*************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectBrandYear.vue?vue&type=template&id=cc68bbea */ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea");
-/* harmony import */ var _SelectBrandYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectBrandYear.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SelectBrandYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__.render,
-  _SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/assets/js/components/VehicleBrand/SelectBrandYear.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue":
 /*!**************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue ***!
@@ -77030,9 +77461,9 @@ component.options.__file = "resources/assets/js/components/VehicleBrand/SelectMo
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue":
+/***/ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue":
 /*!*************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectModelYear.vue ***!
+  !*** ./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue ***!
   \*************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -77041,8 +77472,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectModelYear.vue?vue&type=template&id=e6d6e0a6 */ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6");
-/* harmony import */ var _SelectModelYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectModelYear.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js");
+/* harmony import */ var _SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectMotorSpec.vue?vue&type=template&id=88137d12 */ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12");
+/* harmony import */ var _SelectMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectMotorSpec.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -77052,9 +77483,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SelectModelYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__.render,
-  _SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _SelectMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__.render,
+  _SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -77064,46 +77495,7 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/assets/js/components/VehicleBrand/SelectModelYear.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue":
-/*!*************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue ***!
-  \*************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SelectYearMotor.vue?vue&type=template&id=4146c9df */ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df");
-/* harmony import */ var _SelectYearMotor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SelectYearMotor.vue?vue&type=script&lang=js */ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SelectYearMotor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__.render,
-  _SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/assets/js/components/VehicleBrand/SelectYearMotor.vue"
+component.options.__file = "resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -79203,6 +79595,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js":
+/*!**************************************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarMotorSpec.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=script&lang=js":
 /*!*********************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=script&lang=js ***!
@@ -79216,22 +79624,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarTipo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarTipo.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=script&lang=js");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarTipo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarYear.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -79267,6 +79659,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarMotorSpec.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=script&lang=js":
 /*!********************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=script&lang=js ***!
@@ -79280,22 +79688,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarTipo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarTipo.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=script&lang=js");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarTipo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js":
-/*!********************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js ***!
-  \********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarYear.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -79331,22 +79723,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBrandYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectBrandYear.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBrandYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=script&lang=js":
 /*!**************************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=script&lang=js ***!
@@ -79363,9 +79739,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js":
+/***/ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js ***!
+  !*** ./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js ***!
   \*************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -79374,24 +79750,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectModelYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectModelYear.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectModelYear_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js":
-/*!*************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js ***!
-  \*************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectYearMotor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectYearMotor.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=script&lang=js");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectYearMotor_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectMotorSpec.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMotorSpec_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -81233,6 +81593,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004":
+/*!********************************************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004 ***!
+  \********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarMotorSpec_vue_vue_type_template_id_384d1004__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarMotorSpec.vue?vue&type=template&id=384d1004 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue?vue&type=template&id=384d1004");
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=template&id=928dcb14":
 /*!***************************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=template&id=928dcb14 ***!
@@ -81246,23 +81623,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarTipo_vue_vue_type_template_id_928dcb14__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarTipo_vue_vue_type_template_id_928dcb14__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarTipo.vue?vue&type=template&id=928dcb14 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarTipo.vue?vue&type=template&id=928dcb14");
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02":
-/*!***************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02 ***!
-  \***************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AgregarYear_vue_vue_type_template_id_5dd0ba02__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AgregarYear.vue?vue&type=template&id=5dd0ba02 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/AgregarYear.vue?vue&type=template&id=5dd0ba02");
 
 
 /***/ }),
@@ -81301,6 +81661,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0 ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarMotorSpec_vue_vue_type_template_id_f3a1f5d0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue?vue&type=template&id=f3a1f5d0");
+
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=template&id=fa5b75c8":
 /*!**************************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=template&id=fa5b75c8 ***!
@@ -81314,23 +81691,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarTipo_vue_vue_type_template_id_fa5b75c8__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarTipo_vue_vue_type_template_id_fa5b75c8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarTipo.vue?vue&type=template&id=fa5b75c8 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarTipo.vue?vue&type=template&id=fa5b75c8");
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6":
-/*!**************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6 ***!
-  \**************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EditarYear_vue_vue_type_template_id_c59e64b6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EditarYear.vue?vue&type=template&id=c59e64b6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/EditarYear.vue?vue&type=template&id=c59e64b6");
 
 
 /***/ }),
@@ -81369,23 +81729,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectBrandYear_vue_vue_type_template_id_cc68bbea__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectBrandYear.vue?vue&type=template&id=cc68bbea */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectBrandYear.vue?vue&type=template&id=cc68bbea");
-
-
-/***/ }),
-
 /***/ "./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=template&id=0d295835":
 /*!********************************************************************************************************!*\
   !*** ./resources/assets/js/components/VehicleBrand/SelectModelMotor.vue?vue&type=template&id=0d295835 ***!
@@ -81403,36 +81746,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6":
+/***/ "./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12":
 /*!*******************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6 ***!
+  !*** ./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12 ***!
   \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectModelYear_vue_vue_type_template_id_e6d6e0a6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectModelYear.vue?vue&type=template&id=e6d6e0a6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectModelYear.vue?vue&type=template&id=e6d6e0a6");
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectYearMotor_vue_vue_type_template_id_4146c9df__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectYearMotor.vue?vue&type=template&id=4146c9df */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectYearMotor.vue?vue&type=template&id=4146c9df");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_SelectMotorSpec_vue_vue_type_template_id_88137d12__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SelectMotorSpec.vue?vue&type=template&id=88137d12 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue?vue&type=template&id=88137d12");
 
 
 /***/ }),

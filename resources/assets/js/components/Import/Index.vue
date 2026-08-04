@@ -83,7 +83,7 @@
                                 Cotización
                             </a>
 
-                            <a href="#" class="btn btn-danger btn-sm"
+                            <a href="#" class="btn btn-danger btn-icon-sm"
                                 @click.prevent="showModalDeleteImport({ id: importLocal.id })" data-toggle="tooltip"
                                 data-placement="top" title="Eliminar">
                                 <i class="fas fa-ban"></i>

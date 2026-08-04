@@ -1,5 +1,5 @@
 <template>
-    <div class="col-12">
+    <div class="col-12 quotationshipping-admin">
         <h5 class="text-white">
             Envios
         </h5>
@@ -14,16 +14,16 @@
             <table class="table table-responsive-new table-dark table-sm mt-3">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Enviado</th>
-                        <th>Nombre</th>
-                        <th>RUT</th>
-                        <th>Telefono</th>
-                        <th>Ciudad</th>
-                        <th>Dirección</th>
-                        <th>Sucursal</th>
-                        <th>Fecha</th>
-                        <th></th>
+                        <th width="4%">ID</th>
+                        <th width="5%">Enviado</th>
+                        <th width="15%">Nombre</th>
+                        <th width="8%">RUT</th>
+                        <th width="9%">Telefono</th>
+                        <th width="9%">Ciudad</th>
+                        <th width="16%">Dirección</th>
+                        <th width="15%">Sucursal</th>
+                        <th width="8%">Fecha</th>
+                        <th width="11%">Acción</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,10 +37,12 @@
 
                         <td data-table-label="ID">{{ quotationshippingLocal.id }}</td>
                         <td data-table-label="ENVIADO" v-if="quotationshippingLocal.enviado > 0">
-
-                            <button class="button"
-                                @click.prevent="deleteEnviado({ id: quotationshippingLocal.id })"><span>Enviado</span></button>
-
+                            <button type="button" class="btn btn-sm quotationshipping-icon-btn quotationshipping-enviado-btn"
+                                @click.prevent="deleteEnviado({ id: quotationshippingLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Enviado (clic para deshacer)">
+                                <i class="fas fa-check"></i>
+                                <i class="fas fa-times"></i>
+                            </button>
                         </td>
                         <td data-table-label="ENVIADO" v-else>
 
@@ -51,34 +53,51 @@
                         </td>
 
 
-                        <td data-table-label="Nombre">{{ quotationshippingLocal.nombre }}</td>
+                        <td data-table-label="Nombre" class="quotationshipping-wrap-cell"
+                            :title="quotationshippingLocal.nombre">{{ quotationshippingLocal.nombre }}</td>
                         <td data-table-label="rut">{{ quotationshippingLocal.rut }}</td>
                         <td data-table-label="telefono">{{ quotationshippingLocal.telefono }}</td>
                         <td data-table-label="ciudad">{{ quotationshippingLocal.ciudad }}</td>
-                        <td data-table-label="direccion">{{ quotationshippingLocal.direccion }}</td>
-                        <td data-table-label="sucursal">{{ quotationshippingLocal.sucursal }}</td>
-                        <td data-table-label="fecha">{{ quotationshippingLocal.created_at }}</td>
-                        <td class="text-right">
-                            <a class="btn btn-primary btn-sm" href="#" role="button"
-                                @click.prevent="editFacebook({ quotationshippingLocal })"><i
-                                    class="fab fa-facebook-f"></i>
-                            </a>
-                            <a class="btn btn-success btn-sm"
-                                :href="'https://wa.me/+569' + quotationshippingLocal.telefono" target="_blank"
-                                role="button"><i class="fab fa-whatsapp"></i></a>
-                            <a class="btn btn-secondary btn-sm" href="#" role="button"
-                                @click.prevent="showQuotationShipping({ id: quotationshippingLocal.id })"><i
-                                    class="fas fa-shipping-fast"></i>
-                            </a>
-                            <a class="btn btn-info btn-sm" href="#" role="button"
-                                @click.prevent="pdfQuotationShipping({ id: quotationshippingLocal.id })"><i
-                                    class="far fa-file-alt"></i>
-                            </a>
-                            <a class="btn btn-danger btn-sm" href="#" role="button"
-                                @click.prevent="showdeleteQuotationShipping({ id: quotationshippingLocal.id })"><i
-                                    class="far fa-trash-alt"></i>
+                        <td data-table-label="direccion" class="quotationshipping-wrap-cell"
+                            :title="quotationshippingLocal.direccion">{{ quotationshippingLocal.direccion }}</td>
+                        <td data-table-label="sucursal" class="quotationshipping-wrap-cell"
+                            :title="quotationshippingLocal.sucursal">{{ quotationshippingLocal.sucursal }}</td>
+                        <td data-table-label="fecha">{{ quotationshippingLocal.created_at | moment('DD/MM/YYYY H:mm') }}</td>
+                        <td class="quotationshipping-actions-cell">
+                            <div class="btn-group dropleft quotationshipping-icon-group">
+                                <button type="button"
+                                    class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split quotationshipping-icon-btn"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Contacto">
+                                    <i class="fas fa-comments"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right quotationshipping-menu">
+                                    <a href="#" class="dropdown-item" @click.prevent="editFacebook({ quotationshippingLocal })">
+                                        <i class="fab fa-facebook-f mr-2"></i>Facebook
+                                    </a>
+                                    <a class="dropdown-item" :href="'https://wa.me/+569' + quotationshippingLocal.telefono"
+                                        target="_blank">
+                                        <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+
+                            <a class="btn btn-secondary btn-sm quotationshipping-icon-btn" href="#" role="button"
+                                @click.prevent="showQuotationShipping({ id: quotationshippingLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Ver envío">
+                                <i class="fas fa-shipping-fast"></i>
                             </a>
 
+                            <a class="btn btn-info btn-sm quotationshipping-icon-btn" href="#" role="button"
+                                @click.prevent="pdfQuotationShipping({ id: quotationshippingLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="PDF">
+                                <i class="far fa-file-alt"></i>
+                            </a>
+
+                            <a class="btn btn-danger btn-sm quotationshipping-icon-btn" href="#" role="button"
+                                @click.prevent="showdeleteQuotationShipping({ id: quotationshippingLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
@@ -228,5 +247,76 @@ export default {
 .button:hover span:after {
     opacity: 1;
     right: 0;
+}
+
+@media (min-width: 992px) {
+    .quotationshipping-admin .table {
+        table-layout: fixed;
+    }
+
+    .quotationshipping-admin .table th,
+    .quotationshipping-admin .table td {
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+
+    .quotationshipping-admin .quotationshipping-wrap-cell {
+        white-space: nowrap !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .quotationshipping-admin .quotationshipping-actions-cell {
+        text-align: right;
+    }
+
+    .quotationshipping-admin .quotationshipping-icon-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        margin-right: 0.18rem;
+        border-radius: 0.2rem;
+    }
+
+    .quotationshipping-admin .quotationshipping-icon-group {
+        vertical-align: middle;
+        margin-right: 0.18rem;
+    }
+
+    .quotationshipping-admin .quotationshipping-icon-group .quotationshipping-icon-btn {
+        width: 26px;
+        margin-right: 0;
+    }
+
+    .quotationshipping-admin .quotationshipping-menu {
+        min-width: 10rem;
+        font-size: 0.85rem;
+    }
+
+    .quotationshipping-admin .quotationshipping-enviado-btn {
+        background-color: #28a745;
+        border: none;
+        color: #fff;
+        margin-right: 0;
+    }
+
+    .quotationshipping-admin .quotationshipping-enviado-btn .fa-times {
+        display: none;
+    }
+
+    .quotationshipping-admin .quotationshipping-enviado-btn:hover {
+        background-color: #dc3545;
+    }
+
+    .quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-check {
+        display: none;
+    }
+
+    .quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-times {
+        display: inline;
+    }
 }
 </style>

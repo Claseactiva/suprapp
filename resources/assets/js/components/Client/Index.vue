@@ -193,12 +193,12 @@
                                 <i class="fas fa-info"></i>
                             </a>
 
-                            <a href="#" class="btn btn-warning btn-sm" @click.prevent="editClient({ clientLocal })"
+                            <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editClient({ clientLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
                             </a>
 
-                            <a href="#" class="btn btn-danger btn-sm"
+                            <a href="#" class="btn btn-danger btn-icon-sm"
                                 @click.prevent="modalDeleteClient({ id: clientLocal.id })" data-toggle="tooltip"
                                 data-placement="top" title="Eliminar">
                                 <i class="fas fa-ban"></i>

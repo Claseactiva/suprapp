@@ -26,6 +26,13 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/User
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/UserMechanic
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Vehicle
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleBrand
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleModel
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Check-List
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/DeliveryTime
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Import
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Note
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Sales
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleQuantityOptions
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/store
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/utils
@@ -34,9 +41,20 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/views/layouts
     - /bin/mkdir -p $DEPLOYPATH/routes
     - /bin/cp -f artisan $DEPLOYPATH
+    - /bin/cp -f app/User.php $DEPLOYPATH/app/User.php
     - /bin/rm -f $DEPLOYPATH/app/Http/Controllers/AccesoController.php
     - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/AgregarFotosOrdenTrabajo.vue
     - /bin/rm -f $DEPLOYPATH/resources/views/acceso.blade.php
+    - /bin/rm -f $DEPLOYPATH/app/Http/Controllers/VehicleYearController.php
+    - /bin/rm -f $DEPLOYPATH/app/Http/Requests/YearRequest.php
+    - /bin/rm -f $DEPLOYPATH/app/Models/VehicleYear.php
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarYear.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/EditarYear.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectBrandYear.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectModelYear.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectMotor.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectYear.vue
+    - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectYearMotor.vue
     - /bin/cp -f routes/web.php $DEPLOYPATH/routes/web.php
     - /bin/cp -f app/Console/Commands/ImportProductCatalogTemplates.php $DEPLOYPATH/app/Console/Commands/ImportProductCatalogTemplates.php
     - /bin/cp -f app/Exceptions/DeviceLimitReachedException.php $DEPLOYPATH/app/Exceptions/DeviceLimitReachedException.php
@@ -47,9 +65,14 @@ deployment:
     - /bin/cp -f app/Http/Controllers/CompanyController.php $DEPLOYPATH/app/Http/Controllers/CompanyController.php
     - /bin/cp -f app/Http/Controllers/Controller.php $DEPLOYPATH/app/Http/Controllers/Controller.php
     - /bin/cp -f app/Http/Controllers/DetailVehicleController.php $DEPLOYPATH/app/Http/Controllers/DetailVehicleController.php
+    - /bin/cp -f app/Http/Controllers/MotorSpecController.php $DEPLOYPATH/app/Http/Controllers/MotorSpecController.php
     - /bin/cp -f app/Http/Controllers/OrdenTrabajoController.php $DEPLOYPATH/app/Http/Controllers/OrdenTrabajoController.php
     - /bin/cp -f app/Http/Controllers/ProductCatalogTemplateController.php $DEPLOYPATH/app/Http/Controllers/ProductCatalogTemplateController.php
     - /bin/cp -f app/Http/Controllers/QuotationclientController.php $DEPLOYPATH/app/Http/Controllers/QuotationclientController.php
+    - /bin/cp -f app/Http/Controllers/VehicleBrandController.php $DEPLOYPATH/app/Http/Controllers/VehicleBrandController.php
+    - /bin/cp -f app/Http/Controllers/VehicleEngineController.php $DEPLOYPATH/app/Http/Controllers/VehicleEngineController.php
+    - /bin/cp -f app/Http/Controllers/VehicleModelController.php $DEPLOYPATH/app/Http/Controllers/VehicleModelController.php
+    - /bin/cp -f app/Http/Controllers/VehiculoTipoController.php $DEPLOYPATH/app/Http/Controllers/VehiculoTipoController.php
     - /bin/cp -f app/Http/Controllers/User/UserController.php $DEPLOYPATH/app/Http/Controllers/User/UserController.php
     - /bin/cp -f app/Http/Controllers/UserSessionController.php $DEPLOYPATH/app/Http/Controllers/UserSessionController.php
     - /bin/cp -f app/Http/Controllers/QuotationUserController.php $DEPLOYPATH/app/Http/Controllers/QuotationUserController.php
@@ -58,32 +81,56 @@ deployment:
     - /bin/cp -f app/Http/Kernel.php $DEPLOYPATH/app/Http/Kernel.php
     - /bin/cp -f app/Http/Middleware/EnsureDeviceSessionActive.php $DEPLOYPATH/app/Http/Middleware/EnsureDeviceSessionActive.php
     - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
+    - /bin/cp -f app/Models/OrdenTrabajo.php $DEPLOYPATH/app/Models/OrdenTrabajo.php
     - /bin/cp -f app/Models/ProductCatalogTemplate.php $DEPLOYPATH/app/Models/ProductCatalogTemplate.php
+    - /bin/cp -f app/Models/MotorSpec.php $DEPLOYPATH/app/Models/MotorSpec.php
+    - /bin/cp -f app/Models/TallerWorker.php $DEPLOYPATH/app/Models/TallerWorker.php
     - /bin/cp -f app/Models/UserSession.php $DEPLOYPATH/app/Models/UserSession.php
     - /bin/cp -f app/Models/Vehicle.php $DEPLOYPATH/app/Models/Vehicle.php
+    - /bin/cp -f app/Models/VehicleBrandModel.php $DEPLOYPATH/app/Models/VehicleBrandModel.php
+    - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
     - /bin/cp -f app/Notifications/SetInitialPasswordNotification.php $DEPLOYPATH/app/Notifications/SetInitialPasswordNotification.php
     - /bin/cp -f app/Services/ProductCatalogTemplateImportService.php $DEPLOYPATH/app/Services/ProductCatalogTemplateImportService.php
+    - /bin/cp -f app/Services/VehicleEngineRangeMigrationService.php $DEPLOYPATH/app/Services/VehicleEngineRangeMigrationService.php
     - /bin/cp -f app/Services/VehicleModelProductService.php $DEPLOYPATH/app/Services/VehicleModelProductService.php
+    - /bin/cp -f app/Console/Commands/MigrateVehicleEngineRanges.php $DEPLOYPATH/app/Console/Commands/MigrateVehicleEngineRanges.php
     - /bin/cp -f database/migrations/2026_06_19_000007_create_product_catalog_templates_table.php $DEPLOYPATH/database/migrations/2026_06_19_000007_create_product_catalog_templates_table.php
     - /bin/cp -f database/migrations/2026_07_31_172747_add_device_limit_to_users_table.php $DEPLOYPATH/database/migrations/2026_07_31_172747_add_device_limit_to_users_table.php
     - /bin/cp -f database/migrations/2026_07_31_172748_create_user_sessions_table.php $DEPLOYPATH/database/migrations/2026_07_31_172748_create_user_sessions_table.php
     - /bin/cp -f database/migrations/2026_07_31_191409_add_remember_token_to_users_table.php $DEPLOYPATH/database/migrations/2026_07_31_191409_add_remember_token_to_users_table.php
     - /bin/cp -f database/migrations/2026_07_31_195001_create_vehicle_quantity_options_table.php $DEPLOYPATH/database/migrations/2026_07_31_195001_create_vehicle_quantity_options_table.php
     - /bin/cp -f database/migrations/2026_07_31_200801_add_default_cant_vehicle_to_roles_table.php $DEPLOYPATH/database/migrations/2026_07_31_200801_add_default_cant_vehicle_to_roles_table.php
+    - /bin/cp -f database/migrations/2026_08_03_000001_create_taller_workers_table.php $DEPLOYPATH/database/migrations/2026_08_03_000001_create_taller_workers_table.php
+    - /bin/cp -f database/migrations/2026_08_03_000002_add_assigned_to_to_orden_trabajos_table.php $DEPLOYPATH/database/migrations/2026_08_03_000002_add_assigned_to_to_orden_trabajos_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000001_create_motor_specs_table.php $DEPLOYPATH/database/migrations/2026_08_04_000001_create_motor_specs_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000002_add_range_columns_to_vehicle_engines_table.php $DEPLOYPATH/database/migrations/2026_08_04_000002_add_range_columns_to_vehicle_engines_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000003_drop_legacy_vehicle_engine_year_columns.php $DEPLOYPATH/database/migrations/2026_08_04_000003_drop_legacy_vehicle_engine_year_columns.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
     - /bin/cp -f public/css/app-principal.css $DEPLOYPATH/public/css/app-principal.css
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/cp -f resources/assets/js/app.js $DEPLOYPATH/resources/assets/js/app.js
+    - /bin/cp -f resources/assets/js/components/Check-List/AgregarCategoria.vue $DEPLOYPATH/resources/assets/js/components/Check-List/AgregarCategoria.vue
+    - /bin/cp -f resources/assets/js/components/Check-List/AgregarIntervencion.vue $DEPLOYPATH/resources/assets/js/components/Check-List/AgregarIntervencion.vue
+    - /bin/cp -f resources/assets/js/components/Check-List/CrearFormatoCheckList.vue $DEPLOYPATH/resources/assets/js/components/Check-List/CrearFormatoCheckList.vue
+    - /bin/cp -f resources/assets/js/components/Check-List/MostrarFormatoCheckList.vue $DEPLOYPATH/resources/assets/js/components/Check-List/MostrarFormatoCheckList.vue
     - /bin/cp -f resources/assets/js/components/Client/Index.vue $DEPLOYPATH/resources/assets/js/components/Client/Index.vue
+    - /bin/cp -f resources/assets/js/components/DeliveryTime/Index.vue $DEPLOYPATH/resources/assets/js/components/DeliveryTime/Index.vue
+    - /bin/cp -f resources/assets/js/components/Import/Cotizacion.vue $DEPLOYPATH/resources/assets/js/components/Import/Cotizacion.vue
+    - /bin/cp -f resources/assets/js/components/Import/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Import/Detalle.vue
+    - /bin/cp -f resources/assets/js/components/Import/Index.vue $DEPLOYPATH/resources/assets/js/components/Import/Index.vue
+    - /bin/cp -f resources/assets/js/components/Note/Index.vue $DEPLOYPATH/resources/assets/js/components/Note/Index.vue
     - /bin/cp -f resources/assets/js/components/OrdenTrabajos/AgregarObservacion.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/AgregarObservacion.vue
     - /bin/cp -f resources/assets/js/components/OrdenTrabajos/AlertaInformacion.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/AlertaInformacion.vue
     - /bin/cp -f resources/assets/js/components/OrdenTrabajos/Index.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/Index.vue
+    - /bin/cp -f resources/assets/js/components/OrdenTrabajos/OrdenTrabajo.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/OrdenTrabajo.vue
     - /bin/cp -f resources/assets/js/components/Product/Index.vue $DEPLOYPATH/resources/assets/js/components/Product/Index.vue
     - /bin/cp -f resources/assets/js/components/Product/CatalogTemplates.vue $DEPLOYPATH/resources/assets/js/components/Product/CatalogTemplates.vue
     - /bin/cp -f resources/assets/js/components/Quotation/CreateUser.vue $DEPLOYPATH/resources/assets/js/components/Quotation/CreateUser.vue
+    - /bin/cp -f resources/assets/js/components/Quotation/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Detalle.vue
+    - /bin/cp -f resources/assets/js/components/Quotation/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Index.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/CreateUser.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/CreateUser.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/CreateUserMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/CreateUserMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Detalle.vue
@@ -91,10 +138,14 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Index.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/ListarClientesForm.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarClientesForm.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
     - /bin/cp -f resources/assets/js/components/Roles/CreateRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/CreateRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/EditRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/EditRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/Roles.vue $DEPLOYPATH/resources/assets/js/components/Roles/Roles.vue
+    - /bin/cp -f resources/assets/js/components/Sales/Index.vue $DEPLOYPATH/resources/assets/js/components/Sales/Index.vue
+    - /bin/cp -f resources/assets/js/components/Sales/NewSale.vue $DEPLOYPATH/resources/assets/js/components/Sales/NewSale.vue
     - /bin/cp -f resources/assets/js/components/User/Detalle.vue $DEPLOYPATH/resources/assets/js/components/User/Detalle.vue
     - /bin/cp -f resources/assets/js/components/User/Dispositivos.vue $DEPLOYPATH/resources/assets/js/components/User/Dispositivos.vue
     - /bin/cp -f resources/assets/js/components/User/Edit.vue $DEPLOYPATH/resources/assets/js/components/User/Edit.vue
@@ -105,8 +156,24 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Vehicle/AgregarDetalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/AgregarDetalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Index.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Index.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMarca.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMarca.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarModelo.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarModelo.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMotor.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMotor.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMotorSpec.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarTipo.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarTipo.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/EditarMarca.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/EditarMarca.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/EditarMotor.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/EditarMotor.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/EditarMotorSpec.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/EditarTipo.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/EditarTipo.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/Index.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/Index.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/SelectBrand.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectBrand.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/SelectModelMotor.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectModelMotor.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/SelectMotorSpec.vue
+    - /bin/cp -f resources/assets/js/components/VehicleBrand/TiposSelector.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/TiposSelector.vue
+    - /bin/cp -f resources/assets/js/components/VehicleModel/Index.vue $DEPLOYPATH/resources/assets/js/components/VehicleModel/Index.vue
     - /bin/cp -f resources/assets/js/components/VehicleQuantityOptions/Index.vue $DEPLOYPATH/resources/assets/js/components/VehicleQuantityOptions/Index.vue
     - /bin/cp -f resources/assets/js/components/store/actions.js $DEPLOYPATH/resources/assets/js/components/store/actions.js
+    - /bin/cp -f resources/assets/js/components/store/getters.js $DEPLOYPATH/resources/assets/js/components/store/getters.js
     - /bin/cp -f resources/assets/js/components/store/mutations.js $DEPLOYPATH/resources/assets/js/components/store/mutations.js
     - /bin/cp -f resources/assets/js/components/store/state.js $DEPLOYPATH/resources/assets/js/components/store/state.js
     - /bin/cp -f resources/assets/js/utils/imageUtils.js $DEPLOYPATH/resources/assets/js/utils/imageUtils.js

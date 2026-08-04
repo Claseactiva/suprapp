@@ -16,8 +16,7 @@ export default { //data
     optionsVehicleBrand: [],
     optionsVehicleModel: [],
     optionsTiposVehiculo: [],
-    optionsMotores: [],
-    optionsYear: [],
+    optionsMotorSpec: [],
 
     optionsVBrand: [],
     optionsVModel: [],
@@ -52,38 +51,18 @@ export default { //data
         value: ''
     },
 
-    optionsVBR: [],
-    optionsVMR: [],
     optionsMM: [],
-    optionsYM: [],
-    
-    selectedVBR: {
-        label: '',
-        value: ''
-    },
-    selectedVMR: {
-        label: '',
-        value: ''
-    },
+
     selectedMM: {
         label: '',
         value: ''
     },
-    selectedYM: {
-        label: '',
-        value: ''
-    },
-    
+
     selectedVehiculoTipo: {
         label: '',
         value: ''
     },
-    selectedVehicleMotor: {
-        label: '',
-        value: ''
-    },
-
-    selectedVehicleYear: {
+    selectedMotorSpec: {
         label: '',
         value: ''
     },
@@ -265,19 +244,15 @@ export default { //data
         tipo_vehiculo: ''
     },
 
-    newVehicleYear:{
-        v_id: '',
-        v_year: ''
-    },
-    vehicleyears: [],
-    vehicleyear: {
-        id: '',
-        v_year: '',
-        model: ''
-    },
     newVehicleMotor: {
-        year_id: '',
-        v_engine: ''
+        vehicle_model_id: '',
+        motor_spec_id: '',
+        year: ''
+    },
+    motorspecs: [],
+    newMotorSpec: {
+        cilindrada: '',
+        combustible: ''
     },
     newVehicleBrand: {
         brand: ''
@@ -300,15 +275,15 @@ export default { //data
         brand_id: '',
         tipo_id:''
     },
-    fillVehicleYear: {
-        id: '',
-        v_year: '',
-        //model: ''
-    },
     fillVehicleMotor: {
         id: '',
-        //year_id: '',
-        v_engine: ''
+        motor_spec_id: '',
+        year_from: '',
+        year_to: ''
+    },
+    fillMotorSpec: {
+        id: '',
+        raw_label: ''
     },
     searchVehicleBrand: {
         brand: '',
@@ -860,7 +835,7 @@ export default { //data
     pagination_marca: {
         'total': 0,
         'current_page': 0,
-        'per_page': 20,
+        'per_page': 10,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -870,7 +845,7 @@ export default { //data
     pagination_tipo: {
         'total': 0,
         'current_page': 0,
-        'per_page': 20,
+        'per_page': 10,
         'last_page': 0,
         'from': 0,
         'to': 0,
@@ -880,32 +855,32 @@ export default { //data
     pagination_modelo: {
         'total': 0,
         'current_page': 0,
-        'per_page': 20,
+        'per_page': 10,
         'last_page': 0,
         'from': 0,
         'to': 0,
     },
     offset_modelo: 5,
 
-    pagination_year: {
-        'total': 0,
-        'current_page': 0,
-        'per_page': 20,
-        'last_page': 0,
-        'from': 0,
-        'to': 0,
-    },
-    offset_year: 5,
-
     pagination_motor: {
         'total': 0,
         'current_page': 0,
-        'per_page': 20,
+        'per_page': 10,
         'last_page': 0,
         'from': 0,
         'to': 0,
     },
     offset_motor: 5,
+
+    pagination_motorspec: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 10,
+        'last_page': 0,
+        'from': 0,
+        'to': 0,
+    },
+    offset_motorspec: 5,
 
     attachment: [],
     form: new FormData(),
@@ -921,6 +896,12 @@ export default { //data
     quotationusers:[],
     quotationUserMechanic:[],
     users: [],
+    tallerWorkers: [],
+    tallerTeam: [],
+    newTallerWorker: {
+        name: '',
+        email: ''
+    },
     totalvehi: [],
     sumavehi: [],
     totalcli: [],

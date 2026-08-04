@@ -46,7 +46,7 @@ class VehicleController extends Controller
                     ];
                 } else {
                     $vehicles = Vehicle::orderBy('id', 'DESC')
-                        ->where('user_id', '=', $user_id)
+                        ->whereIn('user_id', $user->teamUserIds())
                         ->with('user')
                         ->patent()
                         ->name()
@@ -72,7 +72,7 @@ class VehicleController extends Controller
 
     public function clientvehicles()
     {
-        $user_id =  Auth::id();
+        $user_id =  Auth::user()->effectiveTallerId();
 
         $clients = DB::table('users')
             ->join('mechanic_client', 'users.id', '=', 'mechanic_client.user_id')
@@ -101,9 +101,9 @@ class VehicleController extends Controller
     public function store(Request $request)
     {
 
-        $id = Auth::id();
+        $id = Auth::user()->effectiveTallerId();
 
-        $vehicles = DB::table('vehicles')->where('user_id', '=', $id)->count();
+        $vehicles = DB::table('vehicles')->whereIn('user_id', Auth::user()->teamUserIds())->count();
 
         $users = DB::table('users')->where('id', '=', $id)->get();
 

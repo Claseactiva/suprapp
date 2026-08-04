@@ -18,10 +18,35 @@ class OrdenTrabajoController extends Controller
 
     public function index()
     {
-        $user_id = Auth::id();
+        $user = Auth::user();
+        $user_ids = $user->teamUserIds();
 
-        $ordenestrabajos = OrdenTrabajo::with('vehicle', 'trabajo')->where('user_id', '=', $user_id)->get();
-        return $ordenestrabajos;
+        $query = OrdenTrabajo::with('vehicle', 'trabajo', 'assignedTo')->whereIn('user_id', $user_ids);
+
+        if ($user->isTallerWorker()) {
+            $query->where('assigned_to', $user->id);
+        }
+
+        return $query->get();
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user_ids = Auth::user()->teamUserIds();
+
+        $orden = OrdenTrabajo::whereIn('user_id', $user_ids)->findOrFail($id);
+
+        $assignedTo = $request->input('assigned_to');
+
+        if ($assignedTo !== null && !in_array((int) $assignedTo, $user_ids)) {
+            return response()->json([
+                'error' => 'El usuario asignado no pertenece a tu equipo.',
+            ], 422);
+        }
+
+        $orden->update(['assigned_to' => $assignedTo]);
+
+        return $orden;
     }
 
     public function obtenerFotosOrdenTrabajo($id)

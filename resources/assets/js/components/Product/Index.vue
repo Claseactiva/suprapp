@@ -103,7 +103,7 @@
                                 @click.prevent="openProductVehicleModels({ product })">
                                 <i class="fas fa-car-side"></i>
                             </a>
-                            <a href="#" class="btn btn-warning btn-sm" data-toggle="modal"
+                            <a href="#" class="btn btn-warning btn-icon-sm" data-toggle="modal"
                                 data-target="#edit_product" title="Editar"
                                 @click.prevent="editProduct({ product, page: pagination.current_page })">
                                 <i class="far fa-edit"></i>
@@ -113,7 +113,7 @@
                                 @click.prevent="editInventory({ id: product.id, inventories: product.inventories })">
                                 <i class="fas fa-boxes"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm" data-toggle="modal"
+                            <a href="#" class="btn btn-danger btn-icon-sm" data-toggle="modal"
                                 data-target="#delete_product" title="Eliminar"
                                 @click.prevent="modalDeleteProduct({ id: product.id })">
                                 <i class="fas fa-trash-alt"></i>

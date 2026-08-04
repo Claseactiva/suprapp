@@ -43,7 +43,7 @@
                                             <td data-table-label="#">{{ index + 1 }}</td>
                                             <td data-table-label="Intervencion">{{ intervencion.intervencion }}</td>
                                             <td class="text-right">
-                                                <a href="#" class="btn btn-danger btn-sm"
+                                                <a href="#" class="btn btn-danger btn-icon-sm"
                                                     @click.prevent="eliminarIntervencion" data-toggle="tooltip"
                                                     data-placement="top" title="Eliminar">
                                                     <i class="fas fa-trash-alt"></i>

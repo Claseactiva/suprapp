@@ -35,6 +35,10 @@ Route::get('mechanic-clients', 'User\UserController@clients');
 Route::get('suma-vehi', 'User\UserController@sumavehi');
 Route::post('mechanic-client/{id?}', 'User\UserController@storeclient');
 Route::post('mechanic-client2', 'User\UserController@storeclient2');
+Route::get('taller-team', 'User\UserController@team');
+Route::get('taller-workers', 'User\UserController@workers');
+Route::post('taller-worker', 'User\UserController@storeWorker');
+Route::delete('taller-worker/{id}', 'User\UserController@revokeWorker');
 Route::get('user-id', 'User\UserController@show');
 Route::post('company-logo', 'CompanyController@updateUserLogo');
 Route::ApiResource('companies', 'CompanyController');
@@ -59,21 +63,17 @@ Route::get('vehiculotipos-all', 'VehiculoTipoController@all');
 Route::get('select-tipos', 'VehiculoTipoController@selectTipos');
 Route::post('newvehiculotipo', 'VehiculoTipoController@store');
 
-Route::ApiResource('vehicleyears', 'VehicleYearController');
-Route::get('vehicleyears-all', 'VehicleYearController@all_year');
-Route::get('select-year', 'VehicleYearController@selectYears');
-Route::get('ym-all/{model}', 'VehicleYearController@ym');
-Route::post('newvehicleyear', 'VehicleYearController@store');
-Route::ApiResource('vyears', 'VehicleYearController');
-Route::get('vyears-all/{model}', 'VehicleYearController@all');
-
+Route::get('vyears-all/{model}', 'VehicleEngineController@years');
 
 Route::ApiResource('vehiclemotors', 'VehicleEngineController');
 Route::get('vehiclemotors-all', 'VehicleEngineController@all_motors');
-Route::get('select-motor', 'VehicleEngineController@selectMotores');
 Route::post('newvehiclemotor', 'VehicleEngineController@store');
 Route::ApiResource('vengines', 'VehicleEngineController');
-Route::get('vengines-all/{year}', 'VehicleEngineController@all');
+Route::get('vengines-all/{model}/{year}', 'VehicleEngineController@all');
+
+Route::ApiResource('motorspecs', 'MotorSpecController')->only(['index', 'store', 'update', 'destroy']);
+Route::get('motorspecs-all', 'MotorSpecController@index');
+Route::get('select-motorspec', 'MotorSpecController@selectMotorSpecs');
 
 
 Route::get('vmr-all/{brand}', 'VehicleModelController@vmr');

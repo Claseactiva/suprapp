@@ -41,7 +41,7 @@
                                 @change="setDefaultDeliveryTime({ deliveryTime })">
                         </td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-danger btn-sm"
+                            <button type="button" class="btn btn-danger btn-icon-sm"
                                 @click.prevent="deleteDeliveryTime({ id: deliveryTime.id })">
                                 <i class="fas fa-trash-alt"></i>
                             </button>

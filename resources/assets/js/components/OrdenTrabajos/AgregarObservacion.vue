@@ -30,7 +30,7 @@
                             <div class="col-4 col-md-3 mb-3" v-for="(preview, index) in previews" :key="index">
                                 <div class="observacion-preview">
                                     <img :src="preview.src" :alt="preview.name">
-                                    <button type="button" class="btn btn-danger btn-sm preview-remove"
+                                    <button type="button" class="btn btn-danger btn-icon-sm preview-remove"
                                         title="Quitar" @click.prevent="removePreview(index)">
                                         <i class="fas fa-times"></i>
                                     </button>
@@ -61,7 +61,7 @@
                                     <div class="col-12 mt-3" v-if="observacion.observacion">
                                         <h5>
                                             Observación
-                                            <a href="#" class="btn btn-warning btn-sm" title="Editar"
+                                            <a href="#" class="btn btn-warning btn-icon-sm" title="Editar"
                                                 v-if="editingId !== observacion.id"
                                                 @click.prevent="startEdit(observacion)">
                                                 <i class="far fa-edit"></i>

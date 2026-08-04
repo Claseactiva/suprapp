@@ -52,7 +52,7 @@ class CheckListController extends Controller
 
     public function mostrarFormatoCheckList()
     {
-        $user_id = Auth::user()->id;
+        $user_id = Auth::user()->effectiveTallerId();
 
         $user_id_admin = DB::table('roles')
             ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -63,6 +63,11 @@ class CheckListController extends Controller
 
         if ($user_id_admin[0]->id == $user_id) {
             $checklists = CheckList::where('user_id', '=', $user_id_admin[0]->id)->orderby('created_at', 'desc')->first();
+
+            if ($checklists === null) {
+                return [];
+            }
+
             $formatchecklist = CheckListCategoria::with('intervenciones')->where('check_list_id', '=', $checklists->id)->get();
             return $formatchecklist;
         } else {
@@ -72,6 +77,11 @@ class CheckListController extends Controller
             if ($checklists_user === null) {
 
                 $checklists_admin = CheckList::where('user_id', '=', $user_id_admin[0]->id)->orderby('created_at', 'desc')->first();
+
+                if ($checklists_admin === null) {
+                    return [];
+                }
+
                 $formatchecklistadmin = CheckListCategoria::with('intervenciones')->where('check_list_id', '=', $checklists_admin->id)->get();
 
                 $checklist_id = CheckList::create([
@@ -231,6 +241,13 @@ class CheckListController extends Controller
     {
         $user_id = Auth::user()->id;
         $checklists = CheckList::where('user_id', '=', $user_id)->orderby('created_at', 'desc')->first();
+
+        if ($checklists === null) {
+            $checklists = CheckList::create([
+                'user_id' => $user_id,
+                'count' => 0,
+            ]);
+        }
 
         $categorias = $request->checklists;
 
@@ -426,7 +443,7 @@ class CheckListController extends Controller
                 }
             }
         } else {
-            $checklistvehicles = Vehicle::with('checklist')->where('user_id', '=', $user_id)->get();
+            $checklistvehicles = Vehicle::with('checklist')->whereIn('user_id', Auth::user()->teamUserIds())->get();
             foreach ($checklistvehicles as $checklistvehicle) {
                 if ($checklistvehicle->checklist->count() > 0) {
                     $checklistvehicles = Vehicle::with('checklist')->where('id', '=', $checklistvehicle->id)->get();

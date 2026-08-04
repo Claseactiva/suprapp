@@ -41,7 +41,7 @@
                                                 <td data-table-label="#">{{ index + 1 }}</td>
                                                 <td data-table-label="Categoria">{{ checklist.categoria }}</td>
                                                 <td class="text-right">
-                                                    <a href="#" class="btn btn-danger btn-sm"
+                                                    <a href="#" class="btn btn-danger btn-icon-sm"
                                                         @click.prevent="eliminarFormatCheckListCategoria(index + 1)"
                                                         data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                         <i class="fas fa-trash-alt"></i>
@@ -139,7 +139,7 @@
                                                         <td>{{ index + 1 }}</td>
                                                         <td>{{ intervencion.intervencion }}</td>
                                                         <td class="text-right">
-                                                            <a href="#" class="btn btn-danger btn-sm"
+                                                            <a href="#" class="btn btn-danger btn-icon-sm"
                                                                 @click.prevent="eliminarIntervencionFormatCheckList(index + 1)"
                                                                 data-toggle="tooltip" data-placement="top"
                                                                 title="Eliminar">

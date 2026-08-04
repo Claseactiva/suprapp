@@ -124,7 +124,7 @@
                                             </td>
 
                                             <td>
-                                                <a href="#" class="btn btn-warning btn-sm"
+                                                <a href="#" class="btn btn-warning btn-icon-sm"
                                                     @click.prevent="editDetailimport({ detailLocal })"
                                                     data-toggle="tooltip" data-placement="top" title="Editar">
                                                     <i class="fas fa-edit"></i>

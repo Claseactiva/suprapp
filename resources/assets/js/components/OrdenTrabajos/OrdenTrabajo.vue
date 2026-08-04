@@ -84,13 +84,13 @@
                                                 <td data-table-label="kilometraje">{{ trabajo.km }}</td>
                                                 <td data-table-label="fecha">{{ trabajo.created_at | moment('DD/MM/YYYY h:mm a') }}</td>
                                                 <td class="text-right">
-                                                    <a href="#" class="btn btn-warning btn-sm"
+                                                    <a href="#" class="btn btn-warning btn-icon-sm"
                                                         @click.prevent="editarTrabajo(trabajo)" data-toggle="tooltip"
                                                         data-placement="top" title="Eliminar">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
 
-                                                    <a href="#" class="btn btn-danger btn-sm"
+                                                    <a href="#" class="btn btn-danger btn-icon-sm"
                                                         @click.prevent="removeTrabajo({ id: trabajo.id, vehicle_id: newOrdenTrabajo.vehicle_id })"
                                                         data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                         <i class="fas fa-trash-alt"></i>

@@ -137,22 +137,22 @@ export default { //computed propeties
         return pagesArray;
     },
 
-    isActived_year(state, getters) {
-        return state.pagination_year.current_page
+    isActived_motorspec(state, getters) {
+        return state.pagination_motorspec.current_page
     },
-    pagesNumber_year(state, getters) {
-        if (!state.pagination_year.to) {
+    pagesNumber_motorspec(state, getters) {
+        if (!state.pagination_motorspec.to) {
             return [];
         }
 
-        var from = state.pagination_year.current_page - state.offset_year
+        var from = state.pagination_motorspec.current_page - state.offset_motorspec
         if (from < 1) {
             from = 1;
         }
 
-        var to = from + (state.offset_year * 2);
-        if (to >= state.pagination_year.last_page) {
-            to = state.pagination_year.last_page;
+        var to = from + (state.offset_motorspec * 2);
+        if (to >= state.pagination_motorspec.last_page) {
+            to = state.pagination_motorspec.last_page;
         }
 
         var pagesArray = [];
@@ -257,9 +257,6 @@ export default { //computed propeties
     },
     getVehicleModel(state, getters) {
         return state.vehiclebrand
-    },
-    getVehicleYear(state, getters) {
-        return state.vehicleyear
     },
     getVehicleMotor(state, getters) {
         return state.vehiclemotor

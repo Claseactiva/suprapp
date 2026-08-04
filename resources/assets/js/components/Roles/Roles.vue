@@ -30,11 +30,11 @@
                             {{ roleLocal.default_cant_vehicle !== null ? '1 - ' + roleLocal.default_cant_vehicle : 'Sin definir' }}
                         </td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm" @click.prevent="editRole({ roleLocal })"
+                            <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editRole({ roleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm"
+                            <a href="#" class="btn btn-danger btn-icon-sm"
                                 @click.prevent="deleteRole({ id: roleLocal.id })" data-toggle="tooltip"
                                 data-placement="top" title="Eliminar">
                                 <i class="fas fa-ban"></i>

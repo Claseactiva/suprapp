@@ -31,12 +31,12 @@
                     <td data-table-label="FECHA">{{ noteLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
                     <td>
-                        <a href="#" class="btn btn-warning btn-sm" @click.prevent="editNote({ noteLocal })"
+                        <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editNote({ noteLocal })"
                             data-toggle="tooltip" data-placement="top" title="Editar">
                             <i class="far fa-edit"></i>
                         </a>
 
-                        <a href="#" class="btn btn-danger btn-sm" @click.prevent="deleteNote({ id: noteLocal.id })"
+                        <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteNote({ id: noteLocal.id })"
                             data-toggle="tooltip" data-placement="top" title="Eliminar">
                             <i class="fas fa-ban"></i>
                         </a>
