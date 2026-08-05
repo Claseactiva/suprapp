@@ -138,6 +138,21 @@
             </div>
             <div class="tab-pane fade show active p-4" id="company" role="tabpanel" aria-labelledby="company-tab">
 
+                <div class="form-group" v-if="fillUser.id">
+                    <label>Tu link para cotizar</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly :value="cotizarLink" @focus="$event.target.select()">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-info" @click="copyCotizarLink">
+                                <i class="far fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                    </div>
+                    <small class="text-muted d-block mt-1">
+                        Comparte este link con tus clientes para que sus solicitudes te lleguen a ti.
+                    </small>
+                </div>
+
                 <div class="form-group">
                     <label for="rut">Rut</label>
                     <input required v-validate="'required'" :class="{ 'input': true, 'is-invalid': errors.has('rut') }"
@@ -230,11 +245,46 @@ export default {
         ...mapGetters([]),
         isAdmin() {
             return this.fillUser.roles.some(role => role.name === 'admin')
+        },
+        cotizarLink() {
+            return window.location.origin + '/cotizar/' + this.fillUser.id
         }
     },
     methods: {
         ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage']),
         formatImage,
+        copyCotizarLink() {
+            const link = this.cotizarLink
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(link).then(() => {
+                    toastr.success('Link copiado')
+                }).catch(() => {
+                    this.copyCotizarLinkLegacy(link)
+                })
+                return
+            }
+
+            this.copyCotizarLinkLegacy(link)
+        },
+        copyCotizarLinkLegacy(link) {
+            const textArea = document.createElement('textarea')
+            textArea.value = link
+            textArea.setAttribute('readonly', '')
+            textArea.style.position = 'fixed'
+            textArea.style.opacity = '0'
+            document.body.appendChild(textArea)
+            textArea.select()
+
+            try {
+                document.execCommand('copy') ? toastr.success('Link copiado') : toastr.error('No se pudo copiar el link')
+            } catch (error) {
+                toastr.error('No se pudo copiar el link')
+            } finally {
+                document.body.removeChild(textArea)
+                window.getSelection().removeAllRanges()
+            }
+        },
         getDeviceSessions() {
             this.deviceSessionsLoading = true
             axios.get('user-sessions').then(response => {

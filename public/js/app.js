@@ -7425,22 +7425,55 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       return this.fillUser.roles.some(function (role) {
         return role.name === 'admin';
       });
+    },
+    cotizarLink: function cotizarLink() {
+      return window.location.origin + '/cotizar/' + this.fillUser.id;
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage'])), {}, {
     formatImage: _utils_imageUtils__WEBPACK_IMPORTED_MODULE_3__.formatImage,
-    getDeviceSessions: function getDeviceSessions() {
+    copyCotizarLink: function copyCotizarLink() {
       var _this = this;
+      var link = this.cotizarLink;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(link).then(function () {
+          toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Link copiado');
+        })["catch"](function () {
+          _this.copyCotizarLinkLegacy(link);
+        });
+        return;
+      }
+      this.copyCotizarLinkLegacy(link);
+    },
+    copyCotizarLinkLegacy: function copyCotizarLinkLegacy(link) {
+      var textArea = document.createElement('textarea');
+      textArea.value = link;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy') ? toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Link copiado') : toastr__WEBPACK_IMPORTED_MODULE_2___default().error('No se pudo copiar el link');
+      } catch (error) {
+        toastr__WEBPACK_IMPORTED_MODULE_2___default().error('No se pudo copiar el link');
+      } finally {
+        document.body.removeChild(textArea);
+        window.getSelection().removeAllRanges();
+      }
+    },
+    getDeviceSessions: function getDeviceSessions() {
+      var _this2 = this;
       this.deviceSessionsLoading = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('user-sessions').then(function (response) {
-        _this.deviceSessions = response.data.sessions;
-        _this.deviceLimit = response.data.limit;
+        _this2.deviceSessions = response.data.sessions;
+        _this2.deviceLimit = response.data.limit;
       })["finally"](function () {
-        _this.deviceSessionsLoading = false;
+        _this2.deviceSessionsLoading = false;
       });
     },
     revokeDeviceSession: function revokeDeviceSession(session) {
-      var _this2 = this;
+      var _this3 = this;
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('user-sessions/' + session.id + '/revoke').then(function (response) {
         if (response.data.loggedOut) {
           toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Sesion cerrada en este dispositivo');
@@ -7448,7 +7481,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           return;
         }
         toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Dispositivo revocado correctamente');
-        _this2.getDeviceSessions();
+        _this3.getDeviceSessions();
       })["catch"](function () {
         toastr__WEBPACK_IMPORTED_MODULE_2___default().error('No se pudo revocar el dispositivo');
       });
@@ -28344,7 +28377,39 @@ var render = function render() {
       role: "tabpanel",
       "aria-labelledby": "company-tab"
     }
-  }, [_c("div", {
+  }, [_vm.fillUser.id ? _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Tu link para cotizar")]), _vm._v(" "), _c("div", {
+    staticClass: "input-group"
+  }, [_c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      readonly: ""
+    },
+    domProps: {
+      value: _vm.cotizarLink
+    },
+    on: {
+      focus: function focus($event) {
+        return $event.target.select();
+      }
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-info",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: _vm.copyCotizarLink
+    }
+  }, [_c("i", {
+    staticClass: "far fa-copy"
+  }), _vm._v(" Copiar\n                        ")])])]), _vm._v(" "), _c("small", {
+    staticClass: "text-muted d-block mt-1"
+  }, [_vm._v("\n                    Comparte este link con tus clientes para que sus solicitudes te lleguen a ti.\n                ")])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
