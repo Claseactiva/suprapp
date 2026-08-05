@@ -387,6 +387,13 @@ export default { //data
         telefono: '',
         ppu: ''
     },
+    quotationTipoContext: 'repuesto',
+    repairActivities: [],
+    newRepairActivity: {
+        name: '',
+        price: ''
+    },
+    selectedRepairActivity: [],
     searchQuotationClient: {
         id: '',
         razonSocial: '',
@@ -553,6 +560,29 @@ export default { //data
         days: '',
         spare_parts: ''
     },
+    newSparePart: {
+        quotationclient_id: '',
+        product_id: null,
+        product: '',
+        detail: '',
+        quantity: 1
+    },
+    selectedSparePartProduct: [],
+    quotationSpareParts: [],
+    activeDetailclientImages: {
+        id: null,
+        product: '',
+        images: []
+    },
+    activeSparePartImages: {
+        id: null,
+        product: '',
+        images: []
+    },
+    attachmentDetailclientImages: [],
+    attachmentSparePartImages: [],
+    formDetailclientImages: new FormData(),
+    formSparePartImages: new FormData(),
     deliveryTimes: [],
     defaultDeliveryTime: {
         id: '',
@@ -804,6 +834,8 @@ export default { //data
     /******************************************* */
     errorsLaravel: [],
     publicQuotationSubmitting: false,
+    publicQuotationOwnerId: null,
+    publicQuotationImages: [],
     pagination: {
         'total': 0,
         'current_page': 0,
@@ -957,8 +989,16 @@ export default { //data
         password: '',
         url: '',
         ip_acceso: '',
-        logo: ''
+        logo: '',
+        roles: []
     },
+    backgroundImages: [],
+    newBackgroundImage: {
+        is_light: true
+    },
+    attachmentBackgroundImage: null,
+    formBackgroundImage: new FormData(),
+    selectedBackgroundImagePath: localStorage.getItem('bg-image-path') || null,
     fillCantCliVehi: {
         id: '',
         cant_client: 0,

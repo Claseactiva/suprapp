@@ -1940,12 +1940,57 @@ export default { //used for changing the state
                 product: state.searchQuotationClient.product,
                 date_from: state.searchQuotationClient.date_from,
                 date_to: state.searchQuotationClient.date_to,
-                per_page: state.searchQuotationClient.per_page
+                per_page: state.searchQuotationClient.per_page,
+                tipo: state.quotationTipoContext
             }
         }).then(response => {
             state.quotationclients = response.data.quotationclients.data
             state.pagination = response.data.pagination
         });
+    },
+
+    setQuotationTipoContext(state, tipo) {
+        state.quotationTipoContext = tipo === 'reparacion' ? 'reparacion' : 'repuesto'
+    },
+
+    getRepairActivities(state) {
+        axios.get('repair-activities').then(response => {
+            state.repairActivities = response.data.map(activity => ({
+                label: activity.name,
+                value: activity.id,
+                price: activity.price
+            }))
+        })
+    },
+    setRepairActivity(state, activity) {
+        state.selectedRepairActivity = activity
+        if (activity != null) {
+            state.newDetailclient.product = activity.label
+            if (activity.price) {
+                state.newDetailclient.price = activity.price
+            }
+        }
+    },
+    createRepairActivity(state) {
+        axios.post('repair-activities', {
+            name: state.newRepairActivity.name,
+            price: state.newRepairActivity.price || null
+        }).then(response => {
+            state.repairActivities.push({ label: response.data.name, value: response.data.id, price: response.data.price })
+            state.newRepairActivity = { name: '', price: '' }
+            state.errorsLaravel = []
+            toastr.success('Actividad agregada a la biblioteca')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteRepairActivity(state, id) {
+        axios.delete('repair-activities/' + id).then(response => {
+            state.repairActivities = state.repairActivities.filter(activity => activity.value !== id)
+            toastr.success('Actividad eliminada de la biblioteca')
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
     },
 
     getQuotationclientsform(state, request) {
@@ -2188,7 +2233,8 @@ export default { //used for changing the state
             telefono: state.newQuotationclient.telefono,
             vehicle: vehicleParts.join(' '),
             vehicle_model_id: state.selectedVModel.value || null,
-            ppu: state.newQuotationclient.ppu
+            ppu: state.newQuotationclient.ppu,
+            tipo: state.quotationTipoContext
         }).then(response => {
             state.newQuotationclient = {
                 client_id: '',
@@ -2435,6 +2481,144 @@ export default { //used for changing the state
         let url = urlDetailclient + '/' + id
         axios.delete(url).then(response => {
             toastr.success('Detalle eliminado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+        })
+    },
+
+    /******************************* */
+    /****** imagenes por producto de cotizacion **** */
+    /******************************* */
+    openDetailclientImages(state, detailLocal) {
+        state.activeDetailclientImages = detailLocal
+        $('#detailclientImagesModal').modal('show')
+    },
+    setDetailclientImagesFiles(state, evt) {
+        state.formDetailclientImages = new FormData()
+        const files = evt.target.files
+
+        for (let i = 0; i < files.length; i++) {
+            state.attachmentDetailclientImages.push(files[i])
+            state.formDetailclientImages.append('images[]', files[i])
+        }
+    },
+    uploadDetailclientImages(state) {
+        if (!state.attachmentDetailclientImages.length) {
+            return
+        }
+
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        state.formDetailclientImages.append('detailclient_id', state.activeDetailclientImages.id)
+
+        axios.post('detailclient-images', state.formDetailclientImages, config).then(response => {
+            state.attachmentDetailclientImages = []
+            state.formDetailclientImages = new FormData()
+            state.errorsLaravel = []
+            $('#detailclientImagesInput').val(null)
+            toastr.success('Imagenes agregadas con exito')
+            this.commit('getQuotationclientDetails')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteDetailclientImage(state, id) {
+        axios.delete('detailclient-images/' + id).then(response => {
+            state.activeDetailclientImages.images = state.activeDetailclientImages.images.filter(image => image.id !== id)
+            toastr.success('Imagen eliminada con exito')
+            this.commit('getQuotationclientDetails')
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+
+    /******************************* */
+    /****** solicitud de repuestos (lista estructurada) **** */
+    /******************************* */
+    getQuotationSpareParts(state, quotationclientId) {
+        axios.get('quotationclient-spare-parts/' + quotationclientId).then(response => {
+            state.quotationSpareParts = response.data
+        })
+    },
+    setSparePartProduct(state, product) {
+        state.selectedSparePartProduct = product
+        if (product != null) {
+            state.newSparePart.product_id = product.value
+            state.newSparePart.product = product.label
+            state.newSparePart.detail = product.codebar
+        }
+    },
+    createSparePart(state) {
+        axios.post('quotation-spare-parts', {
+            quotationclient_id: state.idQuotationclient,
+            product_id: state.newSparePart.product_id,
+            product: state.newSparePart.product,
+            detail: state.newSparePart.detail,
+            quantity: state.newSparePart.quantity,
+        }).then(response => {
+            state.selectedSparePartProduct = []
+            state.newSparePart = {
+                quotationclient_id: '',
+                product_id: null,
+                product: '',
+                detail: '',
+                quantity: 1
+            }
+            state.errorsLaravel = []
+            toastr.success('Repuesto agregado con exito')
+            this.commit('getQuotationSpareParts', state.idQuotationclient)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteSparePart(state, id) {
+        axios.delete('quotation-spare-parts/' + id).then(response => {
+            toastr.success('Repuesto eliminado con exito')
+            this.commit('getQuotationSpareParts', state.idQuotationclient)
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+
+    /******************************* */
+    /****** imagenes por repuesto **** */
+    /******************************* */
+    openSparePartImages(state, sparePartLocal) {
+        state.activeSparePartImages = sparePartLocal
+        $('#sparePartImagesModal').modal('show')
+    },
+    setSparePartImagesFiles(state, evt) {
+        state.formSparePartImages = new FormData()
+        const files = evt.target.files
+
+        for (let i = 0; i < files.length; i++) {
+            state.attachmentSparePartImages.push(files[i])
+            state.formSparePartImages.append('images[]', files[i])
+        }
+    },
+    uploadSparePartImages(state) {
+        if (!state.attachmentSparePartImages.length) {
+            return
+        }
+
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        state.formSparePartImages.append('quotation_spare_part_id', state.activeSparePartImages.id)
+
+        axios.post('quotation-spare-part-images', state.formSparePartImages, config).then(response => {
+            state.attachmentSparePartImages = []
+            state.formSparePartImages = new FormData()
+            state.errorsLaravel = []
+            $('#sparePartImagesInput').val(null)
+            toastr.success('Imagenes agregadas con exito')
+            this.commit('getQuotationSpareParts', state.idQuotationclient)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteSparePartImage(state, id) {
+        axios.delete('quotation-spare-part-images/' + id).then(response => {
+            state.activeSparePartImages.images = state.activeSparePartImages.images.filter(image => image.id !== id)
+            toastr.success('Imagen eliminada con exito')
+            this.commit('getQuotationSpareParts', state.idQuotationclient)
+        }).catch(error => {
+            toastr.error(error.response.data.message)
         })
     },
     /******************************* */
@@ -3322,6 +3506,7 @@ export default { //used for changing the state
             state.fillUser.id = response.data.id
             state.fillUser.name = response.data.name
             state.fillUser.email = response.data.email
+            state.fillUser.roles = response.data.roles || []
             state.newCompany.user_id = response.data.id
         })
     },
@@ -3420,6 +3605,65 @@ export default { //used for changing the state
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
+    },
+    getBackgroundImages(state) {
+        axios.get('background-images').then(response => {
+            state.backgroundImages = response.data
+        })
+    },
+    setBackgroundImageFile(state, evt) {
+        state.formBackgroundImage = new FormData()
+        const file = evt.target.files[0]
+
+        if (!file) {
+            return
+        }
+
+        state.attachmentBackgroundImage = file
+        state.formBackgroundImage.append('image', file)
+    },
+    uploadBackgroundImage(state) {
+        if (!state.attachmentBackgroundImage) {
+            return
+        }
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        state.formBackgroundImage.append('is_light', state.newBackgroundImage.is_light ? 1 : 0)
+
+        axios.post('background-images', state.formBackgroundImage, config).then(response => {
+            state.backgroundImages.unshift(response.data)
+            state.formBackgroundImage = new FormData()
+            state.attachmentBackgroundImage = null
+            state.newBackgroundImage = { is_light: true }
+            state.errorsLaravel = []
+            $('#backgroundImageFile').val(null)
+            toastr.success('Imagen de fondo agregada con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deleteBackgroundImage(state, id) {
+        axios.delete('background-images/' + id).then(response => {
+            state.backgroundImages = state.backgroundImages.filter(image => image.id !== id)
+            toastr.success('Imagen eliminada con exito')
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+    selectBackgroundImage(state, image) {
+        localStorage.setItem('bg-image-path', image.path)
+        localStorage.setItem('bg-image-variant', image.is_light ? 'light' : 'dark')
+
+        document.body.style.setProperty('--wrapper-bg-image', 'url(' + image.path + ')')
+        document.body.classList.remove('bg-photo-light', 'bg-photo-dark')
+        document.body.classList.add(image.is_light ? 'bg-photo-light' : 'bg-photo-dark')
+
+        state.selectedBackgroundImagePath = image.path
     },
     updateUser(state, id) {
         let url = urlUser + '/' + id
@@ -3938,6 +4182,12 @@ export default { //used for changing the state
     setVEngine(state, engine) {
         state.selectedVEngine = engine
     },
+    setPublicQuotationOwnerId(state, ownerId) {
+        state.publicQuotationOwnerId = ownerId || null
+    },
+    setPublicQuotationImages(state, files) {
+        state.publicQuotationImages = files || []
+    },
     createQuotationUser(state) {
         if (state.publicQuotationSubmitting) {
             return
@@ -3953,10 +4203,26 @@ export default { //used for changing the state
             brand: state.selectedVBrand.label,
             model: state.selectedVModel.label,
             year: state.selectedVYear.label,
-            description: (state.formCotizacion.description || '').trim()
+            description: (state.formCotizacion.description || '').trim(),
+            owner_id: state.publicQuotationOwnerId
         }
 
-        axios.post(url, payload).then(() => {
+        let body = payload
+        let config = {}
+
+        if (state.publicQuotationImages && state.publicQuotationImages.length) {
+            const formData = new FormData()
+            Object.keys(payload).forEach(key => {
+                if (payload[key] !== null && payload[key] !== undefined) {
+                    formData.append(key, payload[key])
+                }
+            })
+            state.publicQuotationImages.forEach(file => formData.append('images[]', file))
+            body = formData
+            config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        }
+
+        axios.post(url, body, config).then(() => {
             state.publicQuotationSubmitting = false
             state.formCotizacion = {
                 name: '',
@@ -3969,6 +4235,7 @@ export default { //used for changing the state
                 engine: '',
                 description: ''
             }
+            state.publicQuotationImages = []
             resetPublicQuotationVehicleSelectors(state)
             state.errorsLaravel = []
             dispatchPublicQuotationSent(payload)

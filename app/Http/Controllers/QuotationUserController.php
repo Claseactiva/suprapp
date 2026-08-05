@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Quotationclient;
 use App\Models\QuotationUser;
 use App\Models\QuotationUserVehicle;
+use App\Models\QuotationUserImage;
 use App\Notifications\EmailNotificator;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,14 +17,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\ImageManager;
 
 class QuotationUserController extends Controller
 {
     use Notifiable;
 
-    public function cotizar()
+    public function cotizar($id = null)
     {
-        return view('quotation');
+        return view('quotation', ['ownerId' => $id]);
     }
 
     public function cotizar_express()
@@ -35,7 +37,7 @@ class QuotationUserController extends Controller
     {
         $data = $request->validated();
 
-        [$ownerUserId, $client] = $this->resolvePublicQuotationContext();
+        [$ownerUserId, $client] = $this->resolvePublicQuotationContext($request->input('owner_id'));
 
         $name = trim($data['name']);
         $email = trim($data['email'] ?? '');
@@ -59,7 +61,8 @@ class QuotationUserController extends Controller
             $model,
             $year,
             $engine,
-            $description
+            $description,
+            $request->file('images', [])
         );
 
         $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
@@ -185,9 +188,9 @@ class QuotationUserController extends Controller
         ], 200);
     }
 
-    private function createPublicQuotation($ownerUserId, Client $client, $generado, $name, $email, $phone, $patentchasis, $brand, $model, $year, $engine, $description)
+    private function createPublicQuotation($ownerUserId, Client $client, $generado, $name, $email, $phone, $patentchasis, $brand, $model, $year, $engine, $description, $images = [])
     {
-        return DB::transaction(function () use ($ownerUserId, $client, $generado, $name, $email, $phone, $patentchasis, $brand, $model, $year, $engine, $description) {
+        return DB::transaction(function () use ($ownerUserId, $client, $generado, $name, $email, $phone, $patentchasis, $brand, $model, $year, $engine, $description, $images) {
             $quotationId = Quotationclient::create([
                 'user_id' => $ownerUserId,
                 'client_id' => $client->id,
@@ -205,7 +208,7 @@ class QuotationUserController extends Controller
                 'quotation_id' => $quotationId
             ])->id;
 
-            QuotationUserVehicle::create([
+            $vehicleId = QuotationUserVehicle::create([
                 'patentchasis' => $patentchasis,
                 'user_id' => $quotationUserId,
                 'brand' => $brand,
@@ -214,15 +217,44 @@ class QuotationUserController extends Controller
                 'engine' => $engine,
                 'email' => $email,
                 'description' => $description
-            ]);
+            ])->id;
+
+            $this->savePublicQuotationImages($vehicleId, $images);
 
             return $quotationId;
         });
     }
 
-    private function resolvePublicQuotationContext($includeOwnerUser = false)
+    private function savePublicQuotationImages($vehicleId, $images)
     {
-        $ownerUserId = (int) env('PUBLIC_QUOTATION_OWNER_ID', 1);
+        if (empty($images)) {
+            return;
+        }
+
+        $manager = new ImageManager(array('local' => 'imagick'));
+
+        foreach ($images as $image) {
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('storage/images/quotation-user/' . $filename);
+
+            $manager->make($image->getRealPath())->resize(1200, 1200, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->save($path);
+
+            QuotationUserImage::create([
+                'quotation_user_vehicle_id' => $vehicleId,
+                'imagen' => 'storage/images/quotation-user/' . $filename,
+            ]);
+        }
+    }
+
+    private function resolvePublicQuotationContext($requestedOwnerId = null, $includeOwnerUser = false)
+    {
+        $ownerUserId = (int) $requestedOwnerId;
+        if ($ownerUserId <= 0) {
+            $ownerUserId = (int) env('PUBLIC_QUOTATION_OWNER_ID', 1);
+        }
         if ($ownerUserId <= 0) {
             $ownerUserId = 1;
         }

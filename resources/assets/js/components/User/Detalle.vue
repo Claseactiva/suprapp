@@ -79,6 +79,62 @@
                     Esta preferencia se guarda en este navegador.
                 </p>
 
+                <hr>
+
+                <h5>Imagen de Fondo</h5>
+                <p class="text-muted" style="font-size: 0.85rem;">
+                    Elige la imagen de fondo que prefieras. Esta preferencia se guarda en este navegador.
+                </p>
+
+                <div class="row">
+                    <div class="col-6 col-md-3 mb-3" v-for="image in backgroundImages" :key="image.id">
+                        <div class="card" :class="{ 'border-success': image.path === selectedBackgroundImagePath }"
+                            style="cursor: pointer;" @click="selectBackgroundImage(image)">
+                            <img :src="formatImage(image.path)" class="card-img-top" style="height: 100px; object-fit: cover;" alt="...">
+                            <div class="card-body p-2 text-center">
+                                <span class="badge badge-success" v-if="image.path === selectedBackgroundImagePath">
+                                    En uso
+                                </span>
+                                <span class="badge badge-secondary" v-else>
+                                    {{ image.is_light ? 'Clara' : 'Oscura' }}
+                                </span>
+                                <a href="#" class="btn btn-danger btn-icon-sm ml-1" v-if="isAdmin"
+                                    @click.stop.prevent="deleteBackgroundImage(image.id)" title="Eliminar">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="isAdmin">
+                    <hr>
+                    <h6>Subir nueva imagen de fondo (admin)</h6>
+
+                    <div class="form-group">
+                        <label for="backgroundImageFile">Archivo de imagen</label>
+                        <input id="backgroundImageFile" type="file" class="form-control"
+                            @change="setBackgroundImageFile($event)" accept=".png, .jpeg, .jpg">
+                    </div>
+
+                    <div class="custom-control custom-switch mb-3">
+                        <input type="checkbox" class="custom-control-input" id="newBackgroundIsLight"
+                            v-model="newBackgroundImage.is_light">
+                        <label class="custom-control-label" for="newBackgroundIsLight">
+                            Es una foto clara/luminosa
+                        </label>
+                    </div>
+
+                    <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                        <p>{{ error.image }}</p>
+                    </div>
+
+                    <button type="button" class="btn btn-success" :disabled="!attachmentBackgroundImage"
+                        @click="uploadBackgroundImage">
+                        <i class="fas fa-plus-square"></i> Agregar a la paleta
+                    </button>
+                </div>
+
             </div>
             <div class="tab-pane fade show active p-4" id="company" role="tabpanel" aria-labelledby="company-tab">
 
@@ -158,6 +214,7 @@ import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapGetters, mapActions } from 'vuex';
 import axios from 'axios'
 import toastr from 'toastr'
+import { formatImage } from '../../utils/imageUtils'
 
 export default {
     data() {
@@ -169,11 +226,15 @@ export default {
         }
     },
     computed: {
-        ...mapState(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel']),
-        ...mapGetters([])
+        ...mapState(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel', 'fillUser', 'backgroundImages', 'newBackgroundImage', 'attachmentBackgroundImage', 'selectedBackgroundImagePath']),
+        ...mapGetters([]),
+        isAdmin() {
+            return this.fillUser.roles.some(role => role.name === 'admin')
+        }
     },
     methods: {
-        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo']),
+        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage']),
+        formatImage,
         getDeviceSessions() {
             this.deviceSessionsLoading = true
             axios.get('user-sessions').then(response => {
@@ -205,6 +266,7 @@ export default {
         loadProgressBar()
         this.$store.dispatch('getUser')
         this.$store.dispatch('getCompany')
+        this.$store.dispatch('getBackgroundImages')
     }
 }
 </script>

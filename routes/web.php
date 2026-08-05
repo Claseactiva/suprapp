@@ -43,6 +43,8 @@ Route::get('user-id', 'User\UserController@show');
 Route::post('company-logo', 'CompanyController@updateUserLogo');
 Route::ApiResource('companies', 'CompanyController');
 
+Route::ApiResource('background-images', 'BackgroundImageController')->only(['index', 'store', 'destroy']);
+
 
 
 Route::ApiResource('companies', 'CompanyController');
@@ -81,6 +83,8 @@ Route::post('motors/{id}/link', 'MotorController@link');
 Route::post('motors/{id}/unlink', 'MotorController@unlink');
 Route::get('motors/{id}/history', 'MotorController@history');
 
+Route::ApiResource('repair-activities', 'RepairActivityController')->only(['index', 'store', 'update', 'destroy']);
+
 
 Route::get('vmr-all/{brand}', 'VehicleModelController@vmr');
 Route::get('mm-all', 'VehicleModelController@mm');
@@ -100,7 +104,7 @@ Route::ApiResource('quotationuser', 'QuotationUserController');
 Route::post('quotationuserexpress', 'QuotationUserController@storeUserExpress');
 Route::post('quotation-mechanic', 'QuotationUserController@storeMechanic');
 Route::ApiResource('pendingquotations', 'QuotationUserController');
-Route::get('/cotizar', 'QuotationUserController@cotizar');
+Route::get('/cotizar/{id?}', 'QuotationUserController@cotizar');
 Route::get('cotizar-express', 'QuotationUserController@cotizar_express');
 
 Route::ApiResource('detailvehicles', 'DetailVehicleController');
@@ -175,6 +179,13 @@ Route::ApiResource('archiveimports', 'ArchiveimportController');
 
 Route::ApiResource('details', 'DetailController');
 Route::ApiResource('detailclients', 'DetailclientController');
+Route::post('detailclient-images', 'DetailclientController@uploadImages');
+Route::delete('detailclient-images/{id}', 'DetailclientController@deleteImage');
+
+Route::get('quotationclient-spare-parts/{id}', 'QuotationSparePartController@index');
+Route::ApiResource('quotation-spare-parts', 'QuotationSparePartController')->only(['store', 'update', 'destroy']);
+Route::post('quotation-spare-part-images', 'QuotationSparePartController@uploadImages');
+Route::delete('quotation-spare-part-images/{id}', 'QuotationSparePartController@deleteImage');
 
 Route::post('tipodepago', 'ProductController@storeTipoPago');
 Route::post('descuento', 'ProductController@storeDescuento');
@@ -358,6 +369,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
     Route::get('admin-cotizaciones-formales', function () {
         return view('admin.cotizaciones-formales');
     })->name('admin-cotizaciones-formales'); //->middleware('permission:cotizaciones');
+
+    Route::get('admin-cotizacion-reparacion', function () {
+        return view('admin.cotizacion-reparacion');
+    })->name('admin-cotizacion-reparacion'); //->middleware('permission:cotizaciones');
 
     Route::get('admin-importaciones', function () {
         return view('admin.importaciones');

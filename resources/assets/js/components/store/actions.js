@@ -422,6 +422,22 @@ export default { //methods
     getMotorHistory(context, id) {
         context.commit('getMotorHistory', id)
     },
+
+    getBackgroundImages(context) {
+        context.commit('getBackgroundImages')
+    },
+    setBackgroundImageFile(context, evt) {
+        context.commit('setBackgroundImageFile', evt)
+    },
+    uploadBackgroundImage(context) {
+        context.commit('uploadBackgroundImage')
+    },
+    deleteBackgroundImage(context, id) {
+        context.commit('deleteBackgroundImage', id)
+    },
+    selectBackgroundImage(context, image) {
+        context.commit('selectBackgroundImage', image)
+    },
     /********************************** */
     subirFotosObservacion(context, data) {
         context.commit('subirFotosObservacion', data.evt)
@@ -513,6 +529,21 @@ export default { //methods
     getQuotationclients(context, data) {
         const page = data && data.page ? data.page : 1
         context.commit('getQuotationclients', page)
+    },
+    setQuotationTipoContext(context, tipo) {
+        context.commit('setQuotationTipoContext', tipo)
+    },
+    getRepairActivities(context) {
+        context.commit('getRepairActivities')
+    },
+    setRepairActivity(context, activity) {
+        context.commit('setRepairActivity', activity)
+    },
+    createRepairActivity(context) {
+        context.commit('createRepairActivity')
+    },
+    deleteRepairActivity(context, id) {
+        context.commit('deleteRepairActivity', id)
     },
     getQuotationclientsform(context, data) {
         const page = data && data.page ? data.page : 1
@@ -715,6 +746,7 @@ export default { //methods
         context.commit('getProductCatalogTemplateSuggestions')
         setTimeout(function () {
             context.commit('getQuotationclientDetails')
+            context.commit('getQuotationSpareParts', data.id)
         }, 500)
     },
     showModalDetailclientMechanic(context, data) {
@@ -755,6 +787,44 @@ export default { //methods
             context.commit('getQuotationclientDetails')
             context.commit('getModelProductSuggestions')
         }, 1000)
+    },
+
+    openDetailclientImages(context, data) {
+        context.commit('openDetailclientImages', data)
+    },
+    setDetailclientImagesFiles(context, evt) {
+        context.commit('setDetailclientImagesFiles', evt)
+    },
+    uploadDetailclientImages(context) {
+        context.commit('uploadDetailclientImages')
+    },
+    deleteDetailclientImage(context, id) {
+        context.commit('deleteDetailclientImage', id)
+    },
+
+    getQuotationSpareParts(context, quotationclientId) {
+        context.commit('getQuotationSpareParts', quotationclientId)
+    },
+    setSparePartProduct(context, product) {
+        context.commit('setSparePartProduct', product)
+    },
+    createSparePart(context) {
+        context.commit('createSparePart')
+    },
+    deleteSparePart(context, id) {
+        context.commit('deleteSparePart', id)
+    },
+    openSparePartImages(context, data) {
+        context.commit('openSparePartImages', data)
+    },
+    setSparePartImagesFiles(context, evt) {
+        context.commit('setSparePartImagesFiles', evt)
+    },
+    uploadSparePartImages(context) {
+        context.commit('uploadSparePartImages')
+    },
+    deleteSparePartImage(context, id) {
+        context.commit('deleteSparePartImage', id)
     },
     /******************************************** */
     /********************************************* */
@@ -1312,6 +1382,12 @@ export default { //methods
     },
     setVEngine(context, data) {
         context.commit('setVEngine', data)
+    },
+    setPublicQuotationOwnerId(context, ownerId) {
+        context.commit('setPublicQuotationOwnerId', ownerId)
+    },
+    setPublicQuotationImages(context, files) {
+        context.commit('setPublicQuotationImages', files)
     },
     createQuotationUser(context, data) {
         context.commit('createQuotationUser', data)

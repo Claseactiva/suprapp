@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Detailclient extends Model
+class QuotationSparePart extends Model
 {
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $fillable = ['quotationclient_id', 'product_id', 'product', 'detail', 'quantity'];
 
     public function quotationclient()
     {
@@ -15,6 +15,6 @@ class Detailclient extends Model
 
     public function images()
     {
-        return $this->hasMany('App\Models\DetailclientImage');
+        return $this->hasMany('App\Models\QuotationSparePartImage');
     }
 }

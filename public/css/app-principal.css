@@ -8998,8 +8998,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  --wrapper-bg-image: url(../img/fondo1.png);
-  background-image: var(--wrapper-bg-image);
+  background-image: var(--wrapper-bg-image, url(../img/fondo1.png));
   background-size: contain;
 }
 
@@ -10061,11 +10060,11 @@ body.admin-compact .close {
    - bg-photo-light: para fotos claras/luminosas -> overlay oscuro mas fuerte.
    - bg-photo-dark: para fotos ya oscuras -> overlay mas sutil, para no aplanarlas. */
 body.bg-photo-light #wrapper {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--wrapper-bg-image);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--wrapper-bg-image, url(../img/fondo1.png));
 }
 
 body.bg-photo-dark #wrapper {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--wrapper-bg-image);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), var(--wrapper-bg-image, url(../img/fondo1.png));
 }
 
 /* Preferencia de usuario (guardada en localStorage, boton en Mi Perfil):

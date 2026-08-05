@@ -27,12 +27,23 @@
 
 </head>
 
-<body id="page-top" class="sidebar-toggled admin-compact bg-photo-light">
+<body id="page-top" class="sidebar-toggled admin-compact">
 
     <script>
         if (localStorage.getItem('theme-light-tables') === '1') {
             document.body.classList.add('theme-light-tables');
         }
+
+        (function () {
+            var bgPath = localStorage.getItem('bg-image-path');
+            var bgVariant = localStorage.getItem('bg-image-variant');
+
+            if (bgPath) {
+                document.body.style.setProperty('--wrapper-bg-image', 'url(' + bgPath + ')');
+            }
+
+            document.body.classList.add(bgVariant === 'dark' ? 'bg-photo-dark' : 'bg-photo-light');
+        })();
     </script>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -154,9 +165,9 @@
                 </li>
             @endcanany
 
-            @canany(['cotizaciones_simples', 'ventas', 'boletas'])
+            @canany(['cotizaciones_simples', 'ventas', 'boletas', 'cotizaciones'])
                 @php
-                    $comercialGroupActive = request()->routeIs('admin-cotizacion-express', 'admin-ventas', 'admin-boleta');
+                    $comercialGroupActive = request()->routeIs('admin-cotizacion-express', 'admin-ventas', 'admin-boleta', 'admin-cotizacion-reparacion');
                 @endphp
                 <li class="nav-item">
                     <a class="nav-link sidebar-group-toggle {{ $comercialGroupActive ? '' : 'collapsed' }}" href="#"
@@ -170,6 +181,12 @@
                             <li class="nav-item {{ request()->routeIs('admin-cotizacion-express') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-cotizacion-express') }}">
                                     <span>Cotizaciones Express</span></a>
+                            </li>
+                        @endcan
+                        @can('cotizaciones')
+                            <li class="nav-item {{ request()->routeIs('admin-cotizacion-reparacion') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-cotizacion-reparacion') }}">
+                                    <span>Cotización Reparación</span></a>
                             </li>
                         @endcan
                         @can('ventas')

@@ -36,7 +36,9 @@ class StoreQuotationUser extends FormRequest
             'year' => 'required',
             'engine' => 'nullable|max:190',
             'email' => 'nullable|email',
-            'description' => 'required|min:6'
+            'description' => 'required|min:6',
+            'images' => 'nullable|array',
+            'images.*' => 'image|max:8192',
         ];
     }
 

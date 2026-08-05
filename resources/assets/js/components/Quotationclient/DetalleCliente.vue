@@ -54,6 +54,17 @@
                                         <th>Descripcion</th>
                                         <td>{{ quotationLocalForm.description }}</td>
                                     </tr>
+                                    <tr v-if="quotationLocalForm.images && quotationLocalForm.images.length">
+                                        <th>Fotos</th>
+                                        <td>
+                                            <div class="d-flex flex-wrap">
+                                                <a v-for="image in quotationLocalForm.images" :key="image.id"
+                                                    :href="formatImage(image.imagen)" target="_blank" class="mr-2 mb-2">
+                                                    <img :src="formatImage(image.imagen)" style="height: 90px; object-fit: cover;" class="rounded">
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
 
                                 </tbody>
                             </table>
@@ -68,6 +79,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { formatImage } from '../../utils/imageUtils'
 
 export default {
     computed: {
@@ -75,7 +87,8 @@ export default {
         ...mapGetters([])
     },
     methods: {
-        ...mapActions([])
+        ...mapActions([]),
+        formatImage
     },
 }
 </script>

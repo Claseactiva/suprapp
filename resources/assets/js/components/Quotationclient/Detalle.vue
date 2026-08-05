@@ -11,7 +11,80 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" v-if="isReparacion">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Nueva Reparación</h5>
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-12 d-flex align-items-center flex-wrap">
+                                            <label class="mr-3 mb-0"><strong>Valores de esta cotización:</strong></label>
+                                            <div class="custom-control custom-checkbox mr-3 d-flex align-items-center">
+                                                <input type="checkbox" class="custom-control-input" id="repairValoresNeto"
+                                                    :checked="!repairIvaIncluded" @change="setRepairIvaIncluded(false)">
+                                                <label class="custom-control-label mb-0" for="repairValoresNeto">Valores Netos (+ IVA aparte)</label>
+                                            </div>
+                                            <div class="custom-control custom-checkbox d-flex align-items-center">
+                                                <input type="checkbox" class="custom-control-input" id="repairValoresIva"
+                                                    :checked="repairIvaIncluded" @change="setRepairIvaIncluded(true)">
+                                                <label class="custom-control-label mb-0" for="repairValoresIva">Valores con IVA Incluido</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row align-items-end">
+                                        <div class="col-lg-7 col-md-12">
+                                            <label>Reparación</label>
+                                            <input type="text" class="form-control" v-model="newDetailclient.product"
+                                                list="repair-activity-suggestions" autocomplete="off"
+                                                placeholder="Filtra o escribe una nueva...">
+                                            <datalist id="repair-activity-suggestions">
+                                                <option v-for="activity in repairActivities" :key="activity.value"
+                                                    :value="activity.label">
+                                                </option>
+                                            </datalist>
+                                        </div>
+                                        <div class="col-lg-1 col-md-3">
+                                            <label>{{ repairPricingMode === 'utilidad' ? 'Precio Base' : 'Valor a Cobrar' }}</label>
+                                            <input type="number" class="form-control" v-model="newDetailclient.price"
+                                                @keyup="sumTotalRepair" min="0" required>
+                                        </div>
+                                        <div class="col-lg-1 col-md-3" v-if="repairPricingMode === 'utilidad'">
+                                            <label>% Util.</label>
+                                            <input type="number" class="form-control" v-model="newDetailclient.percentage"
+                                                @keyup="sumTotalRepair" min="0">
+                                        </div>
+                                        <div class="col-lg-1 col-md-3">
+                                            <label>Cant.</label>
+                                            <input type="number" class="form-control" v-model="newDetailclient.quantity"
+                                                @keyup="sumTotalRepair" min="1" required>
+                                        </div>
+                                        <div class="col-lg-1 col-md-3">
+                                            <label>Total</label>
+                                            <input type="number" class="form-control" v-model="newDetailclient.total" disabled>
+                                        </div>
+                                        <div class="col-lg-1 col-md-3 quotation-detail-action">
+                                            <label class="d-block invisible">Agregar</label>
+                                            <button type="button" class="btn btn-success form-control" @click="submitRepairItem"
+                                                title="Agregar">
+                                                <i class="fas fa-plus-square"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <a href="#" @click.prevent="togglePricingMode">
+                                                {{ repairPricingMode === 'utilidad' ? '← Volver a valor directo' : '¿Prefieres calcular con precio base + % de utilidad?' }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" v-else>
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0">Nuevo Producto</h5>
@@ -121,7 +194,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 mt-3">
+                        <div class="col-lg-12 mt-3" v-if="!isReparacion">
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#bulkQuotationImportModal">
                                     <i class="fas fa-file-import"></i> Importar Precoti
@@ -133,17 +206,17 @@
                             <table class="table table-responsive-new table-dark table-sm mt-3">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Producto</th>
-                                        <th>Código</th>
-                                        <th>Plazo</th>
-                                        <th>Valor Neto ($)</th>
+                                        <th style="width: 40px;">ID</th>
+                                        <th style="width: 40%;">Producto</th>
+                                        <th v-if="!isReparacion">Código</th>
+                                        <th v-if="!isReparacion">Plazo</th>
+                                        <th v-if="showNetoColumns">Valor Neto ($)</th>
                                         <th>Cantidad</th>
-                                        <th>Porcentaje</th>
-                                        <th>Adicional ($)</th>
-                                        <th>Transporte ($)</th>
-                                        <th>Utilidad ($)</th>
-                                        <th>Total Neto ($)</th>
+                                        <th v-if="showPercentageColumns">Porcentaje</th>
+                                        <th v-if="!isReparacion">Adicional ($)</th>
+                                        <th v-if="!isReparacion">Transporte ($)</th>
+                                        <th v-if="showPercentageColumns">Utilidad ($)</th>
+                                        <th v-if="showNetoColumns">Total Neto ($)</th>
                                         <th>Total + IVA ($)</th>
                                         <th>Acción</th>
                                     </tr>
@@ -153,21 +226,30 @@
                                     <tr v-for="(detailLocal, index) in detailclients" :key="detailLocal.id">
                                         <td data-table-label="ID">{{ index + 1 }}</td>
                                         <td data-table-label="Producto">{{ detailLocal.product }}</td>
-                                        <td data-table-label="Código">{{ detailLocal.detail }}</td>
-                                        <td data-table-label="Plazo">{{ detailLocal.days }}</td>
-                                        <td data-table-label="Valor Neto ($)">{{ formatPrice(detailLocal.price) }}</td>
+                                        <td data-table-label="Código" v-if="!isReparacion">{{ detailLocal.detail }}</td>
+                                        <td data-table-label="Plazo" v-if="!isReparacion">{{ detailLocal.days }}</td>
+                                        <td data-table-label="Valor Neto ($)" v-if="showNetoColumns">{{ formatPrice(detailLocal.price) }}</td>
                                         <td data-table-label="Cantidad">{{ detailLocal.quantity }}</td>
-                                        <td data-table-label="Porcentaje">{{ detailLocal.percentage + '%' }}</td>
-                                        <td data-table-label="Adicional ($)">{{ formatPrice(detailLocal.aditional) }}</td>
-                                        <td data-table-label="Transporte ($)">{{ formatPrice(detailLocal.transport) }}</td>
-                                        <td data-table-label="Utilidad ($)">{{ formatPrice(detailLocal.utility) }}</td>
-                                        <td data-table-label="Total Neto ($)">{{ formatPrice(detailLocal.price_neto) }}</td>
+                                        <td data-table-label="Porcentaje" v-if="showPercentageColumns">{{ detailLocal.percentage + '%' }}</td>
+                                        <td data-table-label="Adicional ($)" v-if="!isReparacion">{{ formatPrice(detailLocal.aditional) }}</td>
+                                        <td data-table-label="Transporte ($)" v-if="!isReparacion">{{ formatPrice(detailLocal.transport) }}</td>
+                                        <td data-table-label="Utilidad ($)" v-if="showPercentageColumns">{{ formatPrice(detailLocal.utility) }}</td>
+                                        <td data-table-label="Total Neto ($)" v-if="showNetoColumns">{{ formatPrice(detailLocal.price_neto) }}</td>
                                         <td data-table-label="Total + IVA ($)"><b>{{ formatPrice(detailLocal.total) }}</b></td>
                                         <td>
                                             <a href="#" class="btn btn-warning btn-icon-sm"
                                                 @click.prevent="editDetailclient({ detailLocal })" data-toggle="tooltip"
                                                 data-placement="top" title="Editar">
                                                 <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <a href="#" class="btn btn-info btn-icon-sm" style="position: relative;"
+                                                @click.prevent="openDetailclientImages(detailLocal)"
+                                                data-toggle="tooltip" data-placement="top" title="Fotos">
+                                                <i class="fas fa-camera"></i>
+                                                <span class="badge badge-light" v-if="detailLocal.images && detailLocal.images.length > 0">
+                                                    {{ detailLocal.images.length }}
+                                                </span>
                                             </a>
 
                                             <a href="#" class="btn btn-danger btn-icon-sm"
@@ -181,15 +263,15 @@
                                     <tr>
                                         <td></td>
                                         <td></td>
+                                        <td v-if="!isReparacion"></td>
+                                        <td v-if="!isReparacion"></td>
+                                        <td v-if="showNetoColumns"></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td data-table-label="Total Adicionales"><b>{{ formatPrice(totalAdicional) }}</b></td>
-                                        <td data-table-label="Total Transporte"><b>{{ formatPrice(totalTransporte) }}</b></td>
-                                        <td data-table-label="Total Utilidad"><b>{{ formatPrice(totalUtilidad) }}</b></td>
-                                        <td data-table-label="Total Neto"><b>{{ formatPrice(totalQuotationclient) }}</b></td>
+                                        <td v-if="showPercentageColumns"></td>
+                                        <td data-table-label="Total Adicionales" v-if="!isReparacion"><b>{{ formatPrice(totalAdicional) }}</b></td>
+                                        <td data-table-label="Total Transporte" v-if="!isReparacion"><b>{{ formatPrice(totalTransporte) }}</b></td>
+                                        <td data-table-label="Total Utilidad" v-if="showPercentageColumns"><b>{{ formatPrice(totalUtilidad) }}</b></td>
+                                        <td data-table-label="Total Neto" v-if="showNetoColumns"><b>{{ formatPrice(totalQuotationclient) }}</b></td>
                                         <td data-table-label="Total + IVA ($)"><b>{{ formatPrice(totalQuotationclientIVA) }}</b></td>
                                     </tr>
                                 </tbody>
@@ -199,15 +281,86 @@
                         <div class="col-lg-12" v-show="checkedSpareParts">
                             <form action="POST" v-on:submit.prevent="saveSparePart" class="row">
                                 <div class="col-12 mb-2">
-                                    <h5>Solicitar Repuestos</h5>
-                                    <textarea required class="form-control" id="spare_parts" rows="5"
+                                    <h5>Notas Adicionales de Repuestos</h5>
+                                    <textarea class="form-control" id="spare_parts" rows="3"
                                         v-model="newDetailclient.spare_parts"></textarea>
                                 </div>
 
-                                <div class="col-1">
-                                    <button type="submit" class="btn btn-success form-control">Guardar</button>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-success form-control">Guardar Notas</button>
                                 </div>
                             </form>
+
+                            <hr>
+
+                            <div class="row mb-3 align-items-end">
+                                <div class="col-lg-4 col-md-12">
+                                    <label>Producto (catálogo)</label>
+                                    <SelectSparePartProduct></SelectSparePartProduct>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <label>Nombre Repuesto</label>
+                                    <input type="text" class="form-control" v-model="newSparePart.product"
+                                        list="spare-part-suggestions" autocomplete="off">
+                                    <datalist id="spare-part-suggestions">
+                                        <option v-for="suggestion in filteredProductSuggestions"
+                                            :key="`sp-${suggestion.source_type}-${suggestion.product_key}`"
+                                            :value="suggestion.product_name">
+                                        </option>
+                                    </datalist>
+                                </div>
+                                <div class="col-lg-2 col-md-6">
+                                    <label>Código</label>
+                                    <input type="text" class="form-control" v-model="newSparePart.detail">
+                                </div>
+                                <div class="col-lg-1 col-md-3">
+                                    <label>Cant.</label>
+                                    <input type="number" class="form-control" v-model="newSparePart.quantity" min="1">
+                                </div>
+                                <div class="col-lg-1 col-md-3">
+                                    <button type="button" class="btn btn-success form-control"
+                                        :disabled="!newSparePart.product" @click="createSparePart">
+                                        <i class="fas fa-plus-square"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-responsive-new table-dark table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Producto</th>
+                                            <th>Código</th>
+                                            <th>Cantidad</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(sparePartLocal, index) in quotationSpareParts" :key="sparePartLocal.id">
+                                            <td data-table-label="ID">{{ index + 1 }}</td>
+                                            <td data-table-label="Producto">{{ sparePartLocal.product }}</td>
+                                            <td data-table-label="Código">{{ sparePartLocal.detail }}</td>
+                                            <td data-table-label="Cantidad">{{ sparePartLocal.quantity }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-info btn-icon-sm"
+                                                    @click.prevent="openSparePartImages(sparePartLocal)"
+                                                    data-toggle="tooltip" data-placement="top" title="Fotos">
+                                                    <i class="fas fa-camera"></i>
+                                                    <span class="badge badge-light" v-if="sparePartLocal.images && sparePartLocal.images.length > 0">
+                                                        {{ sparePartLocal.images.length }}
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="btn btn-danger btn-icon-sm"
+                                                    @click.prevent="deleteSparePart(sparePartLocal.id)"
+                                                    data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                    <i class="fas fa-ban"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,6 +471,8 @@
             </div>
         </div>
     </div>
+    <DetailclientImages></DetailclientImages>
+    <SparePartImages></SparePartImages>
     </div>
 </template>
 
@@ -327,10 +482,13 @@ import axios from 'axios'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import toastr from 'toastr'
 import SelectProduct from '../Product/SelectProduct'
+import SelectSparePartProduct from '../Product/SelectSparePartProduct'
+import DetailclientImages from './DetailclientImages'
+import SparePartImages from './SparePartImages'
 import { buildCombinedProductSuggestions } from './productSuggestionHelpers'
 
 export default {
-    components: { SelectProduct },
+    components: { SelectProduct, SelectSparePartProduct, DetailclientImages, SparePartImages },
     data() {
         return {
             bulkQuotationText: '',
@@ -338,13 +496,24 @@ export default {
             bulkIgnoredLines: [],
             bulkImporting: false,
             pdfPreviewUrl: '',
-            pdfPreviewTitle: ''
+            pdfPreviewTitle: '',
+            repairPricingMode: 'directo',
+            repairIvaIncluded: true
         }
     },
     computed: {
         ...mapState(['detailclients', 'totalQuotationclient', 'totalUtilidad', 'totalTransporte', 'totalAdicional',
-            'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'totalProductIvaFlete', 'errorsLaravel', 'idQuotationclient', 'deliveryTimes', 'modelProductSuggestions', 'optionsProduct', 'productCatalogTemplateSuggestions', 'newUtilidad', 'newFlete', 'defaultDeliveryTime']),
+            'totalQuotationclientIVA', 'newDetailclient', 'totalDetailclient', 'totalProductIvaFlete', 'errorsLaravel', 'idQuotationclient', 'deliveryTimes', 'modelProductSuggestions', 'optionsProduct', 'productCatalogTemplateSuggestions', 'newUtilidad', 'newFlete', 'defaultDeliveryTime', 'newSparePart', 'quotationSpareParts', 'quotationTipoContext', 'repairActivities']),
         ...mapGetters([]),
+        isReparacion() {
+            return this.quotationTipoContext === 'reparacion'
+        },
+        showPercentageColumns() {
+            return !this.isReparacion || this.repairPricingMode === 'utilidad'
+        },
+        showNetoColumns() {
+            return !this.isReparacion || !this.repairIvaIncluded
+        },
         filteredProductSuggestions() {
             return buildCombinedProductSuggestions({
                 modelSuggestions: this.modelProductSuggestions,
@@ -365,7 +534,40 @@ export default {
     },
     methods: {
         ...mapActions(['createDetailclient', 'editDetailclient', 'deleteDetailclient',
-            'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProduct', 'saveSparePart', 'getQuotationclientDetails']),
+            'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProduct', 'saveSparePart', 'getQuotationclientDetails',
+            'openDetailclientImages', 'createSparePart', 'deleteSparePart', 'openSparePartImages']),
+        sumTotalRepair() {
+            const price = parseFloat(this.newDetailclient.price) || 0
+            const percentage = parseFloat(this.newDetailclient.percentage) || 0
+            const quantity = parseFloat(this.newDetailclient.quantity) || 0
+
+            let baseUnit = price
+            if (this.repairPricingMode === 'utilidad') {
+                baseUnit = price * (1 + (percentage / 100))
+            } else {
+                this.newDetailclient.percentage = 0
+            }
+
+            const totalUnit = this.repairIvaIncluded ? baseUnit : baseUnit * 1.19
+
+            this.newDetailclient.utility = Math.round((baseUnit - price) * quantity)
+            this.newDetailclient.total = Math.round(totalUnit * quantity)
+        },
+        togglePricingMode() {
+            this.repairPricingMode = this.repairPricingMode === 'utilidad' ? 'directo' : 'utilidad'
+            this.sumTotalRepair()
+        },
+        setRepairIvaIncluded(value) {
+            this.repairIvaIncluded = value
+            this.sumTotalRepair()
+        },
+        submitRepairItem() {
+            this.newDetailclient.aditional = 0
+            this.newDetailclient.transport = 0
+            this.newDetailclient.days = ''
+            this.sumTotalRepair()
+            this.createDetailclient()
+        },
         processBulkQuotationText() {
             const rawLines = this.bulkQuotationText
                 .split(/\r?\n/)
@@ -690,6 +892,9 @@ export default {
             const numericValue = Number(value) || 0
             return numericValue.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })
         },
+    },
+    created() {
+        this.$store.dispatch('getRepairActivities')
     }
 }
 </script>

@@ -17,8 +17,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  --wrapper-bg-image: url(../img/fondo1.png);
-  background-image: var(--wrapper-bg-image);
+  background-image: var(--wrapper-bg-image, url(../img/fondo1.png));
   background-size: contain;
 }
 

@@ -9,7 +9,9 @@ use App\User;
 use App\Models\Quotationclient;
 use App\Models\QuotationUser;
 use App\Models\QuotationUserVehicle;
+use App\Models\QuotationUserImage;
 use App\Models\VehicleModel;
+use App\Models\QuotationSparePart;
 use App\Services\VehicleModelProductService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -50,6 +52,7 @@ class QuotationclientController extends Controller
         $product = request('product');
         $dateFrom = request('date_from');
         $dateTo = request('date_to');
+        $tipo = request('tipo');
         $perPage = (int) request('per_page', 20);
         if ($perPage <= 0) {
             $perPage = 20;
@@ -61,6 +64,7 @@ class QuotationclientController extends Controller
                 ->leftJoin('clients', 'quotationclients.client_id', '=', 'clients.id')
                 ->select(
                     'quotationclients.id',
+                    'quotationclients.tipo',
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
@@ -109,6 +113,9 @@ class QuotationclientController extends Controller
                             ->where('detailclients.product', 'like', '%' . $product . '%');
                     });
                 })
+                ->when($tipo, function ($query, $tipo) {
+                    return $query->where('quotationclients.tipo', $tipo);
+                })
                 ->paginate($perPage);
 
         else
@@ -117,6 +124,7 @@ class QuotationclientController extends Controller
                 ->leftJoin('clients', 'quotationclients.client_id', '=', 'clients.id')
                 ->select(
                     'quotationclients.id',
+                    'quotationclients.tipo',
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
@@ -165,6 +173,9 @@ class QuotationclientController extends Controller
                             ->whereColumn('detailclients.quotationclient_id', 'quotationclients.id')
                             ->where('detailclients.product', 'like', '%' . $product . '%');
                     });
+                })
+                ->when($tipo, function ($query, $tipo) {
+                    return $query->where('quotationclients.tipo', $tipo);
                 })
                 ->paginate($perPage);
 
@@ -268,6 +279,7 @@ class QuotationclientController extends Controller
             $ppu = trim($data['ppu'] ?? '');
             $clientText = trim($data['client_text'] ?? '');
             $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
+            $tipo = in_array($data['tipo'] ?? null, ['repuesto', 'reparacion']) ? $data['tipo'] : 'repuesto';
 
             $roles = DB::table('roles')
                 ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -319,7 +331,8 @@ class QuotationclientController extends Controller
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
-                        'ppu' => $ppu
+                        'ppu' => $ppu,
+                        'tipo' => $tipo
                     ])->id;
                 } else {
                     foreach ($clients as $client) {
@@ -336,7 +349,8 @@ class QuotationclientController extends Controller
                                 'generado' => $data['generado'],
                                 'url' => $url,
                                 'telefono' => $telefono,
-                                'ppu' => $ppu
+                                'ppu' => $ppu,
+                                'tipo' => $tipo
                             ]
                         )->id;
                     }
@@ -355,7 +369,8 @@ class QuotationclientController extends Controller
                         'generado' => $data['generado'],
                         'url' => $url,
                         'telefono' => $telefono,
-                        'ppu' => $ppu
+                        'ppu' => $ppu,
+                        'tipo' => $tipo
                     ]
                 )->id;
             }
@@ -437,7 +452,7 @@ class QuotationclientController extends Controller
 
     public function details($id)
     {
-        return Quotationclient::findOrFail($id)->detailclients;
+        return Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
     }
 
     public function productSuggestions($id, VehicleModelProductService $service)
@@ -458,7 +473,8 @@ class QuotationclientController extends Controller
     public function pdf($id)
     {
         try {
-            $products = Quotationclient::findOrFail($id)->detailclients;
+            $products = Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
+            $spareParts = QuotationSparePart::with('images')->where('quotationclient_id', $id)->get();
             $quotation = Quotationclient::find($id);
 
             $company = Company::where('user_id', '=', $quotation->user_id)->first();
@@ -469,7 +485,7 @@ class QuotationclientController extends Controller
             $client = Quotationclient::find($id)->client;
             $user = User::where('id', '=', $quotation->user_id)->first();
 
-            $pdf = Pdf::loadView('pdf.quotationclient', compact(['company', 'quotation', 'client', 'products', 'user']));
+            $pdf = Pdf::loadView('pdf.quotationclient', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']));
 
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
@@ -484,7 +500,8 @@ class QuotationclientController extends Controller
     public function pdfIva($id)
     {
         try {
-            $products = Quotationclient::findOrFail($id)->detailclients;
+            $products = Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
+            $spareParts = QuotationSparePart::with('images')->where('quotationclient_id', $id)->get();
             $quotation = Quotationclient::find($id);
 
             $company = Company::where('user_id', '=', $quotation->user_id)->first();
@@ -495,7 +512,7 @@ class QuotationclientController extends Controller
             $client = Quotationclient::find($id)->client;
             $user = User::where('id', '=', $quotation->user_id)->first();
 
-            $pdf = Pdf::loadView('pdf.quotationclientiva', compact(['company', 'quotation', 'client', 'products', 'user']));
+            $pdf = Pdf::loadView('pdf.quotationclientiva', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']));
 
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
@@ -547,6 +564,7 @@ class QuotationclientController extends Controller
                 'quotation_users.name',
                 'quotation_users.email',
                 'quotation_users.phone',
+                'quotation_user_vehicles.id as vehicle_id',
                 'quotation_user_vehicles.patentchasis',
                 'quotation_user_vehicles.brand',
                 'quotation_user_vehicles.model',
@@ -559,6 +577,17 @@ class QuotationclientController extends Controller
                 'quotationclients.payment'
             )
             ->where('quotation_users.quotation_id', '=', $id)->get();
+
+        $vehicleIds = $quotationform->pluck('vehicle_id')->filter()->values();
+
+        $imagesByVehicle = QuotationUserImage::whereIn('quotation_user_vehicle_id', $vehicleIds)
+            ->get()
+            ->groupBy('quotation_user_vehicle_id');
+
+        $quotationform->each(function ($row) use ($imagesByVehicle) {
+            $row->images = $imagesByVehicle->get($row->vehicle_id, collect())->values();
+        });
+
         return $quotationform;
     }
 

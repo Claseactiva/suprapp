@@ -56,35 +56,53 @@
             </div>
             <div class="row">
                 <div class="input-group quotation-request-builder">
-                    <label class="quotation-request-builder__label" for="template-search-main">Buscar repuesto sugerido</label>
-                    <div class="quotation-request-builder__search-box"><div class="quotation-request-builder__search-wrap">
-                        <input id="template-search-main" ref="templateSearchInput" type="text" class="form-control"
-                            v-model="templateSearch" @input="handleTemplateInput" @focus="handleTemplateFocus" @keydown.enter.prevent="addSelectedTemplate"
-                            placeholder="Ej: amortiguador, capot, bandeja..." autocomplete="off" />
-                        <button type="button" class="btn btn-info quotation-request-builder__add"
-                            @click.prevent="addSelectedTemplate">Agregar</button>
-                    </div><ul v-if="templateSuggestions.length" class="quotation-request-builder__suggestion-list">
-                        <li v-for="suggestion in templateSuggestions" :key="suggestion.id" class="quotation-request-builder__suggestion-item">
-                            <button type="button" class="quotation-request-builder__suggestion-row"
-                                @click.prevent="addTemplateSuggestion(suggestion)">
-                                <span class="quotation-request-builder__suggestion-name">{{ suggestion.product_name }}</span>
-                                <small class="quotation-request-builder__suggestion-category">{{ suggestion.categoria }}</small>
-                            </button>
-                        </li>
-                    </ul></div>
-                    <div v-if="selectedTemplateParts.length" class="quotation-request-builder__selected">
-                        <div class="quotation-request-builder__selected-title">Repuestos agregados</div>
-                        <ol class="quotation-request-builder__selected-list">
-                            <li v-for="(part, index) in selectedTemplateParts" :key="part.key" class="quotation-request-builder__selected-item">
-                                <span class="quotation-request-builder__selected-text">{{ part.product_name }}</span>
-                                <button type="button" class="quotation-request-builder__selected-remove" @click.prevent="removeTemplatePart(index)">Quitar</button>
+                    <template v-if="!ownerId">
+                        <label class="quotation-request-builder__label" for="template-search-main">Buscar repuesto sugerido</label>
+                        <div class="quotation-request-builder__search-box"><div class="quotation-request-builder__search-wrap">
+                            <input id="template-search-main" ref="templateSearchInput" type="text" class="form-control"
+                                v-model="templateSearch" @input="handleTemplateInput" @focus="handleTemplateFocus" @keydown.enter.prevent="addSelectedTemplate"
+                                placeholder="Ej: amortiguador, capot, bandeja..." autocomplete="off" />
+                            <button type="button" class="btn btn-info quotation-request-builder__add"
+                                @click.prevent="addSelectedTemplate">Agregar</button>
+                        </div><ul v-if="templateSuggestions.length" class="quotation-request-builder__suggestion-list">
+                            <li v-for="suggestion in templateSuggestions" :key="suggestion.id" class="quotation-request-builder__suggestion-item">
+                                <button type="button" class="quotation-request-builder__suggestion-row"
+                                    @click.prevent="addTemplateSuggestion(suggestion)">
+                                    <span class="quotation-request-builder__suggestion-name">{{ suggestion.product_name }}</span>
+                                    <small class="quotation-request-builder__suggestion-category">{{ suggestion.categoria }}</small>
+                                </button>
                             </li>
-                        </ol>
-                    </div>
-                    <label class="quotation-request-builder__label mt-3" for="description-main">Detalle adicional</label>
+                        </ul></div>
+                        <div v-if="selectedTemplateParts.length" class="quotation-request-builder__selected">
+                            <div class="quotation-request-builder__selected-title">Repuestos agregados</div>
+                            <ol class="quotation-request-builder__selected-list">
+                                <li v-for="(part, index) in selectedTemplateParts" :key="part.key" class="quotation-request-builder__selected-item">
+                                    <span class="quotation-request-builder__selected-text">{{ part.product_name }}</span>
+                                    <button type="button" class="quotation-request-builder__selected-remove" @click.prevent="removeTemplatePart(index)">Quitar</button>
+                                </li>
+                            </ol>
+                        </div>
+                    </template>
+
+                    <label class="quotation-request-builder__label" for="description-main">{{ ownerId ? 'Cuéntanos qué le pasa al vehículo' : 'Detalle adicional' }}</label>
                     <textarea id="description-main" class="form-control" style="resize:none" v-model="additionalDescription"
                         @input="syncDescription" placeholder="Si necesitas aclarar algo mas, escribelo aqui..." cols="30" rows="4"></textarea>
                     <p v-if="localDescriptionError" class="text-danger mb-0">{{ localDescriptionError }}</p>
+
+                    <template v-if="ownerId">
+                        <label class="quotation-request-builder__label mt-3" for="images-main">Fotos (opcional)</label>
+                        <input id="images-main" type="file" class="form-control" multiple accept="image/*"
+                            @change="handleImagesSelected">
+                        <div v-if="selectedImages.length" class="quotation-request-builder__selected mt-2">
+                            <div class="quotation-request-builder__selected-title">Fotos agregadas ({{ selectedImages.length }})</div>
+                            <ol class="quotation-request-builder__selected-list">
+                                <li v-for="(image, index) in selectedImages" :key="image.name + index" class="quotation-request-builder__selected-item">
+                                    <span class="quotation-request-builder__selected-text">{{ image.name }}</span>
+                                    <button type="button" class="quotation-request-builder__selected-remove" @click.prevent="removeSelectedImage(index)">Quitar</button>
+                                </li>
+                            </ol>
+                        </div>
+                    </template>
                 </div>
             </div>
 <div class="row">
@@ -124,6 +142,12 @@ import YearSelector from './YearSelector'
 
 export default {
     components: { BrandSelector, ModelSelector, YearSelector },
+    props: {
+        ownerId: {
+            type: String,
+            default: ''
+        }
+    },
     data() {
         return {
             submissionModalVisible: false,
@@ -143,6 +167,7 @@ export default {
             additionalDescription: '',
             templateSearchTimeoutId: null,
             localDescriptionError: '',
+            selectedImages: [],
         }
     },
     computed: {
@@ -152,10 +177,17 @@ export default {
     },
     methods: {
         ...mapActions([
-            'createQuotationUser'
+            'createQuotationUser', 'setPublicQuotationImages'
         ]),
         scrollToTop() {
             window.scrollTo(0, 0)
+        },
+        handleImagesSelected(evt) {
+            const files = Array.from(evt.target.files || [])
+            this.selectedImages = this.selectedImages.concat(files)
+        },
+        removeSelectedImage(index) {
+            this.selectedImages.splice(index, 1)
         },
         submitQuotation() {
             if (this.publicQuotationSubmitting) {
@@ -172,6 +204,7 @@ export default {
 
             this.localDescriptionError = ''
             this.handleSubmissionFailed()
+            this.setPublicQuotationImages(this.selectedImages)
             this.createQuotationUser()
         },
         handleTemplateInput() {
@@ -454,6 +487,7 @@ export default {
         window.addEventListener('public-quotation-failed', this.handleSubmissionFailed)
         this.cleanupBootstrapBackdrop()
         this.prefillFromQuery()
+        this.$store.dispatch('setPublicQuotationOwnerId', this.ownerId)
     },
     beforeDestroy() {
         window.removeEventListener('public-quotation-sent', this.handleSubmissionEvent)

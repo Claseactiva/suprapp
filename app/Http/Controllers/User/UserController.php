@@ -91,7 +91,7 @@ class UserController extends Controller
     public function show()
     {
         $user_id = Auth::id();
-        $user = User::find($user_id);
+        $user = User::with('roles')->find($user_id);
 
         return $user;
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="col-lg-12 quotationclient-admin">
         <h5 class="text-white">
-            Administración de Cotizaciones Formales
+            {{ tipo === 'reparacion' ? 'Administración de Cotización Reparación' : 'Administración de Cotizaciones Formales' }}
             <!-- <button class="btn btn-primary btn-sm" @click.prevent="actualizarCorrelativo()">Actualizar Correlativo</button> -->
         </h5>
         <div id="accordion">
@@ -381,6 +381,12 @@ import 'vue2-datepicker/index.css'
 
 export default {
     components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker },
+    props: {
+        tipo: {
+            type: String,
+            default: 'repuesto'
+        }
+    },
     computed: {
         ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient']),
         ...mapGetters(['isActived', 'pagesNumber']),
@@ -477,6 +483,7 @@ export default {
     },
     created() {
         loadProgressBar();
+        this.$store.dispatch('setQuotationTipoContext', this.tipo)
         this.$store.dispatch('getQuotationclients', { page: 1 })
         this.$store.dispatch('getRolesQuotation')
         this.$store.dispatch('allClients', { type: 'Cliente' })

@@ -4,7 +4,7 @@
 
 
 <div id="app" class="col-lg-12">
-    <quotationuser-component></quotationuser-component>
+    <quotationuser-component owner-id="{{ $ownerId }}"></quotationuser-component>
 </div>
 
 

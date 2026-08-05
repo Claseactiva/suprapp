@@ -159,5 +159,52 @@
             <p>{!! nl2br(e($quotation->spare_parts)) !!}</p>
         @endif
 
+        @php
+            $productsWithImages = $products->filter(fn($detail) => $detail->images->count() > 0);
+        @endphp
+        @if ($productsWithImages->count() > 0)
+            <div style="page-break-before: always;">
+                <p class="bold">Imágenes de Productos</p>
+                @foreach ($productsWithImages as $detail)
+                    <p class="bold">{{ $detail->product }}</p>
+                    @foreach ($detail->images as $image)
+                        <img src="{{ $image->imagen }}" style="max-width: 300px; margin: 5px;">
+                    @endforeach
+                @endforeach
+            </div>
+        @endif
+
+        @if ($spareParts->count() > 0)
+            <div style="page-break-before: always;">
+                <p class="bold">Repuestos Solicitados</p>
+                <table class="product">
+                    <thead>
+                        <tr>
+                            <th>Cant</th>
+                            <th>Producto</th>
+                            <th>Código</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($spareParts as $part)
+                            <tr>
+                                <td class="cell">{{ $part->quantity }}</td>
+                                <td>{{ $part->product }}</td>
+                                <td class="cell">{{ $part->detail }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @foreach ($spareParts as $part)
+                    @if ($part->images->count() > 0)
+                        <p class="bold">{{ $part->product }}</p>
+                        @foreach ($part->images as $image)
+                            <img src="{{ $image->imagen }}" style="max-width: 300px; margin: 5px;">
+                        @endforeach
+                    @endif
+                @endforeach
+            </div>
+        @endif
+
     </div>
 @endsection

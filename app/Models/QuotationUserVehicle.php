@@ -24,4 +24,8 @@ class QuotationUserVehicle extends Model
     public function descriptions(){
         return $this->hasMany('App\Models\QuotationUserDescription');
     }
+
+    public function images(){
+        return $this->hasMany('App\Models\QuotationUserImage');
+    }
 }

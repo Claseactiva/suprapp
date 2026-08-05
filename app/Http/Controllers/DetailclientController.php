@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detailclient;
+use App\Models\DetailclientImage;
 use App\Services\VehicleModelProductService;
 use Illuminate\Http\Request;
+use Intervention\Image\ImageManager;
 
 class DetailclientController extends Controller
 {
@@ -82,5 +84,42 @@ class DetailclientController extends Controller
         $detailclient->delete();
 
         return;
+    }
+
+    public function uploadImages(Request $request)
+    {
+        $manager = new ImageManager(array('local' => 'imagick'));
+        $imagenes = $request->file('images', []);
+        $arreglo = [];
+
+        foreach ($imagenes as $imagen) {
+            $filename = uniqid() . '.' . $imagen->getClientOriginalExtension();
+            $path = public_path('storage/images/detailclients/' . $filename);
+
+            $manager->make($imagen->getRealPath())->resize(1000, 1000, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path);
+
+            $arreglo[] = DetailclientImage::create([
+                'detailclient_id' => $request->detailclient_id,
+                'imagen' => 'storage/images/detailclients/' . $filename,
+            ]);
+        }
+
+        return response($arreglo);
+    }
+
+    public function deleteImage($id)
+    {
+        $image = DetailclientImage::findOrFail($id);
+        $absolutePath = public_path($image->imagen);
+
+        if (file_exists($absolutePath)) {
+            unlink($absolutePath);
+        }
+
+        $image->delete();
+
+        return response()->json(['message' => 'Imagen eliminada correctamente']);
     }
 }
