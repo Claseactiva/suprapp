@@ -53,6 +53,9 @@ Route::ApiResource('vehicles', 'VehicleController');
 Route::post('vehicles-mechanic', 'VehicleController@storeMechanic');
 Route::get('vehicles-user', 'VehicleController@indexByUser');
 Route::get('client-vehicles', 'VehicleController@clientvehicles');
+Route::get('vehicles-trash', 'VehicleController@trashed');
+Route::put('vehicles/{id}/restore', 'VehicleController@restore');
+Route::delete('vehicles/{id}/force', 'VehicleController@forceDestroy');
 
 Route::ApiResource('vehiclebrands', 'VehicleBrandController');
 Route::post('newvehiclebrand', 'VehicleBrandController@store');

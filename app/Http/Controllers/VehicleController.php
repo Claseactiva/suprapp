@@ -251,11 +251,61 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        DB::table('check_list_vehicles')->where('vehicle_id', $vehicle->id)->delete();
-
         $vehicle->delete();
 
-        return response()->json(['message' => 'Vehiculo eliminado correctamente']);
+        return response()->json(['message' => 'Vehiculo enviado a la papelera']);
+    }
+
+    /**
+     * Lista los vehiculos eliminados (papelera), con el mismo alcance por rol que index().
+     */
+    public function trashed()
+    {
+        $user = Auth::user();
+
+        $query = Vehicle::onlyTrashed()->with('user')->orderBy('deleted_at', 'DESC');
+
+        if (!$user->hasRole('admin')) {
+            $query->whereIn('user_id', $user->teamUserIds());
+        }
+
+        $vehicles = $query->paginate((int) request('per_page', 20));
+
+        return [
+            'pagination' => [
+                'total'         => $vehicles->total(),
+                'current_page'  => $vehicles->currentPage(),
+                'per_page'      => $vehicles->perPage(),
+                'last_page'     => $vehicles->lastPage(),
+                'from'          => $vehicles->firstItem(),
+                'to'            => $vehicles->lastItem(),
+            ],
+            'vehicles' => $vehicles
+        ];
+    }
+
+    public function restore($id)
+    {
+        $vehicle = Vehicle::onlyTrashed()->findOrFail($id);
+        $vehicle->restore();
+
+        return response()->json(['message' => 'Vehiculo restaurado correctamente']);
+    }
+
+    /**
+     * Borrado definitivo desde la papelera: aqui si hay que limpiar check_list_vehicles
+     * a mano porque es la unica FK que restringe el borrado real de vehicles (el resto
+     * de tablas hijas se limpian solas por cascade).
+     */
+    public function forceDestroy($id)
+    {
+        $vehicle = Vehicle::onlyTrashed()->findOrFail($id);
+
+        DB::table('check_list_vehicles')->where('vehicle_id', $vehicle->id)->delete();
+
+        $vehicle->forceDelete();
+
+        return response()->json(['message' => 'Vehiculo eliminado definitivamente']);
     }
 
     public function indexByUser()

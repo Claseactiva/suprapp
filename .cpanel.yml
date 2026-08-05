@@ -135,6 +135,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_05_000001_add_tipo_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_05_000001_add_tipo_to_quotationclients_table.php
     - /bin/cp -f database/migrations/2026_08_05_000002_create_repair_activities_table.php $DEPLOYPATH/database/migrations/2026_08_05_000002_create_repair_activities_table.php
     - /bin/cp -f database/migrations/2026_08_05_000003_create_quotation_user_images_table.php $DEPLOYPATH/database/migrations/2026_08_05_000003_create_quotation_user_images_table.php
+    - /bin/cp -f database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

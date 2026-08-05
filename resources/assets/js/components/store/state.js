@@ -161,6 +161,16 @@ export default { //data
         year: '',
         client: ''
     },
+    vehiclesTrash: [],
+    pagination_vehicle_trash: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 20,
+        'last_page': 0,
+        'from': 0,
+        'to': 0,
+    },
+    offset_vehicle_trash: 2,
     newDetailVehicle: {
         vehicle_id: '',
         km: '',

@@ -8,8 +8,12 @@
                 title="Agregar">
                 <i class="fas fa-plus-circle"></i>
             </a>
+            <a href="#" class="btn btn-secondary pull-right btn-sm mr-2" @click.prevent="toggleTrash">
+                <i class="fas" :class="showTrash ? 'fa-list' : 'fa-trash-alt'"></i>
+                {{ showTrash ? 'Volver al listado' : 'Papelera' }}
+            </a>
         </h5>
-        <div class="vehicle-filter-row mt-3">
+        <div v-if="!showTrash" class="vehicle-filter-row mt-3">
             <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Cliente"
                 v-model="searchVehicle.client" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
 
@@ -22,7 +26,7 @@
             <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Año"
                 v-model="searchVehicle.year" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
         </div>
-        <div class="vehicle-table-shell mt-3">
+        <div v-if="!showTrash" class="vehicle-table-shell mt-3">
             <table class="table table-responsive-new table-dark table-sm vehicle-table mb-0">
                 <thead>
                     <tr>
@@ -95,7 +99,7 @@
             </table>
         </div>
 
-        <div class="table-list-toolbar">
+        <div v-if="!showTrash" class="table-list-toolbar">
             <div class="table-list-toolbar__rows">
                 <span>Filas</span>
                 <select class="custom-select custom-select-sm" v-model.number="pagination.per_page"
@@ -143,6 +147,97 @@
             </nav>
         </div>
 
+        <div v-else class="vehicle-table-shell mt-3">
+            <table class="table table-responsive-new table-dark table-sm vehicle-table mb-0">
+                <thead>
+                    <tr>
+                        <th class="vehicle-col-id">ID</th>
+                        <th class="vehicle-col-cliente">Cliente</th>
+                        <th class="vehicle-col-patente">Patente</th>
+                        <th class="vehicle-col-marca">Marca</th>
+                        <th class="vehicle-col-modelo">Modelo</th>
+                        <th class="vehicle-col-anio">Año</th>
+                        <th class="vehicle-col-fecha">Eliminado</th>
+                        <th class="vehicle-col-actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="vehicleLocal in vehiclesTrash" :key="vehicleLocal.id">
+                        <td data-table-label="ID" class="vehicle-col-id">{{ vehicleLocal.id }}</td>
+                        <td data-table-label="Cliente" class="vehicle-col-cliente vehicle-cell-wrap" :title="vehicleLocal.user.name">{{ vehicleLocal.user.name }}</td>
+                        <td data-table-label="Patente" class="vehicle-col-patente vehicle-cell-strong" :title="vehicleLocal.patent">{{ vehicleLocal.patent }}</td>
+                        <td data-table-label="Marca" class="vehicle-col-marca vehicle-cell-wrap" :title="vehicleLocal.brand">{{ vehicleLocal.brand }}</td>
+                        <td data-table-label="Modelo" class="vehicle-col-modelo vehicle-cell-wrap" :title="vehicleLocal.model">{{ vehicleLocal.model }}</td>
+                        <td data-table-label="Año" class="vehicle-col-anio vehicle-cell-meta">{{ vehicleLocal.year }}</td>
+                        <td data-table-label="Eliminado" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.deleted_at | moment('DD/MM/YYYY') }}</td>
+
+                        <td class="vehicle-col-actions vehicle-action-cell">
+                            <a href="#" class="btn btn-success btn-icon-sm" @click.prevent="restoreVehicle({ id: vehicleLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Restaurar">
+                                <i class="fas fa-trash-restore"></i>
+                            </a>
+
+                            <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="confirmForceDelete(vehicleLocal.id)"
+                                data-toggle="tooltip" data-placement="top" title="Eliminar definitivamente">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr v-if="vehiclesTrash.length === 0">
+                        <td colspan="8" class="text-center">La papelera esta vacia</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div v-if="showTrash" class="table-list-toolbar">
+            <div class="table-list-toolbar__rows">
+                <span>Filas</span>
+                <select class="custom-select custom-select-sm" v-model.number="pagination_vehicle_trash.per_page"
+                    @change="getVehiclesTrash({ page: 1, per_page: pagination_vehicle_trash.per_page })">
+                    <option :value="10">10</option>
+                    <option :value="20">20</option>
+                    <option :value="50">50</option>
+                </select>
+            </div>
+            <nav>
+            <ul class="pagination">
+                <li class="page-item" v-if="pagination_vehicle_trash.current_page > 1">
+                    <a class="page-link" href="#" @click.prevent="changePageVehicleTrash({ page: 1, per_page: pagination_vehicle_trash.per_page })">
+                        <span>Primera</span>
+                    </a>
+                </li>
+
+                <li class="page-item" v-if="pagination_vehicle_trash.current_page > 1">
+                    <a class="page-link" href="#"
+                        @click.prevent="changePageVehicleTrash({ page: pagination_vehicle_trash.current_page - 1, per_page: pagination_vehicle_trash.per_page })">
+                        <span>Atrás</span>
+                    </a>
+                </li>
+
+                <li class="page-item" v-for="page in pagesNumber_vehicle_trash" v-bind:class="[page == isActived_vehicle_trash ? 'active' : '']"
+                    :key="page">
+                    <a class="page-link" href="#" @click.prevent="changePageVehicleTrash({ page, per_page: pagination_vehicle_trash.per_page })">
+                        {{ page }}
+                    </a>
+                </li>
+
+                <li class="page-item" v-if="pagination_vehicle_trash.current_page < pagination_vehicle_trash.last_page">
+                    <a class="page-link" href="#"
+                        @click.prevent="changePageVehicleTrash({ page: pagination_vehicle_trash.current_page + 1, per_page: pagination_vehicle_trash.per_page })">
+                        <span>Siguiente</span>
+                    </a>
+                </li>
+
+                <li class="page-item" v-if="pagination_vehicle_trash.current_page < pagination_vehicle_trash.last_page">
+                    <a class="page-link" href="#" @click.prevent="changePageVehicleTrash({ page: pagination_vehicle_trash.last_page, per_page: pagination_vehicle_trash.per_page })">
+                        <span>Última</span>
+                    </a>
+                </li>
+            </ul>
+            </nav>
+        </div>
+
         <Agregar></Agregar>
         <Editar></Editar>
         <Detalle></Detalle>
@@ -167,13 +262,31 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     components: { Agregar, Editar, Detalle, AgregarDetalle, OrdenTrabajo, CheckListVehicle },
+    data() {
+        return {
+            showTrash: false
+        }
+    },
     computed: {
-        ...mapState(['vehicles', 'pagination', 'offset', 'searchVehicle', 'rol']),
-        ...mapGetters(['isActived', 'pagesNumber'])
+        ...mapState(['vehicles', 'pagination', 'offset', 'searchVehicle', 'rol',
+            'vehiclesTrash', 'pagination_vehicle_trash']),
+        ...mapGetters(['isActived', 'pagesNumber', 'isActived_vehicle_trash', 'pagesNumber_vehicle_trash'])
     },
     methods: {
         ...mapActions(['getVehicles', 'getVehiclesUser', 'editVehicle', 'deleteVehicle',
-            'detailVehicle', 'modalDetailVehicle', 'modalOrdenTrabajo', 'changePageVehicle', 'modalCheckList'])
+            'detailVehicle', 'modalDetailVehicle', 'modalOrdenTrabajo', 'changePageVehicle', 'modalCheckList',
+            'getVehiclesTrash', 'changePageVehicleTrash', 'restoreVehicle', 'forceDeleteVehicle']),
+        toggleTrash() {
+            this.showTrash = !this.showTrash
+            if (this.showTrash) {
+                this.getVehiclesTrash({ page: 1 })
+            }
+        },
+        confirmForceDelete(id) {
+            if (window.confirm('Esto elimina el vehiculo de forma definitiva y no se puede deshacer. ¿Continuar?')) {
+                this.forceDeleteVehicle({ id })
+            }
+        }
     },
     created() {
         loadProgressBar();

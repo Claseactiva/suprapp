@@ -56,6 +56,33 @@ export default { //computed propeties
         return pagesArray;
     },
 
+    isActived_vehicle_trash(state, getters) {
+        return state.pagination_vehicle_trash.current_page
+    },
+    pagesNumber_vehicle_trash(state, getters) {
+        if (!state.pagination_vehicle_trash.to) {
+            return [];
+        }
+
+        var from = state.pagination_vehicle_trash.current_page - state.offset_vehicle_trash
+        if (from < 1) {
+            from = 1;
+        }
+
+        var to = from + (state.offset_vehicle_trash * 2);
+        if (to >= state.pagination_vehicle_trash.last_page) {
+            to = state.pagination_vehicle_trash.last_page;
+        }
+
+        var pagesArray = [];
+        while (from <= to) {
+            pagesArray.push(from);
+            from++;
+        }
+
+        return pagesArray;
+    },
+
     isActived_marca(state, getters) {
         return state.pagination_marca.current_page
     },

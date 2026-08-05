@@ -48,6 +48,19 @@ export default { //methods
             context.commit('getVehicles', 1)
         }, 1000)
     },
+    getVehiclesTrash(context, data) {
+        context.commit('getVehiclesTrash', data)
+    },
+    changePageVehicleTrash(context, data) {
+        context.commit('paginate_vehicle_trash', data.page)
+        context.commit('getVehiclesTrash', data)
+    },
+    restoreVehicle(context, data) {
+        context.commit('restoreVehicle', data.id)
+    },
+    forceDeleteVehicle(context, data) {
+        context.commit('forceDeleteVehicle', data.id)
+    },
     changePageVehicle(context, data) {
         context.commit('paginate', data.page)
         context.commit('getVehicles', data)

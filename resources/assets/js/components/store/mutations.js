@@ -1242,7 +1242,37 @@ export default { //used for changing the state
     deleteVehicle(state, id) {
         let url = urlVehicle + '/' + id
         axios.delete(url).then(response => {
-            toastr.success('Vehiculo eliminado correctamente')
+            toastr.success('Vehiculo enviado a la papelera')
+            this.commit('getVehicles', 1)
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el vehiculo'))
+        })
+    },
+    getVehiclesTrash(state, request) {
+        const { page, perPage } = resolvePaginationRequest(request, state.pagination_vehicle_trash.per_page || 20)
+        let url = 'vehicles-trash?page=' + page + '&per_page=' + perPage
+        axios.get(url).then(response => {
+            state.vehiclesTrash = response.data.vehicles.data
+            state.pagination_vehicle_trash = response.data.pagination
+        })
+    },
+    paginate_vehicle_trash(state, page) {
+        state.pagination_vehicle_trash.current_page = page
+    },
+    restoreVehicle(state, id) {
+        let url = urlVehicle + '/' + id + '/restore'
+        axios.put(url).then(response => {
+            toastr.success('Vehiculo restaurado correctamente')
+            this.commit('getVehiclesTrash', state.pagination_vehicle_trash.current_page)
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo restaurar el vehiculo'))
+        })
+    },
+    forceDeleteVehicle(state, id) {
+        let url = urlVehicle + '/' + id + '/force'
+        axios.delete(url).then(response => {
+            toastr.success('Vehiculo eliminado definitivamente')
+            this.commit('getVehiclesTrash', state.pagination_vehicle_trash.current_page)
         }).catch(error => {
             toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el vehiculo'))
         })
