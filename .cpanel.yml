@@ -145,6 +145,12 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/detailclients
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/quotation-spare-parts
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/quotation-user
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/checklist
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/invoice
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/logos
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/observaciones
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/orden_trabajos
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/vehicles
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/css/sbAdmin
     - /bin/cp -f resources/assets/css/sbAdmin/sb-admin.css $DEPLOYPATH/resources/assets/css/sbAdmin/sb-admin.css
