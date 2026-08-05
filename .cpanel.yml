@@ -26,8 +26,12 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/User
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/UserMechanic
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Vehicle
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleMechanic
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleBrand
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/VehicleModel
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Motor
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Quotationuser
+    - /bin/mkdir -p $DEPLOYPATH/resources/views/pdf
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Check-List
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/DeliveryTime
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Import
@@ -65,6 +69,11 @@ deployment:
     - /bin/cp -f app/Http/Controllers/CompanyController.php $DEPLOYPATH/app/Http/Controllers/CompanyController.php
     - /bin/cp -f app/Http/Controllers/Controller.php $DEPLOYPATH/app/Http/Controllers/Controller.php
     - /bin/cp -f app/Http/Controllers/DetailVehicleController.php $DEPLOYPATH/app/Http/Controllers/DetailVehicleController.php
+    - /bin/cp -f app/Http/Controllers/DetailclientController.php $DEPLOYPATH/app/Http/Controllers/DetailclientController.php
+    - /bin/cp -f app/Http/Controllers/BackgroundImageController.php $DEPLOYPATH/app/Http/Controllers/BackgroundImageController.php
+    - /bin/cp -f app/Http/Controllers/MotorController.php $DEPLOYPATH/app/Http/Controllers/MotorController.php
+    - /bin/cp -f app/Http/Controllers/QuotationSparePartController.php $DEPLOYPATH/app/Http/Controllers/QuotationSparePartController.php
+    - /bin/cp -f app/Http/Controllers/RepairActivityController.php $DEPLOYPATH/app/Http/Controllers/RepairActivityController.php
     - /bin/cp -f app/Http/Controllers/MotorSpecController.php $DEPLOYPATH/app/Http/Controllers/MotorSpecController.php
     - /bin/cp -f app/Http/Controllers/OrdenTrabajoController.php $DEPLOYPATH/app/Http/Controllers/OrdenTrabajoController.php
     - /bin/cp -f app/Http/Controllers/ProductCatalogTemplateController.php $DEPLOYPATH/app/Http/Controllers/ProductCatalogTemplateController.php
@@ -87,6 +96,17 @@ deployment:
     - /bin/cp -f app/Models/TallerWorker.php $DEPLOYPATH/app/Models/TallerWorker.php
     - /bin/cp -f app/Models/UserSession.php $DEPLOYPATH/app/Models/UserSession.php
     - /bin/cp -f app/Models/Vehicle.php $DEPLOYPATH/app/Models/Vehicle.php
+    - /bin/cp -f app/Models/Detailclient.php $DEPLOYPATH/app/Models/Detailclient.php
+    - /bin/cp -f app/Models/DetailclientImage.php $DEPLOYPATH/app/Models/DetailclientImage.php
+    - /bin/cp -f app/Models/BackgroundImage.php $DEPLOYPATH/app/Models/BackgroundImage.php
+    - /bin/cp -f app/Models/Motor.php $DEPLOYPATH/app/Models/Motor.php
+    - /bin/cp -f app/Models/MotorAssignment.php $DEPLOYPATH/app/Models/MotorAssignment.php
+    - /bin/cp -f app/Models/QuotationSparePart.php $DEPLOYPATH/app/Models/QuotationSparePart.php
+    - /bin/cp -f app/Models/QuotationSparePartImage.php $DEPLOYPATH/app/Models/QuotationSparePartImage.php
+    - /bin/cp -f app/Models/QuotationUserImage.php $DEPLOYPATH/app/Models/QuotationUserImage.php
+    - /bin/cp -f app/Models/QuotationUserVehicle.php $DEPLOYPATH/app/Models/QuotationUserVehicle.php
+    - /bin/cp -f app/Models/Quotationclient.php $DEPLOYPATH/app/Models/Quotationclient.php
+    - /bin/cp -f app/Models/RepairActivity.php $DEPLOYPATH/app/Models/RepairActivity.php
     - /bin/cp -f app/Models/VehicleBrandModel.php $DEPLOYPATH/app/Models/VehicleBrandModel.php
     - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
@@ -106,11 +126,24 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_04_000001_create_motor_specs_table.php $DEPLOYPATH/database/migrations/2026_08_04_000001_create_motor_specs_table.php
     - /bin/cp -f database/migrations/2026_08_04_000002_add_range_columns_to_vehicle_engines_table.php $DEPLOYPATH/database/migrations/2026_08_04_000002_add_range_columns_to_vehicle_engines_table.php
     - /bin/cp -f database/migrations/2026_08_04_000003_drop_legacy_vehicle_engine_year_columns.php $DEPLOYPATH/database/migrations/2026_08_04_000003_drop_legacy_vehicle_engine_year_columns.php
+    - /bin/cp -f database/migrations/2026_08_04_000004_create_motors_table.php $DEPLOYPATH/database/migrations/2026_08_04_000004_create_motors_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000005_create_motor_assignments_table.php $DEPLOYPATH/database/migrations/2026_08_04_000005_create_motor_assignments_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000006_create_background_images_table.php $DEPLOYPATH/database/migrations/2026_08_04_000006_create_background_images_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000007_create_detailclient_images_table.php $DEPLOYPATH/database/migrations/2026_08_04_000007_create_detailclient_images_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000008_create_quotation_spare_parts_table.php $DEPLOYPATH/database/migrations/2026_08_04_000008_create_quotation_spare_parts_table.php
+    - /bin/cp -f database/migrations/2026_08_04_000009_create_quotation_spare_part_images_table.php $DEPLOYPATH/database/migrations/2026_08_04_000009_create_quotation_spare_part_images_table.php
+    - /bin/cp -f database/migrations/2026_08_05_000001_add_tipo_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_05_000001_add_tipo_to_quotationclients_table.php
+    - /bin/cp -f database/migrations/2026_08_05_000002_create_repair_activities_table.php $DEPLOYPATH/database/migrations/2026_08_05_000002_create_repair_activities_table.php
+    - /bin/cp -f database/migrations/2026_08_05_000003_create_quotation_user_images_table.php $DEPLOYPATH/database/migrations/2026_08_05_000003_create_quotation_user_images_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
     - /bin/cp -f public/css/app-principal.css $DEPLOYPATH/public/css/app-principal.css
+    - /bin/mkdir -p $DEPLOYPATH/public/img
+    - /bin/cp -f public/img/fondo1.png $DEPLOYPATH/public/img/fondo1.png
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/css/sbAdmin
+    - /bin/cp -f resources/assets/css/sbAdmin/sb-admin.css $DEPLOYPATH/resources/assets/css/sbAdmin/sb-admin.css
     - /bin/cp -f resources/assets/js/app.js $DEPLOYPATH/resources/assets/js/app.js
     - /bin/cp -f resources/assets/js/components/Check-List/AgregarCategoria.vue $DEPLOYPATH/resources/assets/js/components/Check-List/AgregarCategoria.vue
     - /bin/cp -f resources/assets/js/components/Check-List/AgregarIntervencion.vue $DEPLOYPATH/resources/assets/js/components/Check-List/AgregarIntervencion.vue
@@ -128,6 +161,14 @@ deployment:
     - /bin/cp -f resources/assets/js/components/OrdenTrabajos/OrdenTrabajo.vue $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/OrdenTrabajo.vue
     - /bin/cp -f resources/assets/js/components/Product/Index.vue $DEPLOYPATH/resources/assets/js/components/Product/Index.vue
     - /bin/cp -f resources/assets/js/components/Product/CatalogTemplates.vue $DEPLOYPATH/resources/assets/js/components/Product/CatalogTemplates.vue
+    - /bin/cp -f resources/assets/js/components/Product/SelectRepairActivity.vue $DEPLOYPATH/resources/assets/js/components/Product/SelectRepairActivity.vue
+    - /bin/cp -f resources/assets/js/components/Product/SelectSparePartProduct.vue $DEPLOYPATH/resources/assets/js/components/Product/SelectSparePartProduct.vue
+    - /bin/cp -f resources/assets/js/components/Motor/Index.vue $DEPLOYPATH/resources/assets/js/components/Motor/Index.vue
+    - /bin/cp -f resources/assets/js/components/Motor/Agregar.vue $DEPLOYPATH/resources/assets/js/components/Motor/Agregar.vue
+    - /bin/cp -f resources/assets/js/components/Motor/Editar.vue $DEPLOYPATH/resources/assets/js/components/Motor/Editar.vue
+    - /bin/cp -f resources/assets/js/components/Motor/Historial.vue $DEPLOYPATH/resources/assets/js/components/Motor/Historial.vue
+    - /bin/cp -f resources/assets/js/components/Quotationuser/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationuser/Index.vue
+    - /bin/cp -f resources/assets/js/components/VehicleMechanic/Agregar.vue $DEPLOYPATH/resources/assets/js/components/VehicleMechanic/Agregar.vue
     - /bin/cp -f resources/assets/js/components/Quotation/CreateUser.vue $DEPLOYPATH/resources/assets/js/components/Quotation/CreateUser.vue
     - /bin/cp -f resources/assets/js/components/Quotation/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Quotation/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Index.vue
@@ -140,6 +181,8 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Index.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarClientesForm.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarClientesForm.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/DetailclientImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetailclientImages.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/SparePartImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/SparePartImages.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
     - /bin/cp -f resources/assets/js/components/Roles/CreateRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/CreateRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/EditRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/EditRole.vue
@@ -154,6 +197,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/UserMechanic/EditUser.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/EditUser.vue
     - /bin/cp -f resources/assets/js/components/UserMechanic/Index.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/Index.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/AgregarDetalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/AgregarDetalle.vue
+    - /bin/cp -f resources/assets/js/components/Vehicle/Agregar.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Agregar.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Index.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Index.vue
     - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMarca.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMarca.vue
@@ -178,6 +222,11 @@ deployment:
     - /bin/cp -f resources/assets/js/components/store/state.js $DEPLOYPATH/resources/assets/js/components/store/state.js
     - /bin/cp -f resources/assets/js/utils/imageUtils.js $DEPLOYPATH/resources/assets/js/utils/imageUtils.js
     - /bin/cp -f resources/views/admin/cantidad-vehiculos.blade.php $DEPLOYPATH/resources/views/admin/cantidad-vehiculos.blade.php
+    - /bin/cp -f resources/views/admin/motores.blade.php $DEPLOYPATH/resources/views/admin/motores.blade.php
+    - /bin/cp -f resources/views/admin/cotizacion-reparacion.blade.php $DEPLOYPATH/resources/views/admin/cotizacion-reparacion.blade.php
+    - /bin/cp -f resources/views/quotation.blade.php $DEPLOYPATH/resources/views/quotation.blade.php
+    - /bin/cp -f resources/views/pdf/quotationclient.blade.php $DEPLOYPATH/resources/views/pdf/quotationclient.blade.php
+    - /bin/cp -f resources/views/pdf/quotationclientiva.blade.php $DEPLOYPATH/resources/views/pdf/quotationclientiva.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
     - /bin/cp -f resources/views/layouts/portalapp.blade.php $DEPLOYPATH/resources/views/layouts/portalapp.blade.php
