@@ -64,7 +64,7 @@ class UserSessionController extends Controller
 
         return [
             'sessions' => $sessions,
-            'limit' => $user->device_limit,
+            'limit' => $user->hasRole('admin') ? null : $user->device_limit,
             'userName' => $user->name,
         ];
     }

@@ -43,7 +43,8 @@
             </div>
             <div class="tab-pane fade p-4" id="devices" role="tabpanel" aria-labelledby="devices-tab">
 
-                <p class="mb-3">Límite actual: <strong>{{ deviceLimit }}</strong> dispositivo(s).</p>
+                <p class="mb-3" v-if="deviceLimit === null">Límite actual: <strong>Ilimitado</strong></p>
+                <p class="mb-3" v-else>Límite actual: <strong>{{ deviceLimit }}</strong> dispositivo(s).</p>
 
                 <div class="alert alert-info" v-if="!deviceSessionsLoading && deviceSessions.length === 0">
                     No hay dispositivos activos registrados.
@@ -153,58 +154,74 @@
                     </small>
                 </div>
 
-                <div class="form-group">
-                    <label for="rut">Rut</label>
-                    <input required v-validate="'required'" :class="{ 'input': true, 'is-invalid': errors.has('rut') }"
-                        type="text" name="rut" class="form-control" v-model="newCompany.rut">
-                    <p v-show="errors.has('rut')" class="text-danger">{{ errors.first('rut') }}</p>
-                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="rut">Rut</label>
+                            <input required v-validate="'required'" :class="{ 'input': true, 'is-invalid': errors.has('rut') }"
+                                type="text" name="rut" class="form-control" v-model="newCompany.rut">
+                            <p v-show="errors.has('rut')" class="text-danger">{{ errors.first('rut') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="razonSocial">Razón Social</label>
-                    <input required v-validate="'required'"
-                        :class="{ 'input': true, 'is-invalid': errors.has('razonSocial') }" type="text"
-                        name="razonSocial" class="form-control" v-model="newCompany.razonSocial">
-                    <p v-show="errors.has('razonSocial')" class="text-danger">{{ errors.first('razonSocial') }}</p>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="razonSocial">Razón Social</label>
+                            <input required v-validate="'required'"
+                                :class="{ 'input': true, 'is-invalid': errors.has('razonSocial') }" type="text"
+                                name="razonSocial" class="form-control" v-model="newCompany.razonSocial">
+                            <p v-show="errors.has('razonSocial')" class="text-danger">{{ errors.first('razonSocial') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input required v-validate="'required'"
-                        :class="{ 'input': true, 'is-invalid': errors.has('email') }" type="text" name="email"
-                        class="form-control" v-model="newCompany.email">
-                    <p v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</p>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input required v-validate="'required'"
+                                :class="{ 'input': true, 'is-invalid': errors.has('email') }" type="text" name="email"
+                                class="form-control" v-model="newCompany.email">
+                            <p v-show="errors.has('email')" class="text-danger">{{ errors.first('email') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="phone">Telefono</label>
-                    <input required v-validate="'required'"
-                        :class="{ 'input': true, 'is-invalid': errors.has('phone') }" type="text" name="phone"
-                        class="form-control" v-model="newCompany.phone">
-                    <p v-show="errors.has('phone')" class="text-danger">{{ errors.first('phone') }}</p>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input required v-validate="'required'"
+                                :class="{ 'input': true, 'is-invalid': errors.has('phone') }" type="text" name="phone"
+                                class="form-control" v-model="newCompany.phone">
+                            <p v-show="errors.has('phone')" class="text-danger">{{ errors.first('phone') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="address">Dirección</label>
-                    <input required v-validate="'required'"
-                        :class="{ 'input': true, 'is-invalid': errors.has('address') }" type="text" name="address"
-                        class="form-control" v-model="newCompany.address">
-                    <p v-show="errors.has('address')" class="text-danger">{{ errors.first('address') }}</p>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="address">Dirección</label>
+                            <input required v-validate="'required'"
+                                :class="{ 'input': true, 'is-invalid': errors.has('address') }" type="text" name="address"
+                                class="form-control" v-model="newCompany.address">
+                            <p v-show="errors.has('address')" class="text-danger">{{ errors.first('address') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="comuna">Comuna</label>
-                    <input required v-validate="'required'"
-                        :class="{ 'input': true, 'is-invalid': errors.has('comuna') }" type="text" name="comuna"
-                        class="form-control" v-model="newCompany.comuna">
-                    <p v-show="errors.has('comuna')" class="text-danger">{{ errors.first('comuna') }}</p>
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="comuna">Comuna</label>
+                            <input required v-validate="'required'"
+                                :class="{ 'input': true, 'is-invalid': errors.has('comuna') }" type="text" name="comuna"
+                                class="form-control" v-model="newCompany.comuna">
+                            <p v-show="errors.has('comuna')" class="text-danger">{{ errors.first('comuna') }}</p>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="giro">Giro</label>
-                    <input required v-validate="'required'" :class="{ 'input': true, 'is-invalid': errors.has('giro') }"
-                        type="text" name="giro" class="form-control" v-model="newCompany.giro">
-                    <p v-show="errors.has('giro')" class="text-danger">{{ errors.first('giro') }}</p>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="giro">Giro</label>
+                            <input required v-validate="'required'" :class="{ 'input': true, 'is-invalid': errors.has('giro') }"
+                                type="text" name="giro" class="form-control" v-model="newCompany.giro">
+                            <p v-show="errors.has('giro')" class="text-danger">{{ errors.first('giro') }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">

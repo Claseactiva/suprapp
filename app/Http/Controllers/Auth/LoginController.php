@@ -107,16 +107,18 @@ class LoginController extends Controller
         }
 
         if (!$knownDevice) {
-            $activeCount = UserSession::active()->where('user_id', $user->id)->count();
-            $limit = max(1, (int) $user->device_limit);
+            if (!$user->hasRole('admin')) {
+                $activeCount = UserSession::active()->where('user_id', $user->id)->count();
+                $limit = max(1, (int) $user->device_limit);
 
-            if ($activeCount >= $limit) {
-                $activeSessions = UserSession::active()
-                    ->where('user_id', $user->id)
-                    ->orderByDesc('last_seen_at')
-                    ->get();
+                if ($activeCount >= $limit) {
+                    $activeSessions = UserSession::active()
+                        ->where('user_id', $user->id)
+                        ->orderByDesc('last_seen_at')
+                        ->get();
 
-                throw new DeviceLimitReachedException($limit, $activeSessions);
+                    throw new DeviceLimitReachedException($limit, $activeSessions);
+                }
             }
 
             $knownDevice = new UserSession(['user_id' => $user->id]);

@@ -28156,7 +28156,9 @@ var render = function render() {
       role: "tabpanel",
       "aria-labelledby": "devices-tab"
     }
-  }, [_c("p", {
+  }, [_vm.deviceLimit === null ? _c("p", {
+    staticClass: "mb-3"
+  }, [_vm._v("Límite actual: "), _c("strong", [_vm._v("Ilimitado")])]) : _c("p", {
     staticClass: "mb-3"
   }, [_vm._v("Límite actual: "), _c("strong", [_vm._v(_vm._s(_vm.deviceLimit))]), _vm._v(" dispositivo(s).")]), _vm._v(" "), !_vm.deviceSessionsLoading && _vm.deviceSessions.length === 0 ? _c("div", {
     staticClass: "alert alert-info"
@@ -28410,6 +28412,10 @@ var render = function render() {
   }), _vm._v(" Copiar\n                        ")])])]), _vm._v(" "), _c("small", {
     staticClass: "text-muted d-block mt-1"
   }, [_vm._v("\n                    Comparte este link con tus clientes para que sus solicitudes te lleguen a ti.\n                ")])]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28454,7 +28460,9 @@ var render = function render() {
       expression: "errors.has('rut')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("rut")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("rut")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28499,7 +28507,9 @@ var render = function render() {
       expression: "errors.has('razonSocial')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("razonSocial")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("razonSocial")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28544,7 +28554,9 @@ var render = function render() {
       expression: "errors.has('email')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("email")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("email")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28589,7 +28601,9 @@ var render = function render() {
       expression: "errors.has('phone')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("phone")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("phone")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28634,7 +28648,9 @@ var render = function render() {
       expression: "errors.has('address')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("address")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("address")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28679,7 +28695,9 @@ var render = function render() {
       expression: "errors.has('comuna')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("comuna")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("comuna")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "col-md-6"
+  }, [_c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -28724,7 +28742,7 @@ var render = function render() {
       expression: "errors.has('giro')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("giro")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("giro")))])])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_vm.newCompany.id ? _c("button", {
     staticClass: "btn btn-warning",
