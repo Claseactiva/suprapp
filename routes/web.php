@@ -12,6 +12,13 @@
 */
 use Illuminate\Support\Facades\Route;
 
+// RUTA TEMPORAL: ejecuta las migraciones pendientes en produccion (sin SSH).
+// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE.
+Route::get('deploy-migrate-d56c0b3d459712ca4dc2c9de67f33d98f33694bd', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return '<pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+});
+
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
