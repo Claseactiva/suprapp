@@ -20737,13 +20737,9 @@ var render = function render() {
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
   }, [_c("thead", [_c("tr", [_c("th", {
-    staticStyle: {
-      width: "40px"
-    }
+    style: _vm.isReparacion ? "width: 40px;" : ""
   }, [_vm._v("ID")]), _vm._v(" "), _c("th", {
-    staticStyle: {
-      width: "40%"
-    }
+    style: _vm.isReparacion ? "width: 40%;" : ""
   }, [_vm._v("Producto")]), _vm._v(" "), !_vm.isReparacion ? _c("th", [_vm._v("Código")]) : _vm._e(), _vm._v(" "), !_vm.isReparacion ? _c("th", [_vm._v("Plazo")]) : _vm._e(), _vm._v(" "), _vm.showNetoColumns ? _c("th", [_vm._v("Valor Neto ($)")]) : _vm._e(), _vm._v(" "), _c("th", [_vm._v("Cantidad")]), _vm._v(" "), _vm.showPercentageColumns ? _c("th", [_vm._v("Porcentaje")]) : _vm._e(), _vm._v(" "), !_vm.isReparacion ? _c("th", [_vm._v("Adicional ($)")]) : _vm._e(), _vm._v(" "), !_vm.isReparacion ? _c("th", [_vm._v("Transporte ($)")]) : _vm._e(), _vm._v(" "), _vm.showPercentageColumns ? _c("th", [_vm._v("Utilidad ($)")]) : _vm._e(), _vm._v(" "), _vm.showNetoColumns ? _c("th", [_vm._v("Total Neto ($)")]) : _vm._e(), _vm._v(" "), _c("th", [_vm._v("Total + IVA ($)")]), _vm._v(" "), _c("th", [_vm._v("Acción")])])]), _vm._v(" "), _c("tbody", [_vm._l(_vm.detailclients, function (detailLocal, index) {
     return _c("tr", {
       key: detailLocal.id

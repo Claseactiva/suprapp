@@ -206,8 +206,8 @@
                             <table class="table table-responsive-new table-dark table-sm mt-3">
                                 <thead>
                                     <tr>
-                                        <th style="width: 40px;">ID</th>
-                                        <th style="width: 40%;">Producto</th>
+                                        <th :style="isReparacion ? 'width: 40px;' : ''">ID</th>
+                                        <th :style="isReparacion ? 'width: 40%;' : ''">Producto</th>
                                         <th v-if="!isReparacion">Código</th>
                                         <th v-if="!isReparacion">Plazo</th>
                                         <th v-if="showNetoColumns">Valor Neto ($)</th>
