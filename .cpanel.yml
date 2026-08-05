@@ -141,6 +141,10 @@ deployment:
     - /bin/cp -f public/css/app-principal.css $DEPLOYPATH/public/css/app-principal.css
     - /bin/mkdir -p $DEPLOYPATH/public/img
     - /bin/cp -f public/img/fondo1.png $DEPLOYPATH/public/img/fondo1.png
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/backgrounds
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/detailclients
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/quotation-spare-parts
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/quotation-user
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/css/sbAdmin
     - /bin/cp -f resources/assets/css/sbAdmin/sb-admin.css $DEPLOYPATH/resources/assets/css/sbAdmin/sb-admin.css
