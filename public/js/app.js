@@ -41054,9 +41054,17 @@ function dispatchPublicQuotationFailed() {
   selectBackgroundImage: function selectBackgroundImage(state, image) {
     localStorage.setItem('bg-image-path', image.path);
     localStorage.setItem('bg-image-variant', image.is_light ? 'light' : 'dark');
-    document.body.style.setProperty('--wrapper-bg-image', 'url(' + image.path + ')');
     document.body.classList.remove('bg-photo-light', 'bg-photo-dark');
     document.body.classList.add(image.is_light ? 'bg-photo-light' : 'bg-photo-dark');
+    var overlay = image.is_light ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.25)';
+    var wrapper = document.getElementById('wrapper');
+    if (wrapper) {
+      wrapper.style.backgroundImage = 'linear-gradient(' + overlay + ', ' + overlay + '), url(' + image.path + ')';
+      wrapper.style.backgroundSize = 'cover';
+      wrapper.style.backgroundPosition = 'center center';
+      wrapper.style.backgroundRepeat = 'no-repeat';
+      wrapper.style.backgroundAttachment = 'fixed';
+    }
     state.selectedBackgroundImagePath = image.path;
   },
   updateUser: function updateUser(state, id) {

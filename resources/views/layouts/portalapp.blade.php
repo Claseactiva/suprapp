@@ -33,17 +33,6 @@
         if (localStorage.getItem('theme-light-tables') === '1') {
             document.body.classList.add('theme-light-tables');
         }
-
-        (function () {
-            var bgPath = localStorage.getItem('bg-image-path');
-            var bgVariant = localStorage.getItem('bg-image-variant');
-
-            if (bgPath) {
-                document.body.style.setProperty('--wrapper-bg-image', 'url(' + bgPath + ')');
-            }
-
-            document.body.classList.add(bgVariant === 'dark' ? 'bg-photo-dark' : 'bg-photo-light');
-        })();
     </script>
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -85,6 +74,28 @@
     </nav>
 
     <div id="wrapper">
+
+        <script>
+            (function () {
+                var bgPath = localStorage.getItem('bg-image-path');
+                var bgVariant = localStorage.getItem('bg-image-variant');
+                var isLight = bgVariant !== 'dark';
+
+                document.body.classList.add(isLight ? 'bg-photo-light' : 'bg-photo-dark');
+
+                if (bgPath) {
+                    var overlay = isLight ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.25)';
+                    var wrapper = document.getElementById('wrapper');
+                    if (wrapper) {
+                        wrapper.style.backgroundImage = 'linear-gradient(' + overlay + ', ' + overlay + '), url(' + bgPath + ')';
+                        wrapper.style.backgroundSize = 'cover';
+                        wrapper.style.backgroundPosition = 'center center';
+                        wrapper.style.backgroundRepeat = 'no-repeat';
+                        wrapper.style.backgroundAttachment = 'fixed';
+                    }
+                }
+            })();
+        </script>
 
         <ul class="sidebar navbar-nav toggled">
 
