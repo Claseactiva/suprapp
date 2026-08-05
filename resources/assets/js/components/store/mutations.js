@@ -1239,6 +1239,14 @@ export default { //used for changing the state
             state.errorsLaravel = error.response.data
         })
     },
+    deleteVehicle(state, id) {
+        let url = urlVehicle + '/' + id
+        axios.delete(url).then(response => {
+            toastr.success('Vehiculo eliminado correctamente')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el vehiculo'))
+        })
+    },
     getDetails(state, detail) {
         let url = urlVehicle + '/' + detail.id
         axios.get(url).then(response => {

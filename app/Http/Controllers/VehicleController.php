@@ -251,7 +251,11 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
-        //
+        DB::table('check_list_vehicles')->where('vehicle_id', $vehicle->id)->delete();
+
+        $vehicle->delete();
+
+        return response()->json(['message' => 'Vehiculo eliminado correctamente']);
     }
 
     public function indexByUser()

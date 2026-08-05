@@ -60,6 +60,11 @@
                                 <i class="far fa-edit"></i>
                             </a>
 
+                            <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                <i class="fas fa-ban"></i>
+                            </a>
+
                             <a href="#" class="btn btn-info btn-sm" @click.prevent="detailVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Informacion">
                                 <i class="fas fa-info"></i>
@@ -167,7 +172,7 @@ export default {
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
-        ...mapActions(['getVehicles', 'getVehiclesUser', 'editVehicle',
+        ...mapActions(['getVehicles', 'getVehiclesUser', 'editVehicle', 'deleteVehicle',
             'detailVehicle', 'modalDetailVehicle', 'modalOrdenTrabajo', 'changePageVehicle', 'modalCheckList'])
     },
     created() {
