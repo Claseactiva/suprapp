@@ -325,4 +325,27 @@ export default {
 .logo {
     height: 200px;
 }
+
+#myTab {
+    background-color: rgba(33, 37, 41, 0.85);
+    border-radius: 0.375rem 0.375rem 0 0;
+    padding: 0.375rem 0.5rem 0;
+}
+
+#myTab .nav-link {
+    color: #fff;
+    border-color: transparent;
+}
+
+#myTab .nav-link:hover {
+    color: #fff;
+    opacity: 0.85;
+    border-color: transparent;
+}
+
+#myTab .nav-link.active {
+    color: #212529;
+    background-color: #fff;
+    border-color: #fff #fff transparent;
+}
 </style>

@@ -48151,7 +48151,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.logo {\r\n    height: 200px;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.logo {\r\n    height: 200px;\n}\n#myTab {\r\n    background-color: rgba(33, 37, 41, 0.85);\r\n    border-radius: 0.375rem 0.375rem 0 0;\r\n    padding: 0.375rem 0.5rem 0;\n}\n#myTab .nav-link {\r\n    color: #fff;\r\n    border-color: transparent;\n}\n#myTab .nav-link:hover {\r\n    color: #fff;\r\n    opacity: 0.85;\r\n    border-color: transparent;\n}\n#myTab .nav-link.active {\r\n    color: #212529;\r\n    background-color: #fff;\r\n    border-color: #fff #fff transparent;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
