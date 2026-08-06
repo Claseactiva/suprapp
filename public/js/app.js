@@ -7500,6 +7500,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     cotizarLink: function cotizarLink() {
       return window.location.origin + '/cotizar/' + (this.fillUser.cotizar_id || this.fillUser.id);
+    },
+    registroLink: function registroLink() {
+      return window.location.origin + '/registro/' + (this.fillUser.cotizar_id || this.fillUser.id);
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage'])), {}, {
@@ -7512,6 +7515,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Link copiado');
         })["catch"](function () {
           _this.copyCotizarLinkLegacy(link);
+        });
+        return;
+      }
+      this.copyCotizarLinkLegacy(link);
+    },
+    copyRegistroLink: function copyRegistroLink() {
+      var _this2 = this;
+      var link = this.registroLink;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(link).then(function () {
+          toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Link copiado');
+        })["catch"](function () {
+          _this2.copyCotizarLinkLegacy(link);
         });
         return;
       }
@@ -7535,17 +7551,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
     },
     getDeviceSessions: function getDeviceSessions() {
-      var _this2 = this;
+      var _this3 = this;
       this.deviceSessionsLoading = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('user-sessions').then(function (response) {
-        _this2.deviceSessions = response.data.sessions;
-        _this2.deviceLimit = response.data.limit;
+        _this3.deviceSessions = response.data.sessions;
+        _this3.deviceLimit = response.data.limit;
       })["finally"](function () {
-        _this2.deviceSessionsLoading = false;
+        _this3.deviceSessionsLoading = false;
       });
     },
     revokeDeviceSession: function revokeDeviceSession(session) {
-      var _this3 = this;
+      var _this4 = this;
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('user-sessions/' + session.id + '/revoke').then(function (response) {
         if (response.data.loggedOut) {
           toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Sesion cerrada en este dispositivo');
@@ -7553,7 +7569,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           return;
         }
         toastr__WEBPACK_IMPORTED_MODULE_2___default().success('Dispositivo revocado correctamente');
-        _this3.getDeviceSessions();
+        _this4.getDeviceSessions();
       })["catch"](function () {
         toastr__WEBPACK_IMPORTED_MODULE_2___default().error('No se pudo revocar el dispositivo');
       });
@@ -28721,7 +28737,39 @@ var render = function render() {
     staticClass: "far fa-copy"
   }), _vm._v(" Copiar\n                        ")])])]), _vm._v(" "), _c("small", {
     staticClass: "text-muted d-block mt-1"
-  }, [_vm._v("\n                    Comparte este link con tus clientes para que sus solicitudes te lleguen a ti.\n                ")])]) : _vm._e(), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                    Comparte este link con tus clientes para que sus solicitudes te lleguen a ti.\n                ")])]) : _vm._e(), _vm._v(" "), _vm.fillUser.id ? _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", [_vm._v("Tu link para que un cliente se registre solo")]), _vm._v(" "), _c("div", {
+    staticClass: "input-group"
+  }, [_c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      readonly: ""
+    },
+    domProps: {
+      value: _vm.registroLink
+    },
+    on: {
+      focus: function focus($event) {
+        return $event.target.select();
+      }
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-info",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: _vm.copyRegistroLink
+    }
+  }, [_c("i", {
+    staticClass: "far fa-copy"
+  }), _vm._v(" Copiar\n                        ")])])]), _vm._v(" "), _c("small", {
+    staticClass: "text-muted d-block mt-1"
+  }, [_vm._v("\n                    Compartelo si no tienes el correo del cliente a mano: el mismo entra, pone su nombre, correo y contraseña, y ya puede iniciar sesión.\n                ")])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-6"

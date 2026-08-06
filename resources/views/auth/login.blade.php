@@ -7,6 +7,12 @@
             <img class="mb-4" src="/favicon.ico" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Por favor, registrese</h1>
 
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <label for="email" class="sr-only">Email</label>
             <input type="email" id="email" name="email"
                 class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" placeholder="Email"

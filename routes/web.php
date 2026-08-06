@@ -111,6 +111,9 @@ Route::ApiResource('pendingquotations', 'QuotationUserController');
 Route::get('/cotizar/{id?}', 'QuotationUserController@cotizar');
 Route::get('cotizar-express', 'QuotationUserController@cotizar_express');
 
+Route::get('/registro/{id?}', 'RegistroController@show');
+Route::post('/registro', 'RegistroController@store')->name('registro.store');
+
 Route::ApiResource('detailvehicles', 'DetailVehicleController');
 Route::ApiResource('ordentrabajo', 'OrdenTrabajoController');
 Route::post('checkRealizado', 'OrdenTrabajoController@checkRealizado');

@@ -154,6 +154,21 @@
                     </small>
                 </div>
 
+                <div class="form-group" v-if="fillUser.id">
+                    <label>Tu link para que un cliente se registre solo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly :value="registroLink" @focus="$event.target.select()">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-info" @click="copyRegistroLink">
+                                <i class="far fa-copy"></i> Copiar
+                            </button>
+                        </div>
+                    </div>
+                    <small class="text-muted d-block mt-1">
+                        Compartelo si no tienes el correo del cliente a mano: el mismo entra, pone su nombre, correo y contraseña, y ya puede iniciar sesión.
+                    </small>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -265,6 +280,9 @@ export default {
         },
         cotizarLink() {
             return window.location.origin + '/cotizar/' + (this.fillUser.cotizar_id || this.fillUser.id)
+        },
+        registroLink() {
+            return window.location.origin + '/registro/' + (this.fillUser.cotizar_id || this.fillUser.id)
         }
     },
     methods: {
@@ -272,6 +290,20 @@ export default {
         formatImage,
         copyCotizarLink() {
             const link = this.cotizarLink
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(link).then(() => {
+                    toastr.success('Link copiado')
+                }).catch(() => {
+                    this.copyCotizarLinkLegacy(link)
+                })
+                return
+            }
+
+            this.copyCotizarLinkLegacy(link)
+        },
+        copyRegistroLink() {
+            const link = this.registroLink
 
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(link).then(() => {

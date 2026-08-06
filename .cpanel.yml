@@ -86,6 +86,7 @@ deployment:
     - /bin/cp -f app/Http/Controllers/User/UserController.php $DEPLOYPATH/app/Http/Controllers/User/UserController.php
     - /bin/cp -f app/Http/Controllers/UserSessionController.php $DEPLOYPATH/app/Http/Controllers/UserSessionController.php
     - /bin/cp -f app/Http/Controllers/QuotationUserController.php $DEPLOYPATH/app/Http/Controllers/QuotationUserController.php
+    - /bin/cp -f app/Http/Controllers/RegistroController.php $DEPLOYPATH/app/Http/Controllers/RegistroController.php
     - /bin/cp -f app/Http/Controllers/VehicleController.php $DEPLOYPATH/app/Http/Controllers/VehicleController.php
     - /bin/cp -f app/Http/Controllers/VehicleQuantityOptionController.php $DEPLOYPATH/app/Http/Controllers/VehicleQuantityOptionController.php
     - /bin/cp -f app/Http/Controllers/QuotationShippingController.php $DEPLOYPATH/app/Http/Controllers/QuotationShippingController.php
@@ -264,6 +265,7 @@ deployment:
     - /bin/cp -f resources/views/admin/motores.blade.php $DEPLOYPATH/resources/views/admin/motores.blade.php
     - /bin/cp -f resources/views/admin/cotizacion-reparacion.blade.php $DEPLOYPATH/resources/views/admin/cotizacion-reparacion.blade.php
     - /bin/cp -f resources/views/quotation.blade.php $DEPLOYPATH/resources/views/quotation.blade.php
+    - /bin/cp -f resources/views/registro.blade.php $DEPLOYPATH/resources/views/registro.blade.php
     - /bin/cp -f resources/views/pdf/quotationclient.blade.php $DEPLOYPATH/resources/views/pdf/quotationclient.blade.php
     - /bin/cp -f resources/views/pdf/quotationclientiva.blade.php $DEPLOYPATH/resources/views/pdf/quotationclientiva.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
