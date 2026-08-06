@@ -127,6 +127,7 @@ deployment:
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
     - /bin/cp -f app/Models/DeliveryTime.php $DEPLOYPATH/app/Models/DeliveryTime.php
     - /bin/cp -f app/Notifications/SetInitialPasswordNotification.php $DEPLOYPATH/app/Notifications/SetInitialPasswordNotification.php
+    - /bin/cp -f app/Notifications/ShippingNotificator.php $DEPLOYPATH/app/Notifications/ShippingNotificator.php
     - /bin/cp -f app/Services/ProductCatalogTemplateImportService.php $DEPLOYPATH/app/Services/ProductCatalogTemplateImportService.php
     - /bin/cp -f app/Services/VehicleEngineRangeMigrationService.php $DEPLOYPATH/app/Services/VehicleEngineRangeMigrationService.php
     - /bin/cp -f app/Services/VehicleModelProductService.php $DEPLOYPATH/app/Services/VehicleModelProductService.php

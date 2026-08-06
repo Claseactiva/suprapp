@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Towns;
 use App\Models\QuotationShipping;
 use App\Http\Requests\StoreQuotationShipping;
+use App\Notifications\ShippingNotificator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 
@@ -111,11 +114,31 @@ class QuotationShippingController extends Controller
             // 'direccion' => $direccion,
             'sucursal' => $sucursal
         ])->id;
-    
+
+        $this->notifyNewShipping($id, $nombre, $rut, $telefono, $ciudad, $sucursal);
 
         return response()->json([
             'numero_envio' => $id
         ], 200);
+    }
+
+    private function notifyNewShipping($id, $nombre, $rut, $telefono, $ciudadId, $sucursal)
+    {
+        $ciudadNombre = optional(Towns::find($ciudadId))->nombre ?? $ciudadId;
+
+        // Envio sincronico (sin dispatch a cola): el driver de colas configurado
+        // (database) no tiene tabla "jobs" creada, asi que un job encolado nunca
+        // se procesaria. Se manda directo para garantizar que el correo si llegue.
+        try {
+            Notification::route('mail', 'comercialsupra4@gmail.com')
+                ->notify(new ShippingNotificator($id, $nombre, $rut, $telefono, $ciudadNombre, $sucursal));
+        } catch (\Throwable $exception) {
+            Log::warning('Shipping notification failed', [
+                'target_email' => 'comercialsupra4@gmail.com',
+                'shipping_id' => $id,
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 
     public function update(Request $request, $id)
