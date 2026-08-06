@@ -264,7 +264,7 @@ export default {
             return this.fillUser.roles.some(role => role.name === 'admin')
         },
         cotizarLink() {
-            return window.location.origin + '/cotizar/' + this.fillUser.id
+            return window.location.origin + '/cotizar/' + (this.fillUser.cotizar_id || this.fillUser.id)
         }
     },
     methods: {

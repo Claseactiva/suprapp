@@ -1003,7 +1003,8 @@ export default { //data
         url: '',
         ip_acceso: '',
         logo: '',
-        roles: []
+        roles: [],
+        cotizar_id: ''
     },
     backgroundImages: [],
     newBackgroundImage: {

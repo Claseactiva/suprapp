@@ -3549,6 +3549,7 @@ export default { //used for changing the state
             state.fillUser.name = response.data.name
             state.fillUser.email = response.data.email
             state.fillUser.roles = response.data.roles || []
+            state.fillUser.cotizar_id = response.data.cotizar_id
             state.newCompany.user_id = response.data.id
         })
     },

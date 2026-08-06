@@ -7427,7 +7427,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       });
     },
     cotizarLink: function cotizarLink() {
-      return window.location.origin + '/cotizar/' + this.fillUser.id;
+      return window.location.origin + '/cotizar/' + (this.fillUser.cotizar_id || this.fillUser.id);
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage'])), {}, {
@@ -41453,6 +41453,7 @@ function dispatchPublicQuotationFailed() {
       state.fillUser.name = response.data.name;
       state.fillUser.email = response.data.email;
       state.fillUser.roles = response.data.roles || [];
+      state.fillUser.cotizar_id = response.data.cotizar_id;
       state.newCompany.user_id = response.data.id;
     });
   },
@@ -43792,7 +43793,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   url: '',
   ip_acceso: '',
   logo: '',
-  roles: []
+  roles: [],
+  cotizar_id: ''
 }), "backgroundImages", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newBackgroundImage", {
   is_light: true
 }), "attachmentBackgroundImage", null), "formBackgroundImage", new FormData()), "selectedBackgroundImagePath", localStorage.getItem('bg-image-path') || null), "fillCantCliVehi", {

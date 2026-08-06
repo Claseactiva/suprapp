@@ -259,6 +259,13 @@ class QuotationUserController extends Controller
             $ownerUserId = 1;
         }
 
+        // Si el id de la URL es un trabajador (vendedor/mecanico) de un taller,
+        // la cotizacion se atribuye a la cuenta dueña del taller, no al trabajador.
+        $requestedUser = User::find($ownerUserId);
+        if ($requestedUser) {
+            $ownerUserId = $requestedUser->effectiveTallerId();
+        }
+
         $client = Client::where('user_id', $ownerUserId)
             ->where('type', 'Cliente Particular')
             ->orderBy('id')

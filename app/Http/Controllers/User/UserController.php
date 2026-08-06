@@ -92,6 +92,7 @@ class UserController extends Controller
     {
         $user_id = Auth::id();
         $user = User::with('roles')->find($user_id);
+        $user->cotizar_id = $user->effectiveTallerId();
 
         return $user;
     }
