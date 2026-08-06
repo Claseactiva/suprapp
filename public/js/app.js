@@ -29338,7 +29338,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-key"
-  }), _vm._v(" Enviar recuperación de contraseña\n                    ")]), _vm._v(" "), _vm._m(1)])])])])]);
+  }), _vm._v(" Generar link para configurar contraseña\n                    ")]), _vm._v(" "), _vm._m(1)])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -41692,12 +41692,12 @@ function dispatchPublicQuotationFailed() {
   sendPasswordReset: function sendPasswordReset(state, id) {
     var url = urlUser + '/' + id + '/send-password-reset';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Se envio el correo de recuperacion de contrasena');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Se envio el correo para que configure su contrasena');
       if (response.data.activation_url) {
-        window.prompt('Link de recuperacion (Ctrl+C para copiar):', response.data.activation_url);
+        window.prompt('Link para que configure su contrasena (Ctrl+C para copiar):', response.data.activation_url);
       }
     })["catch"](function (error) {
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'));
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo generar el link'));
     });
   },
   modalUserDevices: function modalUserDevices(state, userLocal) {

@@ -188,7 +188,7 @@ class UserController extends Controller
         ], false));
 
         return response()->json([
-            'message' => 'Correo de recuperacion enviado correctamente',
+            'message' => 'Correo enviado correctamente',
             'activation_url' => $activationUrl,
         ]);
     }

@@ -3593,12 +3593,12 @@ export default { //used for changing the state
     sendPasswordReset(state, id) {
         let url = urlUser + '/' + id + '/send-password-reset'
         axios.post(url).then(response => {
-            toastr.success('Se envio el correo de recuperacion de contrasena')
+            toastr.success('Se envio el correo para que configure su contrasena')
             if (response.data.activation_url) {
-                window.prompt('Link de recuperacion (Ctrl+C para copiar):', response.data.activation_url)
+                window.prompt('Link para que configure su contrasena (Ctrl+C para copiar):', response.data.activation_url)
             }
         }).catch(error => {
-            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'))
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo generar el link'))
         })
     },
 

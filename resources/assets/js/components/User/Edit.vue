@@ -31,7 +31,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-secondary" @click.prevent="sendPasswordReset({ id: fillUser.id })">
-                            <i class="fas fa-key"></i> Enviar recuperación de contraseña
+                            <i class="fas fa-key"></i> Generar link para configurar contraseña
                         </a>
                         <button type="submit" class="btn btn-warning">
                             <i class="fas fa-edit"></i> Editar
