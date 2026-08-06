@@ -182,7 +182,15 @@ class UserController extends Controller
         $token = Password::createToken($user);
         $user->notify(new SetInitialPasswordNotification($token));
 
-        return response()->json(['message' => 'Correo de recuperacion enviado correctamente']);
+        $activationUrl = url(route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ], false));
+
+        return response()->json([
+            'message' => 'Correo de recuperacion enviado correctamente',
+            'activation_url' => $activationUrl,
+        ]);
     }
 
     public function destroy($id)

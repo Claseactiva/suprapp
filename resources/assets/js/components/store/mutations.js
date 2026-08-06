@@ -3594,6 +3594,9 @@ export default { //used for changing the state
         let url = urlUser + '/' + id + '/send-password-reset'
         axios.post(url).then(response => {
             toastr.success('Se envio el correo de recuperacion de contrasena')
+            if (response.data.activation_url) {
+                window.prompt('Link de recuperacion (Ctrl+C para copiar):', response.data.activation_url)
+            }
         }).catch(error => {
             toastr.error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'))
         })

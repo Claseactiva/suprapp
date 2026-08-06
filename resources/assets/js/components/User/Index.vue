@@ -112,6 +112,11 @@
                                     <i class="far fa-edit"></i>
                                 </a>
 
+                                <button class="btn btn-outline-info" @click.prevent="sendPasswordReset({ id: userLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Generar Link">
+                                    <i class="fas fa-key"></i>
+                                </button>
+
                                 <button class="btn btn-info" @click.prevent="modalUserDevices({ userLocal })"
                                     data-toggle="tooltip" data-placement="top" title="Dispositivos">
                                     <i class="fas fa-mobile-alt"></i>
@@ -213,7 +218,7 @@ export default {
     },
     methods: {
         ...mapActions(['getUsers', 'createUser',
-            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices'])
+            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'sendPasswordReset'])
     },
     created() {
         loadProgressBar()

@@ -86,6 +86,11 @@
                                     <i class="far fa-edit"></i>
                                 </a>
 
+                                <button class="btn btn-outline-info" @click.prevent="sendPasswordReset({ id: userLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Generar Link">
+                                    <i class="fas fa-key"></i>
+                                </button>
+
                                 <button class="btn btn-info" @click.prevent="modalUserDevices({ userLocal })"
                                     data-toggle="tooltip" data-placement="top" title="Dispositivos">
                                     <i class="fas fa-mobile-alt"></i>
@@ -210,6 +215,11 @@
                             <td data-table-label="email">{{ workerLocal.email }}</td>
 
                             <td class="text-right">
+                                <button class="btn btn-outline-info" @click.prevent="sendPasswordReset({ id: workerLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Generar Link">
+                                    <i class="fas fa-key"></i>
+                                </button>
+
                                 <button class="btn btn-danger" @click.prevent="revokeTallerWorker({ id: workerLocal.id })"
                                     data-toggle="tooltip" data-placement="top" title="Revocar acceso">
                                     <i class="fas fa-user-slash"></i>
@@ -245,7 +255,7 @@ export default {
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
-        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker'])
+        ...mapActions(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker', 'sendPasswordReset'])
     },
     created() {
         loadProgressBar()

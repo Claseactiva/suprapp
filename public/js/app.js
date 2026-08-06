@@ -7356,7 +7356,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker', 'sendPasswordReset'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getMechanicClients', {
@@ -7705,7 +7705,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ActivationLink: _ActivationLink__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'sendPasswordReset'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getUsers', {
@@ -27862,6 +27862,23 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-outline-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Generar Link"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.sendPasswordReset({
+            id: userLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-key"
+    })]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-info",
       attrs: {
         "data-toggle": "tooltip",
@@ -28067,6 +28084,23 @@ var render = function render() {
     }, [_vm._v(_vm._s(workerLocal.email))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("button", {
+      staticClass: "btn btn-outline-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Generar Link"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.sendPasswordReset({
+            id: workerLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-key"
+    })]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-danger",
       attrs: {
         "data-toggle": "tooltip",
@@ -29667,6 +29701,23 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
+    })]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-outline-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Generar Link"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.sendPasswordReset({
+            id: userLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-key"
     })]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-info",
       attrs: {
@@ -41642,6 +41693,9 @@ function dispatchPublicQuotationFailed() {
     var url = urlUser + '/' + id + '/send-password-reset';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Se envio el correo de recuperacion de contrasena');
+      if (response.data.activation_url) {
+        window.prompt('Link de recuperacion (Ctrl+C para copiar):', response.data.activation_url);
+      }
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'));
     });
