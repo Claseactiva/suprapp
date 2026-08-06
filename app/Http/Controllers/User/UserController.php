@@ -17,6 +17,14 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    /**
+     * Guardado por createUserAndSendActivation() para el ultimo usuario
+     * creado; los callers lo pegan a la respuesta recien al final, despues
+     * de cualquier ->update()/->save() sobre el modelo (activation_url no
+     * es una columna real, agregarlo antes rompe esos updates).
+     */
+    private $lastActivationUrl;
+
     public function index()
     {
         //$users = User::doesntHave('mechanic')->orderBy('id', 'DESC')->with('roles')->paginate((int) request('per_page', 20));
@@ -79,7 +87,7 @@ class UserController extends Controller
             ]);
         }
 
-        return $user;
+        return $this->withActivationUrl($user);
     }
 
     /**
@@ -99,6 +107,23 @@ class UserController extends Controller
 
         $token = Password::createToken($user);
         $user->notify(new SetInitialPasswordNotification($token));
+
+        // Se guarda el link ademas de mandarlo por correo, por si el cliente
+        // no tiene correo o no le llega: se puede copiar y mandar a mano
+        // (WhatsApp, SMS, etc). Se pega a $user recien al final de cada
+        // caller (no aqui) para que no quede como atributo "sucio" y rompa
+        // un $user->update() posterior (activation_url no es una columna).
+        $this->lastActivationUrl = url(route('password.reset', [
+            'token' => $token,
+            'email' => $user->email,
+        ], false));
+
+        return $user;
+    }
+
+    private function withActivationUrl(User $user)
+    {
+        $user->activation_url = $this->lastActivationUrl;
 
         return $user;
     }
@@ -274,7 +299,7 @@ class UserController extends Controller
             ]
         );
 
-        return $user;
+        return $this->withActivationUrl($user);
     }
 
     public function storeclient2(Request $request)
@@ -336,7 +361,7 @@ class UserController extends Controller
                     ]
                 );
 
-                return $user;
+                return $this->withActivationUrl($user);
             }
         }
     }
@@ -390,7 +415,7 @@ class UserController extends Controller
             ]
         );
 
-        return $user;
+        return $this->withActivationUrl($user);
     }
 
     public function revokeWorker($id)

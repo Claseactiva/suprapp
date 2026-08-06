@@ -221,6 +221,7 @@
             <EditCantVehicle></EditCantVehicle>
             <EditUser></EditUser>
             <Dispositivos></Dispositivos>
+            <ActivationLink></ActivationLink>
         </div>
     </div>
 
@@ -234,9 +235,10 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import EditUser from './EditUser'
 import EditCantVehicle from './EditCantVehicle'
 import Dispositivos from '../User/Dispositivos'
+import ActivationLink from '../User/ActivationLink'
 
 export default {
-    components: { EditUser, EditCantVehicle, Dispositivos },
+    components: { EditUser, EditCantVehicle, Dispositivos, ActivationLink },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker']),
         ...mapGetters(['isActived', 'pagesNumber'])

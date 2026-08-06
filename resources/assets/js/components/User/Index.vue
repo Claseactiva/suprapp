@@ -186,6 +186,7 @@
         <EditCantClientVehicle></EditCantClientVehicle>
         <UpdateUserRoles></UpdateUserRoles>
         <Dispositivos></Dispositivos>
+        <ActivationLink></ActivationLink>
 
     </div>
 
@@ -202,9 +203,10 @@ import DeleteUser from './Delete'
 import UpdateUserRoles from '../Roles/UpdateUserRoles'
 import EditCantClientVehicle from './EditCantClientVehicle'
 import Dispositivos from './Dispositivos'
+import ActivationLink from './ActivationLink'
 
 export default {
-    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos },
+    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos, ActivationLink },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
         ...mapGetters(['isActived', 'pagesNumber'])

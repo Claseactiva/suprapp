@@ -176,6 +176,7 @@
         </div>
         <Detalle></Detalle>
         <create-user></create-user>
+        <ActivationLink></ActivationLink>
     </div>
 </template>
 
@@ -185,10 +186,11 @@
 import { loadProgressBar } from 'axios-progress-bar'
 import Detalle from './Detalle'
 import CreateUser from './CreateUser'
+import ActivationLink from '../User/ActivationLink'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-    components: { Detalle, CreateUser },
+    components: { Detalle, CreateUser, ActivationLink },
     computed:{
         ...mapState(['pendingQuotations', 'newQuotation', 'searchQuotation',
                     'pagination', 'offset', 'errorsLaravel']),

@@ -3575,10 +3575,14 @@ export default { //used for changing the state
                 url: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
+            this.commit('openActivationLinkModal', response.data.activation_url)
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
+    },
+    openActivationLinkModal(state, link) {
+        state.activationLink = link
+        $('#activationLinkModal').modal('show')
     },
 
     editUser(state, user) {
@@ -5032,7 +5036,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             $('#modalCreateUserMechanic').modal('hide')
-            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
+            this.commit('openActivationLinkModal', response.data.activation_url)
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -5052,7 +5056,7 @@ export default { //used for changing the state
                 //cant_vehicle: ''
             }
             state.errorsLaravel = []
-            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
+            this.commit('openActivationLinkModal', response.data.activation_url)
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -5076,7 +5080,7 @@ export default { //used for changing the state
                 email: ''
             }
             state.errorsLaravel = []
-            toastr.success('Trabajador creado. Se envio un correo para que configure su contrasena.')
+            this.commit('openActivationLinkModal', response.data.activation_url)
         }).catch(error => {
             toastr.error(error.response.data)
         })

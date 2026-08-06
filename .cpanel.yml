@@ -228,6 +228,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Sales/Index.vue $DEPLOYPATH/resources/assets/js/components/Sales/Index.vue
     - /bin/cp -f resources/assets/js/components/Sales/NewSale.vue $DEPLOYPATH/resources/assets/js/components/Sales/NewSale.vue
     - /bin/cp -f resources/assets/js/components/User/Detalle.vue $DEPLOYPATH/resources/assets/js/components/User/Detalle.vue
+    - /bin/cp -f resources/assets/js/components/User/ActivationLink.vue $DEPLOYPATH/resources/assets/js/components/User/ActivationLink.vue
     - /bin/cp -f resources/assets/js/components/User/Dispositivos.vue $DEPLOYPATH/resources/assets/js/components/User/Dispositivos.vue
     - /bin/cp -f resources/assets/js/components/User/Edit.vue $DEPLOYPATH/resources/assets/js/components/User/Edit.vue
     - /bin/cp -f resources/assets/js/components/User/EditCantClientVehicle.vue $DEPLOYPATH/resources/assets/js/components/User/EditCantClientVehicle.vue

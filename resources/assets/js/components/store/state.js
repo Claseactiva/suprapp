@@ -996,6 +996,7 @@ export default { //data
         //cant_client: 0,
         cant_vehicle: 0
     },
+    activationLink: '',
     fillUser: {
         id: '',
         name: '',

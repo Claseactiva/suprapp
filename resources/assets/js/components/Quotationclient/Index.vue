@@ -340,6 +340,7 @@
 
         <CreateUser></CreateUser>
         <CreateUserMechanic></CreateUserMechanic>
+        <ActivationLink></ActivationLink>
         <DetalleCliente></DetalleCliente>
         <Detalle></Detalle>
         <EditarCotizacion></EditarCotizacion>
@@ -369,6 +370,7 @@ import EliminarCotizacionCliente from './Eliminar'
 import CreateUser from './CreateUser'
 import ListarClientesForm from './ListarClientesForm'
 import ListarQuotationShipping from './ListarQuotationShipping'
+import ActivationLink from '../User/ActivationLink'
 
 import BrandSelector from '../Quotationuser/BrandSelector'
 import ModelSelector from '../Quotationuser/ModelSelector'
@@ -380,7 +382,7 @@ import 'vue2-datepicker/index.css'
 
 
 export default {
-    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker },
+    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker, ActivationLink },
     props: {
         tipo: {
             type: String,
