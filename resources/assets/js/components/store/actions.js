@@ -1142,6 +1142,9 @@ export default { //methods
     getUser(context) {
         context.commit('getUser')
     },
+    getCurrentUserRegistroId(context) {
+        context.commit('getCurrentUserRegistroId')
+    },
     createUser(context) {
         context.commit('createUser')
         setTimeout(function () {

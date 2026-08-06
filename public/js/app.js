@@ -4824,8 +4824,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../User/ActivationLink */ "./resources/assets/js/components/User/ActivationLink.vue");
+/* harmony import */ var _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../User/RegistroLinkBox */ "./resources/assets/js/components/User/RegistroLinkBox.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -4834,12 +4835,14 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"],
+    RegistroLinkBox: _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['newUser', 'errorsLaravel'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['createUser']))
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createUser']))
 });
 
 /***/ }),
@@ -4855,8 +4858,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../User/ActivationLink */ "./resources/assets/js/components/User/ActivationLink.vue");
+/* harmony import */ var _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../User/RegistroLinkBox */ "./resources/assets/js/components/User/RegistroLinkBox.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -4865,12 +4869,14 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"],
+    RegistroLinkBox: _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['newUser', 'errorsLaravel'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['createMechanicClient']))
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createMechanicClient']))
 });
 
 /***/ }),
@@ -7331,11 +7337,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _EditUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditUser */ "./resources/assets/js/components/UserMechanic/EditUser.vue");
 /* harmony import */ var _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EditCantVehicle */ "./resources/assets/js/components/UserMechanic/EditCantVehicle.vue");
 /* harmony import */ var _User_Dispositivos__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../User/Dispositivos */ "./resources/assets/js/components/User/Dispositivos.vue");
 /* harmony import */ var _User_ActivationLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../User/ActivationLink */ "./resources/assets/js/components/User/ActivationLink.vue");
+/* harmony import */ var _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../User/RegistroLinkBox */ "./resources/assets/js/components/User/RegistroLinkBox.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -7348,15 +7355,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     EditUser: _EditUser__WEBPACK_IMPORTED_MODULE_1__["default"],
     EditCantVehicle: _EditCantVehicle__WEBPACK_IMPORTED_MODULE_2__["default"],
     Dispositivos: _User_Dispositivos__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_4__["default"]
+    ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_4__["default"],
+    RegistroLinkBox: _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker'])), (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker', 'sendPasswordReset'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker'])), (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['getMechanicClients', 'createMechanicClient2', 'editUser', 'changePageUser', 'editCantVehicle', 'modalUserDevices', 'getTallerWorkers', 'createTallerWorker', 'revokeTallerWorker', 'sendPasswordReset'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getMechanicClients', {
@@ -7690,19 +7699,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Edit */ "./resources/assets/js/components/User/Edit.vue");
 /* harmony import */ var _Delete__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Delete */ "./resources/assets/js/components/User/Delete.vue");
 /* harmony import */ var _Roles_UpdateUserRoles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Roles/UpdateUserRoles */ "./resources/assets/js/components/Roles/UpdateUserRoles.vue");
 /* harmony import */ var _EditCantClientVehicle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditCantClientVehicle */ "./resources/assets/js/components/User/EditCantClientVehicle.vue");
 /* harmony import */ var _Dispositivos__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Dispositivos */ "./resources/assets/js/components/User/Dispositivos.vue");
 /* harmony import */ var _ActivationLink__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ActivationLink */ "./resources/assets/js/components/User/ActivationLink.vue");
+/* harmony import */ var _RegistroLinkBox__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./RegistroLinkBox */ "./resources/assets/js/components/User/RegistroLinkBox.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -7718,15 +7729,82 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     UpdateUserRoles: _Roles_UpdateUserRoles__WEBPACK_IMPORTED_MODULE_3__["default"],
     EditCantClientVehicle: _EditCantClientVehicle__WEBPACK_IMPORTED_MODULE_4__["default"],
     Dispositivos: _Dispositivos__WEBPACK_IMPORTED_MODULE_5__["default"],
-    ActivationLink: _ActivationLink__WEBPACK_IMPORTED_MODULE_6__["default"]
+    ActivationLink: _ActivationLink__WEBPACK_IMPORTED_MODULE_6__["default"],
+    RegistroLinkBox: _RegistroLinkBox__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'sendPasswordReset'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapGetters)(['isActived', 'pagesNumber'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_8__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'sendPasswordReset'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getUsers', {
       page: 1
     });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+/* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['currentUserRegistroId'])), {}, {
+    registroLink: function registroLink() {
+      return window.location.origin + '/registro/' + this.currentUserRegistroId;
+    }
+  }),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['getCurrentUserRegistroId'])), {}, {
+    copyLink: function copyLink() {
+      var _this = this;
+      var link = this.registroLink;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(link).then(function () {
+          toastr__WEBPACK_IMPORTED_MODULE_0___default().success('Link copiado');
+        })["catch"](function () {
+          _this.copyLinkLegacy(link);
+        });
+        return;
+      }
+      this.copyLinkLegacy(link);
+    },
+    copyLinkLegacy: function copyLinkLegacy(link) {
+      var textArea = document.createElement('textarea');
+      textArea.value = link;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        toastr__WEBPACK_IMPORTED_MODULE_0___default().success('Link copiado');
+      } catch (err) {
+        toastr__WEBPACK_IMPORTED_MODULE_0___default().error('No se pudo copiar el link');
+      }
+      document.body.removeChild(textArea);
+    }
+  }),
+  created: function created() {
+    this.getCurrentUserRegistroId();
   }
 });
 
@@ -19902,7 +19980,7 @@ var render = function render() {
     staticClass: "modal-content"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("label", {
+  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("label", {
     attrs: {
       "for": "name"
     }
@@ -20077,7 +20155,7 @@ var render = function render() {
     staticClass: "modal-content"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("label", {
+  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("label", {
     attrs: {
       "for": "name"
     }
@@ -27747,7 +27825,7 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("form", {
+  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("form", {
     attrs: {
       action: "POST"
     },
@@ -27815,7 +27893,7 @@ var render = function render() {
         _vm.$set(_vm.newUser, "email", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("ActivationLink")], 1)])])])]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("ActivationLink")], 1)], 1)])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -29584,7 +29662,7 @@ var render = function render() {
     }
   }, [_c("div", {
     staticClass: "card-body"
-  }, [_c("form", {
+  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("form", {
     attrs: {
       action: "POST"
     },
@@ -29686,7 +29764,7 @@ var render = function render() {
         key: index
       }, [index === "email" ? _c("div", [_vm._v("\n                                                " + _vm._s(errorItem[0]) + "\n                                            ")]) : _vm._e()]);
     }), 0);
-  })], 2), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("ActivationLink")], 1)])])])]), _vm._v(" "), _c("div", {
+  })], 2), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("ActivationLink")], 1)], 1)])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -29997,6 +30075,61 @@ var staticRenderFns = [function () {
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v("Rol")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "alert alert-info mb-3"
+  }, [_c("p", {
+    staticClass: "mb-2"
+  }, [_vm._v("¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña):")]), _vm._v(" "), _c("div", {
+    staticClass: "input-group"
+  }, [_c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      readonly: ""
+    },
+    domProps: {
+      value: _vm.registroLink
+    },
+    on: {
+      focus: function focus($event) {
+        return $event.target.select();
+      }
+    }
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-info",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: _vm.copyLink
+    }
+  }, [_c("i", {
+    staticClass: "far fa-copy"
+  }), _vm._v(" Copiar\n            ")])])])]);
+};
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -37391,6 +37524,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   getUser: function getUser(context) {
     context.commit('getUser');
   },
+  getCurrentUserRegistroId: function getCurrentUserRegistroId(context) {
+    context.commit('getCurrentUserRegistroId');
+  },
   createUser: function createUser(context) {
     context.commit('createUser');
     setTimeout(function () {
@@ -41724,6 +41860,14 @@ function dispatchPublicQuotationFailed() {
       state.newCompany.user_id = response.data.id;
     });
   },
+  getCurrentUserRegistroId: function getCurrentUserRegistroId(state) {
+    if (state.currentUserRegistroId) {
+      return;
+    }
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(urlUserId).then(function (response) {
+      state.currentUserRegistroId = response.data.cotizar_id || response.data.id;
+    });
+  },
   createUser: function createUser(state) {
     var url = urlUser;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
@@ -44057,7 +44201,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   //mecanico: '',
   //cant_client: 0,
   cant_vehicle: 0
-}), "activationLink", ''), "lastCreatedUserId", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillUser", {
+}), "activationLink", ''), "lastCreatedUserId", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "currentUserRegistroId", ''), "fillUser", {
   id: '',
   name: '',
   email: '',
@@ -44079,7 +44223,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchUser", {
   barcode: '',
   rut: ''
-}), "roles", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newRole", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "roles", []), "newRole", {
   name: '',
   description: '',
   default_cant_vehicle: ''
@@ -44098,11 +44242,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillFacebookShipping", {
   id: '',
   url: ''
-}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
+}), "facebookshipping", []), "checkedRoles", []), "permissions", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "aplicardescuento", 0), "selectedCode", {
+}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -44122,7 +44266,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsMechanicClient", []), "selectedMechanicClient", {
+}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -44141,7 +44285,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), _defineProperty(_selectedUserForDevic, "mostrarObservacion", false));
 
 /***/ }),
 
@@ -80445,6 +80589,45 @@ component.options.__file = "resources/assets/js/components/User/Index.vue"
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/User/RegistroLinkBox.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/assets/js/components/User/RegistroLinkBox.vue ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RegistroLinkBox.vue?vue&type=template&id=0a5eb9de */ "./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de");
+/* harmony import */ var _RegistroLinkBox_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RegistroLinkBox.vue?vue&type=script&lang=js */ "./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _RegistroLinkBox_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__.render,
+  _RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/User/RegistroLinkBox.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Utilidad/AgregarTiposPagos.vue":
 /*!***********************************************************************!*\
   !*** ./resources/assets/js/components/Utilidad/AgregarTiposPagos.vue ***!
@@ -83267,6 +83450,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************!*\
+  !*** ./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistroLinkBox_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegistroLinkBox.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistroLinkBox_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/assets/js/components/Utilidad/AgregarTiposPagos.vue?vue&type=script&lang=js":
 /*!***********************************************************************************************!*\
   !*** ./resources/assets/js/components/Utilidad/AgregarTiposPagos.vue?vue&type=script&lang=js ***!
@@ -85388,6 +85587,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_9bbee836__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_9bbee836__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Index.vue?vue&type=template&id=9bbee836 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/Index.vue?vue&type=template&id=9bbee836");
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de":
+/*!***********************************************************************************************!*\
+  !*** ./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_RegistroLinkBox_vue_vue_type_template_id_0a5eb9de__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./RegistroLinkBox.vue?vue&type=template&id=0a5eb9de */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/User/RegistroLinkBox.vue?vue&type=template&id=0a5eb9de");
 
 
 /***/ }),

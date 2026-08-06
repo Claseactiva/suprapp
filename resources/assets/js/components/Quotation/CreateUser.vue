@@ -10,6 +10,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <RegistroLinkBox></RegistroLinkBox>
+
                         <label for="name">Nombre</label>
                         <input v-validate="'required|min:4'"
                                 :class="{'input': true, 'is-invalid': errors.has('name') }"
@@ -60,9 +62,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ActivationLink from '../User/ActivationLink'
+import RegistroLinkBox from '../User/RegistroLinkBox'
 
 export default {
-    components: { ActivationLink },
+    components: { ActivationLink, RegistroLinkBox },
     computed: {
         ...mapState(['newUser', 'errorsLaravel'])
     },

@@ -10,6 +10,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <RegistroLinkBox></RegistroLinkBox>
+
                         <label for="name">Nombre</label>
                         <input required type="text" name="name" class="form-control" v-model="newUser.name">
 
@@ -41,9 +43,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import ActivationLink from '../User/ActivationLink'
+import RegistroLinkBox from '../User/RegistroLinkBox'
 
 export default {
-    components: { ActivationLink },
+    components: { ActivationLink, RegistroLinkBox },
     computed: {
         ...mapState(['newUser', 'errorsLaravel'])
     },

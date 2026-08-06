@@ -22,6 +22,7 @@
 
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
+                            <RegistroLinkBox></RegistroLinkBox>
                             <form action="POST" v-on:submit.prevent="createMechanicClient2">
                                 <div class="row">
 
@@ -247,9 +248,10 @@ import EditUser from './EditUser'
 import EditCantVehicle from './EditCantVehicle'
 import Dispositivos from '../User/Dispositivos'
 import ActivationLink from '../User/ActivationLink'
+import RegistroLinkBox from '../User/RegistroLinkBox'
 
 export default {
-    components: { EditUser, EditCantVehicle, Dispositivos, ActivationLink },
+    components: { EditUser, EditCantVehicle, Dispositivos, ActivationLink, RegistroLinkBox },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel', 'tallerWorkers', 'newTallerWorker']),
         ...mapGetters(['isActived', 'pagesNumber'])

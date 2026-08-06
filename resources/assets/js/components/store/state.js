@@ -998,6 +998,7 @@ export default { //data
     },
     activationLink: '',
     lastCreatedUserId: '',
+    currentUserRegistroId: '',
     fillUser: {
         id: '',
         name: '',

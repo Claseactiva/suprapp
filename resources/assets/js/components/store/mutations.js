@@ -3561,6 +3561,14 @@ export default { //used for changing the state
             state.newCompany.user_id = response.data.id
         })
     },
+    getCurrentUserRegistroId(state) {
+        if (state.currentUserRegistroId) {
+            return
+        }
+        axios.get(urlUserId).then(response => {
+            state.currentUserRegistroId = response.data.cotizar_id || response.data.id
+        })
+    },
     createUser(state) {
         let url = urlUser
         axios.post(url, {
