@@ -24329,13 +24329,7 @@ var render = function render() {
       }
     }
   }, [_vm._v("Copiar")])])]), _vm._v(" "), _c("div", {
-    staticClass: "table-responsive"
-  }, [_c("table", {
-    staticClass: "table table-responsive-new table-dark table-sm mt-3"
-  }, [_vm._m(0), _vm._v(" "), _c("tbody", [_c("tr", [_c("td", {
-    attrs: {
-      colspan: "10"
-    }
+    staticClass: "quotationshipping-filter-row mt-3"
   }, [_c("input", {
     directives: [{
       name: "model",
@@ -24343,24 +24337,139 @@ var render = function render() {
       value: _vm.searchShipping.id,
       expression: "searchShipping.id"
     }],
-    staticClass: "form-control",
-    staticStyle: {
-      width: "60px"
-    },
+    staticClass: "form-control form-control-sm quotationshipping-filter-input",
     attrs: {
-      type: "text"
+      type: "text",
+      placeholder: "ID"
     },
     domProps: {
       value: _vm.searchShipping.id
     },
     on: {
-      keyup: _vm.getQuotationShipping,
+      keyup: function keyup($event) {
+        return _vm.getQuotationShipping({
+          page: 1,
+          per_page: _vm.pagination_shipping.per_page
+        });
+      },
       input: function input($event) {
         if ($event.target.composing) return;
         _vm.$set(_vm.searchShipping, "id", $event.target.value);
       }
     }
-  })])]), _vm._v(" "), _vm._l(_vm.quotationshipping, function (quotationshippingLocal) {
+  }), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchShipping.nombre,
+      expression: "searchShipping.nombre"
+    }],
+    staticClass: "form-control form-control-sm quotationshipping-filter-input",
+    attrs: {
+      type: "text",
+      placeholder: "Nombre"
+    },
+    domProps: {
+      value: _vm.searchShipping.nombre
+    },
+    on: {
+      keyup: function keyup($event) {
+        return _vm.getQuotationShipping({
+          page: 1,
+          per_page: _vm.pagination_shipping.per_page
+        });
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.searchShipping, "nombre", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchShipping.rut,
+      expression: "searchShipping.rut"
+    }],
+    staticClass: "form-control form-control-sm quotationshipping-filter-input",
+    attrs: {
+      type: "text",
+      placeholder: "RUT"
+    },
+    domProps: {
+      value: _vm.searchShipping.rut
+    },
+    on: {
+      keyup: function keyup($event) {
+        return _vm.getQuotationShipping({
+          page: 1,
+          per_page: _vm.pagination_shipping.per_page
+        });
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.searchShipping, "rut", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchShipping.telefono,
+      expression: "searchShipping.telefono"
+    }],
+    staticClass: "form-control form-control-sm quotationshipping-filter-input",
+    attrs: {
+      type: "text",
+      placeholder: "Telefono"
+    },
+    domProps: {
+      value: _vm.searchShipping.telefono
+    },
+    on: {
+      keyup: function keyup($event) {
+        return _vm.getQuotationShipping({
+          page: 1,
+          per_page: _vm.pagination_shipping.per_page
+        });
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.searchShipping, "telefono", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.searchShipping.ciudad,
+      expression: "searchShipping.ciudad"
+    }],
+    staticClass: "form-control form-control-sm quotationshipping-filter-input",
+    attrs: {
+      type: "text",
+      placeholder: "Ciudad"
+    },
+    domProps: {
+      value: _vm.searchShipping.ciudad
+    },
+    on: {
+      keyup: function keyup($event) {
+        return _vm.getQuotationShipping({
+          page: 1,
+          per_page: _vm.pagination_shipping.per_page
+        });
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.searchShipping, "ciudad", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "table-responsive"
+  }, [_c("table", {
+    staticClass: "table table-responsive-new table-dark table-sm mt-3"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.quotationshipping, function (quotationshippingLocal) {
     return _c("tr", {
       key: quotationshippingLocal.id
     }, [_c("td", {
@@ -24553,7 +24662,7 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-trash-alt"
     })])])]);
-  })], 2)]), _vm._v(" "), _c("div", {
+  }), 0)]), _vm._v(" "), _c("div", {
     staticClass: "table-list-toolbar"
   }, [_c("div", {
     staticClass: "table-list-toolbar__rows"
@@ -39859,8 +39968,7 @@ function dispatchPublicQuotationFailed() {
     var _resolvePaginationReq15 = resolvePaginationRequest(request, state.pagination_shipping.per_page || 20),
       page = _resolvePaginationReq15.page,
       perPage = _resolvePaginationReq15.perPage;
-    var id = state.searchShipping.id;
-    var url = 'quotationshipping?page=' + page + '&id=' + id + '&per_page=' + perPage;
+    var url = 'quotationshipping?page=' + page + '&per_page=' + perPage + '&id=' + encodeURIComponent(state.searchShipping.id) + '&nombre=' + encodeURIComponent(state.searchShipping.nombre) + '&rut=' + encodeURIComponent(state.searchShipping.rut) + '&telefono=' + encodeURIComponent(state.searchShipping.telefono) + '&ciudad=' + encodeURIComponent(state.searchShipping.ciudad);
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.quotationshipping = response.data.quotationshipping.data;
       state.pagination_shipping = response.data.pagination_shipping;
@@ -43285,7 +43393,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   year: '',
   per_page: 20
 }), "searchShipping", {
-  id: ''
+  id: '',
+  nombre: '',
+  rut: '',
+  telefono: '',
+  ciudad: ''
 }), "idQuotationclient", null), "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
   import_id: '',
   user_id: '',
@@ -48448,7 +48560,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.button {\r\n    border-radius: 0.2rem;\r\n    background-color: #28a745;\r\n    border: none;\r\n    color: #FFFFFF;\r\n    text-align: center;\r\n    font-size: 0.875rem;\r\n    padding: 0.25rem 0.5rem;\r\n    width: 100%;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\n}\n.button:hover {\r\n    background-color: #dc3545;\n}\n.button:hover span {\r\n    display: none\n}\n.button:hover:before {\r\n    content: '\\26CC'\n}\n.button:hover span {\r\n    padding-right: 25px;\n}\n.button:hover span:after {\r\n    opacity: 1;\r\n    right: 0;\n}\n@media (min-width: 992px) {\n.quotationshipping-admin .table {\r\n        table-layout: fixed;\n}\n.quotationshipping-admin .table th,\r\n    .quotationshipping-admin .table td {\r\n        white-space: nowrap;\r\n        vertical-align: middle;\n}\n.quotationshipping-admin .quotationshipping-wrap-cell {\r\n        white-space: nowrap !important;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\n}\n.quotationshipping-admin .quotationshipping-actions-cell {\r\n        text-align: right;\n}\n.quotationshipping-admin .quotationshipping-icon-btn {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        width: 22px;\r\n        height: 22px;\r\n        padding: 0;\r\n        margin-right: 0.18rem;\r\n        border-radius: 0.2rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group {\r\n        vertical-align: middle;\r\n        margin-right: 0.18rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group .quotationshipping-icon-btn {\r\n        width: 26px;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-menu {\r\n        min-width: 10rem;\r\n        font-size: 0.85rem;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn {\r\n        background-color: #28a745;\r\n        border: none;\r\n        color: #fff;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn .fa-times {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover {\r\n        background-color: #dc3545;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-check {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-times {\r\n        display: inline;\n}\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.button {\r\n    border-radius: 0.2rem;\r\n    background-color: #28a745;\r\n    border: none;\r\n    color: #FFFFFF;\r\n    text-align: center;\r\n    font-size: 0.875rem;\r\n    padding: 0.25rem 0.5rem;\r\n    width: 100%;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\n}\n.button:hover {\r\n    background-color: #dc3545;\n}\n.button:hover span {\r\n    display: none\n}\n.button:hover:before {\r\n    content: '\\26CC'\n}\n.button:hover span {\r\n    padding-right: 25px;\n}\n.button:hover span:after {\r\n    opacity: 1;\r\n    right: 0;\n}\n.quotationshipping-filter-row {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    gap: 0.5rem;\n}\n.quotationshipping-filter-input {\r\n    max-width: 160px;\r\n    font-size: 0.78rem;\r\n    padding: 0.2rem 0.4rem;\r\n    height: auto;\n}\n@media (min-width: 992px) {\n.quotationshipping-admin .table {\r\n        table-layout: fixed;\n}\n.quotationshipping-admin .table th,\r\n    .quotationshipping-admin .table td {\r\n        white-space: nowrap;\r\n        vertical-align: middle;\n}\n.quotationshipping-admin .quotationshipping-wrap-cell {\r\n        white-space: nowrap !important;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\n}\n.quotationshipping-admin .quotationshipping-actions-cell {\r\n        text-align: right;\n}\n.quotationshipping-admin .quotationshipping-icon-btn {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        width: 22px;\r\n        height: 22px;\r\n        padding: 0;\r\n        margin-right: 0.18rem;\r\n        border-radius: 0.2rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group {\r\n        vertical-align: middle;\r\n        margin-right: 0.18rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group .quotationshipping-icon-btn {\r\n        width: 26px;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-menu {\r\n        min-width: 10rem;\r\n        font-size: 0.85rem;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn {\r\n        background-color: #28a745;\r\n        border: none;\r\n        color: #fff;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn .fa-times {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover {\r\n        background-color: #dc3545;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-check {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-times {\r\n        display: inline;\n}\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

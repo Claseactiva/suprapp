@@ -429,6 +429,10 @@ export default { //data
     },
     searchShipping: {
         id: '',
+        nombre: '',
+        rut: '',
+        telefono: '',
+        ciudad: '',
     },
     idQuotationclient: null,
     idQuotationShipping: null,

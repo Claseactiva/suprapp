@@ -2061,8 +2061,12 @@ export default { //used for changing the state
 
     getQuotationShipping(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination_shipping.per_page || 20)
-        let id = state.searchShipping.id
-        let url = 'quotationshipping?page=' + page + '&id=' + id + '&per_page=' + perPage
+        let url = 'quotationshipping?page=' + page + '&per_page=' + perPage
+            + '&id=' + encodeURIComponent(state.searchShipping.id)
+            + '&nombre=' + encodeURIComponent(state.searchShipping.nombre)
+            + '&rut=' + encodeURIComponent(state.searchShipping.rut)
+            + '&telefono=' + encodeURIComponent(state.searchShipping.telefono)
+            + '&ciudad=' + encodeURIComponent(state.searchShipping.ciudad)
         axios.get(url).then(response => {
             state.quotationshipping = response.data.quotationshipping.data
             state.pagination_shipping = response.data.pagination_shipping

@@ -38,6 +38,11 @@ class QuotationShippingController extends Controller
     public function index()
     {
         $id = request('id');
+        $nombre = request('nombre');
+        $rut = request('rut');
+        $telefono = request('telefono');
+        $ciudad = request('ciudad');
+
         $quotationshipping = DB::table('quotation_shippings')
                                     ->join('towns', 'quotation_shippings.ciudad', '=', 'towns.id')
                                     ->select(
@@ -55,7 +60,20 @@ class QuotationShippingController extends Controller
                                     ->orderBy('quotation_shippings.id', 'DESC')
                                     ->when($id, function ($query, $id) {
                                         return $query->where('quotation_shippings.id', 'like', '%' . $id . '%');
-                                    })->paginate((int) request('per_page', 20));
+                                    })
+                                    ->when($nombre, function ($query, $nombre) {
+                                        return $query->where('quotation_shippings.nombre', 'like', '%' . $nombre . '%');
+                                    })
+                                    ->when($rut, function ($query, $rut) {
+                                        return $query->where('quotation_shippings.rut', 'like', '%' . $rut . '%');
+                                    })
+                                    ->when($telefono, function ($query, $telefono) {
+                                        return $query->where('quotation_shippings.telefono', 'like', '%' . $telefono . '%');
+                                    })
+                                    ->when($ciudad, function ($query, $ciudad) {
+                                        return $query->where('towns.nombre', 'like', '%' . $ciudad . '%');
+                                    })
+                                    ->paginate((int) request('per_page', 20));
 
         return [
             'pagination_shipping' => [

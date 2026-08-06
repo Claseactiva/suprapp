@@ -10,6 +10,22 @@
                 <button class="btn btn-info btn-block" @click.stop.prevent="copyTestingCode">Copiar</button>
             </div>
         </div>
+        <div class="quotationshipping-filter-row mt-3">
+            <input type="text" class="form-control form-control-sm quotationshipping-filter-input" placeholder="ID"
+                v-model="searchShipping.id" @keyup="getQuotationShipping({ page: 1, per_page: pagination_shipping.per_page })">
+
+            <input type="text" class="form-control form-control-sm quotationshipping-filter-input" placeholder="Nombre"
+                v-model="searchShipping.nombre" @keyup="getQuotationShipping({ page: 1, per_page: pagination_shipping.per_page })">
+
+            <input type="text" class="form-control form-control-sm quotationshipping-filter-input" placeholder="RUT"
+                v-model="searchShipping.rut" @keyup="getQuotationShipping({ page: 1, per_page: pagination_shipping.per_page })">
+
+            <input type="text" class="form-control form-control-sm quotationshipping-filter-input" placeholder="Telefono"
+                v-model="searchShipping.telefono" @keyup="getQuotationShipping({ page: 1, per_page: pagination_shipping.per_page })">
+
+            <input type="text" class="form-control form-control-sm quotationshipping-filter-input" placeholder="Ciudad"
+                v-model="searchShipping.ciudad" @keyup="getQuotationShipping({ page: 1, per_page: pagination_shipping.per_page })">
+        </div>
         <div class="table-responsive">
             <table class="table table-responsive-new table-dark table-sm mt-3">
                 <thead>
@@ -27,12 +43,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td colspan="10">
-                            <input type="text" class="form-control" style="width : 60px" v-model="searchShipping.id"
-                                @keyup="getQuotationShipping">
-                        </td>
-                    </tr>
                     <tr v-for="quotationshippingLocal in quotationshipping" :key="quotationshippingLocal.id">
 
                         <td data-table-label="ID">{{ quotationshippingLocal.id }}</td>
@@ -247,6 +257,19 @@ export default {
 .button:hover span:after {
     opacity: 1;
     right: 0;
+}
+
+.quotationshipping-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.quotationshipping-filter-input {
+    max-width: 160px;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.4rem;
+    height: auto;
 }
 
 @media (min-width: 992px) {

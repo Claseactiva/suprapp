@@ -87,6 +87,7 @@ deployment:
     - /bin/cp -f app/Http/Controllers/QuotationUserController.php $DEPLOYPATH/app/Http/Controllers/QuotationUserController.php
     - /bin/cp -f app/Http/Controllers/VehicleController.php $DEPLOYPATH/app/Http/Controllers/VehicleController.php
     - /bin/cp -f app/Http/Controllers/VehicleQuantityOptionController.php $DEPLOYPATH/app/Http/Controllers/VehicleQuantityOptionController.php
+    - /bin/cp -f app/Http/Controllers/QuotationShippingController.php $DEPLOYPATH/app/Http/Controllers/QuotationShippingController.php
     - /bin/cp -f app/Http/Kernel.php $DEPLOYPATH/app/Http/Kernel.php
     - /bin/cp -f app/Http/Middleware/EnsureDeviceSessionActive.php $DEPLOYPATH/app/Http/Middleware/EnsureDeviceSessionActive.php
     - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
