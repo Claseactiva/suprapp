@@ -12,53 +12,6 @@
 */
 use Illuminate\Support\Facades\Route;
 
-// RUTA TEMPORAL: ejecuta las migraciones pendientes en produccion (sin SSH).
-// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE.
-Route::get('deploy-migrate-5c0bd039507fd0248707c84a9f00bfb0f54f3266', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return '<pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
-});
-
-// RUTA TEMPORAL: reporte de solo lectura para diagnosticar el catalogo de motores.
-// NO BORRA NI MODIFICA NADA. BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE.
-Route::get('deploy-report-61e9d4cfb8f1cfab2f75453c83456d2f63f1bc99', function () {
-    $out = "REPORTE DE SOLO LECTURA -- catalogo de motores\n\n";
-
-    $tables = ['vehicle_brands', 'vehicle_models', 'vehicle_engines', 'motor_specs', 'vehicle_years'];
-    foreach ($tables as $table) {
-        $exists = \Illuminate\Support\Facades\Schema::hasTable($table);
-        $out .= "Tabla {$table}: " . ($exists ? 'existe' : 'NO EXISTE') . "\n";
-        if ($exists) {
-            $out .= "  total filas: " . \Illuminate\Support\Facades\DB::table($table)->count() . "\n";
-        }
-    }
-
-    if (\Illuminate\Support\Facades\Schema::hasTable('vehicle_engines')) {
-        $out .= "\nvehicle_engines con year_from NULL (formato viejo, no migrado): "
-            . \Illuminate\Support\Facades\DB::table('vehicle_engines')->whereNull('year_from')->count() . "\n";
-        $out .= "vehicle_engines con year_from NOT NULL (formato nuevo, rango): "
-            . \Illuminate\Support\Facades\DB::table('vehicle_engines')->whereNotNull('year_from')->count() . "\n";
-
-        $sample = \Illuminate\Support\Facades\DB::table('vehicle_engines')->limit(5)->get();
-        $out .= "\nMuestra de 5 filas de vehicle_engines:\n";
-        $out .= json_encode($sample, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n";
-    }
-
-    $out .= "\nMigraciones relacionadas ya corridas:\n";
-    $migs = \Illuminate\Support\Facades\DB::table('migrations')
-        ->where('migration', 'like', '%vehicle_engine%')
-        ->orWhere('migration', 'like', '%motor_spec%')
-        ->get();
-    $out .= json_encode($migs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n";
-
-    $brands = \Illuminate\Support\Facades\DB::table('vehicle_brands')->orderBy('id')->pluck('brand', 'id');
-    $models = \Illuminate\Support\Facades\DB::table('vehicle_models')->orderBy('id')->pluck('model', 'id');
-    $out .= "\nbrands hash: " . md5(json_encode($brands)) . "\n";
-    $out .= "models hash: " . md5(json_encode($models)) . "\n";
-
-    return response('<pre>' . e($out) . '</pre>');
-});
-
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
