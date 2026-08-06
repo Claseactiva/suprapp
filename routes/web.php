@@ -12,6 +12,13 @@
 */
 use Illuminate\Support\Facades\Route;
 
+// RUTA TEMPORAL: ejecuta las migraciones pendientes en produccion (sin SSH).
+// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE.
+Route::get('deploy-migrate-5c0bd039507fd0248707c84a9f00bfb0f54f3266', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return '<pre>' . e(\Illuminate\Support\Facades\Artisan::output()) . '</pre>';
+});
+
 // RUTA TEMPORAL: reporte de solo lectura para diagnosticar el catalogo de motores.
 // NO BORRA NI MODIFICA NADA. BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE.
 Route::get('deploy-report-61e9d4cfb8f1cfab2f75453c83456d2f63f1bc99', function () {
