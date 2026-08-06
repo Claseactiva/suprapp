@@ -2147,6 +2147,7 @@ export default { //used for changing the state
     modalCreateUserMechanicFromQuotation(state, id) {
         state.idforms = id
         state.activationLink = ''
+        state.lastCreatedUserId = ''
         $('#modalCreateUserMechanic').modal('show')
     },
     getQuotationforms(state) {
@@ -3577,6 +3578,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             state.activationLink = response.data.activation_url || ''
+            state.lastCreatedUserId = response.data.id || ''
             toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -5036,6 +5038,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             state.activationLink = response.data.activation_url || ''
+            state.lastCreatedUserId = response.data.id || ''
             toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
@@ -5057,6 +5060,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             state.activationLink = response.data.activation_url || ''
+            state.lastCreatedUserId = response.data.id || ''
             toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
@@ -5082,6 +5086,7 @@ export default { //used for changing the state
             }
             state.errorsLaravel = []
             state.activationLink = response.data.activation_url || ''
+            state.lastCreatedUserId = response.data.id || ''
             toastr.success('Trabajador creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
@@ -5173,6 +5178,7 @@ export default { //used for changing the state
     modalCreateUserFromQuotation(state, id) {
         state.idUser = id
         state.activationLink = ''
+        state.lastCreatedUserId = ''
         $('#modalCreateUser').modal('show')
     },
 

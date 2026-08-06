@@ -7391,8 +7391,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['activationLink'])),
-  methods: {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['activationLink', 'lastCreatedUserId'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['sendPasswordReset'])), {}, {
     copyLink: function copyLink() {
       var _this = this;
       var link = this.activationLink;
@@ -7422,7 +7422,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
       document.body.removeChild(textArea);
     }
-  }
+  })
 });
 
 /***/ }),
@@ -28234,11 +28234,13 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _vm.activationLink ? _c("div", {
+  return _vm.lastCreatedUserId ? _c("div", {
     staticClass: "alert alert-success mt-3 mb-0"
-  }, [_c("p", {
+  }, [_vm.activationLink ? _c("p", {
     staticClass: "mb-2"
-  }, [_vm._v("Usuario creado. Se envió un correo para que configure su contraseña. Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Usuario creado. Se envió un correo para que configure su contraseña. Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):")]) : _c("p", {
+    staticClass: "mb-2"
+  }, [_vm._v("Usuario creado. Se envió un correo para que configure su contraseña.")]), _vm._v(" "), _vm.activationLink ? _c("div", {
     staticClass: "input-group"
   }, [_c("input", {
     staticClass: "form-control",
@@ -28266,7 +28268,21 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "far fa-copy"
-  }), _vm._v(" Copiar\n            ")])])])]) : _vm._e();
+  }), _vm._v(" Copiar\n            ")])])]) : _vm._e(), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-outline-success btn-sm mt-2",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        return _vm.sendPasswordReset({
+          id: _vm.lastCreatedUserId
+        });
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-key"
+  }), _vm._v(" Generar link\n    ")])]) : _vm._e();
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -40216,6 +40232,7 @@ function dispatchPublicQuotationFailed() {
   modalCreateUserMechanicFromQuotation: function modalCreateUserMechanicFromQuotation(state, id) {
     state.idforms = id;
     state.activationLink = '';
+    state.lastCreatedUserId = '';
     $('#modalCreateUserMechanic').modal('show');
   },
   getQuotationforms: function getQuotationforms(state) {
@@ -41676,6 +41693,7 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       state.activationLink = response.data.activation_url || '';
+      state.lastCreatedUserId = response.data.id || '';
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
@@ -42970,6 +42988,7 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       state.activationLink = response.data.activation_url || '';
+      state.lastCreatedUserId = response.data.id || '';
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
@@ -42989,6 +43008,7 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       state.activationLink = response.data.activation_url || '';
+      state.lastCreatedUserId = response.data.id || '';
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
@@ -43010,6 +43030,7 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       state.activationLink = response.data.activation_url || '';
+      state.lastCreatedUserId = response.data.id || '';
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Trabajador creado. Se envio un correo para que configure su contrasena.');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
@@ -43089,6 +43110,7 @@ function dispatchPublicQuotationFailed() {
   modalCreateUserFromQuotation: function modalCreateUserFromQuotation(state, id) {
     state.idUser = id;
     state.activationLink = '';
+    state.lastCreatedUserId = '';
     $('#modalCreateUser').modal('show');
   },
   //AQUI COMENZAR EL EVENTO:
@@ -43987,7 +44009,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   //mecanico: '',
   //cant_client: 0,
   cant_vehicle: 0
-}), "activationLink", ''), "fillUser", {
+}), "activationLink", ''), "lastCreatedUserId", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillUser", {
   id: '',
   name: '',
   email: '',
@@ -43996,7 +44018,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   logo: '',
   roles: [],
   cotizar_id: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "backgroundImages", []), "newBackgroundImage", {
+}), "backgroundImages", []), "newBackgroundImage", {
   is_light: true
 }), "attachmentBackgroundImage", null), "formBackgroundImage", new FormData()), "selectedBackgroundImagePath", localStorage.getItem('bg-image-path') || null), "fillCantCliVehi", {
   id: '',
@@ -44009,11 +44031,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "searchUser", {
   barcode: '',
   rut: ''
-}), "roles", []), "newRole", {
+}), "roles", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newRole", {
   name: '',
   description: '',
   default_cant_vehicle: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillRole", {
+}), "fillRole", {
   id: '',
   name: '',
   description: '',
@@ -44028,11 +44050,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillFacebookShipping", {
   id: '',
   url: ''
-}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
+}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "selectedCode", {
+}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -44052,7 +44074,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "selectedMechanicClient", {
+}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -44071,7 +44093,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), "pago", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 

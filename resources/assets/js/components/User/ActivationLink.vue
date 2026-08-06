@@ -1,7 +1,9 @@
 <template>
-    <div v-if="activationLink" class="alert alert-success mt-3 mb-0">
-        <p class="mb-2">Usuario creado. Se envió un correo para que configure su contraseña. Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):</p>
-        <div class="input-group">
+    <div v-if="lastCreatedUserId" class="alert alert-success mt-3 mb-0">
+        <p class="mb-2" v-if="activationLink">Usuario creado. Se envió un correo para que configure su contraseña. Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):</p>
+        <p class="mb-2" v-else>Usuario creado. Se envió un correo para que configure su contraseña.</p>
+
+        <div v-if="activationLink" class="input-group">
             <input type="text" class="form-control" readonly :value="activationLink" @focus="$event.target.select()">
             <div class="input-group-append">
                 <button type="button" class="btn btn-info" @click="copyLink">
@@ -9,18 +11,23 @@
                 </button>
             </div>
         </div>
+
+        <button type="button" class="btn btn-outline-success btn-sm mt-2" @click="sendPasswordReset({ id: lastCreatedUserId })">
+            <i class="fas fa-key"></i> Generar link
+        </button>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import toastr from 'toastr'
 
 export default {
     computed: {
-        ...mapState(['activationLink'])
+        ...mapState(['activationLink', 'lastCreatedUserId'])
     },
     methods: {
+        ...mapActions(['sendPasswordReset']),
         copyLink() {
             const link = this.activationLink
 
