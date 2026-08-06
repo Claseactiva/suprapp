@@ -69,6 +69,7 @@
                                 <p class="text-muted mt-2 mb-0">
                                     <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
                                 </p>
+                                <ActivationLink></ActivationLink>
                             </form>
                         </div>
                     </div>
@@ -186,7 +187,6 @@
         <EditCantClientVehicle></EditCantClientVehicle>
         <UpdateUserRoles></UpdateUserRoles>
         <Dispositivos></Dispositivos>
-        <ActivationLink></ActivationLink>
 
     </div>
 

@@ -48,6 +48,7 @@
                                 <p class="text-muted mt-2 mb-0">
                                     <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
                                 </p>
+                                <ActivationLink></ActivationLink>
                             </form>
                         </div>
                     </div>
@@ -185,6 +186,7 @@
                                         repuestos del taller. Se enviara un correo para que configure su propia
                                         contrasena.</small>
                                 </p>
+                                <ActivationLink></ActivationLink>
                             </form>
                         </div>
                     </div>
@@ -221,7 +223,6 @@
             <EditCantVehicle></EditCantVehicle>
             <EditUser></EditUser>
             <Dispositivos></Dispositivos>
-            <ActivationLink></ActivationLink>
         </div>
     </div>
 

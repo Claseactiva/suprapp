@@ -1,33 +1,15 @@
 <template>
-
-    <div id="activationLinkModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Usuario creado</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Se envió un correo para que configure su contraseña.</p>
-                    <p class="text-muted">Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):</p>
-                    <div class="input-group">
-                        <input type="text" class="form-control" readonly :value="activationLink" @focus="$event.target.select()">
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-info" @click="copyLink">
-                                <i class="far fa-copy"></i> Copiar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+    <div v-if="activationLink" class="alert alert-success mt-3 mb-0">
+        <p class="mb-2">Usuario creado. Se envió un correo para que configure su contraseña. Si no tiene correo o no le llega, copia este link y mándaselo por otro medio (WhatsApp, SMS, etc):</p>
+        <div class="input-group">
+            <input type="text" class="form-control" readonly :value="activationLink" @focus="$event.target.select()">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-info" @click="copyLink">
+                    <i class="far fa-copy"></i> Copiar
+                </button>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

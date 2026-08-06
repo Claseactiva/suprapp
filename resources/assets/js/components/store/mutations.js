@@ -2146,6 +2146,7 @@ export default { //used for changing the state
 
     modalCreateUserMechanicFromQuotation(state, id) {
         state.idforms = id
+        state.activationLink = ''
         $('#modalCreateUserMechanic').modal('show')
     },
     getQuotationforms(state) {
@@ -3575,23 +3576,12 @@ export default { //used for changing the state
                 url: ''
             }
             state.errorsLaravel = []
-            $('#modalCreateUser').modal('hide')
-            this.commit('openActivationLinkModal', response.data.activation_url)
+            state.activationLink = response.data.activation_url || ''
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
     },
-    openActivationLinkModal(state, link) {
-        if (!link) {
-            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
-            return
-        }
-        state.activationLink = link
-        setTimeout(function () {
-            $('#activationLinkModal').modal('show')
-        }, 400)
-    },
-
     editUser(state, user) {
         state.fillUser.id = user.id
         state.fillUser.name = user.name
@@ -5042,8 +5032,8 @@ export default { //used for changing the state
                 password: ''
             }
             state.errorsLaravel = []
-            $('#modalCreateUserMechanic').modal('hide')
-            this.commit('openActivationLinkModal', response.data.activation_url)
+            state.activationLink = response.data.activation_url || ''
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -5063,7 +5053,8 @@ export default { //used for changing the state
                 //cant_vehicle: ''
             }
             state.errorsLaravel = []
-            this.commit('openActivationLinkModal', response.data.activation_url)
+            state.activationLink = response.data.activation_url || ''
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -5087,7 +5078,8 @@ export default { //used for changing the state
                 email: ''
             }
             state.errorsLaravel = []
-            this.commit('openActivationLinkModal', response.data.activation_url)
+            state.activationLink = response.data.activation_url || ''
+            toastr.success('Trabajador creado. Se envio un correo para que configure su contrasena.')
         }).catch(error => {
             toastr.error(error.response.data)
         })
@@ -5177,6 +5169,7 @@ export default { //used for changing the state
 
     modalCreateUserFromQuotation(state, id) {
         state.idUser = id
+        state.activationLink = ''
         $('#modalCreateUser').modal('show')
     },
 

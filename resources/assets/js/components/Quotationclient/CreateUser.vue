@@ -34,6 +34,8 @@
                             <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
                         </p>
 
+                        <ActivationLink></ActivationLink>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal" aria-label="close">
@@ -52,8 +54,10 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+import ActivationLink from '../User/ActivationLink'
 
 export default {
+    components: { ActivationLink },
     computed: {
         ...mapState(['newUser', 'errorsLaravel'])
     },
