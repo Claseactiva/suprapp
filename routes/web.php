@@ -44,6 +44,11 @@ Route::get('deploy-report-61e9d4cfb8f1cfab2f75453c83456d2f63f1bc99', function ()
         ->get();
     $out .= json_encode($migs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "\n";
 
+    $brands = \Illuminate\Support\Facades\DB::table('vehicle_brands')->orderBy('id')->pluck('brand', 'id');
+    $models = \Illuminate\Support\Facades\DB::table('vehicle_models')->orderBy('id')->pluck('model', 'id');
+    $out .= "\nbrands hash: " . md5(json_encode($brands)) . "\n";
+    $out .= "models hash: " . md5(json_encode($models)) . "\n";
+
     return response('<pre>' . e($out) . '</pre>');
 });
 
