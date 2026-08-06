@@ -41651,14 +41651,21 @@ function dispatchPublicQuotationFailed() {
         url: ''
       };
       state.errorsLaravel = [];
+      $('#modalCreateUser').modal('hide');
       _this24.commit('openActivationLinkModal', response.data.activation_url);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   openActivationLinkModal: function openActivationLinkModal(state, link) {
+    if (!link) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario creado. Se envio un correo para que configure su contrasena.');
+      return;
+    }
     state.activationLink = link;
-    $('#activationLinkModal').modal('show');
+    setTimeout(function () {
+      $('#activationLinkModal').modal('show');
+    }, 400);
   },
   editUser: function editUser(state, user) {
     state.fillUser.id = user.id;

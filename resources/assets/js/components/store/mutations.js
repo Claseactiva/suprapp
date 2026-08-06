@@ -3575,14 +3575,21 @@ export default { //used for changing the state
                 url: ''
             }
             state.errorsLaravel = []
+            $('#modalCreateUser').modal('hide')
             this.commit('openActivationLinkModal', response.data.activation_url)
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
     },
     openActivationLinkModal(state, link) {
+        if (!link) {
+            toastr.success('Usuario creado. Se envio un correo para que configure su contrasena.')
+            return
+        }
         state.activationLink = link
-        $('#activationLinkModal').modal('show')
+        setTimeout(function () {
+            $('#activationLinkModal').modal('show')
+        }, 400)
     },
 
     editUser(state, user) {
