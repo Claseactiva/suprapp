@@ -1000,7 +1000,6 @@ export default { //data
         id: '',
         name: '',
         email: '',
-        password: '',
         url: '',
         ip_acceso: '',
         logo: '',

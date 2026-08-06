@@ -3578,10 +3578,17 @@ export default { //used for changing the state
         state.fillUser.id = user.id
         state.fillUser.name = user.name
         state.fillUser.email = user.email
-        state.fillUser.password = user.password
         state.fillUser.logo = user.logo
         state.fillUser.cantidad = user.cantidad
         $("#edit").modal('show')
+    },
+    sendPasswordReset(state, id) {
+        let url = urlUser + '/' + id + '/send-password-reset'
+        axios.post(url).then(response => {
+            toastr.success('Se envio el correo de recuperacion de contrasena')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'))
+        })
     },
 
     modalUserDevices(state, userLocal) {
@@ -3723,7 +3730,6 @@ export default { //used for changing the state
                 id: '',
                 name: '',
                 email: '',
-                password: '',
                 logo: ''
             }
             state.errorsLaravel = []

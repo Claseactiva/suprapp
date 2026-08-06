@@ -7555,7 +7555,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['fillUser', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)([])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateUser']))
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateUser', 'sendPasswordReset']))
 });
 
 /***/ }),
@@ -29157,51 +29157,24 @@ var render = function render() {
       expression: "errors.has('correo')"
     }],
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("correo")))])]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
+  }, [_vm._v(_vm._s(_vm.errors.first("correo")))])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-footer"
+  }, [_c("a", {
+    staticClass: "btn btn-secondary",
     attrs: {
-      "for": "password"
-    }
-  }, [_vm._v("Contraseña")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "validate",
-      rawName: "v-validate",
-      value: "required",
-      expression: "'required'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.fillUser.password,
-      expression: "fillUser.password"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("password")
-    },
-    attrs: {
-      type: "password",
-      name: "password"
-    },
-    domProps: {
-      value: _vm.fillUser.password
+      href: "#"
     },
     on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.fillUser, "password", $event.target.value);
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.sendPasswordReset({
+          id: _vm.fillUser.id
+        });
       }
     }
-  }), _vm._v(" "), _c("p", {
-    directives: [{
-      name: "show",
-      rawName: "v-show",
-      value: _vm.errors.has("password"),
-      expression: "errors.has('password')"
-    }],
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.first("password")))])])]), _vm._v(" "), _vm._m(1)])])])]);
+  }, [_c("i", {
+    staticClass: "fas fa-key"
+  }), _vm._v(" Enviar recuperación de contraseña\n                    ")]), _vm._v(" "), _vm._m(1)])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -29219,16 +29192,14 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "modal-footer"
-  }, [_c("button", {
+  return _c("button", {
     staticClass: "btn btn-warning",
     attrs: {
       type: "submit"
     }
   }, [_c("i", {
     staticClass: "fas fa-edit"
-  }), _vm._v(" Editar\n                    ")])]);
+  }), _vm._v(" Editar\n                    ")]);
 }];
 render._withStripped = true;
 
@@ -29507,6 +29478,12 @@ var render = function render() {
         "data-table-label": "email"
       }
     }, [_vm._v(_vm._s(userLocal.email))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "Rol"
+      }
+    }, [_vm._v(_vm._s(userLocal.roles.map(function (role) {
+      return role.name;
+    }).join(", ") || "Sin rol"))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("button", {
       staticClass: "btn btn-success",
@@ -29773,7 +29750,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Email")]), _vm._v(" "), _c("th", [_vm._v("Rol")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -37189,6 +37166,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       context.commit('getUsers', 1);
     }, 500);
   },
+  sendPasswordReset: function sendPasswordReset(context, data) {
+    context.commit('sendPasswordReset', data.id);
+  },
   updateCantCliVehi: function updateCantCliVehi(context, data) {
     context.commit('updateCantCliVehi', data.id);
     setTimeout(function () {
@@ -41501,10 +41481,17 @@ function dispatchPublicQuotationFailed() {
     state.fillUser.id = user.id;
     state.fillUser.name = user.name;
     state.fillUser.email = user.email;
-    state.fillUser.password = user.password;
     state.fillUser.logo = user.logo;
     state.fillUser.cantidad = user.cantidad;
     $("#edit").modal('show');
+  },
+  sendPasswordReset: function sendPasswordReset(state, id) {
+    var url = urlUser + '/' + id + '/send-password-reset';
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Se envio el correo de recuperacion de contrasena');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo enviar el correo de recuperacion'));
+    });
   },
   modalUserDevices: function modalUserDevices(state, userLocal) {
     state.selectedUserForDevices = userLocal;
@@ -41633,7 +41620,6 @@ function dispatchPublicQuotationFailed() {
         id: '',
         name: '',
         email: '',
-        password: '',
         logo: ''
       };
       state.errorsLaravel = [];
@@ -43803,7 +43789,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   id: '',
   name: '',
   email: '',
-  password: '',
   url: '',
   ip_acceso: '',
   logo: '',

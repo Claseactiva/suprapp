@@ -25,6 +25,7 @@
                 </div>
             @endif
             <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesion</button>
+            <a href="{{ route('password.request') }}" class="d-block mt-3">¿Olvidaste tu contraseña?</a>
         </form>
     </div>
 

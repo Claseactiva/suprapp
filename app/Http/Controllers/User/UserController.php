@@ -104,7 +104,7 @@ class UserController extends Controller
                 'required', 'email', 'min:6', 'max:150',
                 \Illuminate\Validation\Rule::unique('users')->ignore(User::find($id))
             ],
-            'password' => 'required|min:6|max:190',
+            'password' => 'nullable|min:6|max:190',
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'name.min' => 'El campo nombre debe tener al menos 6 caracteres',
@@ -112,17 +112,36 @@ class UserController extends Controller
             'email.required' => 'El campo correo electrónico es obligatorio',
             'email.min' => 'El campo de correo electrónico debe tener al menos 6 caracteres',
             'email.max' => 'El campo de correo electrónico debe tener a lo más 150 caracteres',
-            'password.required' => 'El campo contraseña es obligatorio',
             'password.min' => 'El campo de contraseña debe tener al menos 6 caracteres',
             'password.max' => 'El campo de contraseña debe tener a lo más 150 caracteres',
         ]);
 
         $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
+
+        if (blank($data['password'] ?? null)) {
+            unset($data['password']);
+        } else {
+            $data['password'] = bcrypt($data['password']);
+        }
 
         User::find($id)->update($data);
 
         return;
+    }
+
+    /**
+     * Le manda al usuario un correo para que defina una nueva contraseña,
+     * reutilizando el mismo mecanismo de "olvide mi contraseña" que se usa
+     * al crear la cuenta (ver createUserAndSendActivation).
+     */
+    public function sendPasswordReset($id)
+    {
+        $user = User::findOrFail($id);
+
+        $token = Password::createToken($user);
+        $user->notify(new SetInitialPasswordNotification($token));
+
+        return response()->json(['message' => 'Correo de recuperacion enviado correctamente']);
     }
 
     public function destroy($id)

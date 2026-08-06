@@ -21,6 +21,7 @@ Route::put('usersRoles/{user}', 'User\UserController@updateRole');
 Route::ApiResource('permissions', 'Permission\PermissionController')->only('index');
 //administrador de recursos para los usuarios
 Route::ApiResource('users', 'User\UserController');
+Route::post('users/{id}/send-password-reset', 'User\UserController@sendPasswordReset');
 Route::get('quotation-roles', 'User\UserController@quotation_roles');
 Route::put('cant-vehicle-user/{id}', 'User\UserController@updateCantVehicleUser');
 Route::put('cant-cli-vehi-user/{id}', 'User\UserController@updateCantCliVehiUser');

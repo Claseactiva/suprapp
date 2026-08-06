@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -61,6 +62,15 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->hasRole('admin');
+    }
+
+    /**
+     * Usa una notificacion propia (en espanol) en vez de la de Laravel por defecto
+     * para el flujo estandar de "olvide mi contrasena" (password/email).
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 
     /**

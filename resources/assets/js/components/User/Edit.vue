@@ -28,16 +28,11 @@
                             <p v-show="errors.has('correo')" class="text-danger">{{ errors.first('correo') }}</p>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password">Contraseña</label>
-                            <input v-validate="'required'"
-                                :class="{ 'input': true, 'is-invalid': errors.has('password') }" type="password"
-                                name="password" class="form-control" v-model="fillUser.password">
-                            <p v-show="errors.has('password')" class="text-danger">{{ errors.first('password') }}</p>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
+                        <a href="#" class="btn btn-secondary" @click.prevent="sendPasswordReset({ id: fillUser.id })">
+                            <i class="fas fa-key"></i> Enviar recuperación de contraseña
+                        </a>
                         <button type="submit" class="btn btn-warning">
                             <i class="fas fa-edit"></i> Editar
                         </button>
@@ -58,7 +53,7 @@ export default {
         ...mapGetters([])
     },
     methods: {
-        ...mapActions(['updateUser'])
+        ...mapActions(['updateUser', 'sendPasswordReset'])
     }
 
 }

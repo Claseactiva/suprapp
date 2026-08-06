@@ -83,6 +83,7 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Email</th>
+                            <th>Rol</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -91,6 +92,7 @@
                             <td data-table-label="ID">{{ userLocal.id }}</td>
                             <td data-table-label="Nombre">{{ userLocal.name }}</td>
                             <td data-table-label="email">{{ userLocal.email }}</td>
+                            <td data-table-label="Rol">{{ userLocal.roles.map(role => role.name).join(', ') || 'Sin rol' }}</td>
                             <td class="text-right">
 
                                 <button class="btn btn-success" @click.prevent="editUserRoles({ userLocal })"

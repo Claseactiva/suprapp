@@ -1177,6 +1177,9 @@ export default { //methods
             context.commit('getUsers', 1)
         }, 500)
     },
+    sendPasswordReset(context, data) {
+        context.commit('sendPasswordReset', data.id)
+    },
     updateCantCliVehi(context, data) {
         context.commit('updateCantCliVehi', data.id)
         setTimeout(function () {
