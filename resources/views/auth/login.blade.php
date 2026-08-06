@@ -13,8 +13,15 @@
                 value="{{ old('email') }}" autofocus>
 
             <label for="password" class="sr-only">Contraseña</label>
-            <input type="password" id="password" name="password"
-                class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Contraseña">
+            <div class="input-group">
+                <input type="password" id="password" name="password"
+                    class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Contraseña">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary toggle-password" type="button" data-target="password" tabindex="-1">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
 
             <input type="hidden" id="device_fingerprint" name="device_fingerprint">
             <input type="hidden" id="device_name" name="device_name">
@@ -48,6 +55,17 @@
             document.getElementById('device_fingerprint').value = fingerprint;
             document.getElementById('device_name').value = deviceName;
         })();
+
+        document.querySelectorAll('.toggle-password').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var input = document.getElementById(button.getAttribute('data-target'));
+                var icon = button.querySelector('i');
+                var isPassword = input.getAttribute('type') === 'password';
+                input.setAttribute('type', isPassword ? 'text' : 'password');
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        });
     </script>
 @endsection
 <style>
