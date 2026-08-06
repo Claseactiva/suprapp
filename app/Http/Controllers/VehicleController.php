@@ -102,6 +102,9 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->hasRole('Quote')) {
+            return response()->json('No tienes permiso para crear vehiculos. Contacta a tu mecanico.', 403);
+        }
 
         $id = Auth::user()->effectiveTallerId();
 
@@ -149,6 +152,22 @@ class VehicleController extends Controller
         $vehicles = DB::table('vehicles')->where('user_id', '=', $user_id)->count();
 
         $users = DB::table('users')->where('id', '=', $user_id)->get();
+
+        // Si no se eligio cliente, el vehiculo queda a nombre del propio mecanico
+        // (se le puede asignar un cliente despues editandolo). En ese caso no
+        // corresponde el doble chequeo de cupo contra un cliente registrado.
+        if ($user_id == Auth::id()) {
+            if ($vehicles >= $users[0]->cant_vehicle) {
+                return response()->json('¡Error, Ya no puede crear mas vehiculos!', 422);
+            }
+
+            DB::transaction(function () use ($data, $request) {
+                $vehicle = Vehicle::create($data);
+                $this->attachMotorIfProvided($request, $vehicle);
+            });
+
+            return;
+        }
 
         $mechanics = DB::table('users')
             ->join('mechanic_client', 'users.id', '=', 'mechanic_client.user_id')

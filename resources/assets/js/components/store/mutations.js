@@ -425,6 +425,10 @@ export default { //used for changing the state
             label: vehicle.user.name,
             value: vehicle.user_id
         }
+        state.selectedMechanicClient = {
+            label: vehicle.user.name,
+            value: vehicle.user_id
+        }
         state.fillVehicle.patent = vehicle.patent
         state.fillVehicle.chasis = vehicle.chasis
         state.fillVehicle.name = vehicle.name
@@ -1210,6 +1214,7 @@ export default { //used for changing the state
         let url = urlVehicle + '/' + id
         axios.put(url, {
             id: state.fillVehicle.id,
+            user_id: state.selectedMechanicClient ? state.selectedMechanicClient.value : state.fillVehicle.user_id,
             patent: state.fillVehicle.patent,
             chasis: state.fillVehicle.chasis,
             brand: state.selectedVBrand.label,
@@ -1233,8 +1238,9 @@ export default { //used for changing the state
                 state.selectedVEngine.label = '',
                 state.selectedVEngine.value = '',
                 state.errorsLaravel = []
+            state.selectedMechanicClient = null
             $('#edit').modal('hide')
-            toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+            toastr.success('Vehiculo actualizado con exito')
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -5114,15 +5120,9 @@ export default { //used for changing the state
     },
 
     createVehicleMechanicClient(state) {
-        let id_user = null
-        if (state.selectedMechanicClient != null) {
-            id_user = state.selectedMechanicClient.value
+        let id_user = state.selectedMechanicClient != null ? state.selectedMechanicClient.value : null
 
-            // if (!state.selectedVYear.label) {
-            //     state.selectedVYear.label = '1'
-            //     state.selectedVEngine.label = 'INDEFINIDO'
-            // }
-            axios.post('vehicles-mechanic', {
+        axios.post('vehicles-mechanic', {
                 user_id: id_user,
                 patent: state.newVehicle.patent,
                 chasis: state.newVehicle.chasis,
@@ -5144,11 +5144,10 @@ export default { //used for changing the state
                 state.errorsLaravel = []
                 $('#createVehicleMechanic').modal('hide')
                 this.commit('getClientVehicles')
-                toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
+                toastr.success('Vehiculo generado con exito')
             }).catch(error => {
-                toastr.error(error.response.data)
+                toastr.error(resolveAxiosErrorMessage(error, 'No se pudo generar el vehiculo'))
             })
-        }
     },
 
     getQuotationUsers(state) {

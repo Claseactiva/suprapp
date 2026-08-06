@@ -160,6 +160,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_05_000002_create_repair_activities_table.php $DEPLOYPATH/database/migrations/2026_08_05_000002_create_repair_activities_table.php
     - /bin/cp -f database/migrations/2026_08_05_000003_create_quotation_user_images_table.php $DEPLOYPATH/database/migrations/2026_08_05_000003_create_quotation_user_images_table.php
     - /bin/cp -f database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php
+    - /bin/cp -f database/migrations/2026_08_06_000001_grant_vehiculos_permission_to_quote_role.php $DEPLOYPATH/database/migrations/2026_08_06_000001_grant_vehiculos_permission_to_quote_role.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -204,6 +205,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Motor/Historial.vue $DEPLOYPATH/resources/assets/js/components/Motor/Historial.vue
     - /bin/cp -f resources/assets/js/components/Quotationuser/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationuser/Index.vue
     - /bin/cp -f resources/assets/js/components/VehicleMechanic/Agregar.vue $DEPLOYPATH/resources/assets/js/components/VehicleMechanic/Agregar.vue
+    - /bin/cp -f resources/assets/js/components/VehicleMechanic/Index.vue $DEPLOYPATH/resources/assets/js/components/VehicleMechanic/Index.vue
     - /bin/cp -f resources/assets/js/components/Quotation/CreateUser.vue $DEPLOYPATH/resources/assets/js/components/Quotation/CreateUser.vue
     - /bin/cp -f resources/assets/js/components/Quotation/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Quotation/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotation/Index.vue

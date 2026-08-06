@@ -4,11 +4,11 @@
 
         <h5 class="text-white">
             Nuevo Vehículo
-            <a href="#" class="btn btn-success pull-right btn-sm" data-toggle="modal" data-target="#create"
+            <a v-if="rol !== 'Quote'" href="#" class="btn btn-success pull-right btn-sm" data-toggle="modal" data-target="#create"
                 title="Agregar">
                 <i class="fas fa-plus-circle"></i>
             </a>
-            <a href="#" class="btn btn-secondary pull-right btn-sm mr-2" @click.prevent="toggleTrash">
+            <a v-if="rol !== 'Quote'" href="#" class="btn btn-secondary pull-right btn-sm mr-2" @click.prevent="toggleTrash">
                 <i class="fas" :class="showTrash ? 'fa-list' : 'fa-trash-alt'"></i>
                 {{ showTrash ? 'Volver al listado' : 'Papelera' }}
             </a>
@@ -59,12 +59,12 @@
                         <td data-table-label="Fecha" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
                         <td class="vehicle-col-actions vehicle-action-cell">
-                            <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
+                            <a v-if="rol !== 'Quote'" href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
                             </a>
 
-                            <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
+                            <a v-if="rol !== 'Quote'" href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
                                 data-toggle="tooltip" data-placement="top" title="Eliminar">
                                 <i class="fas fa-ban"></i>
                             </a>

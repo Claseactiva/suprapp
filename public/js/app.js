@@ -33329,6 +33329,24 @@ var render = function render() {
     }, [_vm._v(_vm._s(_vm._f("moment")(vehicleLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
     }, [_c("a", {
+      staticClass: "btn btn-warning btn-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Editar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.editVehicle({
+            vehicleLocal: vehicleLocal
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "far fa-edit"
+    })]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-info btn-sm",
       attrs: {
         href: "#",
@@ -33501,7 +33519,7 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)]), _vm._v(" "), _c("Agregar"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("AgregarDetalle"), _vm._v(" "), _c("RequestParts"), _vm._v(" "), _c("OrdenTrabajo"), _vm._v(" "), _c("CheckListVehicle"), _vm._v(" "), _c("AgregarObservacionCheckList")], 1);
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)]), _vm._v(" "), _c("Agregar"), _vm._v(" "), _c("Editar"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("AgregarDetalle"), _vm._v(" "), _c("RequestParts"), _vm._v(" "), _c("OrdenTrabajo"), _vm._v(" "), _c("CheckListVehicle"), _vm._v(" "), _c("AgregarObservacionCheckList")], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -35101,7 +35119,17 @@ var render = function render() {
     staticClass: "col-lg-12 vehicle-admin"
   }, [_c("h5", {
     staticClass: "text-white"
-  }, [_vm._v("\n        Nuevo Vehículo\n        "), _vm._m(0), _vm._v(" "), _c("a", {
+  }, [_vm._v("\n        Nuevo Vehículo\n        "), _vm.rol !== "Quote" ? _c("a", {
+    staticClass: "btn btn-success pull-right btn-sm",
+    attrs: {
+      href: "#",
+      "data-toggle": "modal",
+      "data-target": "#create",
+      title: "Agregar"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-plus-circle"
+  })]) : _vm._e(), _vm._v(" "), _vm.rol !== "Quote" ? _c("a", {
     staticClass: "btn btn-secondary pull-right btn-sm mr-2",
     attrs: {
       href: "#"
@@ -35115,7 +35143,7 @@ var render = function render() {
   }, [_c("i", {
     staticClass: "fas",
     "class": _vm.showTrash ? "fa-list" : "fa-trash-alt"
-  }), _vm._v("\n            " + _vm._s(_vm.showTrash ? "Volver al listado" : "Papelera") + "\n        ")])]), _vm._v(" "), !_vm.showTrash ? _c("div", {
+  }), _vm._v("\n            " + _vm._s(_vm.showTrash ? "Volver al listado" : "Papelera") + "\n        ")]) : _vm._e()]), _vm._v(" "), !_vm.showTrash ? _c("div", {
     staticClass: "vehicle-filter-row mt-3"
   }, [_c("input", {
     directives: [{
@@ -35229,7 +35257,7 @@ var render = function render() {
     staticClass: "vehicle-table-shell mt-3"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm vehicle-table mb-0"
-  }, [_vm._m(1), _vm._v(" "), _c("tbody", _vm._l(_vm.vehicles, function (vehicleLocal) {
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.vehicles, function (vehicleLocal) {
     return _c("tr", {
       key: vehicleLocal.id
     }, [_c("td", {
@@ -35295,7 +35323,7 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(_vm._f("moment")(vehicleLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
       staticClass: "vehicle-col-actions vehicle-action-cell"
-    }, [_c("a", {
+    }, [_vm.rol !== "Quote" ? _c("a", {
       staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
@@ -35313,7 +35341,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
-    })]), _vm._v(" "), _c("a", {
+    })]) : _vm._e(), _vm._v(" "), _vm.rol !== "Quote" ? _c("a", {
       staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
@@ -35331,7 +35359,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-ban"
-    })]), _vm._v(" "), _c("a", {
+    })]) : _vm._e(), _vm._v(" "), _c("a", {
       staticClass: "btn btn-info btn-sm",
       attrs: {
         href: "#",
@@ -35537,7 +35565,7 @@ var render = function render() {
     staticClass: "vehicle-table-shell mt-3"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm vehicle-table mb-0"
-  }, [_vm._m(2), _vm._v(" "), _c("tbody", [_vm._l(_vm.vehiclesTrash, function (vehicleLocal) {
+  }, [_vm._m(1), _vm._v(" "), _c("tbody", [_vm._l(_vm.vehiclesTrash, function (vehicleLocal) {
     return _c("tr", {
       key: vehicleLocal.id
     }, [_c("td", {
@@ -35753,20 +35781,6 @@ var render = function render() {
   }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]) : _vm._e(), _vm._v(" "), _c("Agregar"), _vm._v(" "), _c("Editar"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("AgregarDetalle"), _vm._v(" "), _c("OrdenTrabajo"), _vm._v(" "), _c("CheckListVehicle")], 1);
 };
 var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("a", {
-    staticClass: "btn btn-success pull-right btn-sm",
-    attrs: {
-      href: "#",
-      "data-toggle": "modal",
-      "data-target": "#create",
-      title: "Agregar"
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-plus-circle"
-  })]);
-}, function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("thead", [_c("tr", [_c("th", {
@@ -38362,6 +38376,10 @@ function dispatchPublicQuotationFailed() {
       label: vehicle.user.name,
       value: vehicle.user_id
     };
+    state.selectedMechanicClient = {
+      label: vehicle.user.name,
+      value: vehicle.user_id
+    };
     state.fillVehicle.patent = vehicle.patent;
     state.fillVehicle.chasis = vehicle.chasis;
     state.fillVehicle.name = vehicle.name;
@@ -39064,6 +39082,7 @@ function dispatchPublicQuotationFailed() {
     var url = urlVehicle + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, {
       id: state.fillVehicle.id,
+      user_id: state.selectedMechanicClient ? state.selectedMechanicClient.value : state.fillVehicle.user_id,
       patent: state.fillVehicle.patent,
       chasis: state.fillVehicle.chasis,
       brand: state.selectedVBrand.label,
@@ -39079,8 +39098,9 @@ function dispatchPublicQuotationFailed() {
       state.fillVehicle.color = '';
       state.fillVehicle.km = '';
       state.selectedVBrand.label = '', state.selectedVBrand.value = '', state.selectedVModel.label = '', state.selectedVModel.value = '', state.selectedVYear.label = '', state.selectedVYear.value = '', state.selectedVEngine.label = '', state.selectedVEngine.value = '', state.errorsLaravel = [];
+      state.selectedMechanicClient = null;
       $('#edit').modal('hide');
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo actualizado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vehiculo actualizado con exito');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -42838,41 +42858,33 @@ function dispatchPublicQuotationFailed() {
   },
   createVehicleMechanicClient: function createVehicleMechanicClient(state) {
     var _this33 = this;
-    var id_user = null;
-    if (state.selectedMechanicClient != null) {
-      id_user = state.selectedMechanicClient.value;
-
-      // if (!state.selectedVYear.label) {
-      //     state.selectedVYear.label = '1'
-      //     state.selectedVEngine.label = 'INDEFINIDO'
-      // }
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicles-mechanic', {
-        user_id: id_user,
-        patent: state.newVehicle.patent,
-        chasis: state.newVehicle.chasis,
-        brand: state.selectedVBrand.label,
-        model: state.selectedVModel.label,
-        year: state.selectedVYear.label,
-        engine: state.selectedVEngine.label,
-        color: state.newVehicle.color,
-        km: state.newVehicle.km,
-        motor_number: state.newVehicle.motor_number,
-        arreglo_cpl: state.newVehicle.arreglo_cpl
-      }).then(function (response) {
-        state.newVehicle.patent = '';
-        state.newVehicle.chasis = '';
-        state.newVehicle.color = '';
-        state.newVehicle.km = '';
-        state.newVehicle.motor_number = '';
-        state.newVehicle.arreglo_cpl = '';
-        state.errorsLaravel = [];
-        $('#createVehicleMechanic').modal('hide');
-        _this33.commit('getClientVehicles');
-        toastr__WEBPACK_IMPORTED_MODULE_1___default().success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito');
-      })["catch"](function (error) {
-        toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
-      });
-    }
+    var id_user = state.selectedMechanicClient != null ? state.selectedMechanicClient.value : null;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicles-mechanic', {
+      user_id: id_user,
+      patent: state.newVehicle.patent,
+      chasis: state.newVehicle.chasis,
+      brand: state.selectedVBrand.label,
+      model: state.selectedVModel.label,
+      year: state.selectedVYear.label,
+      engine: state.selectedVEngine.label,
+      color: state.newVehicle.color,
+      km: state.newVehicle.km,
+      motor_number: state.newVehicle.motor_number,
+      arreglo_cpl: state.newVehicle.arreglo_cpl
+    }).then(function (response) {
+      state.newVehicle.patent = '';
+      state.newVehicle.chasis = '';
+      state.newVehicle.color = '';
+      state.newVehicle.km = '';
+      state.newVehicle.motor_number = '';
+      state.newVehicle.arreglo_cpl = '';
+      state.errorsLaravel = [];
+      $('#createVehicleMechanic').modal('hide');
+      _this33.commit('getClientVehicles');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vehiculo generado con exito');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo generar el vehiculo'));
+    });
   },
   getQuotationUsers: function getQuotationUsers(state) {
     var url = urlQuotationusers + '/' + state.idUser;

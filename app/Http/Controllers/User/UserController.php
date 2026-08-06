@@ -59,6 +59,21 @@ class UserController extends Controller
         ]);
 
         if ($id) {
+            $quotation = DB::table('quotationclients')->where('id', $id)->first();
+
+            if ($quotation) {
+                $user->roles()->sync(array(0 => '3'));
+                $this->applyRoleDefaultQuantity($user);
+
+                $quotationOwner = User::find($quotation->user_id);
+                $mechanicId = $quotationOwner ? $quotationOwner->effectiveTallerId() : $quotation->user_id;
+
+                DB::table('mechanic_client')->insertOrIgnore([
+                    'user_id' => $user->id,
+                    'mechanic_id' => $mechanicId,
+                ]);
+            }
+
             DB::table('quotationclients')->where('id', $id)->update([
                 'generado_client' => 1,
             ]);
@@ -241,7 +256,9 @@ class UserController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        $user->roles()->sync(array(0 => '3'));
+        // Rol "Quote": cliente final del mecanico, ve su vehiculo y le agrega
+        // Detalle, pero no puede crear vehiculos por su cuenta.
+        $user->roles()->sync(array(0 => '15'));
         $this->applyRoleDefaultQuantity($user);
 
         DB::table('mechanic_client')->insertOrIgnore(
@@ -307,7 +324,9 @@ class UserController extends Controller
                     'name' => $request->input('name'),
                     'email' => $request->input('email'),
                 ]);
-                $user->roles()->sync(array(0 => '3'));
+                // Rol "Quote": cliente final del mecanico, ve su vehiculo y le agrega
+                // Detalle, pero no puede crear vehiculos por su cuenta.
+                $user->roles()->sync(array(0 => '15'));
                 $this->applyRoleDefaultQuantity($user);
 
                 DB::table('mechanic_client')->insertOrIgnore(

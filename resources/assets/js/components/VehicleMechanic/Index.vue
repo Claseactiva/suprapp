@@ -43,6 +43,11 @@
                         <td data-table-label="fecha">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
                         <td class="text-right">
+                            <a href="#" class="btn btn-warning btn-sm" @click.prevent="editVehicle({ vehicleLocal })"
+                                data-toggle="tooltip" data-placement="top" title="Editar">
+                                <i class="far fa-edit"></i>
+                            </a>
+
                             <a href="#" class="btn btn-info btn-sm" @click.prevent="detailVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Informacion">
                                 <i class="fas fa-info"></i>
@@ -115,7 +120,7 @@
         </nav>
 
         <Agregar></Agregar>
-        <!-- <Editar></Editar> -->
+        <Editar></Editar>
         <Detalle></Detalle>
         <AgregarDetalle></AgregarDetalle>
         <RequestParts></RequestParts>
