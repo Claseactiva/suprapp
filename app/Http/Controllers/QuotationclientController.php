@@ -485,7 +485,11 @@ class QuotationclientController extends Controller
             $client = Quotationclient::find($id)->client;
             $user = User::where('id', '=', $quotation->user_id)->first();
 
-            $pdf = Pdf::loadView('pdf.quotationclient', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']));
+            $pdf = Pdf::loadView('pdf.quotationclient', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']))
+                ->setPaper('a4', 'portrait');
+
+            $pdf->render();
+            $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
 
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
@@ -512,7 +516,11 @@ class QuotationclientController extends Controller
             $client = Quotationclient::find($id)->client;
             $user = User::where('id', '=', $quotation->user_id)->first();
 
-            $pdf = Pdf::loadView('pdf.quotationclientiva', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']));
+            $pdf = Pdf::loadView('pdf.quotationclientiva', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']))
+                ->setPaper('a4', 'portrait');
+
+            $pdf->render();
+            $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
 
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
