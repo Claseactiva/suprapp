@@ -17,6 +17,12 @@
             th, td {
                 vertical-align: top;
             }
+            th {
+                font-size: 11px;
+            }
+            td {
+                font-size: 12px;
+            }
             .cliente th,
             .cliente td {
                 font-style: italic;
