@@ -299,6 +299,39 @@ export default { //computed propeties
         return pagesArray;
     },
 
+    isActived_oc(state, getters) {
+        return state.pagination_oc.current_page
+    },
+    pagesNumber_oc(state, getters) {
+        if (!state.pagination_oc.to) {
+            return [];
+        }
+
+        var from = state.pagination_oc.current_page - state.offset_oc
+        if (from < 1) {
+            from = 1;
+        }
+
+        var to = from + (state.offset_oc * 2);
+        if (to >= state.pagination_oc.last_page) {
+            to = state.pagination_oc.last_page;
+        }
+
+        var pagesArray = [];
+        while (from <= to) {
+            pagesArray.push(from);
+            from++;
+        }
+
+        return pagesArray;
+    },
+
+    optionsSupplier(state, getters) {
+        return state.suppliers.map(function (supplier) {
+            return { label: supplier.razonSocial, value: supplier.id }
+        })
+    },
+
     getVehicle(state, getters) {
         return state.vehicle
     },

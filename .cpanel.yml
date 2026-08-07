@@ -23,6 +23,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Product
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Quotation
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Quotationclient
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/PurchaseOrder
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Roles
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/User
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/UserMechanic
@@ -103,6 +104,8 @@ deployment:
     - /bin/cp -f app/Http/Controllers/Role/RoleController.php $DEPLOYPATH/app/Http/Controllers/Role/RoleController.php
     - /bin/cp -f app/Http/Controllers/SaleController.php $DEPLOYPATH/app/Http/Controllers/SaleController.php
     - /bin/cp -f app/Http/Controllers/VehicleBrandModelController.php $DEPLOYPATH/app/Http/Controllers/VehicleBrandModelController.php
+    - /bin/cp -f app/Http/Controllers/PurchaseOrderController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderController.php
+    - /bin/cp -f app/Http/Controllers/PurchaseOrderDetailController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderDetailController.php
     - /bin/cp -f app/Http/Kernel.php $DEPLOYPATH/app/Http/Kernel.php
     - /bin/cp -f app/Http/Middleware/EnsureDeviceSessionActive.php $DEPLOYPATH/app/Http/Middleware/EnsureDeviceSessionActive.php
     - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
@@ -127,6 +130,9 @@ deployment:
     - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
     - /bin/cp -f app/Models/DeliveryTime.php $DEPLOYPATH/app/Models/DeliveryTime.php
+    - /bin/cp -f app/Models/PurchaseOrder.php $DEPLOYPATH/app/Models/PurchaseOrder.php
+    - /bin/cp -f app/Models/PurchaseOrderDetail.php $DEPLOYPATH/app/Models/PurchaseOrderDetail.php
+    - /bin/cp -f app/Models/PurchaseOrderDetailImage.php $DEPLOYPATH/app/Models/PurchaseOrderDetailImage.php
     - /bin/cp -f app/Notifications/SetInitialPasswordNotification.php $DEPLOYPATH/app/Notifications/SetInitialPasswordNotification.php
     - /bin/cp -f app/Notifications/ShippingNotificator.php $DEPLOYPATH/app/Notifications/ShippingNotificator.php
     - /bin/cp -f app/Notifications/ResetPasswordNotification.php $DEPLOYPATH/app/Notifications/ResetPasswordNotification.php
@@ -163,6 +169,13 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_05_000004_add_deleted_at_to_vehicles_table.php
     - /bin/cp -f database/migrations/2026_08_06_000001_grant_vehiculos_permission_to_quote_role.php $DEPLOYPATH/database/migrations/2026_08_06_000001_grant_vehiculos_permission_to_quote_role.php
     - /bin/cp -f database/migrations/2026_08_06_000002_restore_motor_catalog_data.php $DEPLOYPATH/database/migrations/2026_08_06_000002_restore_motor_catalog_data.php
+    - /bin/cp -f database/migrations/2026_08_06_000004_create_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_06_000004_create_purchase_orders_table.php
+    - /bin/cp -f database/migrations/2026_08_06_000005_create_purchase_order_details_table.php $DEPLOYPATH/database/migrations/2026_08_06_000005_create_purchase_order_details_table.php
+    - /bin/cp -f database/migrations/2026_08_06_000006_create_purchase_order_detail_images_table.php $DEPLOYPATH/database/migrations/2026_08_06_000006_create_purchase_order_detail_images_table.php
+    - /bin/cp -f database/migrations/2026_08_06_000007_create_ordenes_compra_permission.php $DEPLOYPATH/database/migrations/2026_08_06_000007_create_ordenes_compra_permission.php
+    - /bin/cp -f database/migrations/2026_08_06_000008_add_order_fields_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_06_000008_add_order_fields_to_purchase_orders_table.php
+    - /bin/cp -f database/migrations/2026_08_06_000009_add_contacto_to_clients_table.php $DEPLOYPATH/database/migrations/2026_08_06_000009_add_contacto_to_clients_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000001_add_observaciones_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_07_000001_add_observaciones_to_purchase_orders_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -179,6 +192,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/observaciones
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/orden_trabajos
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/vehicles
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/images/purchase_order_details
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/css/sbAdmin
     - /bin/cp -f resources/assets/css/sbAdmin/sb-admin.css $DEPLOYPATH/resources/assets/css/sbAdmin/sb-admin.css
@@ -223,6 +237,13 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetailclientImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetailclientImages.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/SparePartImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/SparePartImages.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/Index.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/Index.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/Detalle.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/Detalle.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/DetalleEditar.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/DetalleEditar.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/EditarPurchaseOrder.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/EditarPurchaseOrder.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/Eliminar.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/Eliminar.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/PurchaseOrderDetailImages.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/PurchaseOrderDetailImages.vue
+    - /bin/cp -f resources/assets/js/components/PurchaseOrder/SupplierSelector.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/SupplierSelector.vue
     - /bin/cp -f resources/assets/js/components/Roles/CreateRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/CreateRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/EditRole.vue $DEPLOYPATH/resources/assets/js/components/Roles/EditRole.vue
     - /bin/cp -f resources/assets/js/components/Roles/Roles.vue $DEPLOYPATH/resources/assets/js/components/Roles/Roles.vue
@@ -270,6 +291,9 @@ deployment:
     - /bin/cp -f resources/views/pdf/quotationclient.blade.php $DEPLOYPATH/resources/views/pdf/quotationclient.blade.php
     - /bin/cp -f resources/views/pdf/quotationclientiva.blade.php $DEPLOYPATH/resources/views/pdf/quotationclientiva.blade.php
     - /bin/cp -f resources/views/pdf/quotationshipping.blade.php $DEPLOYPATH/resources/views/pdf/quotationshipping.blade.php
+    - /bin/cp -f resources/views/pdf/purchase_order.blade.php $DEPLOYPATH/resources/views/pdf/purchase_order.blade.php
+    - /bin/cp -f resources/views/layouts/purchase_order.blade.php $DEPLOYPATH/resources/views/layouts/purchase_order.blade.php
+    - /bin/cp -f resources/views/admin/orden-compra.blade.php $DEPLOYPATH/resources/views/admin/orden-compra.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
     - /bin/cp -f resources/views/auth/passwords/email.blade.php $DEPLOYPATH/resources/views/auth/passwords/email.blade.php

@@ -802,6 +802,91 @@ export default { //methods
         }, 1000)
     },
 
+    /******************************** */
+    /******seccion Orden de Compra (proveedores)****** */
+    getSuppliers(context) {
+        context.commit('getSuppliers')
+    },
+    setSupplier(context, supplier) {
+        context.commit('setSupplier', supplier)
+    },
+    createSupplier(context) {
+        context.commit('createSupplier')
+    },
+    getNextOrderNumber(context) {
+        context.commit('getNextOrderNumber')
+    },
+
+    getPurchaseOrders(context, request) {
+        context.commit('getPurchaseOrders', request)
+    },
+    changePagePurchaseOrder(context, data) {
+        context.commit('getPurchaseOrders', data)
+    },
+    createPurchaseOrder(context) {
+        context.commit('createPurchaseOrder')
+    },
+    showModalPurchaseOrderDetail(context, data) {
+        context.commit('showModalPurchaseOrderDetail', data.id)
+        context.commit('getDeliveryTimes')
+        setTimeout(function () {
+            context.commit('getPurchaseOrderDetails')
+        }, 300)
+    },
+    editPurchaseOrder(context, data) {
+        context.commit('editPurchaseOrder', data.purchaseOrder)
+    },
+    updatePurchaseOrder(context, data) {
+        context.commit('updatePurchaseOrder', data.id)
+    },
+    replicatePurchaseOrder(context, data) {
+        context.commit('replicatePurchaseOrder', data.id)
+    },
+    showModalDeletePurchaseOrder(context, data) {
+        context.commit('showModalDeletePurchaseOrder', data.id)
+    },
+    deletePurchaseOrder(context) {
+        context.commit('deletePurchaseOrder')
+    },
+
+    getPurchaseOrderDetails(context) {
+        context.commit('getPurchaseOrderDetails')
+    },
+    sumTotalPurchaseOrderDetail(context) {
+        context.commit('sumTotalPurchaseOrderDetail')
+    },
+    sumTotalEditPurchaseOrderDetail(context) {
+        context.commit('sumTotalEditPurchaseOrderDetail')
+    },
+    createPurchaseOrderDetail(context) {
+        context.commit('createPurchaseOrderDetail')
+        setTimeout(function () {
+            context.commit('getPurchaseOrderDetails')
+        }, 800)
+    },
+    editPurchaseOrderDetail(context, data) {
+        context.commit('editPurchaseOrderDetail', data.detailLocal)
+    },
+    updatePurchaseOrderDetail(context, data) {
+        context.commit('updatePurchaseOrderDetail', data.id)
+    },
+    deletePurchaseOrderDetail(context, data) {
+        context.commit('deletePurchaseOrderDetail', data.id)
+    },
+
+    openPurchaseOrderDetailImages(context, data) {
+        context.commit('openPurchaseOrderDetailImages', data)
+    },
+    setPurchaseOrderDetailImagesFiles(context, evt) {
+        context.commit('setPurchaseOrderDetailImagesFiles', evt)
+    },
+    uploadPurchaseOrderDetailImages(context) {
+        context.commit('uploadPurchaseOrderDetailImages')
+    },
+    deletePurchaseOrderDetailImage(context, id) {
+        context.commit('deletePurchaseOrderDetailImage', id)
+    },
+
     openDetailclientImages(context, data) {
         context.commit('openDetailclientImages', data)
     },
@@ -1455,6 +1540,9 @@ export default { //methods
     /******************************** */
     searchSii(context) {
         context.commit('searchSii')
+    },
+    searchSupplierSii(context) {
+        context.commit('searchSupplierSii')
     },
     sumTotalProductMechanic(context) {
         context.commit('sumTotalProductMechanic')

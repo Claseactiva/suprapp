@@ -174,6 +174,17 @@ Route::post('actualizar-correlativo', 'QuotationclientController@correlativoQuot
 Route::post('spare-part', 'QuotationclientController@sparePart');
 
 
+Route::ApiResource('purchase-orders', 'PurchaseOrderController');
+Route::get('purchase-order-details/{id}', 'PurchaseOrderController@details');
+Route::get('purchase-order-pdf/{id}', 'PurchaseOrderController@pdf');
+Route::post('purchase-orders/{id}/replicate', 'PurchaseOrderController@replicate');
+Route::get('purchase-orders-next-number', 'PurchaseOrderController@nextOrderNumber');
+
+Route::ApiResource('purchase-order-lines', 'PurchaseOrderDetailController');
+Route::post('purchase-order-line-images', 'PurchaseOrderDetailController@uploadImages');
+Route::delete('purchase-order-line-images/{id}', 'PurchaseOrderDetailController@deleteImage');
+
+
 
 Route::ApiResource('quotationimports', 'QuotationimportController');
 Route::get('quotationimport-pdf/{id}', 'QuotationimportController@pdf');
@@ -369,6 +380,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
     Route::get('admin-envios', function () {
         return view('admin.envios');
     })->name('admin-envios');
+
+    Route::get('admin-orden-compra', function () {
+        return view('admin.orden-compra');
+    })->name('admin-orden-compra');
 
     Route::get('admin-utilidad', function () {
         return view('admin.utilidad');

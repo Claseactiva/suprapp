@@ -869,6 +869,99 @@ export default { //data
     },
     offset_shipping: 2,
 
+    /********************************* */
+    /************************************ */
+    /*** seccion Orden de Compra (proveedores) */
+    suppliers: [],
+    newSupplier: {
+        razonSocial: '',
+        rut: '',
+        giro: '',
+        contacto: '',
+        address: '',
+        comuna: '',
+        phone: '',
+        email: ''
+    },
+    selectedSupplier: { label: '', value: '' },
+
+    purchaseOrders: [],
+    newPurchaseOrder: {
+        supplier_id: '',
+        payment: '',
+        order_number: '',
+        buyer: '',
+        currency: 'PESO CHILENO',
+        promised_date: '',
+        shipping_method: '',
+        requested_by: '',
+        ship_to: '',
+        observaciones: ''
+    },
+    fillPurchaseOrder: {
+        id: '',
+        supplier_id: '',
+        payment: '',
+        state: '',
+        order_number: '',
+        buyer: '',
+        currency: '',
+        promised_date: '',
+        shipping_method: '',
+        requested_by: '',
+        ship_to: '',
+        observaciones: ''
+    },
+    searchPurchaseOrder: {
+        id: '',
+        razonSocial: '',
+        product: '',
+        date_from: '',
+        date_to: '',
+        state: '',
+        per_page: 20
+    },
+    idPurchaseOrder: null,
+    nextOrderNumberPreview: '',
+    pagination_oc: {
+        'total': 0,
+        'current_page': 0,
+        'per_page': 20,
+        'last_page': 0,
+        'from': 0,
+        'to': 0,
+    },
+    offset_oc: 2,
+
+    purchaseOrderLines: [],
+    totalPurchaseOrder: 0,
+    newPurchaseOrderDetail: {
+        purchase_order_id: '',
+        product: '',
+        detail: '',
+        price: 0,
+        quantity: 1,
+        total: 0,
+        days: '24 a 48 Hrs'
+    },
+    fillPurchaseOrderDetail: {
+        id: '',
+        purchase_order_id: '',
+        product: '',
+        detail: '',
+        price: 0,
+        quantity: 1,
+        total: 0,
+        days: ''
+    },
+    activePurchaseOrderDetailImages: {
+        id: null,
+        product: '',
+        images: []
+    },
+    attachmentPurchaseOrderDetailImages: [],
+    formPurchaseOrderDetailImages: new FormData(),
+
     pagination_form: {
         'total': 0,
         'current_page': 0,

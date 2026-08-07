@@ -124,6 +124,14 @@
                 </li>
             @endcan
 
+            @can('ordenes_compra')
+                <li id="ordenes_compra" class="nav-item {{ request()->routeIs('admin-orden-compra') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin-orden-compra') }}">
+                        <i class="fas fa-truck-loading"></i>
+                        <span>Orden de Compra</span></a>
+                </li>
+            @endcan
+
             @canany(['vehiculos', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
                 @php
                     $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos', 'admin-motores');

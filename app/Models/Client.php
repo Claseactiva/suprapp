@@ -23,6 +23,11 @@ class Client extends Model
         return $this->hasMany('App\Models\Quotationclient');
     }
 
+    public function purchaseOrders()
+    {
+        return $this->hasMany('App\Models\PurchaseOrder', 'supplier_id');
+    }
+
     public function product()
     {
         return $this->hasMany('App\Models\Product');

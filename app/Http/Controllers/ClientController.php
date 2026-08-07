@@ -131,6 +131,7 @@ class ClientController extends Controller
             'products' => ['column' => 'client_id', 'label' => 'productos'],
             'quotationclients' => ['column' => 'client_id', 'label' => 'cotizaciones formales'],
             'sales' => ['column' => 'client_id', 'label' => 'ventas'],
+            'purchase_orders' => ['column' => 'supplier_id', 'label' => 'ordenes de compra'],
         ];
 
         $dependencies = [];

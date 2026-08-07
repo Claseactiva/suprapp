@@ -2536,6 +2536,283 @@ export default { //used for changing the state
     },
 
     /******************************* */
+    /****** seccion Orden de Compra (proveedores) **** */
+    /****** el "proveedor" es un Client (tabla clients / Empresas-Proveedores) con type='Proveedor' */
+    /******************************* */
+    getSuppliers(state) {
+        axios.get('clients-all?type=Proveedor').then(response => {
+            state.suppliers = response.data
+        })
+    },
+    setSupplier(state, supplier) {
+        state.selectedSupplier = supplier
+        state.newPurchaseOrder.supplier_id = supplier ? supplier.value : ''
+    },
+    createSupplier(state) {
+        const razonSocial = state.newSupplier.razonSocial
+
+        axios.post('clients', {
+            razonSocial: state.newSupplier.razonSocial,
+            rut: state.newSupplier.rut,
+            giro: state.newSupplier.giro,
+            contacto: state.newSupplier.contacto,
+            address: state.newSupplier.address,
+            comuna: state.newSupplier.comuna,
+            phone: state.newSupplier.phone,
+            email: state.newSupplier.email,
+            type: 'Proveedor'
+        }).then(response => {
+            state.newSupplier = {
+                razonSocial: '',
+                rut: '',
+                giro: '',
+                contacto: '',
+                address: '',
+                comuna: '',
+                phone: '',
+                email: ''
+            }
+            state.selectedSupplier = { label: razonSocial, value: response.data }
+            state.newPurchaseOrder.supplier_id = response.data
+            state.errorsLaravel = []
+            toastr.success('Proveedor generado con exito')
+            this.commit('getSuppliers')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    getNextOrderNumber(state) {
+        axios.get('purchase-orders-next-number').then(response => {
+            state.nextOrderNumberPreview = response.data.order_number
+        })
+    },
+    getPurchaseOrders(state, request) {
+        const { page } = resolvePaginationRequest(request, state.searchPurchaseOrder.per_page || 20)
+
+        axios.get('purchase-orders', {
+            params: {
+                page: page,
+                id: state.searchPurchaseOrder.id,
+                razonSocial: state.searchPurchaseOrder.razonSocial,
+                product: state.searchPurchaseOrder.product,
+                date_from: state.searchPurchaseOrder.date_from,
+                date_to: state.searchPurchaseOrder.date_to,
+                state: state.searchPurchaseOrder.state,
+                per_page: state.searchPurchaseOrder.per_page
+            }
+        }).then(response => {
+            state.purchaseOrders = response.data.purchaseOrders.data
+            state.pagination_oc = response.data.pagination
+        })
+    },
+    createPurchaseOrder(state) {
+        axios.post('purchase-orders', {
+            supplier_id: state.newPurchaseOrder.supplier_id || null,
+            payment: state.selectedPago.label,
+            order_number: state.newPurchaseOrder.order_number,
+            buyer: state.newPurchaseOrder.buyer,
+            currency: state.newPurchaseOrder.currency,
+            promised_date: state.newPurchaseOrder.promised_date,
+            shipping_method: state.newPurchaseOrder.shipping_method,
+            requested_by: state.newPurchaseOrder.requested_by,
+            ship_to: state.newPurchaseOrder.ship_to,
+            observaciones: state.newPurchaseOrder.observaciones
+        }).then(response => {
+            state.newPurchaseOrder = {
+                supplier_id: '',
+                payment: '',
+                order_number: '',
+                buyer: '',
+                currency: 'PESO CHILENO',
+                promised_date: '',
+                shipping_method: '',
+                requested_by: '',
+                ship_to: '',
+                observaciones: ''
+            }
+            state.selectedSupplier = { label: '', value: '' }
+            state.selectedPago = { label: '', value: '' }
+            state.errorsLaravel = []
+            toastr.success('Orden de compra generada con exito')
+            this.commit('getPurchaseOrders')
+            this.commit('getNextOrderNumber')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    showModalPurchaseOrderDetail(state, id) {
+        state.idPurchaseOrder = id
+        $('#modalPurchaseOrder').modal('show')
+    },
+    editPurchaseOrder(state, purchaseOrder) {
+        state.fillPurchaseOrder.id = purchaseOrder.id
+        state.fillPurchaseOrder.supplier_id = purchaseOrder.supplier_id
+        state.fillPurchaseOrder.payment = purchaseOrder.payment || ''
+        state.fillPurchaseOrder.state = purchaseOrder.state || ''
+        state.fillPurchaseOrder.order_number = purchaseOrder.order_number || ''
+        state.fillPurchaseOrder.buyer = purchaseOrder.buyer || ''
+        state.fillPurchaseOrder.currency = purchaseOrder.currency || ''
+        state.fillPurchaseOrder.promised_date = purchaseOrder.promised_date || ''
+        state.fillPurchaseOrder.shipping_method = purchaseOrder.shipping_method || ''
+        state.fillPurchaseOrder.requested_by = purchaseOrder.requested_by || ''
+        state.fillPurchaseOrder.ship_to = purchaseOrder.ship_to || ''
+        state.fillPurchaseOrder.observaciones = purchaseOrder.observaciones || ''
+        $('#editPurchaseOrder').modal('show')
+    },
+    updatePurchaseOrder(state, id) {
+        axios.put('purchase-orders/' + id, state.fillPurchaseOrder).then(response => {
+            state.errorsLaravel = []
+            $('#editPurchaseOrder').modal('hide')
+            toastr.success('Orden de compra actualizada con exito')
+            this.commit('getPurchaseOrders')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    replicatePurchaseOrder(state, id) {
+        axios.post('purchase-orders/' + id + '/replicate').then(response => {
+            toastr.success('Orden de compra duplicada con exito')
+            this.commit('getPurchaseOrders')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    showModalDeletePurchaseOrder(state, id) {
+        state.idPurchaseOrder = id
+        $('#modalDeletePurchaseOrder').modal('show')
+    },
+    deletePurchaseOrder(state) {
+        axios.delete('purchase-orders/' + state.idPurchaseOrder).then(response => {
+            toastr.success('Orden de compra eliminada con exito')
+            $('#modalDeletePurchaseOrder').modal('hide')
+            state.idPurchaseOrder = null
+            this.commit('getPurchaseOrders')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar la orden de compra'))
+        })
+    },
+
+    getPurchaseOrderDetails(state) {
+        let url = 'purchase-order-details/' + state.idPurchaseOrder
+        axios.get(url).then(response => {
+            state.purchaseOrderLines = response.data
+            let total = 0
+
+            state.purchaseOrderLines.forEach(line => {
+                total += parseInt(line.total) || 0
+            })
+
+            state.totalPurchaseOrder = total
+        })
+    },
+    sumTotalPurchaseOrderDetail(state) {
+        let price = parseFloat(state.newPurchaseOrderDetail.price) || 0
+        let quantity = parseFloat(state.newPurchaseOrderDetail.quantity) || 0
+
+        state.newPurchaseOrderDetail.total = Math.round(price * quantity)
+    },
+    sumTotalEditPurchaseOrderDetail(state) {
+        let price = parseFloat(state.fillPurchaseOrderDetail.price) || 0
+        let quantity = parseFloat(state.fillPurchaseOrderDetail.quantity) || 0
+
+        state.fillPurchaseOrderDetail.total = Math.round(price * quantity)
+    },
+    createPurchaseOrderDetail(state) {
+        axios.post('purchase-order-lines', {
+            purchase_order_id: state.idPurchaseOrder,
+            product: state.newPurchaseOrderDetail.product,
+            detail: state.newPurchaseOrderDetail.detail,
+            price: state.newPurchaseOrderDetail.price,
+            quantity: state.newPurchaseOrderDetail.quantity,
+            total: state.newPurchaseOrderDetail.total,
+            days: state.newPurchaseOrderDetail.days
+        }).then(response => {
+            state.newPurchaseOrderDetail = {
+                purchase_order_id: '',
+                product: '',
+                detail: '',
+                price: 0,
+                quantity: 1,
+                total: 0,
+                days: state.defaultDeliveryTime.label || '24 a 48 Hrs'
+            }
+            state.errorsLaravel = []
+            toastr.success('Producto agregado con exito')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    editPurchaseOrderDetail(state, detailLocal) {
+        state.fillPurchaseOrderDetail.id = detailLocal.id
+        state.fillPurchaseOrderDetail.purchase_order_id = detailLocal.purchase_order_id
+        state.fillPurchaseOrderDetail.product = detailLocal.product
+        state.fillPurchaseOrderDetail.detail = detailLocal.detail
+        state.fillPurchaseOrderDetail.price = detailLocal.price
+        state.fillPurchaseOrderDetail.quantity = detailLocal.quantity
+        state.fillPurchaseOrderDetail.total = detailLocal.total
+        state.fillPurchaseOrderDetail.days = detailLocal.days
+        $('#editPurchaseOrderDetail').modal('show')
+    },
+    updatePurchaseOrderDetail(state, id) {
+        axios.put('purchase-order-lines/' + id, state.fillPurchaseOrderDetail).then(response => {
+            state.errorsLaravel = []
+            $('#editPurchaseOrderDetail').modal('hide')
+            toastr.success('Producto actualizado con exito')
+            this.commit('getPurchaseOrderDetails')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deletePurchaseOrderDetail(state, id) {
+        axios.delete('purchase-order-lines/' + id).then(response => {
+            toastr.success('Producto eliminado con exito')
+            this.commit('getPurchaseOrderDetails')
+        })
+    },
+
+    openPurchaseOrderDetailImages(state, detailLocal) {
+        state.activePurchaseOrderDetailImages = detailLocal
+        $('#purchaseOrderDetailImagesModal').modal('show')
+    },
+    setPurchaseOrderDetailImagesFiles(state, evt) {
+        state.formPurchaseOrderDetailImages = new FormData()
+        const files = evt.target.files
+
+        for (let i = 0; i < files.length; i++) {
+            state.attachmentPurchaseOrderDetailImages.push(files[i])
+            state.formPurchaseOrderDetailImages.append('images[]', files[i])
+        }
+    },
+    uploadPurchaseOrderDetailImages(state) {
+        if (!state.attachmentPurchaseOrderDetailImages.length) {
+            return
+        }
+
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        state.formPurchaseOrderDetailImages.append('purchase_order_detail_id', state.activePurchaseOrderDetailImages.id)
+
+        axios.post('purchase-order-line-images', state.formPurchaseOrderDetailImages, config).then(response => {
+            state.attachmentPurchaseOrderDetailImages = []
+            state.formPurchaseOrderDetailImages = new FormData()
+            state.errorsLaravel = []
+            $('#purchaseOrderDetailImagesInput').val(null)
+            toastr.success('Imagenes agregadas con exito')
+            this.commit('getPurchaseOrderDetails')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+        })
+    },
+    deletePurchaseOrderDetailImage(state, id) {
+        axios.delete('purchase-order-line-images/' + id).then(response => {
+            state.activePurchaseOrderDetailImages.images = state.activePurchaseOrderDetailImages.images.filter(image => image.id !== id)
+            toastr.success('Imagen eliminada con exito')
+            this.commit('getPurchaseOrderDetails')
+        }).catch(error => {
+            toastr.error(error.response.data.message)
+        })
+    },
+
+    /******************************* */
     /****** imagenes por producto de cotizacion **** */
     /******************************* */
     openDetailclientImages(state, detailLocal) {
@@ -4629,6 +4906,48 @@ export default { //used for changing the state
             state.newClient.comuna = response.comuna || ''
             state.newClient.giro = (response.actividades && response.actividades[0]) ? response.actividades[0].giro : ''
             state.newClient.activity = response.actividades || []
+            toastr.success('Datos cargados desde el SII')
+        }).fail(function (jqXHR, textStatus) {
+            if (textStatus === 'timeout') {
+                toastr.error('El SII no respondio a tiempo (el servicio de pruebas a veces demora en "despertar"). Intenta de nuevo en unos segundos.')
+            } else if (jqXHR.status === 400) {
+                toastr.error('El RUT no tiene un formato valido para el SII (ej: 76515046-9)')
+            } else {
+                toastr.error('No se pudo obtener los datos del SII, intenta de nuevo')
+            }
+        }).always(function () {
+            state.siiLoading = false
+        });
+    },
+    searchSupplierSii(state) {
+        let rutSii = (state.newSupplier.rut || '').trim()
+        rutSii = rutSii.split('.').join('')
+
+        if (!rutSii) {
+            toastr.error('Ingresa un RUT antes de buscar')
+            return
+        }
+
+        let settings = {
+            "async": true,
+            "crossDomain": true,
+            "timeout": 20000,
+            "url": "https://dev-api.haulmer.com/v2/dte/taxpayer/" + rutSii,
+            "method": "GET",
+            "headers": {
+                "apikey": "928e15a2d14d4a6292345f04960f4bd3"
+            }
+        }
+
+        state.siiLoading = true
+
+        $.ajax(settings).done(function (response) {
+            state.newSupplier.razonSocial = response.razonSocial || ''
+            state.newSupplier.email = response.email || ''
+            state.newSupplier.phone = response.telefono || ''
+            state.newSupplier.address = response.direccion || ''
+            state.newSupplier.comuna = response.comuna || ''
+            state.newSupplier.giro = (response.actividades && response.actividades[0]) ? response.actividades[0].giro : ''
             toastr.success('Datos cargados desde el SII')
         }).fail(function (jqXHR, textStatus) {
             if (textStatus === 'timeout') {
