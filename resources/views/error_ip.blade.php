@@ -11,8 +11,8 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link href="{{ asset('css/app-principal.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}" rel="stylesheet">
+        <link href="{{ asset('css/app-principal.css') }}?v={{ filemtime(public_path('css/app-principal.css')) }}" rel="stylesheet">
         <style>
         .abs-center {
   display: flex;

@@ -319,4 +319,9 @@ deployment:
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
     - /bin/cp -f resources/views/auth/passwords/email.blade.php $DEPLOYPATH/resources/views/auth/passwords/email.blade.php
     - /bin/cp -f resources/views/layouts/portalapp.blade.php $DEPLOYPATH/resources/views/layouts/portalapp.blade.php
+    - /bin/cp -f resources/views/layouts/app.blade.php $DEPLOYPATH/resources/views/layouts/app.blade.php
+    - /bin/cp -f resources/views/layouts/quotation.blade.php $DEPLOYPATH/resources/views/layouts/quotation.blade.php
+    - /bin/cp -f resources/views/error_ip.blade.php $DEPLOYPATH/resources/views/error_ip.blade.php
+    - /bin/cp -f resources/views/error_url.blade.php $DEPLOYPATH/resources/views/error_url.blade.php
+    - /bin/cp -f resources/views/quotationshipping_enviado.blade.php $DEPLOYPATH/resources/views/quotationshipping_enviado.blade.php
     - /bin/cp -f resources/views/layouts/layoutshipping.blade.php $DEPLOYPATH/resources/views/layouts/layoutshipping.blade.php

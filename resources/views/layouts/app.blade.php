@@ -19,8 +19,8 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app-principal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}" rel="stylesheet">
+    <link href="{{ asset('css/app-principal.css') }}?v={{ filemtime(public_path('css/app-principal.css')) }}" rel="stylesheet">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
     </div>
     <!-- Scripts -->
 
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
 </body>
 
 </html>

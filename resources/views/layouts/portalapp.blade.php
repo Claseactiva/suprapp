@@ -21,8 +21,8 @@
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app-principal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}" rel="stylesheet">
+    <link href="{{ asset('css/app-principal.css') }}?v={{ filemtime(public_path('css/app-principal.css')) }}" rel="stylesheet">
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
 
 </head>
@@ -327,8 +327,8 @@
         </div>
 
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/app-principal.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
+    <script src="{{ asset('js/app-principal.js') }}?v={{ filemtime(public_path('js/app-principal.js')) }}"></script>
 </body>
 
 </html>

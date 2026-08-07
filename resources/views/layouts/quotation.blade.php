@@ -266,7 +266,7 @@
 </head>
 <body>
     @yield('content')
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/app-principal.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
+    <script src="{{ asset('js/app-principal.js') }}?v={{ filemtime(public_path('js/app-principal.js')) }}"></script>
 </body>
 </html>
