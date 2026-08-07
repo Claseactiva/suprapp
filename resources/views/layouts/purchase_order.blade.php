@@ -38,14 +38,14 @@
         }
 
         .oc-company-name {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
             color: #071B41;
             margin: 4px 0 2px 0;
         }
 
         .oc-company-giro {
-            font-size: 8px;
+            font-size: 9px;
             color: #555555;
         }
 
@@ -66,7 +66,7 @@
         }
 
         .oc-meta {
-            font-size: 10px;
+            font-size: 12px;
             color: #444444;
             text-align: right;
             margin-top: 3px;
@@ -110,7 +110,7 @@
         .oc-info-box table td {
             width: auto;
             padding: 1.5px 0;
-            font-size: 8.5px;
+            font-size: 10px;
             vertical-align: top;
             text-align: left;
         }
@@ -163,7 +163,7 @@
 
         /* ---- tabla de productos ---- */
         .oc-lead {
-            font-size: 9px;
+            font-size: 10px;
             font-weight: bold;
             color: #071B41;
             margin: 12px 0 6px 0;
@@ -181,7 +181,7 @@
             background-color: #071B41;
             color: #FFFFFF;
             font-weight: bold;
-            font-size: 8.5px;
+            font-size: 10px;
             text-transform: uppercase;
             padding: 5px 4px;
             border: 1px solid #071B41;
@@ -194,7 +194,7 @@
         .oc-products tbody td {
             border: 1px solid #D9DEE7;
             padding: 4px;
-            font-size: 8.5px;
+            font-size: 10px;
             vertical-align: middle;
         }
 
@@ -266,7 +266,7 @@
         }
 
         .oc-obs-box p {
-            font-size: 8.5px;
+            font-size: 10px;
             color: #333333;
             margin: 2px 0;
         }
@@ -310,12 +310,15 @@
 
         /* ---- barra inferior ---- */
         .oc-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background-color: #071B41;
             color: #FFFFFF;
             text-align: center;
             padding: 6px;
-            font-size: 8px;
-            margin-top: 16px;
+            font-size: 14px;
         }
     </style>
 

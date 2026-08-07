@@ -46,7 +46,7 @@
                     <div class="oc-info-box">
                         <p class="oc-info-title">Datos del Cliente</p>
                         @if ($client->type == 'Cliente Particular')
-                            <table>
+                            <table style="width: auto;">
                                 <tr>
                                     <td class="oc-info-label">Cliente:</td>
                                     <td class="oc-info-value">{{ $quotation->client_text }}</td>

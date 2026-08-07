@@ -505,7 +505,7 @@ class QuotationclientController extends Controller
             $user = User::where('id', '=', $quotation->user_id)->first();
 
             $pdf = Pdf::loadView('pdf.quotationclient', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']))
-                ->setPaper('a4', 'portrait');
+                ->setPaper('letter', 'portrait');
 
             $pdf->render();
             $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
@@ -538,7 +538,7 @@ class QuotationclientController extends Controller
             $user = User::where('id', '=', $quotation->user_id)->first();
 
             $pdf = Pdf::loadView('pdf.quotationclientiva', compact(['company', 'quotation', 'client', 'products', 'user', 'spareParts']))
-                ->setPaper('a4', 'portrait');
+                ->setPaper('letter', 'portrait');
 
             $pdf->render();
             $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
