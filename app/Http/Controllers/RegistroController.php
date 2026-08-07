@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password as PasswordRule;
@@ -87,8 +88,48 @@ class RegistroController extends Controller
             DB::table('quotationclients')->where('id', $quotation->id)->update([
                 'generado_client' => 1,
             ]);
+
+            $this->createVehicleFromQuotation($quotation, $user->id);
         }
 
         return redirect()->route('login')->with('status', 'Cuenta creada correctamente. Ya puedes iniciar sesion.');
+    }
+
+    /**
+     * La cotizacion trae poca info de vehiculo (patente y un texto libre
+     * marca/modelo/año/motor, a veces vehicle_model_id): se usa lo que haya
+     * y se deja vacio lo que no (chasis, color, km no existen en la
+     * cotizacion). Asi el cliente ya ve algo en su cuenta al entrar, y el
+     * mecanico completa el resto despues si hace falta.
+     */
+    private function createVehicleFromQuotation($quotation, $userId)
+    {
+        $brand = '';
+        $model = '';
+
+        if ($quotation->vehicle_model_id) {
+            $vehicleModel = DB::table('vehicle_models')
+                ->join('vehicle_brands', 'vehicle_brands.id', '=', 'vehicle_models.brand_id')
+                ->where('vehicle_models.id', $quotation->vehicle_model_id)
+                ->first(['vehicle_brands.brand', 'vehicle_models.model']);
+
+            if ($vehicleModel) {
+                $brand = $vehicleModel->brand;
+                $model = $vehicleModel->model;
+            }
+        }
+
+        if ($model === '' && trim((string) $quotation->vehicle) !== '') {
+            $model = trim($quotation->vehicle);
+        }
+
+        Vehicle::create([
+            'user_id' => $userId,
+            'patent' => trim((string) $quotation->ppu),
+            'chasis' => '',
+            'brand' => $brand,
+            'model' => $model,
+            'engine' => '',
+        ]);
     }
 }
