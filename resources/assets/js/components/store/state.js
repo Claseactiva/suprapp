@@ -3,6 +3,8 @@ export default { //data
     userDeviceSessions: [],
     userDeviceLimit: 0,
     userDeviceUserName: '',
+    selectedUserForMetrics: null,
+    userMetrics: null,
     cantidadVehiculoOptions: [],
     newCantidadVehiculoOption: '',
     options: [], //arreglo para ser utilizado en el componente v-select para volcar los objetos
@@ -775,6 +777,7 @@ export default { //data
     newUtilidad:{
         utilidad: ''
     },
+    currentUtilidad: null,
     newTipoPago: {
         pago: '',
         utilidad: ''
@@ -1086,7 +1089,8 @@ export default { //data
         logo: '',
         //mecanico: '',
         //cant_client: 0,
-        cant_vehicle: 0
+        cant_vehicle: 0,
+        is_independent: false
     },
     activationLink: '',
     lastCreatedUserId: '',
@@ -1099,7 +1103,8 @@ export default { //data
         ip_acceso: '',
         logo: '',
         roles: [],
-        cotizar_id: ''
+        cotizar_id: '',
+        is_independent: false
     },
     backgroundImages: [],
     newBackgroundImage: {
@@ -1224,6 +1229,7 @@ export default { //data
     },
     arrayBoleta: [],
     newFlete: { flete: 0 },
+    currentFlete: null,
     newUtility: { utility: 0 },
     checkedSpareParts: '',
     pago: '',

@@ -44,6 +44,7 @@ Vue.component('detalle-usuario-component', require('./components/User/Detalle.vu
 Vue.component('vehicle-quantity-options-component', require('./components/VehicleQuantityOptions/Index.vue').default)
 Vue.component('sales-component', require('./components/Sales/Index.vue').default)
 Vue.component('utilidad-component', require('./components/Utilidad/Index.vue').default)
+Vue.component('configuracion-component', require('./components/Configuracion/Index.vue').default)
 Vue.component('envios-component', require('./components/Quotationclient/ListarQuotationShipping.vue').default)
 Vue.component('purchase-order-component', require('./components/PurchaseOrder/Index.vue').default)
 

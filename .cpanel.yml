@@ -36,6 +36,9 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/views/pdf
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Check-List
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/DeliveryTime
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Flete
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Utilidad
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Configuracion
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Import
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Note
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Sales
@@ -68,6 +71,8 @@ deployment:
     - /bin/cp -f app/Http/Controllers/BillController.php $DEPLOYPATH/app/Http/Controllers/BillController.php
     - /bin/cp -f app/Http/Controllers/CheckListController.php $DEPLOYPATH/app/Http/Controllers/CheckListController.php
     - /bin/cp -f app/Http/Controllers/ClientController.php $DEPLOYPATH/app/Http/Controllers/ClientController.php
+    - /bin/cp -f app/Http/Controllers/FleteController.php $DEPLOYPATH/app/Http/Controllers/FleteController.php
+    - /bin/cp -f app/Http/Controllers/UtilityController.php $DEPLOYPATH/app/Http/Controllers/UtilityController.php
     - /bin/cp -f app/Http/Controllers/CompanyController.php $DEPLOYPATH/app/Http/Controllers/CompanyController.php
     - /bin/cp -f app/Http/Controllers/Controller.php $DEPLOYPATH/app/Http/Controllers/Controller.php
     - /bin/cp -f app/Http/Controllers/DetailVehicleController.php $DEPLOYPATH/app/Http/Controllers/DetailVehicleController.php
@@ -130,6 +135,9 @@ deployment:
     - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
     - /bin/cp -f app/Models/DeliveryTime.php $DEPLOYPATH/app/Models/DeliveryTime.php
+    - /bin/cp -f app/Models/Client.php $DEPLOYPATH/app/Models/Client.php
+    - /bin/cp -f app/Models/Flete.php $DEPLOYPATH/app/Models/Flete.php
+    - /bin/cp -f app/Models/TipoPago.php $DEPLOYPATH/app/Models/TipoPago.php
     - /bin/cp -f app/Models/PurchaseOrder.php $DEPLOYPATH/app/Models/PurchaseOrder.php
     - /bin/cp -f app/Models/PurchaseOrderDetail.php $DEPLOYPATH/app/Models/PurchaseOrderDetail.php
     - /bin/cp -f app/Models/PurchaseOrderDetailImage.php $DEPLOYPATH/app/Models/PurchaseOrderDetailImage.php
@@ -176,6 +184,11 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_06_000008_add_order_fields_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_06_000008_add_order_fields_to_purchase_orders_table.php
     - /bin/cp -f database/migrations/2026_08_06_000009_add_contacto_to_clients_table.php $DEPLOYPATH/database/migrations/2026_08_06_000009_add_contacto_to_clients_table.php
     - /bin/cp -f database/migrations/2026_08_07_000001_add_observaciones_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_07_000001_add_observaciones_to_purchase_orders_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000002_add_is_independent_to_users_table.php $DEPLOYPATH/database/migrations/2026_08_07_000002_add_is_independent_to_users_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000003_add_user_id_to_fletes_table.php $DEPLOYPATH/database/migrations/2026_08_07_000003_add_user_id_to_fletes_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000004_add_user_id_to_tipos_pagos_table.php $DEPLOYPATH/database/migrations/2026_08_07_000004_add_user_id_to_tipos_pagos_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000005_add_user_id_to_delivery_times_table.php $DEPLOYPATH/database/migrations/2026_08_07_000005_add_user_id_to_delivery_times_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php $DEPLOYPATH/database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -202,7 +215,12 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Check-List/CrearFormatoCheckList.vue $DEPLOYPATH/resources/assets/js/components/Check-List/CrearFormatoCheckList.vue
     - /bin/cp -f resources/assets/js/components/Check-List/MostrarFormatoCheckList.vue $DEPLOYPATH/resources/assets/js/components/Check-List/MostrarFormatoCheckList.vue
     - /bin/cp -f resources/assets/js/components/Client/Index.vue $DEPLOYPATH/resources/assets/js/components/Client/Index.vue
+    - /bin/cp -f resources/assets/js/components/Client/Select.vue $DEPLOYPATH/resources/assets/js/components/Client/Select.vue
+    - /bin/cp -f resources/assets/js/components/Configuracion/Index.vue $DEPLOYPATH/resources/assets/js/components/Configuracion/Index.vue
     - /bin/cp -f resources/assets/js/components/DeliveryTime/Index.vue $DEPLOYPATH/resources/assets/js/components/DeliveryTime/Index.vue
+    - /bin/cp -f resources/assets/js/components/Flete/FleteDefect.vue $DEPLOYPATH/resources/assets/js/components/Flete/FleteDefect.vue
+    - /bin/cp -f resources/assets/js/components/Utilidad/Index.vue $DEPLOYPATH/resources/assets/js/components/Utilidad/Index.vue
+    - /bin/cp -f resources/assets/js/components/Utilidad/UtilidadDefect.vue $DEPLOYPATH/resources/assets/js/components/Utilidad/UtilidadDefect.vue
     - /bin/cp -f resources/assets/js/components/Import/Cotizacion.vue $DEPLOYPATH/resources/assets/js/components/Import/Cotizacion.vue
     - /bin/cp -f resources/assets/js/components/Import/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Import/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Import/Index.vue $DEPLOYPATH/resources/assets/js/components/Import/Index.vue
@@ -256,6 +274,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/User/Edit.vue $DEPLOYPATH/resources/assets/js/components/User/Edit.vue
     - /bin/cp -f resources/assets/js/components/User/EditCantClientVehicle.vue $DEPLOYPATH/resources/assets/js/components/User/EditCantClientVehicle.vue
     - /bin/cp -f resources/assets/js/components/User/Index.vue $DEPLOYPATH/resources/assets/js/components/User/Index.vue
+    - /bin/cp -f resources/assets/js/components/User/Metrics.vue $DEPLOYPATH/resources/assets/js/components/User/Metrics.vue
     - /bin/cp -f resources/assets/js/components/UserMechanic/EditUser.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/EditUser.vue
     - /bin/cp -f resources/assets/js/components/UserMechanic/Index.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/Index.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/AgregarDetalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/AgregarDetalle.vue
@@ -295,6 +314,7 @@ deployment:
     - /bin/cp -f resources/views/layouts/purchase_order.blade.php $DEPLOYPATH/resources/views/layouts/purchase_order.blade.php
     - /bin/cp -f resources/views/layouts/quotationclient.blade.php $DEPLOYPATH/resources/views/layouts/quotationclient.blade.php
     - /bin/cp -f resources/views/admin/orden-compra.blade.php $DEPLOYPATH/resources/views/admin/orden-compra.blade.php
+    - /bin/cp -f resources/views/admin/configuracion.blade.php $DEPLOYPATH/resources/views/admin/configuracion.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
     - /bin/cp -f resources/views/auth/passwords/email.blade.php $DEPLOYPATH/resources/views/auth/passwords/email.blade.php

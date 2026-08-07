@@ -64,6 +64,7 @@ class UserController extends Controller
         $user = $this->createUserAndSendActivation([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
+            'is_independent' => $request->boolean('is_independent'),
         ]);
 
         if ($id) {
@@ -103,6 +104,7 @@ class UserController extends Controller
             'password' => bcrypt(Str::random(40)),
             'cant_vehicle' => $data['cant_vehicle'] ?? 5,
             'cant_client' => $data['cant_client'] ?? 5,
+            'is_independent' => $data['is_independent'] ?? false,
         ]);
 
         $token = Password::createToken($user);
@@ -246,6 +248,33 @@ class UserController extends Controller
     public function export()
     {
         return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    /**
+     * Conteos agregados de un usuario (pensado para cuentas "independientes"):
+     * el admin puede ver cuanta actividad tiene, sin poder abrir el detalle.
+     */
+    public function metrics($id)
+    {
+        abort_unless((int) Auth::id() === 1, 403);
+
+        $user = User::findOrFail($id);
+
+        $clientsByType = \App\Models\Client::where('user_id', $user->id)
+            ->where('type', '<>', 'Cliente Particular')
+            ->selectRaw('type, COUNT(*) as total')
+            ->groupBy('type')
+            ->pluck('total', 'type');
+
+        return response()->json([
+            'clients_total' => (int) $clientsByType->sum(),
+            'clients_by_type' => $clientsByType,
+            'quotations' => \App\Models\Quotationclient::where('user_id', $user->id)->count(),
+            'purchase_orders' => \App\Models\PurchaseOrder::where('user_id', $user->id)->count(),
+            'products' => \App\Models\Product::withUserClients($user->id)->count(),
+            'envios' => \App\Models\QuotationShipping::where('user_id', $user->id)->count(),
+            'tipos_pagos' => \App\Models\TipoPago::where('user_id', $user->id)->count(),
+        ]);
     }
 
     public function clients()

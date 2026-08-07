@@ -8,6 +8,6 @@ class Flete extends Model
 {
     protected $table = 'fletes';
     protected $fillable = [
-        'flete'
+        'flete', 'user_id'
     ];
 }

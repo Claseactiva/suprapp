@@ -2262,17 +2262,22 @@ export default { //used for changing the state
     createQuotationclient(state) {
         let url = urlQuotationclient
 
-        let clientId = state.selectedClient && state.selectedClient.value !== '' ? state.selectedClient.value : 1
+        let hasSelectedClient = state.selectedClient && state.selectedClient.value !== ''
+        let clientId = hasSelectedClient ? state.selectedClient.value : 1
+
+        if (state.newQuotationclient.cliente_part == true) {
+            clientId = 1
+        } else if (!hasSelectedClient) {
+            toastr.error('Selecciona un cliente o marca "Cliente Particular" antes de guardar')
+            return
+        }
+
         let vehicleParts = [
             state.selectedVBrand.label,
             state.selectedVModel.label,
             state.selectedVYear.label,
             state.selectedVEngine.label
         ].filter(part => part && part.trim() !== '')
-
-        if (state.newQuotationclient.cliente_part == true) {
-            clientId = 1
-        }
 
         axios.post(url, {
             client_id: clientId,
@@ -3719,6 +3724,7 @@ export default { //used for changing the state
         axios.post(url, state.newUtilidad).then(response => {
             if (response.status === 200 && response.data > 0) {
                 state.newUtilidad.utilidad = response.data
+                state.currentUtilidad = response.data
                 state.errorsLaravel = []
                 toastr.success('La utilidad se actualizo ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
@@ -3729,8 +3735,10 @@ export default { //used for changing the state
     getUtilities(state) {
         let url = urlUtilidad
         axios.get(url).then(response => {
-            state.newUtilidad.utilidad = response.data.utilidad
-            state.newDetailclient.percentage = response.data.utilidad
+            let utilidad = response.data ? response.data.utilidad : null
+            state.currentUtilidad = utilidad
+            state.newUtilidad.utilidad = utilidad !== null ? utilidad : ''
+            state.newDetailclient.percentage = utilidad !== null ? utilidad : 0
         });
     },
     /******************************* */
@@ -3853,14 +3861,16 @@ export default { //used for changing the state
             id: state.idUser,
             name: state.newUser.name,
             email: state.newUser.email,
-            cant_vehicle: state.newUser.cant_vehicle
+            cant_vehicle: state.newUser.cant_vehicle,
+            is_independent: state.newUser.is_independent
         }).then(response => {
             state.newUser = {
                 id: '',
                 name: '',
                 email: '',
                 password: '',
-                url: ''
+                url: '',
+                is_independent: false
             }
             state.errorsLaravel = []
             state.activationLink = response.data.activation_url || ''
@@ -3876,6 +3886,7 @@ export default { //used for changing the state
         state.fillUser.email = user.email
         state.fillUser.logo = user.logo
         state.fillUser.cantidad = user.cantidad
+        state.fillUser.is_independent = !!user.is_independent
         $("#edit").modal('show')
     },
     sendPasswordReset(state, id) {
@@ -3903,6 +3914,19 @@ export default { //used for changing the state
             state.userDeviceSessions = response.data.sessions
             state.userDeviceLimit = response.data.limit
             state.userDeviceUserName = response.data.userName
+        })
+    },
+
+    modalUserMetrics(state, userLocal) {
+        state.selectedUserForMetrics = userLocal
+        state.userMetrics = null
+        $('#userMetrics').modal('show')
+        this.commit('getUserMetrics', userLocal.id)
+    },
+
+    getUserMetrics(state, userId) {
+        axios.get('users/' + userId + '/metrics').then(response => {
+            state.userMetrics = response.data
         })
     },
 
@@ -4029,7 +4053,8 @@ export default { //used for changing the state
                 id: '',
                 name: '',
                 email: '',
-                logo: ''
+                logo: '',
+                is_independent: false
             }
             state.errorsLaravel = []
             $('#edit').modal('hide')
@@ -4360,7 +4385,10 @@ export default { //used for changing the state
         state.selectedUser = user
     },
     allClients(state, type) {
-        let url = urlAllClient + '?type=' + type
+        let query = Array.isArray(type)
+            ? type.map(t => 'type[]=' + encodeURIComponent(t)).join('&')
+            : 'type=' + encodeURIComponent(type)
+        let url = urlAllClient + '?' + query
         axios.get(url).then(response => {
             state.optionsClient = []
             response.data.forEach((client) => {
@@ -5587,6 +5615,7 @@ export default { //used for changing the state
         axios.post(url, state.newFlete).then(response => {
             if (response.status === 200 && response.data > 0) {
                 state.newFlete.flete = response.data
+                state.currentFlete = response.data
                 state.errorsLaravel = []
                 toastr.success('El flete se actualizo ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
             }
@@ -5597,8 +5626,10 @@ export default { //used for changing the state
     getFletes(state) {
         let url = urlFlete
         axios.get(url).then(response => {
-            state.newFlete.flete = response.data.flete
-            state.newDetailclient.transport = response.data.flete
+            let flete = response.data ? response.data.flete : null
+            state.currentFlete = flete
+            state.newFlete.flete = flete !== null ? flete : 0
+            state.newDetailclient.transport = flete !== null ? flete : 0
         });
     },
 

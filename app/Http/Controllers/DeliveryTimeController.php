@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DeliveryTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
@@ -11,7 +12,10 @@ class DeliveryTimeController extends Controller
 {
     public function index()
     {
-        $deliveryTimes = DeliveryTime::orderByDesc('is_default')
+        $userId = Auth::id();
+
+        $deliveryTimes = DeliveryTime::where('user_id', $userId)
+            ->orderByDesc('is_default')
             ->orderBy('label')
             ->get();
 
@@ -23,20 +27,23 @@ class DeliveryTimeController extends Controller
 
     public function store(Request $request)
     {
+        $userId = Auth::id();
+
         $data = $request->validate([
-            'label' => ['required', 'string', 'max:255', Rule::unique('delivery_times', 'label')],
+            'label' => ['required', 'string', 'max:255', Rule::unique('delivery_times', 'label')->where('user_id', $userId)],
             'is_default' => ['nullable', 'boolean'],
         ]);
 
         $label = trim($data['label']);
-        $markAsDefault = $request->boolean('is_default') || DeliveryTime::count() === 0;
+        $markAsDefault = $request->boolean('is_default') || DeliveryTime::where('user_id', $userId)->count() === 0;
 
-        DB::transaction(function () use ($label, $markAsDefault) {
+        DB::transaction(function () use ($label, $markAsDefault, $userId) {
             if ($markAsDefault) {
-                DeliveryTime::query()->update(['is_default' => false]);
+                DeliveryTime::where('user_id', $userId)->update(['is_default' => false]);
             }
 
             DeliveryTime::create([
+                'user_id' => $userId,
                 'label' => $label,
                 'is_default' => $markAsDefault,
             ]);
@@ -47,24 +54,29 @@ class DeliveryTimeController extends Controller
 
     public function show($id)
     {
-        return DeliveryTime::findOrFail($id);
+        $deliveryTime = DeliveryTime::findOrFail($id);
+        $this->authorizeOwner($deliveryTime->user_id);
+
+        return $deliveryTime;
     }
 
     public function update(Request $request, $id)
     {
         $deliveryTime = DeliveryTime::findOrFail($id);
+        $this->authorizeOwner($deliveryTime->user_id);
+        $userId = $deliveryTime->user_id;
 
         $data = $request->validate([
-            'label' => ['required', 'string', 'max:255', Rule::unique('delivery_times', 'label')->ignore($deliveryTime->id)],
+            'label' => ['required', 'string', 'max:255', Rule::unique('delivery_times', 'label')->where('user_id', $userId)->ignore($deliveryTime->id)],
             'is_default' => ['nullable', 'boolean'],
         ]);
 
         $label = trim($data['label']);
         $markAsDefault = $request->has('is_default') ? $request->boolean('is_default') : $deliveryTime->is_default;
 
-        DB::transaction(function () use ($deliveryTime, $label, $markAsDefault) {
+        DB::transaction(function () use ($deliveryTime, $label, $markAsDefault, $userId) {
             if ($markAsDefault) {
-                DeliveryTime::query()->update(['is_default' => false]);
+                DeliveryTime::where('user_id', $userId)->update(['is_default' => false]);
             }
 
             $deliveryTime->update([
@@ -72,7 +84,7 @@ class DeliveryTimeController extends Controller
                 'is_default' => $markAsDefault,
             ]);
 
-            if (!DeliveryTime::where('is_default', true)->exists()) {
+            if (!DeliveryTime::where('user_id', $userId)->where('is_default', true)->exists()) {
                 $deliveryTime->update(['is_default' => true]);
             }
         });
@@ -83,13 +95,15 @@ class DeliveryTimeController extends Controller
     public function destroy($id)
     {
         $deliveryTime = DeliveryTime::findOrFail($id);
+        $this->authorizeOwner($deliveryTime->user_id);
+        $userId = $deliveryTime->user_id;
         $wasDefault = $deliveryTime->is_default;
 
-        DB::transaction(function () use ($deliveryTime, $wasDefault) {
+        DB::transaction(function () use ($deliveryTime, $wasDefault, $userId) {
             $deliveryTime->delete();
 
-            if ($wasDefault && !DeliveryTime::where('is_default', true)->exists()) {
-                $replacement = DeliveryTime::orderBy('id')->first();
+            if ($wasDefault && !DeliveryTime::where('user_id', $userId)->where('is_default', true)->exists()) {
+                $replacement = DeliveryTime::where('user_id', $userId)->orderBy('id')->first();
 
                 if ($replacement) {
                     $replacement->update(['is_default' => true]);

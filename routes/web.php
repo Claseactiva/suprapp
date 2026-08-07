@@ -22,6 +22,7 @@ Route::ApiResource('permissions', 'Permission\PermissionController')->only('inde
 //administrador de recursos para los usuarios
 Route::ApiResource('users', 'User\UserController');
 Route::post('users/{id}/send-password-reset', 'User\UserController@sendPasswordReset');
+Route::get('users/{id}/metrics', 'User\UserController@metrics');
 Route::get('quotation-roles', 'User\UserController@quotation_roles');
 Route::put('cant-vehicle-user/{id}', 'User\UserController@updateCantVehicleUser');
 Route::put('cant-cli-vehi-user/{id}', 'User\UserController@updateCantCliVehiUser');
@@ -388,6 +389,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
     Route::get('admin-utilidad', function () {
         return view('admin.utilidad');
     })->name('admin-utilidad');
+
+    Route::get('admin-configuracion', function () {
+        return view('admin.configuracion');
+    })->name('admin-configuracion');
 
     Route::get('admin-cotizaciones-formales', function () {
         return view('admin.cotizaciones-formales');

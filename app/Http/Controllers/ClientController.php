@@ -63,7 +63,8 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        $client = Client::find($id);
+        $client = Client::findOrFail($id);
+        $this->authorizeOwner($client->user_id);
 
         return $client;
     }
@@ -77,7 +78,10 @@ class ClientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Client::find($id)->update($request->all());
+        $client = Client::findOrFail($id);
+        $this->authorizeOwner($client->user_id);
+
+        $client->update($request->all());
 
         return;
     }
@@ -91,6 +95,7 @@ class ClientController extends Controller
     public function destroy($id)
     {
         $client = Client::findOrFail($id);
+        $this->authorizeOwner($client->user_id);
 
         $dependencies = $this->collectDeleteDependencies($client->id);
 

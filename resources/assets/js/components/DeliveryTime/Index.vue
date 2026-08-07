@@ -24,6 +24,14 @@
             </div>
         </form>
 
+        <div v-if="deliveryTimes.length === 0" class="mt-2">
+            <small class="text-muted d-block mb-1">Sugerencias:</small>
+            <button v-for="suggestion in suggestions" :key="suggestion" type="button"
+                class="btn btn-outline-secondary btn-sm mr-2 mb-2" @click.prevent="useSuggestion(suggestion)">
+                {{ suggestion }}
+            </button>
+        </div>
+
         <div class="table-responsive mt-3">
             <table class="table table-sm table-bordered table-striped">
                 <thead>
@@ -60,11 +68,20 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            suggestions: ['24 a 48 Hrs', '3 a 5 días hábiles', '7 días hábiles']
+        }
+    },
     computed: {
         ...mapState(['deliveryTimes', 'newDeliveryTime'])
     },
     methods: {
-        ...mapActions(['getDeliveryTimes', 'createDeliveryTime', 'setDefaultDeliveryTime', 'deleteDeliveryTime'])
+        ...mapActions(['getDeliveryTimes', 'createDeliveryTime', 'setDefaultDeliveryTime', 'deleteDeliveryTime']),
+        useSuggestion(label) {
+            this.newDeliveryTime.label = label
+            this.createDeliveryTime()
+        }
     },
     created() {
         this.getDeliveryTimes()

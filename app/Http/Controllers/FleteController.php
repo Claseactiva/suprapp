@@ -12,7 +12,7 @@ class FleteController extends Controller
 {
     public function index()
     {
-        $latestFlete = Flete::latest()->first();
+        $latestFlete = Flete::where('user_id', Auth::id())->latest()->first();
 
         return $latestFlete;
     }
@@ -21,7 +21,7 @@ class FleteController extends Controller
     {
         $id_user = Auth::id();
 
-        $flete = Flete::create($request->all());
+        $flete = Flete::create(array_merge($request->all(), ['user_id' => $id_user]));
         Product::with('client')->withUserClients($id_user)->update(['flete' => $flete->flete]);
 
         return $flete->flete;

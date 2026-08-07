@@ -156,7 +156,8 @@ class ProductController extends Controller
 
         TipoPago::create([
             'pago' => $data['pago'],
-            'utilidad' => 0
+            'utilidad' => 0,
+            'user_id' => Auth::id(),
         ]);
     }
 
@@ -167,7 +168,7 @@ class ProductController extends Controller
      */
     public function listaTiposPagos()
     {
-        $tipospagos = TipoPago::where('pago', '<>', 'DEFECTO')->get();
+        $tipospagos = TipoPago::where('pago', '<>', 'DEFECTO')->where('user_id', Auth::id())->get();
 
         return $tipospagos;
     }
@@ -175,7 +176,7 @@ class ProductController extends Controller
 
     public function allPagos()
     {
-        $pagos = TipoPago::where('pago', '<>', 'DEFECTO')->orderBy('id', 'ASC')->get();
+        $pagos = TipoPago::where('pago', '<>', 'DEFECTO')->where('user_id', Auth::id())->orderBy('id', 'ASC')->get();
 
         return $pagos;
     }
@@ -189,7 +190,10 @@ class ProductController extends Controller
      */
     public function updateUtilidad(Request $request, $id)
     {
-        TipoPago::find($id)->update($request->all());
+        $tipoPago = TipoPago::findOrFail($id);
+        abort_unless((int) $tipoPago->user_id === (int) Auth::id(), 403);
+
+        $tipoPago->update($request->except('user_id'));
 
         return;
     }

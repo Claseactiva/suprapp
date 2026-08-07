@@ -37,7 +37,10 @@ class Client extends Model
     public function scopeType($query)
     {
         $keyword = request('type');
-        if ($query) {
+
+        if (is_array($keyword)) {
+            $query->whereIn('type', $keyword);
+        } elseif ($keyword) {
             $query->where('type', '=', $keyword);
         }
 

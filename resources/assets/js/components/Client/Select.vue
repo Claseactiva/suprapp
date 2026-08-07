@@ -25,7 +25,7 @@ export default {
         ...mapActions(['setClient'])
     },
     created(){
-        this.$store.dispatch('allClients', { type: 'Cliente' })
+        this.$store.dispatch('allClients', { type: ['Cliente', 'Empresa'] })
     }
 }
 </script>

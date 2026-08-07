@@ -132,6 +132,15 @@
                 </li>
             @endcan
 
+            @can('cotizaciones')
+                <li id="cotizacion-reparacion"
+                    class="nav-item {{ request()->routeIs('admin-cotizacion-reparacion') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin-cotizacion-reparacion') }}">
+                        <i class="fas fa-wrench"></i>
+                        <span>Cotización Reparación</span></a>
+                </li>
+            @endcan
+
             @canany(['vehiculos', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
                 @php
                     $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos', 'admin-motores');
@@ -184,9 +193,9 @@
                 </li>
             @endcanany
 
-            @canany(['cotizaciones_simples', 'ventas', 'boletas', 'cotizaciones'])
+            @canany(['cotizaciones_simples', 'ventas', 'boletas'])
                 @php
-                    $comercialGroupActive = request()->routeIs('admin-cotizacion-express', 'admin-ventas', 'admin-boleta', 'admin-cotizacion-reparacion');
+                    $comercialGroupActive = request()->routeIs('admin-cotizacion-express', 'admin-ventas', 'admin-boleta');
                 @endphp
                 <li class="nav-item">
                     <a class="nav-link sidebar-group-toggle {{ $comercialGroupActive ? '' : 'collapsed' }}" href="#"
@@ -200,12 +209,6 @@
                             <li class="nav-item {{ request()->routeIs('admin-cotizacion-express') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-cotizacion-express') }}">
                                     <span>Cotizaciones Express</span></a>
-                            </li>
-                        @endcan
-                        @can('cotizaciones')
-                            <li class="nav-item {{ request()->routeIs('admin-cotizacion-reparacion') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin-cotizacion-reparacion') }}">
-                                    <span>Cotización Reparación</span></a>
                             </li>
                         @endcan
                         @can('ventas')
@@ -224,9 +227,9 @@
                 </li>
             @endcanany
 
-            @canany(['productos', 'stocks', 'lista-precios', 'utilidades', 'importaciones'])
+            @canany(['productos', 'stocks', 'lista-precios', 'importaciones'])
                 @php
-                    $catalogoGroupActive = request()->routeIs('admin-productos', 'admin-inventario', 'admin-lista-precios', 'admin-utilidad', 'admin-importaciones');
+                    $catalogoGroupActive = request()->routeIs('admin-productos', 'admin-inventario', 'admin-lista-precios', 'admin-importaciones');
                 @endphp
                 <li class="nav-item">
                     <a class="nav-link sidebar-group-toggle {{ $catalogoGroupActive ? '' : 'collapsed' }}" href="#"
@@ -254,12 +257,6 @@
                                     <span>Lista de precios</span></a>
                             </li>
                         @endcan
-                        @can('utilidades')
-                            <li class="nav-item {{ request()->routeIs('admin-utilidad') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin-utilidad') }}">
-                                    <span>Formas de Pagos</span></a>
-                            </li>
-                        @endcan
                         @can('importaciones')
                             <li class="nav-item {{ request()->routeIs('admin-importaciones') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-importaciones') }}">
@@ -270,9 +267,9 @@
                 </li>
             @endcanany
 
-            @canany(['usuarios', 'usuarios_mecanicos', 'roles', 'notas'])
+            @canany(['usuarios', 'usuarios_mecanicos', 'roles', 'notas', 'utilidades'])
                 @php
-                    $adminGroupActive = request()->routeIs('admin-usuarios', 'admin-usuariosM', 'admin-roles', 'admin-cantidad-vehiculos', 'admin-notas');
+                    $adminGroupActive = request()->routeIs('admin-usuarios', 'admin-usuariosM', 'admin-roles', 'admin-cantidad-vehiculos', 'admin-notas', 'admin-configuracion');
                 @endphp
                 <li class="nav-item">
                     <a class="nav-link sidebar-group-toggle {{ $adminGroupActive ? '' : 'collapsed' }}" href="#"
@@ -308,6 +305,12 @@
                             <li class="nav-item {{ request()->routeIs('admin-notas') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-notas') }}">
                                     <span>Notas</span></a>
+                            </li>
+                        @endcan
+                        @can('utilidades')
+                            <li class="nav-item {{ request()->routeIs('admin-configuracion') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin-configuracion') }}">
+                                    <span>Configuración</span></a>
                             </li>
                         @endcan
                     </ul>

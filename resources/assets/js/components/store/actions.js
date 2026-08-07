@@ -1244,6 +1244,9 @@ export default { //methods
     modalUserDevices(context, data) {
         context.commit('modalUserDevices', data.userLocal)
     },
+    modalUserMetrics(context, data) {
+        context.commit('modalUserMetrics', data.userLocal)
+    },
     revokeUserDeviceSession(context, data) {
         context.commit('revokeUserDeviceSession', data)
     },

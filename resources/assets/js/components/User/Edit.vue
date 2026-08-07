@@ -28,6 +28,14 @@
                             <p v-show="errors.has('correo')" class="text-danger">{{ errors.first('correo') }}</p>
                         </div>
 
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="is_independent"
+                                v-model="fillUser.is_independent">
+                            <label class="form-check-label" for="is_independent">
+                                Cuenta independiente (sus datos no son visibles para el admin; solo se ven sus métricas)
+                            </label>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-secondary" @click.prevent="sendPasswordReset({ id: fillUser.id })">

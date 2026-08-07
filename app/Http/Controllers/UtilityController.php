@@ -12,7 +12,7 @@ class UtilityController extends Controller
 {
     public function index()
     {
-        $latestUtility = Utility::latest()->first();
+        $latestUtility = Utility::where('user_id', Auth::id())->latest()->first();
 
         return $latestUtility;
     }
@@ -21,7 +21,7 @@ class UtilityController extends Controller
     {
         $id_user = Auth::id();
 
-        $utilidad = Utility::create($request->all());
+        $utilidad = Utility::create(array_merge($request->all(), ['user_id' => $id_user]));
         Product::with('client')->withUserClients($id_user)->update(['utilidad' => $utilidad->utilidad]);
 
         return $utilidad->utilidad;

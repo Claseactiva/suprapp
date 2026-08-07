@@ -6,18 +6,6 @@
                     @click="activeSection = 'products'" role="tab" aria-controls="pills-new-product" aria-selected="false">Nuevo Producto</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="pills-utility-tab" data-toggle="pill" href="#pills-utility"
-                    @click="activeSection = 'utility'" role="tab" aria-controls="pills-utility" aria-selected="false">Utilidad Por Defecto</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pills-freight-tab" data-toggle="pill" href="#pills-freight"
-                    @click="activeSection = 'freight'" role="tab" aria-controls="pills-freight" aria-selected="false">Flete Por Defecto</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="pills-delivery-time-tab" data-toggle="pill" href="#pills-delivery-time"
-                    @click="activeSection = 'delivery-time'" role="tab" aria-controls="pills-delivery-time" aria-selected="false">Plazos de Entrega</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" id="pills-product-catalog-tab" data-toggle="pill" href="#pills-product-catalog"
                     @click="activeSection = 'catalog'" role="tab" aria-controls="pills-product-catalog" aria-selected="false">Catalogo Sugerencias</a>
             </li>
@@ -50,15 +38,6 @@
                         <i class="fas fa-plus-square"></i> Guardar
                     </button>
                 </form>
-            </div>
-            <div class="tab-pane fade" id="pills-utility" role="tabpanel" aria-labelledby="pills-utility-tab">
-                <UtilidadDefect></UtilidadDefect>
-            </div>
-            <div class="tab-pane fade" id="pills-freight" role="tabpanel" aria-labelledby="pills-freight-tab">
-                <FleteDefect></FleteDefect>
-            </div>
-            <div class="tab-pane fade" id="pills-delivery-time" role="tabpanel" aria-labelledby="pills-delivery-time-tab">
-                <DeliveryTimeIndex></DeliveryTimeIndex>
             </div>
             <div class="tab-pane fade" id="pills-product-catalog" role="tabpanel" aria-labelledby="pills-product-catalog-tab">
                 <CatalogTemplates></CatalogTemplates>
@@ -175,14 +154,11 @@ import SelectProvider from '../Provider/Select'
 import EditarProduct from './EditarProduct'
 import EliminarProduct from './EliminarProduct'
 import Inventory from './Inventory'
-import UtilidadDefect from '../Utilidad/UtilidadDefect'
-import FleteDefect from '../Flete/FleteDefect'
-import DeliveryTimeIndex from '../DeliveryTime/Index'
 import RelacionModelos from './RelacionModelos'
 import CatalogTemplates from './CatalogTemplates'
 
 export default {
-    components: { SelectProduct, SelectProvider, UtilidadDefect, FleteDefect, DeliveryTimeIndex, Inventory, EditarProduct, EliminarProduct, RelacionModelos, CatalogTemplates },
+    components: { SelectProduct, SelectProvider, Inventory, EditarProduct, EliminarProduct, RelacionModelos, CatalogTemplates },
     data() {
         return {
             activeSection: 'products'

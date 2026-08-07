@@ -79,6 +79,9 @@ class PurchaseOrderController extends Controller
             ->when($user_id != 1, function ($query) use ($user_id) {
                 return $query->where('purchase_orders.user_id', '=', $user_id);
             })
+            ->when($user_id == 1, function ($query) {
+                return $query->whereNotIn('purchase_orders.user_id', User::where('is_independent', true)->pluck('id'));
+            })
             ->when($id, function ($query, $id) {
                 return $query->where('purchase_orders.id', 'like', '%' . $id . '%');
             })
@@ -170,7 +173,10 @@ class PurchaseOrderController extends Controller
 
     public function show($id)
     {
-        return PurchaseOrder::find($id);
+        $purchaseOrder = PurchaseOrder::findOrFail($id);
+        $this->authorizeOwner($purchaseOrder->user_id);
+
+        return $purchaseOrder;
     }
 
     /**
@@ -182,6 +188,9 @@ class PurchaseOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $purchaseOrder = PurchaseOrder::findOrFail($id);
+        $this->authorizeOwner($purchaseOrder->user_id);
+
         $data = $request->all();
 
         if (array_key_exists('payment', $data)) {
@@ -208,28 +217,36 @@ class PurchaseOrderController extends Controller
             $data['promised_date'] = null;
         }
 
-        PurchaseOrder::find($id)->update($data);
+        $purchaseOrder->update($data);
 
         return;
     }
 
     public function destroy($id)
     {
-        PurchaseOrder::findOrFail($id)->delete();
+        $purchaseOrder = PurchaseOrder::findOrFail($id);
+        $this->authorizeOwner($purchaseOrder->user_id);
+
+        $purchaseOrder->delete();
 
         return response()->json(['message' => 'Orden de compra eliminada con éxito']);
     }
 
     public function details($id)
     {
-        return PurchaseOrder::findOrFail($id)->details()->with('images')->get();
+        $purchaseOrder = PurchaseOrder::findOrFail($id);
+        $this->authorizeOwner($purchaseOrder->user_id);
+
+        return $purchaseOrder->details()->with('images')->get();
     }
 
     public function pdf($id)
     {
         try {
-            $products = PurchaseOrder::findOrFail($id)->details()->with('images')->get();
-            $order = PurchaseOrder::find($id);
+            $order = PurchaseOrder::findOrFail($id);
+            $this->authorizeOwner($order->user_id);
+
+            $products = $order->details()->with('images')->get();
 
             $company = Company::where('user_id', '=', $order->user_id)->first();
             if ($company == null) {

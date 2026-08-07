@@ -67,6 +67,13 @@
                                     </div>
 
                                 </div>
+                                <div class="form-group form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" id="new_is_independent"
+                                        v-model="newUser.is_independent">
+                                    <label class="form-check-label" for="new_is_independent">
+                                        Cuenta independiente (sus datos no son visibles para el admin; solo se ven sus métricas)
+                                    </label>
+                                </div>
                                 <p class="text-muted mt-2 mb-0">
                                     <small>Se enviara un correo al usuario para que configure su propia contrasena.</small>
                                 </p>
@@ -121,6 +128,12 @@
                                 <button class="btn btn-info" @click.prevent="modalUserDevices({ userLocal })"
                                     data-toggle="tooltip" data-placement="top" title="Dispositivos">
                                     <i class="fas fa-mobile-alt"></i>
+                                </button>
+
+                                <button v-if="userLocal.is_independent" class="btn btn-primary"
+                                    @click.prevent="modalUserMetrics({ userLocal })" data-toggle="tooltip"
+                                    data-placement="top" title="Ver métricas">
+                                    <i class="fas fa-chart-bar"></i>
                                 </button>
 
                                 <a href="#" class="btn btn-danger"
@@ -193,6 +206,7 @@
         <EditCantClientVehicle></EditCantClientVehicle>
         <UpdateUserRoles></UpdateUserRoles>
         <Dispositivos></Dispositivos>
+        <UserMetrics></UserMetrics>
 
     </div>
 
@@ -209,18 +223,19 @@ import DeleteUser from './Delete'
 import UpdateUserRoles from '../Roles/UpdateUserRoles'
 import EditCantClientVehicle from './EditCantClientVehicle'
 import Dispositivos from './Dispositivos'
+import UserMetrics from './Metrics'
 import ActivationLink from './ActivationLink'
 import RegistroLinkBox from './RegistroLinkBox'
 
 export default {
-    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos, ActivationLink, RegistroLinkBox },
+    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos, UserMetrics, ActivationLink, RegistroLinkBox },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
         ...mapActions(['getUsers', 'createUser',
-            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'sendPasswordReset'])
+            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset'])
     },
     created() {
         loadProgressBar()

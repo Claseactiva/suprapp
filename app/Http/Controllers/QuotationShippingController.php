@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 
 class QuotationShippingController extends Controller
@@ -45,6 +46,7 @@ class QuotationShippingController extends Controller
         $rut = request('rut');
         $telefono = request('telefono');
         $ciudad = request('ciudad');
+        $currentUserId = Auth::id();
 
         $quotationshipping = DB::table('quotation_shippings')
                                     ->join('towns', 'quotation_shippings.ciudad', '=', 'towns.id')
@@ -61,6 +63,12 @@ class QuotationShippingController extends Controller
                                         'quotation_shippings.enviado',
                                     )
                                     ->orderBy('quotation_shippings.id', 'DESC')
+                                    ->when((int) $currentUserId !== 1, function ($query) use ($currentUserId) {
+                                        return $query->where('quotation_shippings.user_id', $currentUserId);
+                                    })
+                                    ->when((int) $currentUserId === 1, function ($query) {
+                                        return $query->whereNotIn('quotation_shippings.user_id', User::where('is_independent', true)->pluck('id'));
+                                    })
                                     ->when($id, function ($query, $id) {
                                         return $query->where('quotation_shippings.id', 'like', '%' . $id . '%');
                                     })
@@ -143,14 +151,20 @@ class QuotationShippingController extends Controller
 
     public function update(Request $request, $id)
     {
-        QuotationShipping::find($id)->update($request->all());
+        $shipping = QuotationShipping::findOrFail($id);
+        $this->authorizeOwner($shipping->user_id);
+
+        $shipping->update($request->all());
 
         return;
     }
 
     public function updateFacebook(Request $request, $id)
     {
-        QuotationShipping::find($id)->update($request->all());
+        $shipping = QuotationShipping::findOrFail($id);
+        $this->authorizeOwner($shipping->user_id);
+
+        $shipping->update($request->all());
 
         return;
     }
@@ -159,23 +173,28 @@ class QuotationShippingController extends Controller
     {
         $data = $request->all();
 
-        QuotationShipping::where('id', $data['check'])->update([
-            'enviado' => 1
-        ]);
+        $shipping = QuotationShipping::findOrFail($data['check']);
+        $this->authorizeOwner($shipping->user_id);
+
+        $shipping->update(['enviado' => 1]);
     }
 
     public function NocheckEnviado(Request $request)
     {
         $data = $request->all();
 
-        QuotationShipping::where('id', $data['check'])->update([
-            'enviado' => 0
-        ]);
+        $shipping = QuotationShipping::findOrFail($data['check']);
+        $this->authorizeOwner($shipping->user_id);
+
+        $shipping->update(['enviado' => 0]);
     }
 
 
     public function pdf($id)
     {
+        $shipping = QuotationShipping::findOrFail($id);
+        $this->authorizeOwner($shipping->user_id);
+
         $shippings = DB::table('quotation_shippings')
                             ->join('towns', 'quotation_shippings.ciudad', '=', 'towns.id')
                             ->select(
@@ -196,6 +215,8 @@ class QuotationShippingController extends Controller
     public function destroy($id)
     {
         $quotation = QuotationShipping::findOrFail($id);
+        $this->authorizeOwner($quotation->user_id);
+
         $quotation->delete();
 
         return;

@@ -87,6 +87,7 @@ class QuotationclientController extends Controller
                 ->orderBy('quotationclients.id', 'DESC')
                 ->where('quotationclients.generado', '<>', 3)
                 ->where('quotationclients.generado', '<>', 5)
+                ->whereNotIn('quotationclients.user_id', User::where('is_independent', true)->pluck('id'))
                 ->when($id, function ($query, $id) {
                     return $query->where('quotationclients.id', 'like', '%' . $id . '%');
                 })
@@ -385,13 +386,17 @@ class QuotationclientController extends Controller
 
     public function show($id)
     {
-        $quotationclient = Quotationclient::find($id);
+        $quotationclient = Quotationclient::findOrFail($id);
+        $this->authorizeOwner($quotationclient->user_id);
 
         return $quotationclient;
     }
 
     public function update(Request $request, $id)
     {
+        $quotationclient = Quotationclient::findOrFail($id);
+        $this->authorizeOwner($quotationclient->user_id);
+
         $data = $request->all();
 
         if (array_key_exists('payment', $data)) {
@@ -426,7 +431,7 @@ class QuotationclientController extends Controller
             $data['ppu'] = trim($data['ppu'] ?? '');
         }
 
-        Quotationclient::find($id)->update($data);
+        $quotationclient->update($data);
 
         return;
     }
@@ -434,6 +439,8 @@ class QuotationclientController extends Controller
     public function destroy($id)
     {
         $quotationclient = Quotationclient::findOrFail($id);
+        $this->authorizeOwner($quotationclient->user_id);
+
         $quotationuser = QuotationUser::where('quotation_id', '=', $quotationclient->id)->first();
 
         if ($quotationuser === null) {
@@ -452,7 +459,10 @@ class QuotationclientController extends Controller
 
     public function details($id)
     {
-        return Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
+        $quotationclient = Quotationclient::findOrFail($id);
+        $this->authorizeOwner($quotationclient->user_id);
+
+        return $quotationclient->detailclients()->with('images')->get();
     }
 
     public function productSuggestions($id, VehicleModelProductService $service)
@@ -473,9 +483,11 @@ class QuotationclientController extends Controller
     public function pdf($id)
     {
         try {
-            $products = Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
+            $quotation = Quotationclient::findOrFail($id);
+            $this->authorizeOwner($quotation->user_id);
+
+            $products = $quotation->detailclients()->with('images')->get();
             $spareParts = QuotationSparePart::with('images')->where('quotationclient_id', $id)->get();
-            $quotation = Quotationclient::find($id);
 
             $company = Company::where('user_id', '=', $quotation->user_id)->first();
             if ($company == null) {
@@ -504,9 +516,11 @@ class QuotationclientController extends Controller
     public function pdfIva($id)
     {
         try {
-            $products = Quotationclient::findOrFail($id)->detailclients()->with('images')->get();
+            $quotation = Quotationclient::findOrFail($id);
+            $this->authorizeOwner($quotation->user_id);
+
+            $products = $quotation->detailclients()->with('images')->get();
             $spareParts = QuotationSparePart::with('images')->where('quotationclient_id', $id)->get();
-            $quotation = Quotationclient::find($id);
 
             $company = Company::where('user_id', '=', $quotation->user_id)->first();
             if ($company == null) {

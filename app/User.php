@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password', 'cant_vehicle', 'url', 'token','logo',
+        'name', 'email', 'password', 'cant_vehicle', 'url', 'token','logo', 'is_independent',
     ];
 
     /**
@@ -37,6 +37,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_independent' => 'boolean',
     ];
 
 
