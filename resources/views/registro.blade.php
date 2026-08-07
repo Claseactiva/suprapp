@@ -22,6 +22,7 @@
                         @csrf
 
                         <input type="hidden" name="owner_id" value="{{ $ownerId }}">
+                        <input type="hidden" name="quotation_id" value="{{ $quotationId }}">
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">Nombre</label>

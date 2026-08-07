@@ -4841,7 +4841,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"],
     RegistroLinkBox: _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel'])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel', 'idUser'])),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createUser']))
 });
 
@@ -4875,7 +4875,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ActivationLink: _User_ActivationLink__WEBPACK_IMPORTED_MODULE_0__["default"],
     RegistroLinkBox: _User_RegistroLinkBox__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel'])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newUser', 'errorsLaravel', 'idforms'])),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createMechanicClient']))
 });
 
@@ -7767,8 +7767,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    quotationId: {
+      type: [String, Number],
+      "default": null
+    }
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['currentUserRegistroId'])), {}, {
     registroLink: function registroLink() {
+      if (this.quotationId) {
+        return window.location.origin + '/registro-cotizacion/' + this.quotationId;
+      }
       return window.location.origin + '/registro/' + this.currentUserRegistroId;
     }
   }),
@@ -19980,7 +19989,11 @@ var render = function render() {
     staticClass: "modal-content"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("label", {
+  }, [_c("RegistroLinkBox", {
+    attrs: {
+      "quotation-id": _vm.idUser
+    }
+  }), _vm._v(" "), _c("label", {
     attrs: {
       "for": "name"
     }
@@ -20155,7 +20168,11 @@ var render = function render() {
     staticClass: "modal-content"
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("RegistroLinkBox"), _vm._v(" "), _c("label", {
+  }, [_c("RegistroLinkBox", {
+    attrs: {
+      "quotation-id": _vm.idforms
+    }
+  }), _vm._v(" "), _c("label", {
     attrs: {
       "for": "name"
     }
@@ -30097,7 +30114,9 @@ var render = function render() {
     _c = _vm._self._c;
   return _c("div", {
     staticClass: "alert alert-info mb-3"
-  }, [_c("p", {
+  }, [_vm.quotationId ? _c("p", {
+    staticClass: "mb-2"
+  }, [_vm._v("¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña). Queda identificado con esta cotización:")]) : _c("p", {
     staticClass: "mb-2"
   }, [_vm._v("¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña):")]), _vm._v(" "), _c("div", {
     staticClass: "input-group"

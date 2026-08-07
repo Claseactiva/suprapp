@@ -10,7 +10,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <RegistroLinkBox></RegistroLinkBox>
+                        <RegistroLinkBox :quotation-id="idUser"></RegistroLinkBox>
 
                         <label for="name">Nombre</label>
                         <input v-validate="'required|min:4'"
@@ -62,7 +62,7 @@ import RegistroLinkBox from '../User/RegistroLinkBox'
 export default {
     components: { ActivationLink, RegistroLinkBox },
     computed: {
-        ...mapState(['newUser', 'errorsLaravel'])
+        ...mapState(['newUser', 'errorsLaravel', 'idUser'])
     },
     methods: {
         ...mapActions(['createUser'])

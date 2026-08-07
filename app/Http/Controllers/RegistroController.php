@@ -16,7 +16,18 @@ class RegistroController extends Controller
      */
     public function show($id = null)
     {
-        return view('registro', ['ownerId' => $id]);
+        return view('registro', ['ownerId' => $id, 'quotationId' => null]);
+    }
+
+    /**
+     * Variante del link de autorregistro atada a una cotizacion puntual
+     * (no a la cuenta en general), para poder identificar despues a que
+     * cliente corresponde cada cuenta creada. Se usa cuando el link se
+     * comparte desde el boton "Crear Usuario" de una cotizacion especifica.
+     */
+    public function showFromQuotation($quotationId)
+    {
+        return view('registro', ['ownerId' => null, 'quotationId' => $quotationId]);
     }
 
     public function store(Request $request)
@@ -34,7 +45,14 @@ class RegistroController extends Controller
             'password.confirmed' => 'Las contraseñas no coinciden',
         ]);
 
-        $ownerId = (int) $request->input('owner_id');
+        $quotationId = $request->input('quotation_id');
+        $quotation = $quotationId ? DB::table('quotationclients')->where('id', $quotationId)->first() : null;
+
+        if ($quotation) {
+            $ownerId = (int) $quotation->user_id;
+        } else {
+            $ownerId = (int) $request->input('owner_id');
+        }
         if ($ownerId <= 0) {
             $ownerId = 1;
         }
@@ -64,6 +82,12 @@ class RegistroController extends Controller
             'user_id' => $user->id,
             'mechanic_id' => $mechanicId,
         ]);
+
+        if ($quotation) {
+            DB::table('quotationclients')->where('id', $quotation->id)->update([
+                'generado_client' => 1,
+            ]);
+        }
 
         return redirect()->route('login')->with('status', 'Cuenta creada correctamente. Ya puedes iniciar sesion.');
     }

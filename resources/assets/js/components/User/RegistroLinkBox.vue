@@ -1,6 +1,7 @@
 <template>
     <div class="alert alert-info mb-3">
-        <p class="mb-2">¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña):</p>
+        <p class="mb-2" v-if="quotationId">¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña). Queda identificado con esta cotización:</p>
+        <p class="mb-2" v-else>¿No tienes el correo a mano? Comparte este link y que el cliente se registre solo (nombre, correo y contraseña):</p>
         <div class="input-group">
             <input type="text" class="form-control" readonly :value="registroLink" @focus="$event.target.select()">
             <div class="input-group-append">
@@ -17,9 +18,18 @@ import { mapState, mapActions } from 'vuex'
 import toastr from 'toastr'
 
 export default {
+    props: {
+        quotationId: {
+            type: [String, Number],
+            default: null
+        }
+    },
     computed: {
         ...mapState(['currentUserRegistroId']),
         registroLink() {
+            if (this.quotationId) {
+                return window.location.origin + '/registro-cotizacion/' + this.quotationId
+            }
             return window.location.origin + '/registro/' + this.currentUserRegistroId
         }
     },
