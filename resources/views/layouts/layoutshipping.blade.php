@@ -10,7 +10,7 @@
             @page { margin: 10px 10px 10px 10px;  }
             table{
                 width: 100%;
-                font-size: 9px;
+                font-size: 12px;
                 text-transform: uppercase;
                 font-weight: bold;
             }
