@@ -281,6 +281,7 @@ class QuotationclientController extends Controller
             $clientText = trim($data['client_text'] ?? '');
             $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
             $tipo = in_array($data['tipo'] ?? null, ['repuesto', 'reparacion']) ? $data['tipo'] : 'repuesto';
+            $clientePart = !empty($data['cliente_part']);
 
             $roles = DB::table('roles')
                 ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -290,11 +291,11 @@ class QuotationclientController extends Controller
                 ->get();
 
             foreach ($roles as $rol) {
-                if ($rol->id == 2 && isset($data['cliente_part'])) {
+                if ($rol->id == 2 && $clientePart) {
                     $data['generado'] = 1;
                     $data['tipo_detalle'] = 1;
                 } else {
-                    if ($data['client_id'] == 1) {
+                    if ($clientId == 1) {
                         $data['generado'] = 1;
                     } else {
                         $data['generado'] = 2;
@@ -303,7 +304,7 @@ class QuotationclientController extends Controller
             }
 
 
-            if (isset($data['cliente_part'])) {
+            if ($clientePart) {
                 $clients = Client::where('user_id', '=', $user_id)->where('type', '=', 'Cliente Particular')->get();
 
                 if ($clients->count() == 0) {
