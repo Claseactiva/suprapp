@@ -39,18 +39,21 @@
         <hr class="oc-hr">
 
         {{-- ================= CLIENTE / VEHICULO ================= --}}
+        @php $hasVehicle = $quotation->ppu != '' || $quotation->vehicle != ''; @endphp
         <table class="oc-info-table" style="margin-top: 8px;">
             <tr>
-                <td>
+                <td @if (!$hasVehicle) colspan="2" @endif>
                     <div class="oc-info-box">
                         <p class="oc-info-title">Datos del Cliente</p>
-                        <table>
-                            @if ($client->type == 'Cliente Particular')
+                        @if ($client->type == 'Cliente Particular')
+                            <table>
                                 <tr>
                                     <td class="oc-info-label">Cliente:</td>
                                     <td class="oc-info-value">{{ $quotation->client_text }}</td>
                                 </tr>
-                            @else
+                            </table>
+                        @elseif ($hasVehicle)
+                            <table>
                                 <tr>
                                     <td class="oc-info-label">Cliente:</td>
                                     <td class="oc-info-value">{{ $client->name }}</td>
@@ -83,12 +86,53 @@
                                         </table>
                                     </td>
                                 </tr>
-                            @endif
-                        </table>
+                            </table>
+                        @else
+                            <table class="oc-info-2col">
+                                <tr>
+                                    <td class="oc-info-2col-left">
+                                        <table>
+                                            <tr>
+                                                <td class="oc-info-label">Cliente:</td>
+                                                <td class="oc-info-value">{{ $client->name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="oc-info-label">Empresa:</td>
+                                                <td class="oc-info-value">{{ $client->razonSocial }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="oc-info-label">RUT:</td>
+                                                <td class="oc-info-value">{{ $client->rut }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td class="oc-info-2col-right">
+                                        <table>
+                                            <tr>
+                                                <td class="oc-info-label">Dirección:</td>
+                                                <td class="oc-info-value">{{ $client->address }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="oc-info-label">Ciudad:</td>
+                                                <td class="oc-info-value">{{ $client->comuna }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="oc-info-label">Teléfono:</td>
+                                                <td class="oc-info-value">{{ $client->phone }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="oc-info-label">Correo:</td>
+                                                <td class="oc-info-value">{{ $client->email }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        @endif
                     </div>
                 </td>
-                <td>
-                    @if ($quotation->ppu != '' || $quotation->vehicle != '')
+                @if ($hasVehicle)
+                    <td>
                         <div class="oc-info-box">
                             <p class="oc-info-title">Datos del Vehículo</p>
                             <table>
@@ -106,8 +150,8 @@
                                 @endif
                             </table>
                         </div>
-                    @endif
-                </td>
+                    </td>
+                @endif
             </tr>
         </table>
 
@@ -119,6 +163,9 @@
                 <tr>
                     <th class="oc-col-qty">Cant</th>
                     <th class="oc-col-desc">Descripción</th>
+                    @if ($quotation->show_part_number)
+                        <th class="oc-col-part">N° Parte</th>
+                    @endif
                     <th class="oc-col-days">Plazo Entrega</th>
                     <th class="oc-col-price">Valor Unitario</th>
                     <th class="oc-col-total">Valor Total</th>
@@ -134,6 +181,9 @@
                     <tr>
                         <td class="oc-col-qty">{{ $detail->quantity }}</td>
                         <td class="oc-col-desc">{{ $detail->product }}</td>
+                        @if ($quotation->show_part_number)
+                            <td class="oc-col-part">{{ $detail->detail }}</td>
+                        @endif
                         <td class="oc-col-days">{{ $detail->days }}</td>
                         @if ($detail->quantity > 0)
                             <td class="oc-col-price">$ {{ number_format($valorUnitario, 0, ',', '.') }}</td>

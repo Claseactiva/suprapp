@@ -62,6 +62,12 @@
                                 <input id="url" type="text" class="form-control" v-model="fillQuotationclient.url"
                                     placeholder="https://...">
                             </div>
+
+                            <div class="col-lg-12 mb-3">
+                                <input type="checkbox" name="show_part_number" id="edit_show_part_number"
+                                    v-model="fillQuotationclient.show_part_number">
+                                <label for="edit_show_part_number" class="mb-0">Mostrar N° de parte en el PDF</label>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

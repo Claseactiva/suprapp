@@ -385,7 +385,8 @@ export default { //data
         vehicle: '',
         generado: '',
         generado_client: '',
-        ppu: ''
+        ppu: '',
+        show_part_number: false
     },
     fillQuotationclient: {
         id: '',
@@ -396,7 +397,8 @@ export default { //data
         vehicle: '',
         url: '',
         telefono: '',
-        ppu: ''
+        ppu: '',
+        show_part_number: false
     },
     quotationTipoContext: 'repuesto',
     repairActivities: [],

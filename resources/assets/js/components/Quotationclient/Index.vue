@@ -102,7 +102,12 @@
 
                                 <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row quotationclient-form-actions">
-                                        <div class="col-lg-4 col-md-4 col-12 offset-lg-8 offset-md-8 mb-3">
+                                        <div class="col-lg-8 col-md-8 col-12 mb-3 quotationclient-checkbox-row">
+                                            <input type="checkbox" name="show_part_number" id="show_part_number"
+                                                v-model="newQuotationclient.show_part_number">
+                                            <label for="show_part_number" class="mb-0">Mostrar N° de parte en el PDF</label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
                                             <button type="submit" class="btn btn-success form-control">
                                                 <i class="fas fa-plus-square"></i> Guardar
                                             </button>

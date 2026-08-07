@@ -25813,7 +25813,47 @@ var render = function render() {
         _vm.$set(_vm.fillQuotationclient, "url", $event.target.value);
       }
     }
-  })])])]), _vm._v(" "), _vm._m(1)])])])]);
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-12 mb-3"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillQuotationclient.show_part_number,
+      expression: "fillQuotationclient.show_part_number"
+    }],
+    attrs: {
+      type: "checkbox",
+      name: "show_part_number",
+      id: "edit_show_part_number"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.fillQuotationclient.show_part_number) ? _vm._i(_vm.fillQuotationclient.show_part_number, null) > -1 : _vm.fillQuotationclient.show_part_number
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.fillQuotationclient.show_part_number,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.fillQuotationclient, "show_part_number", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.fillQuotationclient, "show_part_number", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.fillQuotationclient, "show_part_number", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "mb-0",
+    attrs: {
+      "for": "edit_show_part_number"
+    }
+  }, [_vm._v("Mostrar N° de parte en el PDF")])])])]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -26162,7 +26202,51 @@ var render = function render() {
     attrs: {
       "for": "pago"
     }
-  }, [_vm._v("Forma de Pago")]), _vm._v(" "), _c("SelectTiposPagos")], 1)])]), _vm._v(" "), _vm._m(1)])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Forma de Pago")]), _vm._v(" "), _c("SelectTiposPagos")], 1)])]), _vm._v(" "), _c("div", {
+    staticClass: "col-lg-6 col-md-12"
+  }, [_c("div", {
+    staticClass: "row quotationclient-form-row quotationclient-form-actions"
+  }, [_c("div", {
+    staticClass: "col-lg-8 col-md-8 col-12 mb-3 quotationclient-checkbox-row"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newQuotationclient.show_part_number,
+      expression: "newQuotationclient.show_part_number"
+    }],
+    attrs: {
+      type: "checkbox",
+      name: "show_part_number",
+      id: "show_part_number"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.newQuotationclient.show_part_number) ? _vm._i(_vm.newQuotationclient.show_part_number, null) > -1 : _vm.newQuotationclient.show_part_number
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.newQuotationclient.show_part_number,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.newQuotationclient, "show_part_number", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.newQuotationclient, "show_part_number", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.newQuotationclient, "show_part_number", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "mb-0",
+    attrs: {
+      "for": "show_part_number"
+    }
+  }, [_vm._v("Mostrar N° de parte en el PDF")])]), _vm._v(" "), _vm._m(1)])])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm mt-3"
@@ -26687,11 +26771,7 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("div", {
-    staticClass: "col-lg-6 col-md-12"
-  }, [_c("div", {
-    staticClass: "row quotationclient-form-row quotationclient-form-actions"
-  }, [_c("div", {
-    staticClass: "col-lg-4 col-md-4 col-12 offset-lg-8 offset-md-8 mb-3"
+    staticClass: "col-lg-4 col-md-4 col-12 mb-3"
   }, [_c("button", {
     staticClass: "btn btn-success form-control",
     attrs: {
@@ -26699,7 +26779,7 @@ var staticRenderFns = [function () {
     }
   }, [_c("i", {
     staticClass: "fas fa-plus-square"
-  }), _vm._v(" Guardar\n                                        ")])])])]);
+  }), _vm._v(" Guardar\n                                        ")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
@@ -43727,7 +43807,8 @@ function dispatchPublicQuotationFailed() {
       vehicle: vehicleParts.join(' '),
       vehicle_model_id: state.selectedVModel.value || null,
       ppu: state.newQuotationclient.ppu,
-      tipo: state.quotationTipoContext
+      tipo: state.quotationTipoContext,
+      show_part_number: state.newQuotationclient.show_part_number
     }).then(function (response) {
       state.newQuotationclient = {
         client_id: '',
@@ -43740,7 +43821,8 @@ function dispatchPublicQuotationFailed() {
         vehicle: '',
         generado: '',
         generado_client: '',
-        ppu: ''
+        ppu: '',
+        show_part_number: false
       };
       state.selectedClient = {
         label: '',
@@ -43782,6 +43864,7 @@ function dispatchPublicQuotationFailed() {
     state.fillQuotationclient.url = quotationclient.url || '';
     state.fillQuotationclient.telefono = quotationclient.telefono || '';
     state.fillQuotationclient.ppu = quotationclient.ppu || '';
+    state.fillQuotationclient.show_part_number = !!quotationclient.show_part_number;
     $("#editQuotationclient").modal('show');
   },
   updateQuotationclient: function updateQuotationclient(state, id) {
@@ -47384,7 +47467,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     vehicle: '',
     generado: '',
     generado_client: '',
-    ppu: ''
+    ppu: '',
+    show_part_number: false
   },
   fillQuotationclient: {
     id: '',
@@ -47395,7 +47479,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     vehicle: '',
     url: '',
     telefono: '',
-    ppu: ''
+    ppu: '',
+    show_part_number: false
   },
   quotationTipoContext: 'repuesto',
   repairActivities: [],

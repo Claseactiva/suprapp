@@ -189,6 +189,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_07_000004_add_user_id_to_tipos_pagos_table.php $DEPLOYPATH/database/migrations/2026_08_07_000004_add_user_id_to_tipos_pagos_table.php
     - /bin/cp -f database/migrations/2026_08_07_000005_add_user_id_to_delivery_times_table.php $DEPLOYPATH/database/migrations/2026_08_07_000005_add_user_id_to_delivery_times_table.php
     - /bin/cp -f database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php $DEPLOYPATH/database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php
+    - /bin/cp -f database/migrations/2026_08_07_000007_add_show_part_number_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_07_000007_add_show_part_number_to_quotationclients_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -249,6 +250,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleCliente.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleCliente.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleClienteMechanic.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetalleMechanic.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetalleMechanic.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/EditarCotizacion.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/EditarCotizacion.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/Index.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/Index.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarClientesForm.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarClientesForm.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue

@@ -2290,7 +2290,8 @@ export default { //used for changing the state
             vehicle: vehicleParts.join(' '),
             vehicle_model_id: state.selectedVModel.value || null,
             ppu: state.newQuotationclient.ppu,
-            tipo: state.quotationTipoContext
+            tipo: state.quotationTipoContext,
+            show_part_number: state.newQuotationclient.show_part_number
         }).then(response => {
             state.newQuotationclient = {
                 client_id: '',
@@ -2303,7 +2304,8 @@ export default { //used for changing the state
                 vehicle: '',
                 generado: '',
                 generado_client: '',
-                ppu: ''
+                ppu: '',
+                show_part_number: false
             }
             state.selectedClient = { label: '', value: '' }
             state.selectedPago = { label: '', value: '' }
@@ -2327,6 +2329,7 @@ export default { //used for changing the state
         state.fillQuotationclient.url = quotationclient.url || ''
         state.fillQuotationclient.telefono = quotationclient.telefono || ''
         state.fillQuotationclient.ppu = quotationclient.ppu || ''
+        state.fillQuotationclient.show_part_number = !!quotationclient.show_part_number
         $("#editQuotationclient").modal('show')
     },
     updateQuotationclient(state, id) {

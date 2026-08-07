@@ -81,6 +81,7 @@ class QuotationclientController extends Controller
                     'quotationclients.created_at',
                     'quotationclients.url',
                     'quotationclients.telefono',
+                    'quotationclients.show_part_number',
                     DB::raw("(SELECT COUNT(*) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS detailclient_count"),
                     DB::raw("(SELECT SUBSTRING_INDEX(GROUP_CONCAT(TRIM(detailclients.product) ORDER BY detailclients.id SEPARATOR '||'), '||', 5) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS product_preview")
                 )
@@ -142,6 +143,7 @@ class QuotationclientController extends Controller
                     'quotationclients.created_at',
                     'quotationclients.url',
                     'quotationclients.telefono',
+                    'quotationclients.show_part_number',
                     DB::raw("(SELECT COUNT(*) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS detailclient_count"),
                     DB::raw("(SELECT SUBSTRING_INDEX(GROUP_CONCAT(TRIM(detailclients.product) ORDER BY detailclients.id SEPARATOR '||'), '||', 5) FROM detailclients WHERE detailclients.quotationclient_id = quotationclients.id AND COALESCE(TRIM(detailclients.product), '') <> '') AS product_preview")
                 )
@@ -282,6 +284,7 @@ class QuotationclientController extends Controller
             $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
             $tipo = in_array($data['tipo'] ?? null, ['repuesto', 'reparacion']) ? $data['tipo'] : 'repuesto';
             $clientePart = !empty($data['cliente_part']);
+            $showPartNumber = !empty($data['show_part_number']);
 
             $roles = DB::table('roles')
                 ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
@@ -334,7 +337,8 @@ class QuotationclientController extends Controller
                         'url' => $url,
                         'telefono' => $telefono,
                         'ppu' => $ppu,
-                        'tipo' => $tipo
+                        'tipo' => $tipo,
+                        'show_part_number' => $showPartNumber
                     ])->id;
                 } else {
                     foreach ($clients as $client) {
@@ -352,7 +356,8 @@ class QuotationclientController extends Controller
                                 'url' => $url,
                                 'telefono' => $telefono,
                                 'ppu' => $ppu,
-                                'tipo' => $tipo
+                                'tipo' => $tipo,
+                                'show_part_number' => $showPartNumber
                             ]
                         )->id;
                     }
@@ -372,7 +377,8 @@ class QuotationclientController extends Controller
                         'url' => $url,
                         'telefono' => $telefono,
                         'ppu' => $ppu,
-                        'tipo' => $tipo
+                        'tipo' => $tipo,
+                        'show_part_number' => $showPartNumber
                     ]
                 )->id;
             }

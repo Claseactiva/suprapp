@@ -133,6 +133,20 @@
             white-space: nowrap;
         }
 
+        /* ---- datos del cliente en 2 columnas (cuando no hay vehiculo) ---- */
+        .oc-info-2col td {
+            vertical-align: top;
+            width: 50%;
+        }
+
+        .oc-info-2col-left {
+            padding-right: 10px;
+        }
+
+        .oc-info-2col-right {
+            padding-left: 10px;
+        }
+
         /* ---- fila de metadatos (forma de pago) ---- */
         .oc-extra-row {
             margin-top: 8px;
@@ -210,7 +224,12 @@
 
         .oc-col-desc {
             text-align: left;
-            width: 32%;
+            width: 22%;
+        }
+
+        .oc-col-part {
+            text-align: left;
+            width: 14%;
         }
 
         .oc-col-qty {
@@ -321,14 +340,17 @@
             margin: 8px 0 2px 0;
         }
 
-        /* ---- barra inferior ---- */
+        /* ---- barra inferior (fija al pie de cada pagina) ---- */
         .oc-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background-color: #071B41;
             color: #FFFFFF;
             text-align: center;
             padding: 6px;
             font-size: 8px;
-            margin-top: 16px;
         }
     </style>
 
