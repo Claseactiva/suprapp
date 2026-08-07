@@ -12,6 +12,13 @@
 */
 use Illuminate\Support\Facades\Route;
 
+// Ruta temporal para correr migraciones en produccion sin SSH.
+// Borrar este bloque (y redeployar) apenas se use una vez.
+Route::get('deploy-migrate-35ff445d4b4bfe84854baea27ce8e31702f9f771', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+});
+
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
