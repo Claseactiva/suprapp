@@ -14,6 +14,9 @@
                 text-transform: uppercase;
                 font-weight: bold;
             }
+            th, td {
+                vertical-align: top;
+            }
             .cliente th,
             .cliente td {
                 font-style: italic;

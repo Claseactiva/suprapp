@@ -12,7 +12,7 @@
                 @endif
                 @if($shipping->nombre)
                 <tr class="cliente">
-                    <th>ATTE:</th>
+                    <th>DESTINATARIO:</th>
                     <td>{{ $shipping->nombre }}</td>
                 </tr>
                 @endif
@@ -48,11 +48,11 @@
                 @endif
             @endforeach
                 <tr>
-                    <th style="padding-top: 15px;">RTE:</th>    
+                    <th style="padding-top: 15px;">REMITENTE:</th>
                     <td style="padding-top: 15px;">COMERCIAL SUPRA E.I.R.L</td>
                 </tr>
                 <tr>
-                    <th>RUT:</th> 
+                    <th>RUT:</th>
                     <td>76.515.046-9</td>
                 </tr>
                 <tr>
@@ -62,6 +62,14 @@
                 <tr>
                     <th>DIRECCION:</th>
                     <td>Av. Rubén Jiménez 601, Coquimbo</td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
                 </tr>
         </tbody>
     </table>
