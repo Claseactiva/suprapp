@@ -189,7 +189,7 @@ class QuotationShippingController extends Controller
                             )->where('quotation_shippings.id', '=', $id )
                             ->orderBy('quotation_shippings.id', 'DESC')->get();
 
-        $pdf = pdf::loadView('pdf.quotationshipping', compact(['shippings']) )->setPaper([ 0 , 0 , 226.772 , 141.732 ], 'landscape');
+        $pdf = pdf::loadView('pdf.quotationshipping', compact(['shippings']) )->setPaper([ 0 , 0 , 272.126 , 141.732 ], 'landscape');
         return $pdf->stream('Envio_'.$id.'.pdf');
     }
 
