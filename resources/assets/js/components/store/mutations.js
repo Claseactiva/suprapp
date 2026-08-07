@@ -372,6 +372,7 @@ export default { //used for changing the state
 
             state.vehicles = response.data.vehicles.data
             state.pagination = response.data.pagination
+            state.rol = response.data.rol || ''
         });
     },
     getVehiclesUser(state, request) {

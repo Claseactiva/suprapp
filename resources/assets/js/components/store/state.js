@@ -120,7 +120,6 @@ export default { //data
     /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de vehiculos */
     vehicles: [],
     rol: '',
-    rol: '',
     vehicle: {
         id: '',
         user_id: '',

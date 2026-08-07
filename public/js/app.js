@@ -8876,7 +8876,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     YearSelector: _Quotationuser_YearSelector__WEBPACK_IMPORTED_MODULE_2__["default"],
     EngineSelector: _Quotationuser_EngineSelector__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newVehicle', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['completeVehicleCreate'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newVehicle', 'errorsLaravel', 'rol'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['completeVehicleCreate'])),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['createVehicleUser']))
 });
 
@@ -34631,7 +34631,7 @@ var render = function render() {
     attrs: {
       "for": "engine"
     }
-  }, [_vm._v("Motor")]), _vm._v(" "), _c("EngineSelector")], 1), _vm._v(" "), _c("div", {
+  }, [_vm._v("Motor")]), _vm._v(" "), _c("EngineSelector")], 1), _vm._v(" "), _vm.rol !== "client" ? _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -34658,7 +34658,7 @@ var render = function render() {
         _vm.$set(_vm.newVehicle, "motor_number", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  })]) : _vm._e(), _vm._v(" "), _vm.rol !== "client" ? _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -34685,7 +34685,7 @@ var render = function render() {
         _vm.$set(_vm.newVehicle, "arreglo_cpl", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  })]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -38721,6 +38721,7 @@ function dispatchPublicQuotationFailed() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().get(url).then(function (response) {
       state.vehicles = response.data.vehicles.data;
       state.pagination = response.data.pagination;
+      state.rol = response.data.rol || '';
     });
   },
   getVehiclesUser: function getVehiclesUser(state, request) {
@@ -43604,280 +43605,407 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   },
   /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de vehiculos */
   vehicles: [],
-  rol: ''
-}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "rol", ''), "vehicle", {
-  id: '',
-  user_id: '',
-  patent: '',
-  chasis: '',
-  name: '',
-  year: '',
-  color: '',
-  km: ''
-}), "newVehicle", {
-  user_id: '',
-  patent: '',
-  chasis: '',
-  brand: '',
-  model: '',
-  year: '',
-  color: '',
-  km: '',
-  motor_number: '',
-  arreglo_cpl: ''
-}), "fillVehicle", {
-  id: '',
-  user_id: '',
-  patent: '',
-  chasis: '',
-  brand: '',
-  model: '',
-  year: '',
-  engine: '',
-  color: '',
-  km: ''
-}), "searchVehicle", {
-  patent: '',
-  name: '',
-  year: '',
-  client: ''
-}), "vehiclesTrash", []), "pagination_vehicle_trash", {
-  'total': 0,
-  'current_page': 0,
-  'per_page': 20,
-  'last_page': 0,
-  'from': 0,
-  'to': 0
-}), "offset_vehicle_trash", 2), "newDetailVehicle", {
-  vehicle_id: '',
-  km: '',
-  note: '',
-  rol: ''
-}), "newOrdenTrabajo", {
-  vehicle_id: 0,
-  km: 0,
-  km_old: 0,
-  tendenciaKm: 0,
-  descripcion: '',
-  observacion: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkListForm", {
-  categoria: ''
-}), "intervencionForm", {
-  id_categoria: 0,
-  intervencion: ''
-}), "editarCategoriaForm", {
-  id_categoria: 0,
-  categoria: ''
-}), "editarIntervencionForm", {
-  id_intervencion: 0,
-  intervencion: ''
-}), "columnaExiste", []), "columnaEstado", []), "columnaObservacion", {
-  id_intervencion: 0,
+  rol: '',
+  vehicle: {
+    id: '',
+    user_id: '',
+    patent: '',
+    chasis: '',
+    name: '',
+    year: '',
+    color: '',
+    km: ''
+  },
+  newVehicle: {
+    user_id: '',
+    patent: '',
+    chasis: '',
+    brand: '',
+    model: '',
+    year: '',
+    color: '',
+    km: '',
+    motor_number: '',
+    arreglo_cpl: ''
+  },
+  fillVehicle: {
+    id: '',
+    user_id: '',
+    patent: '',
+    chasis: '',
+    brand: '',
+    model: '',
+    year: '',
+    engine: '',
+    color: '',
+    km: ''
+  },
+  searchVehicle: {
+    patent: '',
+    name: '',
+    year: '',
+    client: ''
+  },
+  vehiclesTrash: [],
+  pagination_vehicle_trash: {
+    'total': 0,
+    'current_page': 0,
+    'per_page': 20,
+    'last_page': 0,
+    'from': 0,
+    'to': 0
+  },
+  offset_vehicle_trash: 2,
+  newDetailVehicle: {
+    vehicle_id: '',
+    km: '',
+    note: '',
+    rol: ''
+  },
+  newOrdenTrabajo: {
+    vehicle_id: 0,
+    km: 0,
+    km_old: 0,
+    tendenciaKm: 0,
+    descripcion: '',
+    observacion: ''
+  },
+  checkListForm: {
+    categoria: ''
+  },
+  intervencionForm: {
+    id_categoria: 0,
+    intervencion: ''
+  },
+  editarCategoriaForm: {
+    id_categoria: 0,
+    categoria: ''
+  },
+  editarIntervencionForm: {
+    id_intervencion: 0,
+    intervencion: ''
+  },
+  columnaExiste: [],
+  columnaEstado: [],
+  columnaObservacion: {
+    id_intervencion: 0,
+    id_vehicle: 0,
+    observacion: '',
+    imagenes: []
+  },
+  mostrarchecklistvehicles: [],
+  checklistvehicles: [],
+  checklists: [],
+  formatchecklists: [],
+  editarIntervenciones: [],
+  categorias: [],
+  ordenestrabajos: [],
+  intervenciones: [],
+  condiciones: [],
+  id_checklist: 0,
   id_vehicle: 0,
-  observacion: '',
-  imagenes: []
-}), "mostrarchecklistvehicles", []), "checklistvehicles", []), "checklists", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "formatchecklists", []), "editarIntervenciones", []), "categorias", []), "ordenestrabajos", []), "intervenciones", []), "condiciones", []), "id_checklist", 0), "id_vehicle", 0), "trabajos", []), "observaciones", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "roleschecklists", []), "km_old", 0), "vehiculotipos", []), "vehiculotipo", {
-  id: '',
-  tipo_vehiculo: ''
-}), "vehiclebrands", []), "vehiclebrand", {
-  id: '',
-  brand: '',
-  model: ''
-}), "vehiclemodels", []), "vehiclemodel", {
-  id: '',
-  brand: '',
-  model: '',
-  tipo: ''
-}), "vehiclemotors", []), "vehiclemotor", {
-  id: '',
-  v_engine: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newVehicleModelo", {
-  model: '',
-  brand_id: '',
-  tipo_id: ''
-}), "newVehiculoTipo", {
-  tipo_vehiculo: ''
-}), "newVehicleMotor", {
-  vehicle_model_id: '',
-  motor_spec_id: '',
-  year: ''
-}), "motorspecs", []), "newMotorSpec", {
-  cilindrada: '',
-  combustible: ''
-}), "newVehicleBrand", {
-  brand: ''
-  //model: '',
-  //tipo_id: ''
-}), "fillVehicleBrand", {
-  id: '',
-  brand_id: '',
-  brand: '',
-  model: ''
-}), "fillVehiculoTipo", {
-  id: '',
-  tipo_vehiculo: ''
-}), "fillVehicleModel", {
-  id: '',
-  model: '',
-  brand_id: '',
-  tipo_id: ''
-}), "fillVehicleMotor", {
-  id: '',
-  motor_spec_id: '',
-  year_from: '',
-  year_to: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillMotorSpec", {
-  id: '',
-  raw_label: ''
-}), "searchVehicleBrand", {
-  brand: '',
-  model: ''
-}), "vehicleDetails", []), "details", []), "detail", {
-  id: '',
-  km: '',
-  note: ''
-}), "idDetailvehicle", null), "notes", []), "note", {
-  id: '',
-  price: '',
-  detail: ''
-}), "newNote", {
-  price: '',
-  detail: ''
-}), "fillNote", {
-  id: '',
-  price: '',
-  detail: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchNote", {
-  price: '',
-  detail: ''
-}), "idforms", null), "quotationforms", []), "selectedVehicleClient", {
-  label: '',
-  value: ''
-}), "quotations", []), "newQuotation", {
-  client: '',
-  vehicle: '',
-  patent: '',
-  state: ''
-}), "fillQuotation", {
-  id: '',
-  client: '',
-  vehicle: '',
-  patent: '',
-  state: ''
-}), "searchQuotation", {
-  client: '',
-  patent: ''
-}), "idQuotation", null), "totalQuotation", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalQuotationIVA", 0), "quotationclients", []), "quotationclientsform", []), "quotationshipping", []), "checkEnviado", []), "checkRealizado", []), "cerrarObservacion", []), "newQuotationclient", {
-  client_id: '',
-  state: '',
-  payment: '',
-  client_text: '',
-  cliente_part: false,
-  url: '',
-  telefono: '',
-  vehicle: '',
-  generado: '',
-  generado_client: '',
-  ppu: ''
-}), "fillQuotationclient", {
-  id: '',
-  client_id: '',
-  state: '',
-  payment: '',
-  client_text: '',
-  vehicle: '',
-  url: '',
-  telefono: '',
-  ppu: ''
-}), "quotationTipoContext", 'repuesto'), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "repairActivities", []), "newRepairActivity", {
-  name: '',
-  price: ''
-}), "selectedRepairActivity", []), "searchQuotationClient", {
-  id: '',
-  razonSocial: '',
-  client: '',
-  vehicle: '',
-  product: '',
-  date_from: '',
-  date_to: '',
-  day: '',
-  month: '',
-  year: '',
-  per_page: 20
-}), "searchQuotationClientForm", {
-  id: '',
-  razonSocial: '',
-  client: '',
-  vehicle: '',
-  day: '',
-  month: '',
-  year: '',
-  per_page: 20
-}), "searchShipping", {
-  id: '',
-  nombre: '',
-  rut: '',
-  telefono: '',
-  ciudad: ''
-}), "idQuotationclient", null), "idQuotationShipping", null), "totalUtilidad", 0), "totalTransporte", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalAdicional", 0), "totalQuotationclient", 0), "totalQuotationclientIVA", 0), "totalProductIvaFlete", 0), "newQuotationimport", {
-  import_id: '',
-  user_id: '',
-  client_id: '',
-  payment: '',
-  state: ''
-}), "fillQuotationimport", {
-  id: '',
-  import_id: '',
-  user_id: '',
-  client_id: '',
-  payment: '',
-  state: ''
-}), "idQuotationimport", null), "totalQuotationimport", 0), "totalQuotationimportIVA", 0), "formCotizacion", {
-  name: '',
-  email: '',
-  phone: '',
-  patentchasis: '',
-  brand: '',
-  model: '',
-  year: '',
-  engine: '',
-  description: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "formCotizacionExpress", {
-  patentchasis: '',
-  brand: '',
-  model: '',
-  year: '',
-  description: ''
-}), "formQuotationShipping", {
-  id: '',
-  nombre: '',
-  rut: '',
-  telefono: '',
-  ciudad: '',
-  direccion: 'SIN ENVIO',
-  sucursal: ''
-}), "quotationDesc", ''), "idImport", null), "imports", []), "newImport", {
-  name: '',
-  dolar: '',
-  safe: '',
-  transport: '',
-  internment: '',
-  other1: '',
-  other2: '',
-  total: ''
-}), "fillImport", {
-  id: '',
-  name: '',
-  dolar: '',
-  safe: '',
-  transport: '',
-  internment: '',
-  other1: '',
-  other2: '',
-  total: ''
-}), "searchImport", {
-  name: ''
-}), "import", null), "details", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newDetail", {
+  trabajos: [],
+  observaciones: [],
+  roleschecklists: [],
+  km_old: 0,
+  /**********************************/
+  vehiculotipos: [],
+  vehiculotipo: {
+    id: '',
+    tipo_vehiculo: ''
+  },
+  vehiclebrands: [],
+  vehiclebrand: {
+    id: '',
+    brand: '',
+    model: ''
+  },
+  vehiclemodels: [],
+  vehiclemodel: {
+    id: '',
+    brand: '',
+    model: '',
+    tipo: ''
+  },
+  vehiclemotors: [],
+  vehiclemotor: {
+    id: '',
+    v_engine: ''
+  },
+  newVehicleModelo: {
+    model: '',
+    brand_id: '',
+    tipo_id: ''
+  },
+  newVehiculoTipo: {
+    tipo_vehiculo: ''
+  },
+  newVehicleMotor: {
+    vehicle_model_id: '',
+    motor_spec_id: '',
+    year: ''
+  },
+  motorspecs: [],
+  newMotorSpec: {
+    cilindrada: '',
+    combustible: ''
+  },
+  newVehicleBrand: {
+    brand: ''
+    //model: '',
+    //tipo_id: ''
+  },
+  fillVehicleBrand: {
+    id: '',
+    brand_id: '',
+    brand: '',
+    model: ''
+  },
+  fillVehiculoTipo: {
+    id: '',
+    tipo_vehiculo: ''
+  },
+  fillVehicleModel: {
+    id: '',
+    model: '',
+    brand_id: '',
+    tipo_id: ''
+  },
+  fillVehicleMotor: {
+    id: '',
+    motor_spec_id: '',
+    year_from: '',
+    year_to: ''
+  },
+  fillMotorSpec: {
+    id: '',
+    raw_label: ''
+  },
+  searchVehicleBrand: {
+    brand: '',
+    model: ''
+  },
+  /**********************************/
+  vehicleDetails: [],
+  details: [],
+  detail: {
+    id: '',
+    km: '',
+    note: ''
+  },
+  idDetailvehicle: null,
+  /********************************* */
+  /************************************ */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de notas */
+  notes: [],
+  note: {
+    id: '',
+    price: '',
+    detail: ''
+  },
+  newNote: {
+    price: '',
+    detail: ''
+  },
+  fillNote: {
+    id: '',
+    price: '',
+    detail: ''
+  },
+  searchNote: {
+    price: '',
+    detail: ''
+  },
+  /********************************* */
+  /************************************ */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones */
+  idforms: null,
+  quotationforms: [],
+  selectedVehicleClient: {
+    label: '',
+    value: ''
+  },
+  quotations: [],
+  newQuotation: {
+    client: '',
+    vehicle: '',
+    patent: '',
+    state: ''
+  },
+  fillQuotation: {
+    id: '',
+    client: '',
+    vehicle: '',
+    patent: '',
+    state: ''
+  },
+  searchQuotation: {
+    client: '',
+    patent: ''
+  },
+  idQuotation: null,
+  totalQuotation: 0,
+  totalQuotationIVA: 0,
+  /********************************* */
+  /************************************ */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones para clientes*/
+  quotationclients: [],
+  quotationclientsform: [],
+  quotationshipping: [],
+  checkEnviado: [],
+  checkRealizado: [],
+  cerrarObservacion: [],
+  newQuotationclient: {
+    client_id: '',
+    state: '',
+    payment: '',
+    client_text: '',
+    cliente_part: false,
+    url: '',
+    telefono: '',
+    vehicle: '',
+    generado: '',
+    generado_client: '',
+    ppu: ''
+  },
+  fillQuotationclient: {
+    id: '',
+    client_id: '',
+    state: '',
+    payment: '',
+    client_text: '',
+    vehicle: '',
+    url: '',
+    telefono: '',
+    ppu: ''
+  },
+  quotationTipoContext: 'repuesto',
+  repairActivities: [],
+  newRepairActivity: {
+    name: '',
+    price: ''
+  },
+  selectedRepairActivity: [],
+  searchQuotationClient: {
+    id: '',
+    razonSocial: '',
+    client: '',
+    vehicle: '',
+    product: '',
+    date_from: '',
+    date_to: '',
+    day: '',
+    month: '',
+    year: '',
+    per_page: 20
+  },
+  searchQuotationClientForm: {
+    id: '',
+    razonSocial: '',
+    client: '',
+    vehicle: '',
+    day: '',
+    month: '',
+    year: '',
+    per_page: 20
+  },
+  searchShipping: {
+    id: '',
+    nombre: '',
+    rut: '',
+    telefono: '',
+    ciudad: ''
+  },
+  idQuotationclient: null,
+  idQuotationShipping: null,
+  totalUtilidad: 0,
+  totalTransporte: 0,
+  totalAdicional: 0,
+  totalQuotationclient: 0,
+  totalQuotationclientIVA: 0,
+  totalProductIvaFlete: 0,
+  /********************************* */
+  /************************************ */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones para importaciones*/
+  newQuotationimport: {
+    import_id: '',
+    user_id: '',
+    client_id: '',
+    payment: '',
+    state: ''
+  },
+  fillQuotationimport: {
+    id: '',
+    import_id: '',
+    user_id: '',
+    client_id: '',
+    payment: '',
+    state: ''
+  },
+  idQuotationimport: null,
+  totalQuotationimport: 0,
+  totalQuotationimportIVA: 0,
+  /********************************* */
+  /********************************* */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de cotizaciones usuario cliente */
+  formCotizacion: {
+    name: '',
+    email: '',
+    phone: '',
+    patentchasis: '',
+    brand: '',
+    model: '',
+    year: '',
+    engine: '',
+    description: ''
+  },
+  formCotizacionExpress: {
+    patentchasis: '',
+    brand: '',
+    model: '',
+    year: '',
+    description: ''
+  },
+  formQuotationShipping: {
+    id: '',
+    nombre: '',
+    rut: '',
+    telefono: '',
+    ciudad: '',
+    direccion: 'SIN ENVIO',
+    sucursal: ''
+  },
+  quotationDesc: '',
+  /************************************ */
+  /*** secciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n componentes de importaciones */
+  idImport: null,
+  imports: [],
+  newImport: {
+    name: '',
+    dolar: '',
+    safe: '',
+    transport: '',
+    internment: '',
+    other1: '',
+    other2: '',
+    total: ''
+  },
+  fillImport: {
+    id: '',
+    name: '',
+    dolar: '',
+    safe: '',
+    transport: '',
+    internment: '',
+    other1: '',
+    other2: '',
+    total: ''
+  },
+  searchImport: {
+    name: ''
+  },
+  "import": null
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "details", []), "newDetail", {
   product: '',
   price: ''
 }), "fillDetail", {
@@ -43918,7 +44046,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   product: '',
   detail: '',
   quantity: 1
-}), "selectedSparePartProduct", []), "quotationSpareParts", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "activeDetailclientImages", {
+}), "selectedSparePartProduct", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "quotationSpareParts", []), "activeDetailclientImages", {
   id: null,
   product: '',
   images: []
@@ -43932,7 +44060,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "newDeliveryTime", {
   label: '',
   is_default: false
-}), "detailimports", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newDetailimport", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "detailimports", []), "newDetailimport", {
   import_id: '',
   product: '',
   detail: '',
@@ -44016,7 +44144,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   guia: 0,
   retiro: 0,
   fleteChile: 0
-}), "totalNeto", 0), "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
+}), "totalNeto", 0), "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
   id: '',
   user_id: '',
   name: '',
@@ -44054,7 +44182,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   type: ''
 }), "searchClient", {
   rut: ''
-}), "import_file", ''), "products", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productVehicleModelOptions", []), "productVehicleModelBrandSearch", ''), "productVehicleModelModelSearch", ''), "selectedProductVehicleModelIds", []), "productVehicleModelModal", {
+}), "import_file", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "products", []), "productVehicleModelOptions", []), "productVehicleModelBrandSearch", ''), "productVehicleModelModelSearch", ''), "selectedProductVehicleModelIds", []), "productVehicleModelModal", {
   productId: null,
   productName: ''
 }), "product", {
@@ -44067,7 +44195,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   utilidad: ''
 }), "newDescuento", {
   descuento: 0
-}), "tipospagos", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "fillTipoPago", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "tipospagos", []), "fillTipoPago", {
   id: '',
   pago: '',
   utilidad: ''
@@ -44094,9 +44222,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   nombre: ''
 }), "productCatalogTemplateImportFile", null), "search", {
   name: ''
-}), "calendar", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "calendar", {
   search: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "codes", []), "newProduct", {
+}), "codes", []), "newProduct", {
   name: '',
   codebar: '',
   client_id: '',
@@ -44132,7 +44260,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   type: '',
   logo: '',
   id: ''
-}), "errorsLaravel", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "publicQuotationSubmitting", false), "publicQuotationOwnerId", null), "publicQuotationImages", []), "pagination", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "errorsLaravel", []), "publicQuotationSubmitting", false), "publicQuotationOwnerId", null), "publicQuotationImages", []), "pagination", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -44153,14 +44281,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_form", 2), "pagination_marca", {
+}), "offset_form", 2), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pagination_marca", {
   'total': 0,
   'current_page': 0,
   'per_page': 10,
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "offset_marca", 5), "pagination_tipo", {
+}), "offset_marca", 5), "pagination_tipo", {
   'total': 0,
   'current_page': 0,
   'per_page': 10,
@@ -44188,7 +44316,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_motorspec", 5), "motors", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "newMotor", {
+}), "offset_motorspec", 5), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "motors", []), "newMotor", {
   motor_number: '',
   arreglo_cpl: ''
 }), "fillMotor", {
@@ -44202,10 +44330,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_motors", 5), "attachment", []), "form", new FormData()), "records", []), "images", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), "users", []), "tallerWorkers", []), "tallerTeam", []), "newTallerWorker", {
+}), "offset_motors", 5), "attachment", []), "form", new FormData()), "records", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), "users", []), "tallerWorkers", []), "tallerTeam", []), "newTallerWorker", {
   name: '',
   email: ''
-}), "totalvehi", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
   name: '',
   email: '',
   password: '',
@@ -44220,7 +44348,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   //mecanico: '',
   //cant_client: 0,
   cant_vehicle: 0
-}), "activationLink", ''), "lastCreatedUserId", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "currentUserRegistroId", ''), "fillUser", {
+}), "activationLink", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "lastCreatedUserId", ''), "currentUserRegistroId", ''), "fillUser", {
   id: '',
   name: '',
   email: '',
@@ -44239,10 +44367,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillCantVehicle", {
   id: '',
   cant_vehicle: 0
-}), "searchUser", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "searchUser", {
   barcode: '',
   rut: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "roles", []), "newRole", {
+}), "roles", []), "newRole", {
   name: '',
   description: '',
   default_cant_vehicle: ''
@@ -44261,11 +44389,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillFacebookShipping", {
   id: '',
   url: ''
-}), "facebookshipping", []), "checkedRoles", []), "permissions", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
+}), "facebookshipping", []), "checkedRoles", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
+}), "optionsCode", []), "optionsPrice", []), "cart", []), "trabajos", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -44285,7 +44413,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
+}), "cartNeto", 0), "cartTotal", 0), "sales", []), "searchFecha", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -44304,7 +44432,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   flete: 0
 }), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), _defineProperty(_selectedUserForDevic, "mostrarObservacion", false));
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_selectedUserForDevic, "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), _defineProperty(_defineProperty(_selectedUserForDevic, "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 

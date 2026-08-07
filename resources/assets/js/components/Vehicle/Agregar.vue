@@ -43,12 +43,12 @@
                             <EngineSelector />
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" v-if="rol !== 'client'">
                             <label for="motor_number">N° de Motor</label>
                             <input type="text" name="motor_number" class="form-control" v-model="newVehicle.motor_number">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" v-if="rol !== 'client'">
                             <label for="arreglo_cpl">Arreglo / CPL</label>
                             <input type="text" name="arreglo_cpl" class="form-control" v-model="newVehicle.arreglo_cpl">
                         </div>
@@ -89,7 +89,7 @@ import EngineSelector from '../Quotationuser/EngineSelector'
 export default {
     components: { BrandSelector, ModelSelector, YearSelector, EngineSelector },
     computed: {
-        ...mapState(['newVehicle', 'errorsLaravel']),
+        ...mapState(['newVehicle', 'errorsLaravel', 'rol']),
         ...mapGetters(['completeVehicleCreate'])
     },
     methods: {
