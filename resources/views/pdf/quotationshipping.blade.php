@@ -4,34 +4,48 @@
     <table>   
         <tbody>
             @foreach($shippings as $shipping)
-                <tr>
-                    <th>ID:</th>    
+                @if($shipping->id)
+                <tr class="cliente">
+                    <th>ID:</th>
                     <td>{{ $shipping->id }}</td>
                 </tr>
-                <tr>
-                    <th>ATTE:</th>    
+                @endif
+                @if($shipping->nombre)
+                <tr class="cliente">
+                    <th>ATTE:</th>
                     <td>{{ $shipping->nombre }}</td>
                 </tr>
-                <tr>
-                    <th>RUT:</th> 
+                @endif
+                @if($shipping->rut)
+                <tr class="cliente">
+                    <th>RUT:</th>
                     <td>{{ $shipping->rut }}</td>
                 </tr>
-                <tr>
+                @endif
+                @if($shipping->telefono)
+                <tr class="cliente">
                     <th>CEL:</th>
                     <td>{{ $shipping->telefono }}</td>
                 </tr>
-                <tr>
+                @endif
+                @if($shipping->ciudad)
+                <tr class="cliente">
                     <th>CIUDAD:</th>
                     <td>{{ $shipping->ciudad }}</td>
                 </tr>
-                <tr>
+                @endif
+                @if($shipping->direccion)
+                <tr class="cliente">
                     <th>DIRECCION:</th>
                     <td>{{ $shipping->direccion }}</td>
                 </tr>
-                <tr>
+                @endif
+                @if($shipping->sucursal)
+                <tr class="cliente">
                     <th>SUCURSAL:</th>
                     <td>{{ $shipping->sucursal }}</td>
                 </tr>
+                @endif
             @endforeach
                 <tr>
                     <th style="padding-top: 15px;">RTE:</th>    

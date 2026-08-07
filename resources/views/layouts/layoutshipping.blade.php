@@ -12,7 +12,12 @@
                 width: 100%;
                 font-size: 9px;
                 text-transform: uppercase;
-            }  
+                font-weight: bold;
+            }
+            .cliente th,
+            .cliente td {
+                font-style: italic;
+            }
         </style>
 
     </head>

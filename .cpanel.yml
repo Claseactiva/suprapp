@@ -269,7 +269,9 @@ deployment:
     - /bin/cp -f resources/views/registro.blade.php $DEPLOYPATH/resources/views/registro.blade.php
     - /bin/cp -f resources/views/pdf/quotationclient.blade.php $DEPLOYPATH/resources/views/pdf/quotationclient.blade.php
     - /bin/cp -f resources/views/pdf/quotationclientiva.blade.php $DEPLOYPATH/resources/views/pdf/quotationclientiva.blade.php
+    - /bin/cp -f resources/views/pdf/quotationshipping.blade.php $DEPLOYPATH/resources/views/pdf/quotationshipping.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
     - /bin/cp -f resources/views/auth/passwords/email.blade.php $DEPLOYPATH/resources/views/auth/passwords/email.blade.php
     - /bin/cp -f resources/views/layouts/portalapp.blade.php $DEPLOYPATH/resources/views/layouts/portalapp.blade.php
+    - /bin/cp -f resources/views/layouts/layoutshipping.blade.php $DEPLOYPATH/resources/views/layouts/layoutshipping.blade.php
