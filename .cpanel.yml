@@ -293,6 +293,7 @@ deployment:
     - /bin/cp -f resources/views/pdf/quotationshipping.blade.php $DEPLOYPATH/resources/views/pdf/quotationshipping.blade.php
     - /bin/cp -f resources/views/pdf/purchase_order.blade.php $DEPLOYPATH/resources/views/pdf/purchase_order.blade.php
     - /bin/cp -f resources/views/layouts/purchase_order.blade.php $DEPLOYPATH/resources/views/layouts/purchase_order.blade.php
+    - /bin/cp -f resources/views/layouts/quotationclient.blade.php $DEPLOYPATH/resources/views/layouts/quotationclient.blade.php
     - /bin/cp -f resources/views/admin/orden-compra.blade.php $DEPLOYPATH/resources/views/admin/orden-compra.blade.php
     - /bin/cp -f resources/views/auth/login.blade.php $DEPLOYPATH/resources/views/auth/login.blade.php
     - /bin/cp -f resources/views/auth/passwords/reset.blade.php $DEPLOYPATH/resources/views/auth/passwords/reset.blade.php
