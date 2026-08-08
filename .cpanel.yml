@@ -50,6 +50,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/resources/views/layouts
     - /bin/mkdir -p $DEPLOYPATH/routes
     - /bin/cp -f artisan $DEPLOYPATH
+    - /bin/cp -f bootstrap/app.php $DEPLOYPATH/bootstrap/app.php
     - /bin/cp -f app/User.php $DEPLOYPATH/app/User.php
     - /bin/rm -f $DEPLOYPATH/app/Http/Controllers/AccesoController.php
     - /bin/rm -f $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos/AgregarFotosOrdenTrabajo.vue

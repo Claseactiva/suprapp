@@ -2,6 +2,34 @@
 
 /*
 |--------------------------------------------------------------------------
+| mbstring fallback
+|--------------------------------------------------------------------------
+|
+| El PHP de produccion no siempre trae la extension mbstring habilitada.
+| league/commonmark (usado por los correos en Markdown) necesita
+| mb_strcut, que el polyfill de symfony/polyfill-mbstring no cubre.
+| Este shim solo corta bytes y ajusta el borde para no partir un
+| caracter UTF-8 a la mitad.
+|
+*/
+
+if (! function_exists('mb_strcut')) {
+    function mb_strcut($string, $start, $length = null, $encoding = null)
+    {
+        $substr = $length === null
+            ? substr($string, $start)
+            : substr($string, $start, $length);
+
+        while ($substr !== '' && preg_match('//u', $substr) !== 1) {
+            $substr = substr($substr, 0, -1);
+        }
+
+        return $substr;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------
 |
