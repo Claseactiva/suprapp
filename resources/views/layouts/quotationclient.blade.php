@@ -224,7 +224,7 @@
 
         .oc-col-desc {
             text-align: left;
-            width: 22%;
+            width: 33%;
         }
 
         .oc-col-part {
@@ -234,7 +234,7 @@
 
         .oc-col-qty {
             text-align: center;
-            width: 8%;
+            width: 5%;
         }
 
         .oc-col-days {
@@ -244,12 +244,12 @@
 
         .oc-col-price {
             text-align: right;
-            width: 15%;
+            width: 10%;
         }
 
         .oc-col-total {
             text-align: right;
-            width: 15%;
+            width: 12%;
         }
 
         /* ---- observaciones + totales ---- */
