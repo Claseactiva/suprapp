@@ -58,7 +58,7 @@
                         <div v-show="checkedSpecialRole !== 'all-access' && checkedSpecialRole !== 'no-access'" v-for="permissionLocal in permissions" :key="permissionLocal.id">
                             <input name="permission" type="checkbox" v-bind:id="permissionLocal.id" v-bind:value="permissionLocal.id"
                                     v-model="checkedPermissions">
-                            <label v-bind:for="permissionLocal.id">{{ permissionLocal.name }} </label>
+                            <label v-bind:for="permissionLocal.id">{{ permissionLabel(permissionLocal.name) }} </label>
                         </div>
                         
 
@@ -100,7 +100,14 @@ export default {
         },
     },
     methods:{
-        ...mapActions(['updateRole', 'getAllPermissions'])
+        ...mapActions(['updateRole', 'getAllPermissions']),
+        permissionLabel(name) {
+            const labels = {
+                utilidades: 'Configuraciones',
+            }
+
+            return labels[name] || name
+        }
     },
 }
 </script>
