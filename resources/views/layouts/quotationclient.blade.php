@@ -117,9 +117,23 @@
 
         .oc-info-label {
             color: #666666;
-            width: 1%;
+            width: 45px;
             white-space: nowrap;
-            padding-right: 6px;
+            padding-right: 0;
+        }
+
+        .oc-info-label-wide {
+            color: #666666;
+            width: 72px;
+            white-space: nowrap;
+            padding-right: 0;
+        }
+
+        .oc-info-label-inline {
+            color: #666666;
+            width: auto;
+            white-space: nowrap;
+            padding-right: 4px;
         }
 
         .oc-info-value {
@@ -224,7 +238,7 @@
 
         .oc-col-desc {
             text-align: left;
-            width: 33%;
+            width: 44%;
         }
 
         .oc-col-part {
@@ -239,17 +253,17 @@
 
         .oc-col-days {
             text-align: center;
-            width: 12%;
+            width: 8.5%;
         }
 
         .oc-col-price {
             text-align: right;
-            width: 10%;
+            width: 7.2%;
         }
 
         .oc-col-total {
             text-align: right;
-            width: 12%;
+            width: 7.2%;
         }
 
         /* ---- observaciones + totales ---- */
@@ -292,7 +306,7 @@
 
         .oc-totals-table td {
             padding: 4px 8px;
-            font-size: 9px;
+            font-size: 10px;
             border: 1px solid #D9DEE7;
         }
 

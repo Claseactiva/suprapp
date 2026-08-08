@@ -53,7 +53,7 @@
                                 </tr>
                             </table>
                         @elseif ($hasVehicle)
-                            <table>
+                            <table style="width: auto;">
                                 <tr>
                                     <td class="oc-info-label">Cliente:</td>
                                     <td class="oc-info-value">{{ $client->name }}</td>
@@ -80,7 +80,7 @@
                                         <table>
                                             <tr>
                                                 <td class="oc-info-value oc-info-value-inline">{{ $client->phone }}</td>
-                                                <td class="oc-info-label">Correo:</td>
+                                                <td class="oc-info-label-inline">Correo:</td>
                                                 <td class="oc-info-value">{{ $client->email }}</td>
                                             </tr>
                                         </table>
@@ -91,7 +91,7 @@
                             <table class="oc-info-2col">
                                 <tr>
                                     <td class="oc-info-2col-left">
-                                        <table>
+                                        <table style="width: auto;">
                                             <tr>
                                                 <td class="oc-info-label">Cliente:</td>
                                                 <td class="oc-info-value">{{ $client->name }}</td>
@@ -107,7 +107,7 @@
                                         </table>
                                     </td>
                                     <td class="oc-info-2col-right">
-                                        <table>
+                                        <table style="width: auto;">
                                             <tr>
                                                 <td class="oc-info-label">Dirección:</td>
                                                 <td class="oc-info-value">{{ $client->address }}</td>
@@ -121,7 +121,7 @@
                                                 <td class="oc-info-value">{{ $client->phone }}</td>
                                             </tr>
                                             <tr>
-                                                <td class="oc-info-label">Correo:</td>
+                                                <td class="oc-info-label-inline">Correo:</td>
                                                 <td class="oc-info-value">{{ $client->email }}</td>
                                             </tr>
                                         </table>
@@ -135,7 +135,7 @@
                     <td>
                         <div class="oc-info-box">
                             <p class="oc-info-title">Datos del Vehículo</p>
-                            <table>
+                            <table style="width: auto;">
                                 @if ($quotation->vehicle != '')
                                     <tr>
                                         <td class="oc-info-label">Vehículo:</td>
@@ -144,7 +144,7 @@
                                 @endif
                                 @if ($quotation->ppu != '')
                                     <tr>
-                                        <td class="oc-info-label">PPU/N° Interno:</td>
+                                        <td class="oc-info-label-wide">PPU/N° Interno:</td>
                                         <td class="oc-info-value">{{ $quotation->ppu }}</td>
                                     </tr>
                                 @endif
