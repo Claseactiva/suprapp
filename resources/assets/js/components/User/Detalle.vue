@@ -5,7 +5,7 @@
                 <a class="nav-link active" id="company-tab" data-toggle="tab" href="#company" role="tab"
                     aria-controls="company" aria-selected="false">Datos Empresa</a>
             </li>
-            <li class="nav-item" v-if="newCompany.logo !== ''">
+            <li class="nav-item">
                 <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user"
                     aria-selected="true">Logo</a>
             </li>
@@ -30,7 +30,7 @@
                         accept=".png, .jpeg, .jpg">
                 </div>
 
-                <div class="form-group" v-if="newCompany.logo !== ''">
+                <div class="form-group" v-if="newCompany.logo">
                     <img :src="`/storage${newCompany.logo}`" class="logo" alt="...">
                 </div>
 
