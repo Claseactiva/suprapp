@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -181,8 +182,16 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $token = Password::createToken($user);
-        $user->notify(new SetInitialPasswordNotification($token));
+        try {
+            $token = Password::createToken($user);
+            $user->notify(new SetInitialPasswordNotification($token));
+        } catch (\Throwable $e) {
+            Log::error('sendPasswordReset failed for user ' . $id . ': ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'No se pudo enviar el correo: ' . $e->getMessage(),
+            ], 500);
+        }
 
         $activationUrl = url(route('password.reset', [
             'token' => $token,
