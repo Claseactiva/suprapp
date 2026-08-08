@@ -786,16 +786,32 @@ export default {
             this.copyTextToClipboard(text, 'Se copio la cotizacion para WhatsApp')
         },
         buildQuotationWhatsappText() {
+            let totalServicio = 0
+
             const lines = this.detailclients.map((detailLocal, index) => {
                 const product = (detailLocal.product || 'Producto sin nombre').trim()
+                const quantityValue = Number(detailLocal.quantity) || 0
                 const quantity = this.formatQuantity(detailLocal.quantity)
-                const total = this.formatPriceForCopy(detailLocal.total)
+                const lineTotal = this.roundQuotationLineTotal(detailLocal.total, quantityValue)
+                totalServicio += lineTotal
+                const total = this.formatPriceForCopy(lineTotal)
                 const delivery = this.normalizeDeliveryTime(detailLocal.days)
 
                 return `${index + 1}. ${product}\nCantidad: ${quantity}\nValor: ${total}\nEntrega: ${delivery}`
             })
 
-            return `COTIZACION\n\n${lines.join('\n\n')}\n\nTotal: ${this.formatPriceForCopy(this.totalQuotationclientIVA)}`
+            const total = Math.ceil(totalServicio / 10) * 10
+
+            return `COTIZACION\n\n${lines.join('\n\n')}\n\nTotal: ${this.formatPriceForCopy(total)}`
+        },
+        roundQuotationLineTotal(total, quantity) {
+            if (!quantity) {
+                return 0
+            }
+
+            const unitValue = Math.ceil((Number(total) || 0) / quantity / 10) * 10
+
+            return unitValue * quantity
         },
         copyTextToClipboard(text, successMessage) {
             if (navigator.clipboard && window.isSecureContext) {
