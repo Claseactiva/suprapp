@@ -388,6 +388,7 @@ export default { //data
         ppu: '',
         show_part_number: false
     },
+    savingQuotationclient: false,
     fillQuotationclient: {
         id: '',
         client_id: '',

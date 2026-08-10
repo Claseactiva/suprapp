@@ -115,8 +115,11 @@
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mb-3">
                                         <label for="currency">Moneda</label>
-                                        <input type="text" name="currency" class="form-control"
-                                            v-model="newPurchaseOrder.currency" placeholder="PESO CHILENO">
+                                        <select name="currency" class="form-control" v-model="newPurchaseOrder.currency">
+                                            <option value="PESO CHILENO">Peso Chileno</option>
+                                            <option value="DOLAR">Dólar</option>
+                                            <option value="EURO">Euro</option>
+                                        </select>
                                     </div>
                                 </div>
 

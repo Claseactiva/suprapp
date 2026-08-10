@@ -35,14 +35,14 @@
 
                                             <div class="col-lg-2 col-md-12">
                                                 <label for="precio">Precio</label>
-                                                <input type="number" name="precio" class="form-control"
+                                                <input type="number" step="0.01" name="precio" class="form-control"
                                                     v-model="newPurchaseOrderDetail.price" @keyup="sumTotalPurchaseOrderDetail" required>
                                             </div>
 
                                             <div class="col-lg-1 col-md-12">
                                                 <label for="cantidad">Cantidad</label>
-                                                <input type="number" name="quantity" class="form-control" required
-                                                    v-model="newPurchaseOrderDetail.quantity" @keyup="sumTotalPurchaseOrderDetail" min="1">
+                                                <input type="number" step="0.01" name="quantity" class="form-control" required
+                                                    v-model="newPurchaseOrderDetail.quantity" @keyup="sumTotalPurchaseOrderDetail" min="0.01">
                                             </div>
 
                                             <div class="col-lg-2 col-md-12">
@@ -57,7 +57,7 @@
 
                                             <div class="col-lg-1 col-md-12">
                                                 <label for="total">Total</label>
-                                                <input type="number" name="total" class="form-control"
+                                                <input type="number" step="0.01" name="total" class="form-control"
                                                     v-model="newPurchaseOrderDetail.total" disabled>
                                             </div>
 
@@ -207,7 +207,7 @@ export default {
         },
         formatPrice(value) {
             const numericValue = Number(value) || 0
-            return numericValue.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })
+            return '$ ' + numericValue.toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
         }
     }
 }

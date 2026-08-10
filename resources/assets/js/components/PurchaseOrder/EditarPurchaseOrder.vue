@@ -48,7 +48,11 @@
 
                             <div class="col-lg-3 mb-3">
                                 <label for="currency">Moneda</label>
-                                <input id="currency" type="text" class="form-control" v-model="fillPurchaseOrder.currency">
+                                <select id="currency" class="form-control" v-model="fillPurchaseOrder.currency">
+                                    <option value="PESO CHILENO">Peso Chileno</option>
+                                    <option value="DOLAR">Dólar</option>
+                                    <option value="EURO">Euro</option>
+                                </select>
                             </div>
 
                             <div class="col-lg-3 mb-3">

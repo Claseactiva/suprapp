@@ -108,8 +108,8 @@
                                             <label for="show_part_number" class="mb-0">Mostrar N° de parte en el PDF</label>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-12 mb-3">
-                                            <button type="submit" class="btn btn-success form-control">
-                                                <i class="fas fa-plus-square"></i> Guardar
+                                            <button type="submit" class="btn btn-success form-control" :disabled="savingQuotationclient">
+                                                <i class="fas fa-plus-square"></i> {{ savingQuotationclient ? 'Guardando...' : 'Guardar' }}
                                             </button>
                                         </div>
                                     </div>
@@ -393,7 +393,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient']),
+        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient']),
         ...mapGetters(['isActived', 'pagesNumber']),
         dateRange: {
             get() {

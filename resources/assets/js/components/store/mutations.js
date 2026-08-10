@@ -2260,6 +2260,10 @@ export default { //used for changing the state
         })
     },
     createQuotationclient(state) {
+        if (state.savingQuotationclient) {
+            return
+        }
+
         let url = urlQuotationclient
 
         let hasSelectedClient = state.selectedClient && state.selectedClient.value !== ''
@@ -2279,6 +2283,8 @@ export default { //used for changing the state
             state.selectedVEngine.label
         ].filter(part => part && part.trim() !== '')
 
+        state.savingQuotationclient = true
+
         axios.post(url, {
             client_id: clientId,
             state: 'Pendiente',
@@ -2293,6 +2299,7 @@ export default { //used for changing the state
             tipo: state.quotationTipoContext,
             show_part_number: state.newQuotationclient.show_part_number
         }).then(response => {
+            state.savingQuotationclient = false
             state.newQuotationclient = {
                 client_id: '',
                 client_text: '',
@@ -2316,6 +2323,7 @@ export default { //used for changing the state
             state.errorsLaravel = []
             toastr.success('CotizaciÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â³n formal generada con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
+            state.savingQuotationclient = false
             state.errorsLaravel = error.response.data
         })
     },
@@ -2707,7 +2715,7 @@ export default { //used for changing the state
             let total = 0
 
             state.purchaseOrderLines.forEach(line => {
-                total += parseInt(line.total) || 0
+                total += parseFloat(line.total) || 0
             })
 
             state.totalPurchaseOrder = total
@@ -2717,13 +2725,13 @@ export default { //used for changing the state
         let price = parseFloat(state.newPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.newPurchaseOrderDetail.quantity) || 0
 
-        state.newPurchaseOrderDetail.total = Math.round(price * quantity)
+        state.newPurchaseOrderDetail.total = Math.round(price * quantity * 100) / 100
     },
     sumTotalEditPurchaseOrderDetail(state) {
         let price = parseFloat(state.fillPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.fillPurchaseOrderDetail.quantity) || 0
 
-        state.fillPurchaseOrderDetail.total = Math.round(price * quantity)
+        state.fillPurchaseOrderDetail.total = Math.round(price * quantity * 100) / 100
     },
     createPurchaseOrderDetail(state) {
         axios.post('purchase-order-lines', {

@@ -1,5 +1,15 @@
 @extends('layouts.purchase_order')
 
+@php
+    $currencySymbols = [
+        'PESO CHILENO' => '$',
+        'DOLAR' => 'US$',
+        'EURO' => '€',
+    ];
+    $currencySymbol = $currencySymbols[$order->currency] ?? '$';
+    $isPesoChileno = ($order->currency ?? 'PESO CHILENO') === 'PESO CHILENO';
+@endphp
+
 @section('content')
     <div>
 
@@ -182,8 +192,8 @@
                         <td class="oc-col-desc">{{ $detail->product }}</td>
                         <td class="oc-col-qty">{{ $detail->quantity }}</td>
                         <td class="oc-col-days">{{ $detail->days }}</td>
-                        <td class="oc-col-price">$ {{ number_format($detail->price, 0, ',', '.') }}</td>
-                        <td class="oc-col-total">$ {{ number_format($detail->total, 0, ',', '.') }}</td>
+                        <td class="oc-col-price">{{ $currencySymbol }} {{ number_format($detail->price, 2, ',', '.') }}</td>
+                        <td class="oc-col-total">{{ $currencySymbol }} {{ number_format($detail->total, 2, ',', '.') }}</td>
                         <?php $totalPedido += $detail->total; ?>
                     </tr>
                 @endforeach
@@ -205,17 +215,21 @@
                 </td>
                 <td class="oc-totals-col">
                     <table class="oc-totals-table">
+                        <?php
+                            $ivaPedido = $isPesoChileno ? (ceil(($totalPedido * 0.19) / 10) * 10) : round($totalPedido * 0.19, 2);
+                            $totalConIva = $isPesoChileno ? (ceil(($totalPedido * 1.19) / 10) * 10) : round($totalPedido * 1.19, 2);
+                        ?>
                         <tr>
                             <td class="oc-totals-label">Neto</td>
-                            <td class="oc-totals-value">$ {{ number_format($totalPedido, 0, ',', '.') }}</td>
+                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($totalPedido, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <td class="oc-totals-label">IVA</td>
-                            <td class="oc-totals-value">$ {{ number_format(ceil(($totalPedido * 0.19) / 10) * 10, 0, ',', '.') }}</td>
+                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($ivaPedido, 2, ',', '.') }}</td>
                         </tr>
                         <tr class="oc-total-row">
                             <td class="oc-totals-label">TOTAL</td>
-                            <td class="oc-totals-value">$ {{ number_format(ceil(($totalPedido * 1.19) / 10) * 10, 0, ',', '.') }}</td>
+                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($totalConIva, 2, ',', '.') }}</td>
                         </tr>
                     </table>
                 </td>
