@@ -8,6 +8,15 @@
     ];
     $currencySymbol = $currencySymbols[$order->currency] ?? '$';
     $isPesoChileno = ($order->currency ?? 'PESO CHILENO') === 'PESO CHILENO';
+
+    $formatAmount = function ($value) {
+        $value = (float) $value;
+        $decimals = (abs($value - round($value)) < 0.005) ? 0 : 2;
+        return number_format($value, $decimals, ',', '.');
+    };
+    $formatCurrency = function ($value) use ($currencySymbol, $formatAmount) {
+        return $currencySymbol . '&nbsp;' . $formatAmount($value);
+    };
 @endphp
 
 @section('content')
@@ -192,8 +201,8 @@
                         <td class="oc-col-desc">{{ $detail->product }}</td>
                         <td class="oc-col-qty">{{ $detail->quantity }}</td>
                         <td class="oc-col-days">{{ $detail->days }}</td>
-                        <td class="oc-col-price">{{ $currencySymbol }} {{ number_format($detail->price, 2, ',', '.') }}</td>
-                        <td class="oc-col-total">{{ $currencySymbol }} {{ number_format($detail->total, 2, ',', '.') }}</td>
+                        <td class="oc-col-price">{!! $formatCurrency($detail->price) !!}</td>
+                        <td class="oc-col-total">{!! $formatCurrency($detail->total) !!}</td>
                         <?php $totalPedido += $detail->total; ?>
                     </tr>
                 @endforeach
@@ -221,15 +230,15 @@
                         ?>
                         <tr>
                             <td class="oc-totals-label">Neto</td>
-                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($totalPedido, 2, ',', '.') }}</td>
+                            <td class="oc-totals-value">{!! $formatCurrency($totalPedido) !!}</td>
                         </tr>
                         <tr>
                             <td class="oc-totals-label">IVA</td>
-                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($ivaPedido, 2, ',', '.') }}</td>
+                            <td class="oc-totals-value">{!! $formatCurrency($ivaPedido) !!}</td>
                         </tr>
                         <tr class="oc-total-row">
                             <td class="oc-totals-label">TOTAL</td>
-                            <td class="oc-totals-value">{{ $currencySymbol }} {{ number_format($totalConIva, 2, ',', '.') }}</td>
+                            <td class="oc-totals-value">{!! $formatCurrency($totalConIva) !!}</td>
                         </tr>
                     </table>
                 </td>

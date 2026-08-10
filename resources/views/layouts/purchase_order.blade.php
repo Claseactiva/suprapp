@@ -141,7 +141,7 @@
         }
 
         .oc-extra-row td {
-            font-size: 8.5px;
+            font-size: 10px;
             text-align: left;
             vertical-align: top;
         }
@@ -226,11 +226,13 @@
         .oc-col-price {
             text-align: right;
             width: 8%;
+            white-space: nowrap;
         }
 
         .oc-col-total {
             text-align: right;
             width: 9.5%;
+            white-space: nowrap;
         }
 
         /* ---- observaciones + totales ---- */
@@ -285,6 +287,7 @@
         .oc-totals-value {
             text-align: right;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .oc-total-row td {

@@ -207,7 +207,9 @@ export default {
         },
         formatPrice(value) {
             const numericValue = Number(value) || 0
-            return '$ ' + numericValue.toLocaleString('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            const hasDecimals = Math.abs(numericValue - Math.round(numericValue)) >= 0.005
+            const decimals = hasDecimals ? 2 : 0
+            return '$ ' + numericValue.toLocaleString('es-CL', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
         }
     }
 }
