@@ -171,6 +171,7 @@
 
         .oc-products {
             margin-top: 4px;
+            table-layout: fixed;
         }
 
         .oc-products thead {
@@ -185,6 +186,7 @@
             text-transform: uppercase;
             padding: 5px 4px;
             border: 1px solid #071B41;
+            white-space: nowrap;
         }
 
         .oc-products tbody tr {
@@ -201,26 +203,33 @@
         .oc-col-num {
             text-align: center;
             width: 5%;
+            white-space: nowrap;
         }
 
         .oc-col-code {
             text-align: left;
             width: 13%;
+            white-space: nowrap;
         }
 
         .oc-col-desc {
             text-align: left;
             width: 50%;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-word;
         }
 
         .oc-col-qty {
             text-align: center;
             width: 5%;
+            white-space: nowrap;
         }
 
         .oc-col-days {
             text-align: center;
             width: 9.5%;
+            white-space: nowrap;
         }
 
         .oc-col-price {
