@@ -182,9 +182,9 @@
             background-color: #071B41;
             color: #FFFFFF;
             font-weight: bold;
-            font-size: 10px;
+            font-size: 9px;
             text-transform: uppercase;
-            padding: 5px 4px;
+            padding: 5px 3px;
             border: 1px solid #071B41;
             white-space: nowrap;
         }
@@ -214,7 +214,7 @@
 
         .oc-col-desc {
             text-align: left;
-            width: 50%;
+            width: 41.5%;
             white-space: normal;
             word-wrap: break-word;
             word-break: break-word;
@@ -222,19 +222,19 @@
 
         .oc-col-qty {
             text-align: center;
-            width: 5%;
+            width: 7%;
             white-space: nowrap;
         }
 
         .oc-col-days {
             text-align: center;
-            width: 9.5%;
+            width: 13%;
             white-space: nowrap;
         }
 
         .oc-col-price {
             text-align: right;
-            width: 8%;
+            width: 11%;
             white-space: nowrap;
         }
 
