@@ -199,6 +199,7 @@
 
         .oc-products {
             margin-top: 4px;
+            table-layout: fixed;
         }
 
         .oc-products thead {
@@ -224,6 +225,9 @@
             padding: 4px;
             font-size: 10px;
             vertical-align: middle;
+            white-space: normal;
+            word-wrap: break-word;
+            word-break: break-word;
         }
 
         .oc-col-num {

@@ -203,32 +203,32 @@
                         </div>
 
                         <div class="col-lg-12 table-responsive">
-                            <table class="table table-responsive-new table-dark table-sm mt-3">
+                            <table class="table table-responsive-new table-dark table-sm mt-3 quotation-products-table">
                                 <thead>
                                     <tr>
-                                        <th :style="isReparacion ? 'width: 40px;' : ''">ID</th>
-                                        <th :style="isReparacion ? 'width: 40%;' : ''">Producto</th>
-                                        <th v-if="!isReparacion">Código</th>
-                                        <th v-if="!isReparacion">Plazo</th>
-                                        <th v-if="showNetoColumns">Valor Neto ($)</th>
-                                        <th>Cantidad</th>
-                                        <th v-if="showPercentageColumns">Porcentaje</th>
-                                        <th v-if="!isReparacion">Adicional ($)</th>
-                                        <th v-if="!isReparacion">Transporte ($)</th>
-                                        <th v-if="showPercentageColumns">Utilidad ($)</th>
-                                        <th v-if="showNetoColumns">Total Neto ($)</th>
-                                        <th>Total + IVA ($)</th>
-                                        <th>Acción</th>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-product">Producto</th>
+                                        <th class="col-code" v-if="!isReparacion">Código</th>
+                                        <th class="col-term" v-if="!isReparacion">Plazo</th>
+                                        <th class="col-neto" v-if="showNetoColumns">Valor Neto</th>
+                                        <th class="col-qty">Cantidad</th>
+                                        <th class="col-pct" v-if="showPercentageColumns">Porcentaje</th>
+                                        <th class="col-money-sm" v-if="!isReparacion">Adicional</th>
+                                        <th class="col-money-sm" v-if="!isReparacion">Transporte</th>
+                                        <th class="col-money" v-if="showPercentageColumns">Utilidad</th>
+                                        <th class="col-money" v-if="showNetoColumns">Total Neto</th>
+                                        <th class="col-money">Total + IVA</th>
+                                        <th class="col-action">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr v-for="(detailLocal, index) in detailclients" :key="detailLocal.id">
-                                        <td data-table-label="ID">{{ index + 1 }}</td>
-                                        <td data-table-label="Producto">{{ detailLocal.product }}</td>
+                                        <td class="col-id" data-table-label="ID">{{ index + 1 }}</td>
+                                        <td class="col-product" data-table-label="Producto">{{ detailLocal.product }}</td>
                                         <td data-table-label="Código" v-if="!isReparacion">{{ detailLocal.detail }}</td>
                                         <td data-table-label="Plazo" v-if="!isReparacion">{{ detailLocal.days }}</td>
-                                        <td data-table-label="Valor Neto ($)" v-if="showNetoColumns">{{ formatPrice(detailLocal.price) }}</td>
+                                        <td class="col-neto" data-table-label="Valor Neto ($)" v-if="showNetoColumns">{{ formatPrice(detailLocal.price) }}</td>
                                         <td data-table-label="Cantidad">{{ detailLocal.quantity }}</td>
                                         <td data-table-label="Porcentaje" v-if="showPercentageColumns">{{ detailLocal.percentage + '%' }}</td>
                                         <td data-table-label="Adicional ($)" v-if="!isReparacion">{{ formatPrice(detailLocal.aditional) }}</td>
@@ -926,6 +926,59 @@ export default {
 
 .quotation-detail-action .btn {
     white-space: nowrap;
+}
+
+/* La tabla de productos hereda "white-space: nowrap" del modo admin-compact
+   (custom.css), lo que estira columnas cortas (ID, Cantidad, Porcentaje...)
+   con espacio vacio y evita que la Descripcion haga salto de linea.
+   Se fijan anchos angostos a las columnas cortas y se deja "Producto" libre
+   para que absorba el espacio sobrante y pueda hacer wrap. */
+.quotation-products-table {
+    table-layout: fixed;
+}
+
+.quotation-products-table .col-id {
+    width: 45px;
+}
+
+.quotation-products-table .col-code {
+    width: 90px;
+}
+
+.quotation-products-table .col-term {
+    width: 80px;
+}
+
+.quotation-products-table .col-qty {
+    width: 70px;
+}
+
+.quotation-products-table .col-pct {
+    width: 80px;
+}
+
+.quotation-products-table .col-money {
+    width: 100px;
+}
+
+.quotation-products-table .col-neto {
+    width: 95px;
+    padding-left: 16px;
+}
+
+.quotation-products-table .col-money-sm {
+    width: 70px;
+}
+
+.quotation-products-table .col-action {
+    width: 110px;
+}
+
+.quotation-products-table .col-product {
+    width: auto;
+    white-space: normal !important;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .bulk-quotation-textarea {

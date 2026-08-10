@@ -134,23 +134,23 @@
 
                             <div class="col-lg-12 table-responsive">
 
-                                <table class="table table-responsive-new table-dark table-sm mt-3">
+                                <table class="table table-responsive-new table-dark table-sm mt-3 quotation-products-table">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Producto</th>
-                                            <th>Plazo</th>
-                                            <th>Valor Neto ($)</th>
-                                            <th>Total Neto ($)</th>
-                                            <th>Total + IVA ($)</th>
-                                            <th>Acción</th>
+                                            <th class="col-id">ID</th>
+                                            <th class="col-product">Producto</th>
+                                            <th class="col-term">Plazo</th>
+                                            <th class="col-money">Valor Neto</th>
+                                            <th class="col-money">Total Neto</th>
+                                            <th class="col-money">Total + IVA</th>
+                                            <th class="col-action">Acción</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         <tr v-for="(detailLocal, index) in detailclients" :key="detailLocal.id">
-                                            <td data-table-label="ID">{{ index + 1 }}</td>
-                                            <td data-table-label="PRODUCTO">{{ detailLocal.product }}</td>
+                                            <td class="col-id" data-table-label="ID">{{ index + 1 }}</td>
+                                            <td class="col-product" data-table-label="PRODUCTO">{{ detailLocal.product }}</td>
                                             <td data-table-label="PLAZO">{{ detailLocal.days }}</td>
                                             <td data-table-label="Valor Neto ($)">{{ detailLocal.price | currency('', 0, { thousandsSeparator: '.' }) }}</td>
                                             <td data-table-label="Total Neto ($)">{{ detailLocal.total | currency('', 0, { thousandsSeparator: '.' }) }}</td>
@@ -392,6 +392,33 @@ export default {
 
 .quotation-detail-action .btn {
     white-space: nowrap;
+}
+
+.quotation-products-table {
+    table-layout: fixed;
+}
+
+.quotation-products-table .col-id {
+    width: 45px;
+}
+
+.quotation-products-table .col-term {
+    width: 65px;
+}
+
+.quotation-products-table .col-money {
+    width: 100px;
+}
+
+.quotation-products-table .col-action {
+    width: 110px;
+}
+
+.quotation-products-table .col-product {
+    width: auto;
+    white-space: normal !important;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .quotation-pdf-preview {
