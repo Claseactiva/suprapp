@@ -257,6 +257,18 @@ function resolvePaginationRequest(request, fallbackPerPage = 20) {
     }
 }
 
+function sanitizeDecimalInput(value) {
+    let normalized = String(value == null ? '' : value).replace(',', '.').replace(/[^0-9.]/g, '')
+
+    const firstDot = normalized.indexOf('.')
+    if (firstDot !== -1) {
+        normalized = normalized.slice(0, firstDot + 1) + normalized.slice(firstDot + 1).replace(/\./g, '')
+    }
+
+    const match = normalized.match(/^(\d*\.\d{2})\d+$/)
+    return match ? match[1] : normalized
+}
+
 const PUBLIC_QUOTATION_WHATSAPP_NUMBER = '56989483379'
 const PUBLIC_QUOTATION_REDIRECT_TARGETS = {
     ig: 'https://www.instagram.com/comercialsupra/',
@@ -2722,12 +2734,18 @@ export default { //used for changing the state
         })
     },
     sumTotalPurchaseOrderDetail(state) {
+        state.newPurchaseOrderDetail.price = sanitizeDecimalInput(state.newPurchaseOrderDetail.price)
+        state.newPurchaseOrderDetail.quantity = sanitizeDecimalInput(state.newPurchaseOrderDetail.quantity)
+
         let price = parseFloat(state.newPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.newPurchaseOrderDetail.quantity) || 0
 
         state.newPurchaseOrderDetail.total = Math.round(price * quantity * 100) / 100
     },
     sumTotalEditPurchaseOrderDetail(state) {
+        state.fillPurchaseOrderDetail.price = sanitizeDecimalInput(state.fillPurchaseOrderDetail.price)
+        state.fillPurchaseOrderDetail.quantity = sanitizeDecimalInput(state.fillPurchaseOrderDetail.quantity)
+
         let price = parseFloat(state.fillPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.fillPurchaseOrderDetail.quantity) || 0
 

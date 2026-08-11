@@ -20,11 +20,11 @@
                         <input type="text" name="codigo" class="form-control" v-model="fillPurchaseOrderDetail.detail">
 
                         <label for="precio">Precio</label>
-                        <input required type="number" step="0.01" name="precio" class="form-control"
+                        <input required type="text" inputmode="decimal" name="precio" class="form-control"
                             v-model="fillPurchaseOrderDetail.price" @keyup="sumTotalEditPurchaseOrderDetail">
 
                         <label for="cantidad">Cantidad</label>
-                        <input required type="number" step="0.01" name="cantidad" class="form-control"
+                        <input required type="text" inputmode="decimal" name="cantidad" class="form-control"
                             v-model="fillPurchaseOrderDetail.quantity" @keyup="sumTotalEditPurchaseOrderDetail">
 
                         <label for="dias">Días de Plazo</label>

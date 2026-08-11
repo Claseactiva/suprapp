@@ -35,14 +35,14 @@
 
                                             <div class="col-lg-2 col-md-12">
                                                 <label for="precio">Precio</label>
-                                                <input type="number" step="0.01" name="precio" class="form-control"
+                                                <input type="text" inputmode="decimal" name="precio" class="form-control"
                                                     v-model="newPurchaseOrderDetail.price" @keyup="sumTotalPurchaseOrderDetail" required>
                                             </div>
 
                                             <div class="col-lg-1 col-md-12">
                                                 <label for="cantidad">Cantidad</label>
-                                                <input type="number" step="0.01" name="quantity" class="form-control" required
-                                                    v-model="newPurchaseOrderDetail.quantity" @keyup="sumTotalPurchaseOrderDetail" min="0.01">
+                                                <input type="text" inputmode="decimal" name="quantity" class="form-control" required
+                                                    v-model="newPurchaseOrderDetail.quantity" @keyup="sumTotalPurchaseOrderDetail">
                                             </div>
 
                                             <div class="col-lg-2 col-md-12">
@@ -73,30 +73,30 @@
                         </div>
 
                         <div class="col-lg-12 table-responsive">
-                            <table class="table table-responsive-new table-dark table-sm mt-3">
+                            <table class="table table-responsive-new table-dark table-sm mt-3 purchaseorder-products-table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Producto</th>
-                                        <th>Código</th>
-                                        <th>Plazo</th>
-                                        <th>Precio ($)</th>
-                                        <th>Cantidad</th>
-                                        <th>Total ($)</th>
-                                        <th>Acción</th>
+                                        <th class="col-id">ID</th>
+                                        <th class="col-product">Producto</th>
+                                        <th class="col-code">Código</th>
+                                        <th class="col-term">Plazo</th>
+                                        <th class="col-money">Precio ($)</th>
+                                        <th class="col-qty">Cantidad</th>
+                                        <th class="col-money">Total ($)</th>
+                                        <th class="col-action">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr v-for="(detailLocal, index) in purchaseOrderLines" :key="detailLocal.id">
-                                        <td data-table-label="ID">{{ index + 1 }}</td>
-                                        <td data-table-label="Producto">{{ detailLocal.product }}</td>
-                                        <td data-table-label="Código">{{ detailLocal.detail }}</td>
-                                        <td data-table-label="Plazo">{{ detailLocal.days }}</td>
-                                        <td data-table-label="Precio ($)">{{ formatPrice(detailLocal.price) }}</td>
-                                        <td data-table-label="Cantidad">{{ detailLocal.quantity }}</td>
-                                        <td data-table-label="Total ($)"><b>{{ formatPrice(detailLocal.total) }}</b></td>
-                                        <td>
+                                        <td class="col-id" data-table-label="ID">{{ index + 1 }}</td>
+                                        <td class="col-product" data-table-label="Producto">{{ detailLocal.product }}</td>
+                                        <td class="col-code" data-table-label="Código">{{ detailLocal.detail }}</td>
+                                        <td class="col-term" data-table-label="Plazo">{{ detailLocal.days }}</td>
+                                        <td class="col-money" data-table-label="Precio ($)">{{ formatPrice(detailLocal.price) }}</td>
+                                        <td class="col-qty" data-table-label="Cantidad">{{ detailLocal.quantity }}</td>
+                                        <td class="col-money" data-table-label="Total ($)"><b>{{ formatPrice(detailLocal.total) }}</b></td>
+                                        <td class="col-action">
                                             <a href="#" class="btn btn-warning btn-icon-sm"
                                                 @click.prevent="editPurchaseOrderDetail({ detailLocal })" data-toggle="tooltip"
                                                 data-placement="top" title="Editar">
@@ -216,6 +216,45 @@ export default {
 </script>
 
 <style scoped>
+/* La tabla hereda "white-space: nowrap" del modo admin-compact (custom.css),
+   lo que evita que "Producto" haga salto de linea. Se fijan anchos angostos
+   a las columnas cortas y se deja "Producto" libre para que absorba el
+   espacio sobrante y pueda hacer wrap. */
+.purchaseorder-products-table {
+    table-layout: fixed;
+}
+
+.purchaseorder-products-table .col-id {
+    width: 45px;
+}
+
+.purchaseorder-products-table .col-code {
+    width: 90px;
+}
+
+.purchaseorder-products-table .col-term {
+    width: 90px;
+}
+
+.purchaseorder-products-table .col-qty {
+    width: 80px;
+}
+
+.purchaseorder-products-table .col-money {
+    width: 100px;
+}
+
+.purchaseorder-products-table .col-action {
+    width: 150px;
+}
+
+.purchaseorder-products-table .col-product {
+    width: auto;
+    white-space: normal !important;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
 .quotation-pdf-preview {
     position: fixed;
     inset: 0;
