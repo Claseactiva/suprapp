@@ -11,7 +11,13 @@
 
     $formatAmount = function ($value) {
         $value = (float) $value;
-        $decimals = (abs($value - round($value)) < 0.005) ? 0 : 2;
+        if (abs($value - round($value, 2)) >= 0.00005) {
+            $decimals = 4;
+        } elseif (abs($value - round($value)) >= 0.005) {
+            $decimals = 2;
+        } else {
+            $decimals = 0;
+        }
         return number_format($value, $decimals, ',', '.');
     };
     $formatCurrency = function ($value) use ($currencySymbol, $formatAmount) {

@@ -265,7 +265,7 @@ function sanitizeDecimalInput(value) {
         normalized = normalized.slice(0, firstDot + 1) + normalized.slice(firstDot + 1).replace(/\./g, '')
     }
 
-    const match = normalized.match(/^(\d*\.\d{2})\d+$/)
+    const match = normalized.match(/^(\d*\.\d{4})\d+$/)
     return match ? match[1] : normalized
 }
 
@@ -2740,7 +2740,7 @@ export default { //used for changing the state
         let price = parseFloat(state.newPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.newPurchaseOrderDetail.quantity) || 0
 
-        state.newPurchaseOrderDetail.total = Math.round(price * quantity * 100) / 100
+        state.newPurchaseOrderDetail.total = Math.round(price * quantity * 10000) / 10000
     },
     sumTotalEditPurchaseOrderDetail(state) {
         state.fillPurchaseOrderDetail.price = sanitizeDecimalInput(state.fillPurchaseOrderDetail.price)
@@ -2749,7 +2749,7 @@ export default { //used for changing the state
         let price = parseFloat(state.fillPurchaseOrderDetail.price) || 0
         let quantity = parseFloat(state.fillPurchaseOrderDetail.quantity) || 0
 
-        state.fillPurchaseOrderDetail.total = Math.round(price * quantity * 100) / 100
+        state.fillPurchaseOrderDetail.total = Math.round(price * quantity * 10000) / 10000
     },
     createPurchaseOrderDetail(state) {
         axios.post('purchase-order-lines', {

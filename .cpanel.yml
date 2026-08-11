@@ -192,6 +192,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php $DEPLOYPATH/database/migrations/2026_08_07_000006_add_user_id_to_utilities_table.php
     - /bin/cp -f database/migrations/2026_08_07_000007_add_show_part_number_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_07_000007_add_show_part_number_to_quotationclients_table.php
     - /bin/cp -f database/migrations/2026_08_10_000001_change_price_quantity_total_to_decimal_in_purchase_order_details_table.php $DEPLOYPATH/database/migrations/2026_08_10_000001_change_price_quantity_total_to_decimal_in_purchase_order_details_table.php
+    - /bin/cp -f database/migrations/2026_08_10_000002_increase_decimal_precision_in_purchase_order_details_table.php $DEPLOYPATH/database/migrations/2026_08_10_000002_increase_decimal_precision_in_purchase_order_details_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
