@@ -285,6 +285,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Vehicle/Agregar.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Agregar.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Index.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Index.vue
+    - /bin/cp -f resources/assets/js/components/Vehicle/RequestParts.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/RequestParts.vue
     - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMarca.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMarca.vue
     - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarModelo.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarModelo.vue
     - /bin/cp -f resources/assets/js/components/VehicleBrand/AgregarMotor.vue $DEPLOYPATH/resources/assets/js/components/VehicleBrand/AgregarMotor.vue

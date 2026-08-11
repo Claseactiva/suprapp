@@ -28,7 +28,16 @@ class VehicleController extends Controller
             foreach ($user->roles as $roles) {
                 if ($roles->name == 'admin') {
 
+                    $ownerScope = request('owner_scope');
+
                     $vehicles = Vehicle::with('user')
+                        ->whereNotIn('user_id', User::where('is_independent', true)->pluck('id'))
+                        ->when($ownerScope === 'mine', function ($query) use ($user_id) {
+                            return $query->where('user_id', $user_id);
+                        })
+                        ->when($ownerScope === 'workshops', function ($query) use ($user_id) {
+                            return $query->where('user_id', '<>', $user_id);
+                        })
                         ->patent()
                         ->name()
                         ->year()
@@ -82,7 +91,7 @@ class VehicleController extends Controller
             ->select('users.id', 'users.name', 'users.email', 'users.password', 'users.created_at', 'users.updated_at')
             ->get();
 
-        $client_ids = array();
+        $client_ids = array($user_id);
 
         foreach ($clients as $client) {
             array_push($client_ids, $client->id);

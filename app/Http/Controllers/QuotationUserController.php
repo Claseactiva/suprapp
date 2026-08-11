@@ -95,6 +95,24 @@ class QuotationUserController extends Controller
         $phone = '';
 
         $clients = Client::whereIn('user_id', Auth::user()->teamUserIds())->where('type', '=', 'Cliente Particular')->get();
+
+        if ($clients->count() == 0) {
+            $clients = collect([
+                Client::create([
+                    'user_id' => $user_id_logeado,
+                    'type' => 'Cliente Particular',
+                    'rut' => null,
+                    'razonSocial' => 'Cliente Particular',
+                    'phone' => null,
+                    'telefono' => null,
+                    'email' => null,
+                    'address' => null,
+                    'comuna' => null,
+                    'giro' => 'Cliente Particular',
+                ])
+            ]);
+        }
+
         foreach ($clients as $client) {
             $quotation_id = Quotationclient::create([
                 'user_id' => $user_id_logeado,

@@ -160,7 +160,8 @@ export default { //data
         patent: '',
         name: '',
         year: '',
-        client: ''
+        client: '',
+        owner_scope: ''
     },
     vehiclesTrash: [],
     pagination_vehicle_trash: {

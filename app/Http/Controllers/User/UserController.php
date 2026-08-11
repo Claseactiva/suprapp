@@ -280,6 +280,7 @@ class UserController extends Controller
             'clients_by_type' => $clientsByType,
             'quotations' => \App\Models\Quotationclient::where('user_id', $user->id)->count(),
             'purchase_orders' => \App\Models\PurchaseOrder::where('user_id', $user->id)->count(),
+            'vehicles' => \App\Models\Vehicle::whereIn('user_id', $user->teamUserIds())->count(),
             'products' => \App\Models\Product::withUserClients($user->id)->count(),
             'envios' => \App\Models\QuotationShipping::where('user_id', $user->id)->count(),
             'tipos_pagos' => \App\Models\TipoPago::where('user_id', $user->id)->count(),

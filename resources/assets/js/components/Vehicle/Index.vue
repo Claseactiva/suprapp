@@ -25,6 +25,13 @@
 
             <input type="text" class="form-control form-control-sm vehicle-filter-input" placeholder="Año"
                 v-model="searchVehicle.year" @keyup="getVehicles({ page: 1, per_page: pagination.per_page })">
+
+            <select v-if="rol === ''" class="form-control form-control-sm vehicle-filter-input"
+                v-model="searchVehicle.owner_scope" @change="getVehicles({ page: 1, per_page: pagination.per_page })">
+                <option value="">Todos</option>
+                <option value="mine">Mis Vehículos</option>
+                <option value="workshops">Vehículos de Talleres</option>
+            </select>
         </div>
         <div v-if="!showTrash" class="vehicle-table-shell mt-3">
             <table class="table table-responsive-new table-dark table-sm vehicle-table mb-0">
@@ -92,6 +99,12 @@
                                 @click.prevent="modalCheckList({ vehicleLocal })" data-toggle="tooltip"
                                 data-placement="top" title="Check List">
                                 <i class="fas fa-clipboard-check"></i>
+                            </a>
+
+                            <a href="#" class="btn btn-primary btn-sm"
+                                @click.prevent="modalRequestParts({ vehicleLocal })" data-toggle="tooltip"
+                                data-placement="top" title="Cotizar Repuestos">
+                                <i class="fas fa-cog"></i>
                             </a>
                         </td>
                     </tr>
@@ -244,6 +257,7 @@
         <AgregarDetalle></AgregarDetalle>
         <OrdenTrabajo></OrdenTrabajo>
         <CheckListVehicle></CheckListVehicle>
+        <RequestParts></RequestParts>
     </div>
 
 </template>
@@ -258,10 +272,11 @@ import Detalle from './Detalle'
 import AgregarDetalle from './AgregarDetalle'
 import OrdenTrabajo from '../OrdenTrabajos/OrdenTrabajo'
 import CheckListVehicle from '../Check-List/CheckListVehicle'
+import RequestParts from './RequestParts'
 import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
-    components: { Agregar, Editar, Detalle, AgregarDetalle, OrdenTrabajo, CheckListVehicle },
+    components: { Agregar, Editar, Detalle, AgregarDetalle, OrdenTrabajo, CheckListVehicle, RequestParts },
     data() {
         return {
             showTrash: false
@@ -275,7 +290,7 @@ export default {
     methods: {
         ...mapActions(['getVehicles', 'getVehiclesUser', 'editVehicle', 'deleteVehicle',
             'detailVehicle', 'modalDetailVehicle', 'modalOrdenTrabajo', 'changePageVehicle', 'modalCheckList',
-            'getVehiclesTrash', 'changePageVehicleTrash', 'restoreVehicle', 'forceDeleteVehicle']),
+            'getVehiclesTrash', 'changePageVehicleTrash', 'restoreVehicle', 'forceDeleteVehicle', 'modalRequestParts']),
         toggleTrash() {
             this.showTrash = !this.showTrash
             if (this.showTrash) {

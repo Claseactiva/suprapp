@@ -97,7 +97,7 @@ class CompanyController extends Controller
 
                 $url = '/images/logos/' . $filename;
 
-                $findCompany = Company::where('user_id', '=', $user_id)->first();
+                $findCompany = Company::firstOrCreate(['user_id' => $user_id], ['rut' => '']);
                 $findCompany->update(['url' => $url]);
 
                 array_push($arreglo, $path);
@@ -112,6 +112,11 @@ class CompanyController extends Controller
     {
         try {
             $company = Company::where('user_id', '=', $user_id)->first();
+
+            if (!$company || !$company->url) {
+                return;
+            }
+
             $rutaImagen = public_path('storage' . $company->url);
 
             if (file_exists($rutaImagen)) {

@@ -54,6 +54,14 @@
                         <div class="col-6 col-md-4 mb-3">
                             <div class="card bg-secondary text-white">
                                 <div class="card-body text-center">
+                                    <h3 class="mb-0">{{ userMetrics.vehicles }}</h3>
+                                    <small>Vehículos</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="card bg-secondary text-white">
+                                <div class="card-body text-center">
                                     <h3 class="mb-0">{{ userMetrics.envios }}</h3>
                                     <small>Envíos</small>
                                 </div>

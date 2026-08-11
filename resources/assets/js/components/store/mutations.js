@@ -367,7 +367,7 @@ export default { //used for changing the state
     /******************************* */
     getVehicles(state, request) {
         const { page, perPage } = resolvePaginationRequest(request, state.pagination.per_page || 20)
-        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year + '&client=' + state.searchVehicle.client + '&per_page=' + perPage
+        let url = urlVehicle + '?page=' + page + '&patent=' + state.searchVehicle.patent + '&name=' + state.searchVehicle.name + '&year=' + state.searchVehicle.year + '&client=' + state.searchVehicle.client + '&owner_scope=' + state.searchVehicle.owner_scope + '&per_page=' + perPage
         axios.get(url).then(response => {
 
             state.vehicles = response.data.vehicles.data
@@ -3833,7 +3833,7 @@ export default { //used for changing the state
     getCompany(state) {
         let url = urlCompany
         axios.get(url).then(response => {
-            if (response.data !== '') {
+            if (response.data) {
                 state.newCompany.rut = response.data.rut
                 state.newCompany.razonSocial = response.data.razonSocial
                 state.newCompany.email = response.data.email
