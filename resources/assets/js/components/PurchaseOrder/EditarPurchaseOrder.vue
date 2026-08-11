@@ -55,6 +55,11 @@
                                 </select>
                             </div>
 
+                            <div class="col-lg-3 mb-3 d-flex align-items-center" style="gap: 0.4rem;">
+                                <input id="sin_iva" type="checkbox" v-model="fillPurchaseOrder.sin_iva">
+                                <label for="sin_iva" class="mb-0">Documento sin IVA</label>
+                            </div>
+
                             <div class="col-lg-3 mb-3">
                                 <label for="promised_date">Fecha Acordada</label>
                                 <input id="promised_date" type="date" class="form-control" v-model="fillPurchaseOrder.promised_date">

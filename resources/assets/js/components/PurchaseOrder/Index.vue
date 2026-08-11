@@ -124,6 +124,14 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
+                                    <div class="mb-3 purchaseorder-checkbox-row">
+                                        <input type="checkbox" name="sin_iva" id="sin_iva"
+                                            v-model="newPurchaseOrder.sin_iva">
+                                        <label for="sin_iva" class="mb-0">Documento sin IVA</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
                                     <div class="mb-3">
                                         <label for="promised_date">Fecha Acordada</label>
                                         <input type="date" name="promised_date" class="form-control"
@@ -382,6 +390,16 @@ export default {
 </script>
 
 <style>
+.purchaseorder-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.purchaseorder-checkbox-row input[type="checkbox"] {
+    margin-top: 0;
+}
+
 .purchaseorder-admin .mx-datepicker,
 .purchaseorder-admin .mx-datepicker-range {
     width: 130px !important;

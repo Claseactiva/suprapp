@@ -235,9 +235,10 @@
                             $totalConIva = $isPesoChileno ? (ceil(($totalPedido * 1.19) / 10) * 10) : round($totalPedido * 1.19, 2);
                         ?>
                         <tr>
-                            <td class="oc-totals-label">Neto</td>
+                            <td class="oc-totals-label">{{ $order->sin_iva ? 'Total' : 'Neto' }}</td>
                             <td class="oc-totals-value">{!! $formatCurrency($totalPedido) !!}</td>
                         </tr>
+                        @unless ($order->sin_iva)
                         <tr>
                             <td class="oc-totals-label">IVA</td>
                             <td class="oc-totals-value">{!! $formatCurrency($ivaPedido) !!}</td>
@@ -246,6 +247,7 @@
                             <td class="oc-totals-label">TOTAL</td>
                             <td class="oc-totals-value">{!! $formatCurrency($totalConIva) !!}</td>
                         </tr>
+                        @endunless
                     </table>
                 </td>
             </tr>
