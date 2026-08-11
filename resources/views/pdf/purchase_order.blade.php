@@ -88,7 +88,7 @@
             'supplier_info' => 'Supplier Information',
             'customer_info' => 'Customer Information',
             'name' => 'Name',
-            'rut' => 'RUT',
+            'rut' => 'Tax ID',
             'business' => 'Business Activity',
             'address' => 'Address',
             'city' => 'City',
