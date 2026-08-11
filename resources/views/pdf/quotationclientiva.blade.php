@@ -8,9 +8,9 @@
             <tr>
                 <td width="18%">
                     @if ($company->url != '')
-                        <img width="110" src="{{ 'storage' . $company->url }}">
+                        <img width="110" src="{{ public_path('storage' . $company->url) }}">
                     @else
-                        <img width="110" src="img/logosupra.png">
+                        <img width="110" src="{{ public_path('img/logosupra.png') }}">
                     @endif
                 </td>
                 <td width="42%">
@@ -238,7 +238,7 @@
                 @foreach ($productsWithImages as $detail)
                     <p class="oc-images-product">{{ $detail->product }}</p>
                     @foreach ($detail->images as $image)
-                        <img src="{{ $image->imagen }}" style="max-width: 300px; margin: 5px;">
+                        <img src="{{ public_path($image->imagen) }}" style="max-width: 300px; margin: 5px;">
                     @endforeach
                 @endforeach
             </div>
@@ -270,7 +270,7 @@
                     @if ($part->images->count() > 0)
                         <p class="oc-images-product">{{ $part->product }}</p>
                         @foreach ($part->images as $image)
-                            <img src="{{ $image->imagen }}" style="max-width: 300px; margin: 5px;">
+                            <img src="{{ public_path($image->imagen) }}" style="max-width: 300px; margin: 5px;">
                         @endforeach
                     @endif
                 @endforeach
