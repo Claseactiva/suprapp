@@ -256,14 +256,16 @@ class PurchaseOrderController extends Controller
 
             $supplier = $order->supplier;
             $user = User::where('id', '=', $order->user_id)->first();
+            $lang = request('lang') === 'en' ? 'en' : 'es';
 
-            $pdf = Pdf::loadView('pdf.purchase_order', compact(['company', 'order', 'supplier', 'products', 'user']))
+            $pdf = Pdf::loadView('pdf.purchase_order', compact(['company', 'order', 'supplier', 'products', 'user', 'lang']))
                 ->setPaper('a4', 'portrait');
 
             // Numeracion de pagina via el canvas de dompdf (enable_php esta apagado
             // globalmente por seguridad, asi que no se puede usar <script type="text/php">).
             $pdf->render();
-            $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
+            $pageText = $lang === 'en' ? 'Page {PAGE_NUM} of {PAGE_COUNT}' : 'Página {PAGE_NUM} de {PAGE_COUNT}';
+            $pdf->getDomPDF()->getCanvas()->page_text(480, 15, $pageText, null, 8, [0.03, 0.11, 0.25]);
 
             if ($order->user_id === 1) {
                 return $pdf->stream('orden de compra N° ' . $order->id . '.pdf');

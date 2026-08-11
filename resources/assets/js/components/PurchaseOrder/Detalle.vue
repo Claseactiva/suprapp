@@ -140,6 +140,9 @@
                         <a class="btn btn-danger" href="#" role="button" @click.prevent="pdfPurchaseOrder">
                             <i class="far fa-file-pdf"></i> PDF
                         </a>
+                        <a class="btn btn-outline-danger" href="#" role="button" @click.prevent="pdfPurchaseOrderEn">
+                            <i class="far fa-file-pdf"></i> PDF Inglés
+                        </a>
                     </div>
                 </div>
             </div>
@@ -195,6 +198,9 @@ export default {
         },
         pdfPurchaseOrder() {
             this.openPdfPreview(`purchase-order-pdf/${this.idPurchaseOrder}`, 'PDF Orden de Compra')
+        },
+        pdfPurchaseOrderEn() {
+            this.openPdfPreview(`purchase-order-pdf/${this.idPurchaseOrder}?lang=en`, 'PDF Orden de Compra (Inglés)')
         },
         openPdfPreview(url, title) {
             const separator = url.indexOf('?') === -1 ? '?' : '&'
