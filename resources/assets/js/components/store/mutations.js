@@ -2641,6 +2641,7 @@ export default { //used for changing the state
             buyer: state.newPurchaseOrder.buyer,
             currency: state.newPurchaseOrder.currency,
             sin_iva: state.newPurchaseOrder.sin_iva,
+            flete: state.newPurchaseOrder.flete,
             promised_date: state.newPurchaseOrder.promised_date,
             shipping_method: state.newPurchaseOrder.shipping_method,
             requested_by: state.newPurchaseOrder.requested_by,
@@ -2654,6 +2655,7 @@ export default { //used for changing the state
                 buyer: '',
                 currency: 'PESO CHILENO',
                 sin_iva: false,
+                flete: '',
                 promised_date: '',
                 shipping_method: '',
                 requested_by: '',
@@ -2683,6 +2685,7 @@ export default { //used for changing the state
         state.fillPurchaseOrder.buyer = purchaseOrder.buyer || ''
         state.fillPurchaseOrder.currency = purchaseOrder.currency || ''
         state.fillPurchaseOrder.sin_iva = !!purchaseOrder.sin_iva
+        state.fillPurchaseOrder.flete = purchaseOrder.flete || ''
         state.fillPurchaseOrder.promised_date = purchaseOrder.promised_date || ''
         state.fillPurchaseOrder.shipping_method = purchaseOrder.shipping_method || ''
         state.fillPurchaseOrder.requested_by = purchaseOrder.requested_by || ''

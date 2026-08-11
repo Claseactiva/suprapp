@@ -24,6 +24,27 @@
         return $currencySymbol . '&nbsp;' . $formatAmount($value);
     };
 
+    $translateDeliveryTime = function ($value) use ($lang) {
+        if (($lang ?? 'es') !== 'en' || !$value) {
+            return $value;
+        }
+
+        $patterns = [
+            '/\b(d[ií]as)\b/iu' => 'days',
+            '/\b(d[ií]a)\b/iu' => 'day',
+            '/\bsemanas\b/iu' => 'weeks',
+            '/\bsemana\b/iu' => 'week',
+            '/\bmeses\b/iu' => 'months',
+            '/\bmes\b/iu' => 'month',
+            '/\bhoras\b/iu' => 'hours',
+            '/\bhora\b/iu' => 'hour',
+            '/\bhrs\.?\b/iu' => 'hrs',
+            '/\ba\b/iu' => 'to',
+        ];
+
+        return preg_replace(array_keys($patterns), array_values($patterns), $value);
+    };
+
     $lang = $lang ?? 'es';
     $t = [
         'es' => [
@@ -56,6 +77,7 @@
             'notes' => 'Observaciones',
             'validity' => 'Validez orden de compra: 5 días',
             'net' => 'Neto',
+            'freight' => 'Flete',
             'vat' => 'IVA',
             'total' => 'TOTAL',
             'images' => 'Imágenes de Productos',
@@ -90,6 +112,7 @@
             'notes' => 'Notes',
             'validity' => 'Purchase order valid for 5 days',
             'net' => 'Subtotal',
+            'freight' => 'Freight',
             'vat' => 'VAT',
             'total' => 'TOTAL',
             'images' => 'Product Images',
@@ -278,7 +301,7 @@
                         <td class="oc-col-code">{{ $detail->detail }}</td>
                         <td class="oc-col-desc">{{ $detail->product }}</td>
                         <td class="oc-col-qty">{{ $detail->quantity }}</td>
-                        <td class="oc-col-days">{{ $detail->days }}</td>
+                        <td class="oc-col-days">{{ $translateDeliveryTime($detail->days) }}</td>
                         <td class="oc-col-price">{!! $formatCurrency($detail->price) !!}</td>
                         <td class="oc-col-total">{!! $formatCurrency($detail->total) !!}</td>
                         <?php $totalPedido += $detail->total; ?>
@@ -303,14 +326,27 @@
                 <td class="oc-totals-col">
                     <table class="oc-totals-table">
                         <?php
-                            $ivaPedido = $isPesoChileno ? (ceil(($totalPedido * 0.19) / 10) * 10) : round($totalPedido * 0.19, 2);
-                            $totalConIva = $isPesoChileno ? (ceil(($totalPedido * 1.19) / 10) * 10) : round($totalPedido * 1.19, 2);
+                            $flete = (float) $order->flete;
+                            $baseConFlete = $totalPedido + $flete;
+                            $ivaPedido = $isPesoChileno ? (ceil(($baseConFlete * 0.19) / 10) * 10) : round($baseConFlete * 0.19, 2);
+                            $totalConIva = $isPesoChileno ? (ceil(($baseConFlete * 1.19) / 10) * 10) : round($baseConFlete * 1.19, 2);
                         ?>
                         <tr>
-                            <td class="oc-totals-label">{{ $order->sin_iva ? $t['total'] : $t['net'] }}</td>
+                            <td class="oc-totals-label">{{ $t['net'] }}</td>
                             <td class="oc-totals-value">{!! $formatCurrency($totalPedido) !!}</td>
                         </tr>
-                        @unless ($order->sin_iva)
+                        @if ($flete > 0)
+                        <tr>
+                            <td class="oc-totals-label">{{ $t['freight'] }}</td>
+                            <td class="oc-totals-value">{!! $formatCurrency($flete) !!}</td>
+                        </tr>
+                        @endif
+                        @if ($order->sin_iva)
+                        <tr class="oc-total-row">
+                            <td class="oc-totals-label">{{ $t['total'] }}</td>
+                            <td class="oc-totals-value">{!! $formatCurrency($baseConFlete) !!}</td>
+                        </tr>
+                        @else
                         <tr>
                             <td class="oc-totals-label">{{ $t['vat'] }}</td>
                             <td class="oc-totals-value">{!! $formatCurrency($ivaPedido) !!}</td>
@@ -319,7 +355,7 @@
                             <td class="oc-totals-label">{{ $t['total'] }}</td>
                             <td class="oc-totals-value">{!! $formatCurrency($totalConIva) !!}</td>
                         </tr>
-                        @endunless
+                        @endif
                     </table>
                 </td>
             </tr>

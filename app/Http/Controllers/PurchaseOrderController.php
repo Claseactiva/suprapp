@@ -152,6 +152,7 @@ class PurchaseOrderController extends Controller
                 'buyer' => trim($data['buyer'] ?? ''),
                 'currency' => trim($data['currency'] ?? '') ?: 'PESO CHILENO',
                 'sin_iva' => !empty($data['sin_iva']),
+                'flete' => (float) ($data['flete'] ?? 0),
                 'promised_date' => $data['promised_date'] ?? null,
                 'shipping_method' => trim($data['shipping_method'] ?? ''),
                 'payment_terms' => trim($data['payment_terms'] ?? ''),

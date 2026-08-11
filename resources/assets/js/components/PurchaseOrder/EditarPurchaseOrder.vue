@@ -61,6 +61,12 @@
                             </div>
 
                             <div class="col-lg-3 mb-3">
+                                <label for="flete">Flete</label>
+                                <input id="flete" type="text" inputmode="decimal" class="form-control"
+                                    v-model="fillPurchaseOrder.flete" placeholder="0">
+                            </div>
+
+                            <div class="col-lg-3 mb-3">
                                 <label for="promised_date">Fecha Acordada</label>
                                 <input id="promised_date" type="date" class="form-control" v-model="fillPurchaseOrder.promised_date">
                             </div>

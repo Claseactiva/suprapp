@@ -133,6 +133,14 @@
 
                                 <div class="col-lg-3 col-md-6">
                                     <div class="mb-3">
+                                        <label for="flete">Flete</label>
+                                        <input type="text" inputmode="decimal" name="flete" class="form-control"
+                                            v-model="newPurchaseOrder.flete" placeholder="0">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="mb-3">
                                         <label for="promised_date">Fecha Acordada</label>
                                         <input type="date" name="promised_date" class="form-control"
                                             v-model="newPurchaseOrder.promised_date">
