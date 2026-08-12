@@ -169,12 +169,12 @@
                                     <span>Registro Vehículos</span></a>
                             </li>
                         @endcan
-                        @canany(['vehiculos', 'flotas'])
+                        @can('flotas')
                             <li class="nav-item {{ request()->routeIs('admin-flota-clientes') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-flota-clientes') }}">
                                     <span>Flota por Cliente</span></a>
                             </li>
-                        @endcanany
+                        @endcan
                         @can('vehiculos_mecanicos')
                             <li class="nav-item {{ request()->routeIs('admin-vehiculosM') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-vehiculosM') }}">

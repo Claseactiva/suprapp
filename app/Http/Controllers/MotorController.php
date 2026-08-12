@@ -37,9 +37,11 @@ class MotorController extends Controller
 
         if (!$isAdmin) {
             $teamIds = $user->teamUserIds();
-            $query->where(function ($q) use ($teamIds) {
+            $accessibleClientIds = $user->companies()->pluck('clients.id');
+            $query->where(function ($q) use ($teamIds, $accessibleClientIds) {
                 $q->whereNull('motor_assignments.vehicle_id')
-                    ->orWhereIn('vehicles.user_id', $teamIds);
+                    ->orWhereIn('vehicles.user_id', $teamIds)
+                    ->orWhereIn('vehicles.client_id', $accessibleClientIds);
             });
         }
 
