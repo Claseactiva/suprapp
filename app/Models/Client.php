@@ -38,6 +38,11 @@ class Client extends Model
         return $this->hasMany('App\Models\Vehicle', 'client_id');
     }
 
+    public function mechanics()
+    {
+        return $this->belongsToMany('App\User', 'client_mechanics', 'client_id', 'mechanic_id');
+    }
+
 
     public function scopeType($query)
     {

@@ -56,9 +56,14 @@ class VehicleController extends Controller
                         'vehicles' => $vehicles
                     ];
                 } else {
+                    $accessibleClientIds = $user->companies()->pluck('clients.id');
+
                     $vehicles = Vehicle::orderBy('id', 'DESC')
-                        ->whereIn('user_id', $user->teamUserIds())
-                        ->with('user', 'currentMotor.motor')
+                        ->where(function ($query) use ($user, $accessibleClientIds) {
+                            $query->whereIn('user_id', $user->teamUserIds())
+                                ->orWhereIn('client_id', $accessibleClientIds);
+                        })
+                        ->with('user', 'client', 'currentMotor.motor')
                         ->patent()
                         ->name()
                         ->year()
@@ -366,6 +371,9 @@ class VehicleController extends Controller
      */
     public function byClient($clientId)
     {
+        $client = \App\Models\Client::findOrFail($clientId);
+        $this->authorizeClientAccess($client);
+
         $vehicles = Vehicle::where('client_id', $clientId)
             ->with('user', 'currentMotor.motor')
             ->orderBy('id', 'DESC')
@@ -375,10 +383,31 @@ class VehicleController extends Controller
     }
 
     /**
+     * Solo el admin, el dueno (taller) del cliente, o un mecanico vinculado
+     * a ese cliente pueden ver/operar su flota.
+     */
+    private function authorizeClientAccess(\App\Models\Client $client)
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('admin') || $client->user_id === $user->id) {
+            return;
+        }
+
+        if ($client->mechanics()->where('mechanic_id', $user->id)->exists()) {
+            return;
+        }
+
+        abort(403, 'No tienes acceso a la flota de este cliente.');
+    }
+
+    /**
      * Crea varios equipos de una sola vez, todos asociados al mismo cliente (flota).
      */
     public function storeBulkForClient(Request $request, $clientId)
     {
+        $this->authorizeClientAccess(\App\Models\Client::findOrFail($clientId));
+
         $this->validate($request, [
             'vehicles' => 'required|array|min:1',
             'vehicles.*.patent' => 'required|min:4|max:190',

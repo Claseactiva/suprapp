@@ -25,6 +25,7 @@ let urlQuotationusers = 'quotationusers'
 let urlVehicle = 'vehicles'
 let urlVehicleUser = 'vehicles-user'
 let urlClientFleet = 'clients'
+let urlUserCompanies = 'users'
 let urlDetailVehicle = 'detailvehicles'
 let urlOrdenTrabajo = 'ordentrabajo'
 let urlEliminarOrdenTrabajo = 'eliminar_ordentrabajo'
@@ -4532,6 +4533,39 @@ export default { //used for changing the state
         }).catch(error => {
             state.errorsLaravel = error.response.data
             toastr.error('No se pudo importar la flota')
+        });
+    },
+    /*** seccion empresas asignadas a un usuario (mecanico) ***/
+    editUserCompanies(state, userLocal) {
+        state.fillUserCompanies = { id: userLocal.id, name: userLocal.name }
+        this.commit('getUserCompanies')
+        $('#editUserCompanies').modal('show')
+    },
+    getUserCompanies(state) {
+        if (!state.fillUserCompanies.id) {
+            return
+        }
+        let url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies'
+        axios.get(url).then(response => {
+            state.userCompanies = response.data
+        });
+    },
+    attachUserCompany(state, clientId) {
+        let url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies'
+        axios.post(url, { client_id: clientId }).then(response => {
+            toastr.success('Empresa asignada')
+            this.commit('getUserCompanies')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo asignar la empresa'))
+        });
+    },
+    detachUserCompany(state, clientId) {
+        let url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies/' + clientId
+        axios.delete(url).then(response => {
+            toastr.success('Empresa quitada')
+            this.commit('getUserCompanies')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo quitar la empresa'))
         });
     },
     allVehicleBrands(state) {

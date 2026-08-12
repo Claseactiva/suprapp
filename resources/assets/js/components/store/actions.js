@@ -16,6 +16,15 @@ export default { //methods
     setNewVehicleClient(context, clientId) {
         context.commit('setNewVehicleClient', clientId)
     },
+    editUserCompanies(context, data) {
+        context.commit('editUserCompanies', data.userLocal)
+    },
+    attachUserCompany(context, clientId) {
+        context.commit('attachUserCompany', clientId)
+    },
+    detachUserCompany(context, clientId) {
+        context.commit('detachUserCompany', clientId)
+    },
     /*************seccion de vehiculos***************** */
     getVehicles(context, data) {
         context.commit('getVehicles', data)

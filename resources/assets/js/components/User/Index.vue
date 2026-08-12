@@ -136,6 +136,11 @@
                                     <i class="fas fa-chart-bar"></i>
                                 </button>
 
+                                <button class="btn btn-dark" @click.prevent="editUserCompanies({ userLocal })"
+                                    data-toggle="tooltip" data-placement="top" title="Empresas asignadas">
+                                    <i class="fas fa-industry"></i>
+                                </button>
+
                                 <a href="#" class="btn btn-danger"
                                     @click.prevent="modalDeleteUser({ id: userLocal.id })" data-toggle="tooltip"
                                     data-placement="top" title="Eliminar">
@@ -207,6 +212,7 @@
         <UpdateUserRoles></UpdateUserRoles>
         <Dispositivos></Dispositivos>
         <UserMetrics></UserMetrics>
+        <EditUserCompanies></EditUserCompanies>
 
     </div>
 
@@ -226,16 +232,17 @@ import Dispositivos from './Dispositivos'
 import UserMetrics from './Metrics'
 import ActivationLink from './ActivationLink'
 import RegistroLinkBox from './RegistroLinkBox'
+import EditUserCompanies from './EditUserCompanies'
 
 export default {
-    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos, UserMetrics, ActivationLink, RegistroLinkBox },
+    components: { EditUser, DeleteUser, UpdateUserRoles, EditCantClientVehicle, Dispositivos, UserMetrics, ActivationLink, RegistroLinkBox, EditUserCompanies },
     computed: {
         ...mapState(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel']),
         ...mapGetters(['isActived', 'pagesNumber'])
     },
     methods: {
         ...mapActions(['getUsers', 'createUser',
-            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset'])
+            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset', 'editUserCompanies'])
     },
     created() {
         loadProgressBar()

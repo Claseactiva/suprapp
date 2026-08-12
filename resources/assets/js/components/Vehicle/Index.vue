@@ -54,7 +54,7 @@
                 <tbody>
                     <tr v-for="vehicleLocal in vehicles" :key="vehicleLocal.id">
                         <td data-table-label="ID" class="vehicle-col-id">{{ vehicleLocal.id }}</td>
-                        <td data-table-label="Cliente" class="vehicle-col-cliente vehicle-cell-wrap" :title="vehicleLocal.user.name">{{ vehicleLocal.user.name }}</td>
+                        <td data-table-label="Cliente" class="vehicle-col-cliente vehicle-cell-wrap" :title="vehicleLocal.client ? vehicleLocal.client.razonSocial + ' (flota)' : vehicleLocal.user.name">{{ vehicleLocal.client ? vehicleLocal.client.razonSocial + ' (flota)' : vehicleLocal.user.name }}</td>
                         <td data-table-label="Patente" class="vehicle-col-patente vehicle-cell-strong" :title="vehicleLocal.patent">{{ vehicleLocal.patent }}</td>
                         <td data-table-label="Chasis" class="vehicle-col-chasis vehicle-cell-wrap" :title="vehicleLocal.chasis">{{ vehicleLocal.chasis }}</td>
                         <td data-table-label="Marca" class="vehicle-col-marca vehicle-cell-wrap" :title="vehicleLocal.brand">{{ vehicleLocal.brand }}</td>

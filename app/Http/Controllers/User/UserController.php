@@ -287,6 +287,39 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Empresas (Client) a cuya flota este usuario tiene acceso como mecanico.
+     */
+    public function companies($id)
+    {
+        $user = User::findOrFail($id);
+
+        return $user->companies()->select('clients.id', 'clients.razonSocial')->get();
+    }
+
+    public function attachCompany(Request $request, $id)
+    {
+        $this->validate($request, [
+            'client_id' => 'required|exists:clients,id',
+        ]);
+
+        \App\Models\ClientMechanic::firstOrCreate([
+            'client_id' => $request->input('client_id'),
+            'mechanic_id' => $id,
+        ]);
+
+        return response()->json(['message' => 'Empresa asignada']);
+    }
+
+    public function detachCompany($id, $clientId)
+    {
+        \App\Models\ClientMechanic::where('client_id', $clientId)
+            ->where('mechanic_id', $id)
+            ->delete();
+
+        return response()->json(['message' => 'Empresa quitada']);
+    }
+
     public function clients()
     {
         $user_id = Auth::user()->effectiveTallerId();

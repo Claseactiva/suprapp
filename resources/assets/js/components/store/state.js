@@ -3,6 +3,8 @@ export default { //data
     fleetClientOptions: [],
     fleetSelectedClient: null,
     fleetVehicles: [],
+    fillUserCompanies: { id: '', name: '' },
+    userCompanies: [],
     selectedUserForDevices: null,
     userDeviceSessions: [],
     userDeviceLimit: 0,

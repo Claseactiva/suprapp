@@ -138,6 +138,7 @@ deployment:
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
     - /bin/cp -f app/Models/DeliveryTime.php $DEPLOYPATH/app/Models/DeliveryTime.php
     - /bin/cp -f app/Models/Client.php $DEPLOYPATH/app/Models/Client.php
+    - /bin/cp -f app/Models/ClientMechanic.php $DEPLOYPATH/app/Models/ClientMechanic.php
     - /bin/cp -f app/Models/Flete.php $DEPLOYPATH/app/Models/Flete.php
     - /bin/cp -f app/Models/TipoPago.php $DEPLOYPATH/app/Models/TipoPago.php
     - /bin/cp -f app/Models/PurchaseOrder.php $DEPLOYPATH/app/Models/PurchaseOrder.php
@@ -200,6 +201,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_11_000002_add_tipo_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_11_000002_add_tipo_to_vehicles_table.php
     - /bin/cp -f database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php $DEPLOYPATH/database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php
     - /bin/cp -f database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php
+    - /bin/cp -f database/migrations/2026_08_12_000002_create_client_mechanics_table.php $DEPLOYPATH/database/migrations/2026_08_12_000002_create_client_mechanics_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -286,6 +288,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/User/Edit.vue $DEPLOYPATH/resources/assets/js/components/User/Edit.vue
     - /bin/cp -f resources/assets/js/components/User/EditCantClientVehicle.vue $DEPLOYPATH/resources/assets/js/components/User/EditCantClientVehicle.vue
     - /bin/cp -f resources/assets/js/components/User/Index.vue $DEPLOYPATH/resources/assets/js/components/User/Index.vue
+    - /bin/cp -f resources/assets/js/components/User/EditUserCompanies.vue $DEPLOYPATH/resources/assets/js/components/User/EditUserCompanies.vue
     - /bin/cp -f resources/assets/js/components/User/Metrics.vue $DEPLOYPATH/resources/assets/js/components/User/Metrics.vue
     - /bin/cp -f resources/assets/js/components/UserMechanic/EditUser.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/EditUser.vue
     - /bin/cp -f resources/assets/js/components/UserMechanic/Index.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/Index.vue

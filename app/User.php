@@ -116,4 +116,13 @@ class User extends Authenticatable
 
         return array_values(array_unique(array_merge([$tallerId], $workerIds)));
     }
+
+    /**
+     * Empresas (Client) a cuya flota este usuario tiene acceso como mecanico,
+     * ademas de los vehiculos propios de su taller.
+     */
+    public function companies()
+    {
+        return $this->belongsToMany('App\Models\Client', 'client_mechanics', 'mechanic_id', 'client_id');
+    }
 }
