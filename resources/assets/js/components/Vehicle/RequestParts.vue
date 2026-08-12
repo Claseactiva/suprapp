@@ -10,27 +10,33 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <label for="newPartName">Buscar repuesto</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="newPartName" v-model="newPartName"
-                                list="request-parts-suggestions" autocomplete="off"
-                                placeholder="Escribe o elige de la lista..."
-                                @keydown.enter.prevent="addPartLine">
-                            <datalist id="request-parts-suggestions">
-                                <option v-for="suggestion in productCatalogTemplateSuggestions" :key="suggestion.id" :value="suggestion.product_name"></option>
-                            </datalist>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-info" @click.prevent="addPartLine">
-                                    <i class="fas fa-plus"></i> Agregar
-                                </button>
+                        <label for="newPartName">Repuestos a Solicitar</label>
+                        <div class="d-flex" style="gap: .5rem">
+                            <div class="flex-grow-1">
+                                <v-select name="newPartName" placeholder="Buscar en la biblioteca o escribir uno nuevo..."
+                                    :options="templateOptionLabels" :taggable="true" :push-tags="true"
+                                    @input="addPartLine" :value="null">
+                                </v-select>
                             </div>
                         </div>
 
-                        <label for="parts">Repuestos a Solicitar</label>
-                        <textarea :class="{ 'input': true, 'is-invalid': errors.has('description') }"
-                            class="form-control" v-model="formCotizacion.description" style="resize:none"
-                            placeholder="Repuestos..." cols="30" rows="9">
-                        </textarea>
+                        <table class="table table-dark table-sm mt-3 mb-0" v-if="partLines.length">
+                            <tbody>
+                                <tr v-for="(line, index) in partLines" :key="index">
+                                    <td>
+                                        <input type="text" class="form-control form-control-sm" v-model="line.text">
+                                    </td>
+                                    <td class="text-right" style="width: 40px">
+                                        <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="removePartLine(index)"
+                                            data-toggle="tooltip" data-placement="top" title="Quitar">
+                                            <i class="fas fa-ban"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p v-else class="text-muted mt-3 mb-0">Todavía no agregaste repuestos.</p>
+
                         <p v-show="errors.has('description')" class="text-danger">{{ errors.first('description') }}</p>
                     </div>
                     <div class="modal-footer">
@@ -45,36 +51,52 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
 
     data() {
         return {
-            newPartName: ''
+            partLines: []
         }
     },
     computed: {
-        ...mapState(['formCotizacion', 'productCatalogTemplateSuggestions'])
+        ...mapState(['formCotizacion', 'productCatalogTemplateSuggestions']),
+        templateOptionLabels() {
+            return this.productCatalogTemplateSuggestions.map(suggestion => suggestion.product_name)
+        }
+    },
+    watch: {
+        partLines: {
+            deep: true,
+            handler() {
+                this.formCotizacion.description = this.partLines.map(line => line.text).join('\n')
+            }
+        }
     },
     methods: {
         ...mapActions(['requestPartsVehicle', 'getProductCatalogTemplateSuggestions']),
-        addPartLine() {
-            const name = this.newPartName.trim()
+        addPartLine(name) {
+            const text = (name || '').trim()
 
-            if (!name) {
+            if (!text) {
                 return
             }
 
-            this.formCotizacion.description = this.formCotizacion.description
-                ? this.formCotizacion.description + '\n' + name
-                : name
-
-            this.newPartName = ''
+            this.partLines.push({ text })
+        },
+        removePartLine(index) {
+            this.partLines.splice(index, 1)
         }
     },
     created() {
         this.getProductCatalogTemplateSuggestions()
+    },
+    mounted() {
+        $('#requestParts').on('hidden.bs.modal', () => {
+            this.partLines = []
+        })
     }
 
 

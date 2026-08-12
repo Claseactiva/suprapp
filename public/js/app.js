@@ -9820,7 +9820,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -9828,25 +9830,52 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      newPartName: ''
+      partLines: []
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['formCotizacion', 'productCatalogTemplateSuggestions'])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['requestPartsVehicle', 'getProductCatalogTemplateSuggestions'])), {}, {
-    addPartLine: function addPartLine() {
-      var name = this.newPartName.trim();
-      if (!name) {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['formCotizacion', 'productCatalogTemplateSuggestions'])), {}, {
+    templateOptionLabels: function templateOptionLabels() {
+      return this.productCatalogTemplateSuggestions.map(function (suggestion) {
+        return suggestion.product_name;
+      });
+    }
+  }),
+  watch: {
+    partLines: {
+      deep: true,
+      handler: function handler() {
+        this.formCotizacion.description = this.partLines.map(function (line) {
+          return line.text;
+        }).join('\n');
+      }
+    }
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['requestPartsVehicle', 'getProductCatalogTemplateSuggestions'])), {}, {
+    addPartLine: function addPartLine(name) {
+      var text = (name || '').trim();
+      if (!text) {
         return;
       }
-      this.formCotizacion.description = this.formCotizacion.description ? this.formCotizacion.description + '\n' + name : name;
-      this.newPartName = '';
+      this.partLines.push({
+        text: text
+      });
+    },
+    removePartLine: function removePartLine(index) {
+      this.partLines.splice(index, 1);
     }
   }),
   created: function created() {
     this.getProductCatalogTemplateSuggestions();
+  },
+  mounted: function mounted() {
+    var _this = this;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#requestParts').on('hidden.bs.modal', function () {
+      _this.partLines = [];
+    });
   }
 });
 
@@ -40900,97 +40929,75 @@ var render = function render() {
     attrs: {
       "for": "newPartName"
     }
-  }, [_vm._v("Buscar repuesto")]), _vm._v(" "), _c("div", {
-    staticClass: "input-group mb-3"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newPartName,
-      expression: "newPartName"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      id: "newPartName",
-      list: "request-parts-suggestions",
-      autocomplete: "off",
-      placeholder: "Escribe o elige de la lista..."
-    },
-    domProps: {
-      value: _vm.newPartName
-    },
-    on: {
-      keydown: function keydown($event) {
-        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
-        $event.preventDefault();
-        return _vm.addPartLine.apply(null, arguments);
-      },
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.newPartName = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _c("datalist", {
-    attrs: {
-      id: "request-parts-suggestions"
-    }
-  }, _vm._l(_vm.productCatalogTemplateSuggestions, function (suggestion) {
-    return _c("option", {
-      key: suggestion.id,
-      domProps: {
-        value: suggestion.product_name
-      }
-    });
-  }), 0), _vm._v(" "), _c("div", {
-    staticClass: "input-group-append"
-  }, [_c("button", {
-    staticClass: "btn btn-info",
-    attrs: {
-      type: "button"
-    },
-    on: {
-      click: function click($event) {
-        $event.preventDefault();
-        return _vm.addPartLine.apply(null, arguments);
-      }
-    }
-  }, [_c("i", {
-    staticClass: "fas fa-plus"
-  }), _vm._v(" Agregar\n                            ")])])]), _vm._v(" "), _c("label", {
-    attrs: {
-      "for": "parts"
-    }
-  }, [_vm._v("Repuestos a Solicitar")]), _vm._v(" "), _c("textarea", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.formCotizacion.description,
-      expression: "formCotizacion.description"
-    }],
-    staticClass: "form-control",
-    "class": {
-      input: true,
-      "is-invalid": _vm.errors.has("description")
-    },
+  }, [_vm._v("Repuestos a Solicitar")]), _vm._v(" "), _c("div", {
+    staticClass: "d-flex",
     staticStyle: {
-      resize: "none"
-    },
+      gap: ".5rem"
+    }
+  }, [_c("div", {
+    staticClass: "flex-grow-1"
+  }, [_c("v-select", {
     attrs: {
-      placeholder: "Repuestos...",
-      cols: "30",
-      rows: "9"
-    },
-    domProps: {
-      value: _vm.formCotizacion.description
+      name: "newPartName",
+      placeholder: "Buscar en la biblioteca o escribir uno nuevo...",
+      options: _vm.templateOptionLabels,
+      taggable: true,
+      "push-tags": true,
+      value: null
     },
     on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.$set(_vm.formCotizacion, "description", $event.target.value);
-      }
+      input: _vm.addPartLine
     }
-  }), _vm._v(" "), _c("p", {
+  })], 1)]), _vm._v(" "), _vm.partLines.length ? _c("table", {
+    staticClass: "table table-dark table-sm mt-3 mb-0"
+  }, [_c("tbody", _vm._l(_vm.partLines, function (line, index) {
+    return _c("tr", {
+      key: index
+    }, [_c("td", [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: line.text,
+        expression: "line.text"
+      }],
+      staticClass: "form-control form-control-sm",
+      attrs: {
+        type: "text"
+      },
+      domProps: {
+        value: line.text
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(line, "text", $event.target.value);
+        }
+      }
+    })]), _vm._v(" "), _c("td", {
+      staticClass: "text-right",
+      staticStyle: {
+        width: "40px"
+      }
+    }, [_c("a", {
+      staticClass: "btn btn-danger btn-icon-sm",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Quitar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.removePartLine(index);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-ban"
+    })])])]);
+  }), 0)]) : _c("p", {
+    staticClass: "text-muted mt-3 mb-0"
+  }, [_vm._v("Todavía no agregaste repuestos.")]), _vm._v(" "), _c("p", {
     directives: [{
       name: "show",
       rawName: "v-show",
