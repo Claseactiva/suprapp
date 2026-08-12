@@ -11,6 +11,10 @@
 
     <title>{{ config('app.name', 'SupraApp') }}</title>
 
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#343a40">
+    <link rel="apple-touch-icon" href="{{ asset('img/icon-180.png') }}">
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
         integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -45,6 +49,12 @@
 
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item" id="pwa-install-item" style="display:none">
+                <a class="nav-link" href="#" id="pwa-install-btn" title="Instalar app">
+                    <i class="fas fa-download"></i> Instalar app
+                </a>
+            </li>
+
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -335,6 +345,46 @@
     </div>
     <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
     <script src="{{ asset('js/app-principal.js') }}?v={{ filemtime(public_path('js/app-principal.js')) }}"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('{{ asset('sw.js') }}');
+        }
+
+        var pwaInstallEvent = null;
+        var pwaInstallItem = document.getElementById('pwa-install-item');
+        var pwaInstallBtn = document.getElementById('pwa-install-btn');
+
+        window.addEventListener('beforeinstallprompt', function (event) {
+            event.preventDefault();
+            pwaInstallEvent = event;
+            if (pwaInstallItem) {
+                pwaInstallItem.style.display = '';
+            }
+        });
+
+        if (pwaInstallBtn) {
+            pwaInstallBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+                if (!pwaInstallEvent) {
+                    return;
+                }
+                pwaInstallEvent.prompt();
+                pwaInstallEvent.userChoice.finally(function () {
+                    pwaInstallEvent = null;
+                    if (pwaInstallItem) {
+                        pwaInstallItem.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        window.addEventListener('appinstalled', function () {
+            if (pwaInstallItem) {
+                pwaInstallItem.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
