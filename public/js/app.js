@@ -9788,6 +9788,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           id: id
         });
       }
+    },
+    vehicleMotorLabel: function vehicleMotorLabel(vehicleLocal) {
+      if (vehicleLocal.engine) {
+        return vehicleLocal.engine;
+      }
+      if (vehicleLocal.current_motor && vehicleLocal.current_motor.motor) {
+        return vehicleLocal.current_motor.motor.modelo_motor || vehicleLocal.current_motor.motor.motor_number || '';
+      }
+      return '';
     }
   }),
   created: function created() {
@@ -40276,9 +40285,9 @@ var render = function render() {
       staticClass: "vehicle-col-motor vehicle-cell-wrap",
       attrs: {
         "data-table-label": "Motor",
-        title: vehicleLocal.engine
+        title: _vm.vehicleMotorLabel(vehicleLocal)
       }
-    }, [_vm._v(_vm._s(vehicleLocal.engine))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(_vm.vehicleMotorLabel(vehicleLocal)))]), _vm._v(" "), _c("td", {
       staticClass: "vehicle-col-color vehicle-cell-meta",
       attrs: {
         "data-table-label": "Color"
@@ -40349,13 +40358,14 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-info"
-    })]), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-success btn-sm",
+    })]), _vm._v(" "), _c("div", {
+      staticClass: "btn-group dropleft vehicle-more-group"
+    }, [_vm._m(1, true), _vm._v(" "), _c("div", {
+      staticClass: "dropdown-menu dropdown-menu-right"
+    }, [_c("a", {
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Detalle"
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -40366,14 +40376,11 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-plus-circle"
-    })]), _vm._v(" "), _vm.rol === "mechanic" ? _c("a", {
-      staticClass: "btn btn-success btn-sm",
+      staticClass: "fas fa-plus-circle mr-2"
+    }), _vm._v("Detalle\n                                ")]), _vm._v(" "), _vm.rol === "mechanic" ? _c("a", {
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Orden de trabajo"
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -40384,14 +40391,11 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-wrench"
-    })]) : _vm._e(), _vm._v(" "), _vm.rol === "mechanic" ? _c("a", {
-      staticClass: "btn btn-success btn-sm",
+      staticClass: "fas fa-clipboard-list mr-2"
+    }), _vm._v("Orden de trabajo\n                                ")]) : _vm._e(), _vm._v(" "), _vm.rol === "mechanic" ? _c("a", {
+      staticClass: "dropdown-item",
       attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Check List"
+        href: "#"
       },
       on: {
         click: function click($event) {
@@ -40402,8 +40406,8 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-clipboard-check"
-    })]) : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "fas fa-tasks mr-2"
+    }), _vm._v("Check List\n                                ")]) : _vm._e()])]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-primary btn-sm",
       attrs: {
         href: "#",
@@ -40555,7 +40559,7 @@ var render = function render() {
     staticClass: "vehicle-table-shell mt-3"
   }, [_c("table", {
     staticClass: "table table-responsive-new table-dark table-sm vehicle-table mb-0"
-  }, [_vm._m(1), _vm._v(" "), _c("tbody", [_vm._l(_vm.vehiclesTrash, function (vehicleLocal) {
+  }, [_vm._m(2), _vm._v(" "), _c("tbody", [_vm._l(_vm.vehiclesTrash, function (vehicleLocal) {
     return _c("tr", {
       key: vehicleLocal.id
     }, [_c("td", {
@@ -40798,6 +40802,21 @@ var staticRenderFns = [function () {
   }, [_vm._v("Fecha")]), _vm._v(" "), _c("th", {
     staticClass: "vehicle-col-actions"
   })])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("button", {
+    staticClass: "btn btn-success btn-sm dropdown-toggle dropdown-toggle-split",
+    attrs: {
+      type: "button",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false",
+      title: "Más acciones"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-wrench"
+  })]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;

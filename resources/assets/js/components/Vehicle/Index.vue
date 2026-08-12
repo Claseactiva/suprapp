@@ -60,7 +60,7 @@
                         <td data-table-label="Marca" class="vehicle-col-marca vehicle-cell-wrap" :title="vehicleLocal.brand">{{ vehicleLocal.brand }}</td>
                         <td data-table-label="Modelo" class="vehicle-col-modelo vehicle-cell-wrap" :title="vehicleLocal.model">{{ vehicleLocal.model }}</td>
                         <td data-table-label="Año" class="vehicle-col-anio vehicle-cell-meta">{{ vehicleLocal.year }}</td>
-                        <td data-table-label="Motor" class="vehicle-col-motor vehicle-cell-wrap" :title="vehicleLocal.engine">{{ vehicleLocal.engine }}</td>
+                        <td data-table-label="Motor" class="vehicle-col-motor vehicle-cell-wrap" :title="vehicleMotorLabel(vehicleLocal)">{{ vehicleMotorLabel(vehicleLocal) }}</td>
                         <td data-table-label="Color" class="vehicle-col-color vehicle-cell-meta">{{ vehicleLocal.color }}</td>
                         <td data-table-label="Kilometraje" class="vehicle-col-km vehicle-cell-meta">{{ vehicleLocal.km }}</td>
                         <td data-table-label="Fecha" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
@@ -81,25 +81,25 @@
                                 <i class="fas fa-info"></i>
                             </a>
 
-                            <a href="#" class="btn btn-success btn-sm"
-                                @click.prevent="modalDetailVehicle({ vehicleLocal })" data-toggle="tooltip"
-                                data-placement="top" title="Detalle">
-                                <i class="fas fa-plus-circle"></i>
-                            </a>
-
-
-                            <a href="#" v-if="rol === 'mechanic'" class="btn btn-success btn-sm"
-                                @click.prevent="modalOrdenTrabajo({ vehicleLocal })" data-toggle="tooltip"
-                                data-placement="top" title="Orden de trabajo">
-                                <i class="fas fa-wrench"></i>
-                            </a>
-
-
-                            <a href="#" v-if="rol === 'mechanic'" class="btn btn-success btn-sm"
-                                @click.prevent="modalCheckList({ vehicleLocal })" data-toggle="tooltip"
-                                data-placement="top" title="Check List">
-                                <i class="fas fa-clipboard-check"></i>
-                            </a>
+                            <div class="btn-group dropleft vehicle-more-group">
+                                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Más acciones">
+                                    <i class="fas fa-wrench"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" class="dropdown-item" @click.prevent="modalDetailVehicle({ vehicleLocal })">
+                                        <i class="fas fa-plus-circle mr-2"></i>Detalle
+                                    </a>
+                                    <a href="#" v-if="rol === 'mechanic'" class="dropdown-item"
+                                        @click.prevent="modalOrdenTrabajo({ vehicleLocal })">
+                                        <i class="fas fa-clipboard-list mr-2"></i>Orden de trabajo
+                                    </a>
+                                    <a href="#" v-if="rol === 'mechanic'" class="dropdown-item"
+                                        @click.prevent="modalCheckList({ vehicleLocal })">
+                                        <i class="fas fa-tasks mr-2"></i>Check List
+                                    </a>
+                                </div>
+                            </div>
 
                             <a href="#" class="btn btn-primary btn-sm"
                                 @click.prevent="modalRequestParts({ vehicleLocal })" data-toggle="tooltip"
@@ -301,6 +301,15 @@ export default {
             if (window.confirm('Esto elimina el vehiculo de forma definitiva y no se puede deshacer. ¿Continuar?')) {
                 this.forceDeleteVehicle({ id })
             }
+        },
+        vehicleMotorLabel(vehicleLocal) {
+            if (vehicleLocal.engine) {
+                return vehicleLocal.engine
+            }
+            if (vehicleLocal.current_motor && vehicleLocal.current_motor.motor) {
+                return vehicleLocal.current_motor.motor.modelo_motor || vehicleLocal.current_motor.motor.motor_number || ''
+            }
+            return ''
         }
     },
     created() {
