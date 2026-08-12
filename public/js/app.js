@@ -16989,6 +16989,38 @@ var render = function render() {
     staticClass: "col"
   }, [_c("label", {
     attrs: {
+      "for": "modelo_motor"
+    }
+  }, [_vm._v("Modelo Motor")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newMotor.modelo_motor,
+      expression: "newMotor.modelo_motor"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "modelo_motor"
+    },
+    domProps: {
+      value: _vm.newMotor.modelo_motor
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newMotor, "modelo_motor", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.modelo_motor))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col"
+  }, [_c("label", {
+    attrs: {
       "for": "arreglo_cpl"
     }
   }, [_vm._v("Arreglo / CPL")]), _vm._v(" "), _c("input", {
@@ -17066,6 +17098,10 @@ var render = function render() {
         "data-table-label": "N° INTERNO"
       }
     }, [_vm._v(_vm._s(motorLocal.numero_interno))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "MODELO MOTOR"
+      }
+    }, [_vm._v(_vm._s(motorLocal.modelo_motor))]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "ARREGLO/CPL"
       }
@@ -17171,7 +17207,51 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "fas fa-history"
     })])])])]);
-  }), 0)])]), _vm._v(" "), _c("nav", {
+  }), 0)])]), _vm._v(" "), _c("div", {
+    staticClass: "table-list-toolbar"
+  }, [_c("div", {
+    staticClass: "table-list-toolbar__rows"
+  }, [_c("span", [_vm._v("Filas")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model.number",
+      value: _vm.pagination_motors.per_page,
+      expression: "pagination_motors.per_page",
+      modifiers: {
+        number: true
+      }
+    }],
+    staticClass: "custom-select custom-select-sm",
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return _vm._n(val);
+        });
+        _vm.$set(_vm.pagination_motors, "per_page", $event.target.multiple ? $$selectedVal : $$selectedVal[0]);
+      }, function ($event) {
+        return _vm.changePageMotors({
+          page: 1,
+          per_page: _vm.pagination_motors.per_page,
+          search: _vm.searchMotor
+        });
+      }]
+    }
+  }, [_c("option", {
+    domProps: {
+      value: 10
+    }
+  }, [_vm._v("10")]), _vm._v(" "), _c("option", {
+    domProps: {
+      value: 20
+    }
+  }, [_vm._v("20")]), _vm._v(" "), _c("option", {
+    domProps: {
+      value: 50
+    }
+  }, [_vm._v("50")])])])]), _vm._v(" "), _c("nav", {
     staticClass: "mt-3"
   }, [_c("ul", {
     staticClass: "pagination"
@@ -17186,7 +17266,9 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageMotors({
-          page: 1
+          page: 1,
+          per_page: _vm.pagination_motors.per_page,
+          search: _vm.searchMotor
         });
       }
     }
@@ -17201,7 +17283,9 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageMotors({
-          page: _vm.pagination_motors.current_page - 1
+          page: _vm.pagination_motors.current_page - 1,
+          per_page: _vm.pagination_motors.per_page,
+          search: _vm.searchMotor
         });
       }
     }
@@ -17219,7 +17303,9 @@ var render = function render() {
         click: function click($event) {
           $event.preventDefault();
           return _vm.changePageMotors({
-            page: page
+            page: page,
+            per_page: _vm.pagination_motors.per_page,
+            search: _vm.searchMotor
           });
         }
       }
@@ -17235,7 +17321,9 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageMotors({
-          page: _vm.pagination_motors.current_page + 1
+          page: _vm.pagination_motors.current_page + 1,
+          per_page: _vm.pagination_motors.per_page,
+          search: _vm.searchMotor
         });
       }
     }
@@ -17250,7 +17338,9 @@ var render = function render() {
       click: function click($event) {
         $event.preventDefault();
         return _vm.changePageMotors({
-          page: _vm.pagination_motors.last_page
+          page: _vm.pagination_motors.last_page,
+          per_page: _vm.pagination_motors.per_page,
+          search: _vm.searchMotor
         });
       }
     }
@@ -17296,7 +17386,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("N° Serie")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v("Arreglo/CPL")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("N° Serie")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v("Modelo Motor")]), _vm._v(" "), _c("th", [_vm._v("Arreglo/CPL")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -17405,6 +17495,38 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.numero_interno))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "modelo_motor"
+    }
+  }, [_vm._v("Modelo Motor")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillMotor.modelo_motor,
+      expression: "fillMotor.modelo_motor"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "modelo_motor"
+    },
+    domProps: {
+      value: _vm.fillMotor.modelo_motor
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillMotor, "modelo_motor", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.modelo_motor))])]);
   })], 2), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
@@ -45026,11 +45148,13 @@ function dispatchPublicQuotationFailed() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlMotor, {
       motor_number: state.newMotor.motor_number,
       numero_interno: state.newMotor.numero_interno,
+      modelo_motor: state.newMotor.modelo_motor,
       arreglo_cpl: state.newMotor.arreglo_cpl
     }).then(function (response) {
       state.newMotor = {
         motor_number: '',
         numero_interno: '',
+        modelo_motor: '',
         arreglo_cpl: ''
       };
       state.errorsLaravel = [];
@@ -45044,6 +45168,7 @@ function dispatchPublicQuotationFailed() {
     state.fillMotor.id = motor.id;
     state.fillMotor.motor_number = motor.motor_number;
     state.fillMotor.numero_interno = motor.numero_interno;
+    state.fillMotor.modelo_motor = motor.modelo_motor;
     state.fillMotor.arreglo_cpl = motor.arreglo_cpl;
     $('#edit_motor_asset').modal('show');
   },
@@ -50030,11 +50155,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "offset_motorspec", 5), "motors", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newMotor", {
   motor_number: '',
   numero_interno: '',
+  modelo_motor: '',
   arreglo_cpl: ''
 }), "fillMotor", {
   id: '',
   motor_number: '',
   numero_interno: '',
+  modelo_motor: '',
   arreglo_cpl: ''
 }), "motorLinkPatent", ''), "motorHistory", []), "pagination_motors", {
   'total': 0,

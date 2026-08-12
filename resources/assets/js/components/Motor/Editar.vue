@@ -31,6 +31,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="modelo_motor">Modelo Motor</label>
+                            <input type="text" name="modelo_motor" class="form-control" v-model="fillMotor.modelo_motor">
+
+                            <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                <p>{{ error.modelo_motor }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="arreglo_cpl">Arreglo / CPL</label>
                             <input type="text" name="arreglo_cpl" class="form-control" v-model="fillMotor.arreglo_cpl">
 

@@ -38,6 +38,15 @@
                                     </div>
 
                                     <div class="col">
+                                        <label for="modelo_motor">Modelo Motor</label>
+                                        <input type="text" name="modelo_motor" class="form-control" v-model="newMotor.modelo_motor">
+
+                                        <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                            <p>{{ error.modelo_motor }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
                                         <label for="arreglo_cpl">Arreglo / CPL</label>
                                         <input type="text" name="arreglo_cpl" class="form-control" v-model="newMotor.arreglo_cpl">
 
@@ -70,6 +79,7 @@
                             <th>ID</th>
                             <th>N° Serie</th>
                             <th>N° Interno</th>
+                            <th>Modelo Motor</th>
                             <th>Arreglo/CPL</th>
                             <th>Vehículo</th>
                             <th>&nbsp;</th>
@@ -80,6 +90,7 @@
                             <td data-table-label="ID">{{ motorLocal.id }}</td>
                             <td data-table-label="N° SERIE">{{ motorLocal.motor_number }}</td>
                             <td data-table-label="N° INTERNO">{{ motorLocal.numero_interno }}</td>
+                            <td data-table-label="MODELO MOTOR">{{ motorLocal.modelo_motor }}</td>
                             <td data-table-label="ARREGLO/CPL">{{ motorLocal.arreglo_cpl }}</td>
                             <td data-table-label="VEHICULO">
                                 <span v-if="motorLocal.vehicle_id">{{ motorLocal.vehicle_patent }} - {{ motorLocal.vehicle_brand }} {{ motorLocal.vehicle_model }}</span>
@@ -126,35 +137,46 @@
                     </tbody>
                 </table>
             </div>
+            <div class="table-list-toolbar">
+                <div class="table-list-toolbar__rows">
+                    <span>Filas</span>
+                    <select class="custom-select custom-select-sm" v-model.number="pagination_motors.per_page"
+                        @change="changePageMotors({ page: 1, per_page: pagination_motors.per_page, search: searchMotor })">
+                        <option :value="10">10</option>
+                        <option :value="20">20</option>
+                        <option :value="50">50</option>
+                    </select>
+                </div>
+            </div>
             <nav class="mt-3">
                 <ul class="pagination">
                     <li class="page-item" v-if="pagination_motors.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: 1, per_page: pagination_motors.per_page, search: searchMotor})">
                             <span>Primera</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motors.current_page > 1">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: pagination_motors.current_page - 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: pagination_motors.current_page - 1, per_page: pagination_motors.per_page, search: searchMotor})">
                             <span>Atrás</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-for="page in pagesNumber_motors"
                         v-bind:class="[ page == isActived_motors ? 'active' : '' ]" :key="page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page, per_page: pagination_motors.per_page, search: searchMotor})">
                             {{ page }}
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motors.current_page < pagination_motors.last_page">
-                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: pagination_motors.current_page + 1})">
+                        <a class="page-link border-light bg-dark" href="#" @click.prevent="changePageMotors({page: pagination_motors.current_page + 1, per_page: pagination_motors.per_page, search: searchMotor})">
                             <span>Siguiente</span>
                         </a>
                     </li>
 
                     <li class="page-item" v-if="pagination_motors.current_page < pagination_motors.last_page">
-                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageMotors({page:pagination_motors.last_page})">
+                        <a class="page-link border-light bg-dark" href="#"  @click.prevent="changePageMotors({page:pagination_motors.last_page, per_page: pagination_motors.per_page, search: searchMotor})">
                             <span>Última</span>
                         </a>
                     </li>

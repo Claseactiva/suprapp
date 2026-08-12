@@ -1675,11 +1675,13 @@ export default { //used for changing the state
         axios.post(urlMotor, {
             motor_number: state.newMotor.motor_number,
             numero_interno: state.newMotor.numero_interno,
+            modelo_motor: state.newMotor.modelo_motor,
             arreglo_cpl: state.newMotor.arreglo_cpl
         }).then(response => {
             state.newMotor = {
                 motor_number: '',
                 numero_interno: '',
+                modelo_motor: '',
                 arreglo_cpl: ''
             }
             state.errorsLaravel = []
@@ -1693,6 +1695,7 @@ export default { //used for changing the state
         state.fillMotor.id = motor.id
         state.fillMotor.motor_number = motor.motor_number
         state.fillMotor.numero_interno = motor.numero_interno
+        state.fillMotor.modelo_motor = motor.modelo_motor
         state.fillMotor.arreglo_cpl = motor.arreglo_cpl
         $('#edit_motor_asset').modal('show')
     },
