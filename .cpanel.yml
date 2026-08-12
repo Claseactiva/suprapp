@@ -131,6 +131,7 @@ deployment:
     - /bin/cp -f app/Models/QuotationSparePartImage.php $DEPLOYPATH/app/Models/QuotationSparePartImage.php
     - /bin/cp -f app/Models/QuotationUserImage.php $DEPLOYPATH/app/Models/QuotationUserImage.php
     - /bin/cp -f app/Models/QuotationUserVehicle.php $DEPLOYPATH/app/Models/QuotationUserVehicle.php
+    - /bin/cp -f app/Models/QuotationUserVehicleItem.php $DEPLOYPATH/app/Models/QuotationUserVehicleItem.php
     - /bin/cp -f app/Models/Quotationclient.php $DEPLOYPATH/app/Models/Quotationclient.php
     - /bin/cp -f app/Models/RepairActivity.php $DEPLOYPATH/app/Models/RepairActivity.php
     - /bin/cp -f app/Models/VehicleBrandModel.php $DEPLOYPATH/app/Models/VehicleBrandModel.php
@@ -203,6 +204,9 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php
     - /bin/cp -f database/migrations/2026_08_12_000002_create_client_mechanics_table.php $DEPLOYPATH/database/migrations/2026_08_12_000002_create_client_mechanics_table.php
     - /bin/cp -f database/migrations/2026_08_12_000003_create_flotas_permission.php $DEPLOYPATH/database/migrations/2026_08_12_000003_create_flotas_permission.php
+    - /bin/cp -f database/migrations/2026_08_12_000001_add_serial_and_internal_number_to_vehicle_engines_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_serial_and_internal_number_to_vehicle_engines_table.php
+    - /bin/cp -f database/migrations/2026_08_12_000002_create_quotation_user_vehicle_items_table.php $DEPLOYPATH/database/migrations/2026_08_12_000002_create_quotation_user_vehicle_items_table.php
+    - /bin/cp -f database/migrations/2026_08_12_000003_add_numero_interno_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_12_000003_add_numero_interno_to_motors_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
