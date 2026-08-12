@@ -3227,7 +3227,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#create').modal('show');
     },
     copyFleetPrompt: function copyFleetPrompt() {
-      var prompt = 'Convierte el siguiente texto en una lista de equipos/vehiculos, una linea por equipo, ' + 'usando EXACTAMENTE este formato separado por "|" (deja el espacio vacio entre pipes si falta un ' + 'dato, pero manten siempre las 13 columnas):\n\n' + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Motor | Modelo Motor | Arreglo CPL\n\n' + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, ' + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. ' + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. ' + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique).\n\n' + 'Ejemplo:\n' + 'ABCD11 | INT-001 | 9BWZZZ377VT004251 | Camion | Toyota | Hilux | 2020 | Blanco | 50000 | | MTR-123 | Cummins QSK19 | ARR-1\n' + 'EFGH22 | | | Generador | Nissan | Navara | 2021 | Negro | | 1200 | |\n\n' + 'No agregues texto adicional, encabezados ni numeracion, solo las lineas en ese formato. ' + 'Este es el texto a convertir:\n\n';
+      var prompt = 'Convierte el siguiente texto en una lista de equipos/vehiculos, una linea por equipo, ' + 'usando EXACTAMENTE este formato separado por "|" (deja el espacio vacio entre pipes si falta un ' + 'dato, pero manten siempre las 13 columnas):\n\n' + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n\n' + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, ' + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. ' + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. ' + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique).\n\n' + 'Ejemplo:\n' + 'ABCD11 | INT-001 | 9BWZZZ377VT004251 | Camion | Toyota | Hilux | 2020 | Blanco | 50000 | | MTR-123 | Cummins QSK19 | ARR-1\n' + 'EFGH22 | | | Generador | Nissan | Navara | 2021 | Negro | | 1200 | |\n\n' + 'No agregues texto adicional, encabezados ni numeracion, solo las lineas en ese formato. ' + 'Este es el texto a convertir:\n\n';
       this.copyTextToClipboard(prompt, 'Prompt copiado, pegalo en tu IA junto con el texto a convertir');
     },
     processBulkFleetText: function processBulkFleetText() {
@@ -12201,7 +12201,7 @@ var render = function render() {
     staticClass: "modal-body"
   }, [_c("small", {
     staticClass: "text-muted d-block mb-3"
-  }, [_vm._v("\n                        Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Motor | Modelo Motor | Arreglo CPL\n                        (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas)\n                    ")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v("\n                        Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n                        (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas)\n                    ")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -12336,7 +12336,7 @@ var staticRenderFns = [function () {
     staticClass: "fleet-col-horometro"
   }, [_vm._v("Horómetro")]), _vm._v(" "), _c("th", {
     staticClass: "fleet-col-motor"
-  }, [_vm._v("N° Motor")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("N° Serie")]), _vm._v(" "), _c("th", {
     staticClass: "fleet-col-motor-model"
   }, [_vm._v("Modelo Motor")]), _vm._v(" "), _c("th", {
     staticClass: "fleet-col-arreglo"
@@ -12361,7 +12361,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Patente")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v("Chasis/VIN")]), _vm._v(" "), _c("th", [_vm._v("Tipo")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Año")]), _vm._v(" "), _c("th", [_vm._v("Color")]), _vm._v(" "), _c("th", [_vm._v("Km")]), _vm._v(" "), _c("th", [_vm._v("Horómetro")]), _vm._v(" "), _c("th", [_vm._v("N° Motor")]), _vm._v(" "), _c("th", [_vm._v("Modelo Motor")]), _vm._v(" "), _c("th", [_vm._v("Arreglo CPL")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("#")]), _vm._v(" "), _c("th", [_vm._v("Patente")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v("Chasis/VIN")]), _vm._v(" "), _c("th", [_vm._v("Tipo")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Año")]), _vm._v(" "), _c("th", [_vm._v("Color")]), _vm._v(" "), _c("th", [_vm._v("Km")]), _vm._v(" "), _c("th", [_vm._v("Horómetro")]), _vm._v(" "), _c("th", [_vm._v("N° Serie")]), _vm._v(" "), _c("th", [_vm._v("Modelo Motor")]), _vm._v(" "), _c("th", [_vm._v("Arreglo CPL")])])]);
 }];
 render._withStripped = true;
 
@@ -26742,7 +26742,7 @@ var render = function render() {
     attrs: {
       "for": "ppu"
     }
-  }, [_vm._v("PPU / VIN / Chasis / N° Interno / N° Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("PPU / VIN / Chasis / N° Interno / N° Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27121,7 +27121,7 @@ var render = function render() {
     attrs: {
       "for": "ppu"
     }
-  }, [_vm._v("PPU / VIN / Chasis / N° Interno / N° Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("PPU / VIN / Chasis / N° Interno / N° Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",

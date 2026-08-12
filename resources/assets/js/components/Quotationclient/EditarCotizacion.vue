@@ -47,7 +47,7 @@
                             </div>
 
                             <div class="col-lg-12 mb-3">
-                                <label for="ppu">PPU / VIN / Chasis / N° Interno / N° Motor</label>
+                                <label for="ppu">PPU / VIN / Chasis / N° Interno / N° Serie</label>
                                 <input id="ppu" type="text" class="form-control" v-model="fillQuotationclient.ppu">
                             </div>
 

@@ -44,7 +44,7 @@
                             <th class="fleet-col-color">Color</th>
                             <th class="fleet-col-km">Km</th>
                             <th class="fleet-col-horometro">Horómetro</th>
-                            <th class="fleet-col-motor">N° Motor</th>
+                            <th class="fleet-col-motor">N° Serie</th>
                             <th class="fleet-col-motor-model">Modelo Motor</th>
                             <th class="fleet-col-arreglo">Arreglo CPL</th>
                             <th class="fleet-col-actions"></th>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="modal-body">
                         <small class="text-muted d-block mb-3">
-                            Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Motor | Modelo Motor | Arreglo CPL
+                            Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL
                             (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas)
                         </small>
 
@@ -145,7 +145,7 @@
                                         <th>Color</th>
                                         <th>Km</th>
                                         <th>Horómetro</th>
-                                        <th>N° Motor</th>
+                                        <th>N° Serie</th>
                                         <th>Modelo Motor</th>
                                         <th>Arreglo CPL</th>
                                     </tr>
@@ -212,7 +212,7 @@ export default {
             const prompt = 'Convierte el siguiente texto en una lista de equipos/vehiculos, una linea por equipo, '
                 + 'usando EXACTAMENTE este formato separado por "|" (deja el espacio vacio entre pipes si falta un '
                 + 'dato, pero manten siempre las 13 columnas):\n\n'
-                + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Motor | Modelo Motor | Arreglo CPL\n\n'
+                + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n\n'
                 + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, '
                 + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. '
                 + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. '
