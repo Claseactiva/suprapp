@@ -26,6 +26,7 @@ class MotorController extends Controller
             ->select(
                 'motors.id as id',
                 'motors.motor_number as motor_number',
+                'motors.numero_interno as numero_interno',
                 'motors.arreglo_cpl as arreglo_cpl',
                 'vehicles.id as vehicle_id',
                 'vehicles.patent as vehicle_patent',
@@ -68,6 +69,7 @@ class MotorController extends Controller
     {
         $this->validate($request, [
             'motor_number' => 'nullable|string|max:100',
+            'numero_interno' => 'nullable|string|max:100',
             'arreglo_cpl' => 'nullable|string|max:100',
         ]);
 
@@ -77,7 +79,7 @@ class MotorController extends Controller
             ], 422);
         }
 
-        return Motor::create($request->only(['motor_number', 'arreglo_cpl']));
+        return Motor::create($request->only(['motor_number', 'numero_interno', 'arreglo_cpl']));
     }
 
     public function update(Request $request, $id)
@@ -87,10 +89,11 @@ class MotorController extends Controller
 
         $this->validate($request, [
             'motor_number' => 'nullable|string|max:100',
+            'numero_interno' => 'nullable|string|max:100',
             'arreglo_cpl' => 'nullable|string|max:100',
         ]);
 
-        $motor->update($request->only(['motor_number', 'arreglo_cpl']));
+        $motor->update($request->only(['motor_number', 'numero_interno', 'arreglo_cpl']));
 
         return $motor;
     }

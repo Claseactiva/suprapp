@@ -47,6 +47,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-12">
+                                        <label for="serial_number">N° Serie</label>
+                                        <input type="text" name="serial_number" class="form-control" v-model="newVehicleMotor.serial_number">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="numero_interno">N° Interno</label>
+                                        <input type="text" name="numero_interno" class="form-control" v-model="newVehicleMotor.numero_interno">
+                                    </div>
+
                                     <div class="col-lg-3 mt-2">
                                         <label></label>
                                         <button type="submit" class="btn btn-success form-control">
@@ -73,6 +83,8 @@
                             <th>Modelo</th>
                             <th>Período</th>
                             <th>Motor</th>
+                            <th>N° Serie</th>
+                            <th>N° Interno</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -83,6 +95,8 @@
                             <td data-table-label="MODELO">{{ vehiculoMotorLocal.model }}</td>
                             <td data-table-label="PERIODO">{{ vehiculoMotorLocal.year_from }}<span v-if="vehiculoMotorLocal.year_from !== vehiculoMotorLocal.year_to"> - {{ vehiculoMotorLocal.year_to }}</span></td>
                             <td data-table-label="MOTOR">{{ vehiculoMotorLocal.motor }}</td>
+                            <td data-table-label="N SERIE">{{ vehiculoMotorLocal.serial_number }}</td>
+                            <td data-table-label="N INTERNO">{{ vehiculoMotorLocal.numero_interno }}</td>
 
                             <td width="10px">
                                 <a href="#" class="btn btn-warning btn-icon-sm"

@@ -77,7 +77,7 @@
                             </div>
                         </div>
 
-                        <label for="motor_number">N° de Motor</label>
+                        <label for="motor_number">N° de Serie</label>
                         <input type="text" name="motor_number" class="form-control" v-model="fillVehicle.motor_number">
 
                         <label for="motor_model">Modelo de Motor</label>

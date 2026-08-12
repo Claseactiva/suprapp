@@ -20,11 +20,20 @@
                                 <div class="row">
 
                                     <div class="col">
-                                        <label for="motor_number">N° de Motor</label>
+                                        <label for="motor_number">N° de Serie</label>
                                         <input type="text" name="motor_number" class="form-control" v-model="newMotor.motor_number">
 
                                         <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
                                             <p>{{ error.motor_number }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="numero_interno">N° Interno</label>
+                                        <input type="text" name="numero_interno" class="form-control" v-model="newMotor.numero_interno">
+
+                                        <div v-for="(error, index) in errorsLaravel" class="text-danger" :key="index">
+                                            <p>{{ error.numero_interno }}</p>
                                         </div>
                                     </div>
 
@@ -59,7 +68,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>N° Motor</th>
+                            <th>N° Serie</th>
+                            <th>N° Interno</th>
                             <th>Arreglo/CPL</th>
                             <th>Vehículo</th>
                             <th>&nbsp;</th>
@@ -68,7 +78,8 @@
                     <tbody>
                         <tr v-for="motorLocal in motors" :key="motorLocal.id">
                             <td data-table-label="ID">{{ motorLocal.id }}</td>
-                            <td data-table-label="N° MOTOR">{{ motorLocal.motor_number }}</td>
+                            <td data-table-label="N° SERIE">{{ motorLocal.motor_number }}</td>
+                            <td data-table-label="N° INTERNO">{{ motorLocal.numero_interno }}</td>
                             <td data-table-label="ARREGLO/CPL">{{ motorLocal.arreglo_cpl }}</td>
                             <td data-table-label="VEHICULO">
                                 <span v-if="motorLocal.vehicle_id">{{ motorLocal.vehicle_patent }} - {{ motorLocal.vehicle_brand }} {{ motorLocal.vehicle_model }}</span>

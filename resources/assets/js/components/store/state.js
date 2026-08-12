@@ -282,7 +282,9 @@ export default { //data
     newVehicleMotor: {
         vehicle_model_id: '',
         motor_spec_id: '',
-        year: ''
+        year: '',
+        serial_number: '',
+        numero_interno: ''
     },
     motorspecs: [],
     newMotorSpec: {
@@ -314,7 +316,9 @@ export default { //data
         id: '',
         motor_spec_id: '',
         year_from: '',
-        year_to: ''
+        year_to: '',
+        serial_number: '',
+        numero_interno: ''
     },
     fillMotorSpec: {
         id: '',
@@ -501,7 +505,8 @@ export default { //data
         model: '',
         year: '',
         engine: '',
-        description: ''
+        description: '',
+        items: []
     },
 
     formCotizacionExpress: {
@@ -1057,11 +1062,13 @@ export default { //data
     motors: [],
     newMotor: {
         motor_number: '',
+        numero_interno: '',
         arreglo_cpl: ''
     },
     fillMotor: {
         id: '',
         motor_number: '',
+        numero_interno: '',
         arreglo_cpl: ''
     },
     motorLinkPatent: '',

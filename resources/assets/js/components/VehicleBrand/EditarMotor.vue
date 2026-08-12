@@ -54,6 +54,16 @@
                                 <p>{{ error.year_to }}</p>
                             </div>
                         </div>
+
+                        <div class="col-0 mt-2">
+                            <label for="serial_number">N° Serie</label>
+                            <input type="text" name="serial_number" class="form-control" v-model="fillVehicleMotor.serial_number">
+                        </div>
+
+                        <div class="col-0 mt-2">
+                            <label for="numero_interno">N° Interno</label>
+                            <input type="text" name="numero_interno" class="form-control" v-model="fillVehicleMotor.numero_interno">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-warning">

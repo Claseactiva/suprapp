@@ -9849,8 +9849,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       deep: true,
       handler: function handler() {
         this.formCotizacion.description = this.partLines.map(function (line) {
-          return line.text;
+          return "".concat(line.qty || 1, "x ").concat(line.text);
         }).join('\n');
+        this.formCotizacion.items = this.partLines.map(function (line) {
+          return {
+            description: line.text,
+            qty: line.qty || 1
+          };
+        });
       }
     }
   },
@@ -9861,7 +9867,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         return;
       }
       this.partLines.push({
-        text: text
+        text: text,
+        qty: 1
       });
     },
     removePartLine: function removePartLine(index) {
@@ -16920,7 +16927,7 @@ var render = function render() {
     attrs: {
       "for": "motor_number"
     }
-  }, [_vm._v("N° de Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("N° de Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -16946,6 +16953,38 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.motor_number))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col"
+  }, [_c("label", {
+    attrs: {
+      "for": "numero_interno"
+    }
+  }, [_vm._v("N° Interno")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newMotor.numero_interno,
+      expression: "newMotor.numero_interno"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "numero_interno"
+    },
+    domProps: {
+      value: _vm.newMotor.numero_interno
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newMotor, "numero_interno", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.numero_interno))])]);
   })], 2), _vm._v(" "), _c("div", {
     staticClass: "col"
   }, [_c("label", {
@@ -17020,9 +17059,13 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(motorLocal.id))]), _vm._v(" "), _c("td", {
       attrs: {
-        "data-table-label": "N° MOTOR"
+        "data-table-label": "N° SERIE"
       }
     }, [_vm._v(_vm._s(motorLocal.motor_number))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "N° INTERNO"
+      }
+    }, [_vm._v(_vm._s(motorLocal.numero_interno))]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "ARREGLO/CPL"
       }
@@ -17253,7 +17296,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("N° Motor")]), _vm._v(" "), _c("th", [_vm._v("Arreglo/CPL")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("N° Serie")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v("Arreglo/CPL")]), _vm._v(" "), _c("th", [_vm._v("Vehículo")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -17304,7 +17347,7 @@ var render = function render() {
     attrs: {
       "for": "motor_number"
     }
-  }, [_vm._v("N° de Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("N° de Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -17330,6 +17373,38 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.motor_number))])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "numero_interno"
+    }
+  }, [_vm._v("N° Interno")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillMotor.numero_interno,
+      expression: "fillMotor.numero_interno"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "numero_interno"
+    },
+    domProps: {
+      value: _vm.fillMotor.numero_interno
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillMotor, "numero_interno", $event.target.value);
+      }
+    }
+  }), _vm._v(" "), _vm._l(_vm.errorsLaravel, function (error, index) {
+    return _c("div", {
+      key: index,
+      staticClass: "text-danger"
+    }, [_c("p", [_vm._v(_vm._s(error.numero_interno))])]);
   })], 2), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
@@ -35603,7 +35678,61 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.year))])]);
-  })], 2), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col-12"
+  }, [_c("label", {
+    attrs: {
+      "for": "serial_number"
+    }
+  }, [_vm._v("N° Serie")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newVehicleMotor.serial_number,
+      expression: "newVehicleMotor.serial_number"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "serial_number"
+    },
+    domProps: {
+      value: _vm.newVehicleMotor.serial_number
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newVehicleMotor, "serial_number", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-12"
+  }, [_c("label", {
+    attrs: {
+      "for": "numero_interno"
+    }
+  }, [_vm._v("N° Interno")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newVehicleMotor.numero_interno,
+      expression: "newVehicleMotor.numero_interno"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "numero_interno"
+    },
+    domProps: {
+      value: _vm.newVehicleMotor.numero_interno
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.newVehicleMotor, "numero_interno", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _vm._m(1)])])])])])])]), _vm._v(" "), _c("div", {
     staticClass: "col-12"
   }, [_c("input", {
     directives: [{
@@ -35660,6 +35789,14 @@ var render = function render() {
         "data-table-label": "MOTOR"
       }
     }, [_vm._v(_vm._s(vehiculoMotorLocal.motor))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "N SERIE"
+      }
+    }, [_vm._v(_vm._s(vehiculoMotorLocal.serial_number))]), _vm._v(" "), _c("td", {
+      attrs: {
+        "data-table-label": "N INTERNO"
+      }
+    }, [_vm._v(_vm._s(vehiculoMotorLocal.numero_interno))]), _vm._v(" "), _c("td", {
       attrs: {
         width: "10px"
       }
@@ -35812,7 +35949,7 @@ var staticRenderFns = [function () {
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Período")]), _vm._v(" "), _c("th", [_vm._v("Motor")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("ID")]), _vm._v(" "), _c("th", [_vm._v("Marca")]), _vm._v(" "), _c("th", [_vm._v("Modelo")]), _vm._v(" "), _c("th", [_vm._v("Período")]), _vm._v(" "), _c("th", [_vm._v("Motor")]), _vm._v(" "), _c("th", [_vm._v("N° Serie")]), _vm._v(" "), _c("th", [_vm._v("N° Interno")]), _vm._v(" "), _c("th", [_vm._v(" ")])])]);
 }];
 render._withStripped = true;
 
@@ -36771,7 +36908,61 @@ var render = function render() {
       key: index,
       staticClass: "text-danger"
     }, [_c("p", [_vm._v(_vm._s(error.year_to))])]);
-  })], 2)]), _vm._v(" "), _vm._m(1)])])])]);
+  })], 2), _vm._v(" "), _c("div", {
+    staticClass: "col-0 mt-2"
+  }, [_c("label", {
+    attrs: {
+      "for": "serial_number"
+    }
+  }, [_vm._v("N° Serie")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillVehicleMotor.serial_number,
+      expression: "fillVehicleMotor.serial_number"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "serial_number"
+    },
+    domProps: {
+      value: _vm.fillVehicleMotor.serial_number
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillVehicleMotor, "serial_number", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "col-0 mt-2"
+  }, [_c("label", {
+    attrs: {
+      "for": "numero_interno"
+    }
+  }, [_vm._v("N° Interno")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.fillVehicleMotor.numero_interno,
+      expression: "fillVehicleMotor.numero_interno"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "numero_interno"
+    },
+    domProps: {
+      value: _vm.fillVehicleMotor.numero_interno
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.fillVehicleMotor, "numero_interno", $event.target.value);
+      }
+    }
+  })])]), _vm._v(" "), _vm._m(1)])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -37398,7 +37589,7 @@ var render = function render() {
     attrs: {
       "for": "motor_number"
     }
-  }, [_vm._v("N° de Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("N° de Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -37991,7 +38182,7 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-cog"
+      staticClass: "fas fa-oil-can"
     })]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-success btn-sm",
       attrs: {
@@ -38878,7 +39069,7 @@ var render = function render() {
     attrs: {
       "for": "motor_number"
     }
-  }, [_vm._v("N° de Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("N° de Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -39986,7 +40177,7 @@ var render = function render() {
     attrs: {
       "for": "motor_number"
     }
-  }, [_vm._v("N° de Motor")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("N° de Serie")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -40470,7 +40661,7 @@ var render = function render() {
         }
       }
     }, [_c("i", {
-      staticClass: "fas fa-cog"
+      staticClass: "fas fa-oil-can"
     })])])]);
   }), 0)])]) : _vm._e(), _vm._v(" "), !_vm.showTrash ? _c("div", {
     staticClass: "table-list-toolbar"
@@ -40953,7 +41144,38 @@ var render = function render() {
   }, [_c("tbody", _vm._l(_vm.partLines, function (line, index) {
     return _c("tr", {
       key: index
-    }, [_c("td", [_c("input", {
+    }, [_c("td", {
+      staticStyle: {
+        width: "70px"
+      }
+    }, [_c("input", {
+      directives: [{
+        name: "model",
+        rawName: "v-model.number",
+        value: line.qty,
+        expression: "line.qty",
+        modifiers: {
+          number: true
+        }
+      }],
+      staticClass: "form-control form-control-sm",
+      attrs: {
+        type: "number",
+        min: "1"
+      },
+      domProps: {
+        value: line.qty
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.$set(line, "qty", _vm._n($event.target.value));
+        },
+        blur: function blur($event) {
+          return _vm.$forceUpdate();
+        }
+      }
+    })]), _vm._v(" "), _c("td", [_c("input", {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -43695,7 +43917,8 @@ function dispatchPublicQuotationFailed() {
       model: state.formCotizacion.model,
       year: state.formCotizacion.year,
       engine: state.formCotizacion.engine,
-      description: state.formCotizacion.description
+      description: state.formCotizacion.description,
+      items: state.formCotizacion.items
     }).then(function (response) {
       $('#requestParts').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Solicitud ingresada con éxito');
@@ -44662,12 +44885,16 @@ function dispatchPublicQuotationFailed() {
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
       vehicle_model_id: state.selectedMM.value,
       motor_spec_id: state.selectedMotorSpec.value,
-      year: state.newVehicleMotor.year
+      year: state.newVehicleMotor.year,
+      serial_number: state.newVehicleMotor.serial_number,
+      numero_interno: state.newVehicleMotor.numero_interno
     }).then(function (response) {
       state.newVehicleMotor = {
         vehicle_model_id: '',
         motor_spec_id: '',
-        year: ''
+        year: '',
+        serial_number: '',
+        numero_interno: ''
       }, state.errorsLaravel = [];
       $('#create').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor agregado con exito');
@@ -44682,7 +44909,9 @@ function dispatchPublicQuotationFailed() {
         id: '',
         motor_spec_id: '',
         year_from: '',
-        year_to: ''
+        year_to: '',
+        serial_number: '',
+        numero_interno: ''
       }, state.errorsLaravel = [];
       $('#edit_motor').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor actualizado con exito');
@@ -44695,6 +44924,8 @@ function dispatchPublicQuotationFailed() {
     state.fillVehicleMotor.motor_spec_id = vehiclemotor.motor_spec_id;
     state.fillVehicleMotor.year_from = vehiclemotor.year_from;
     state.fillVehicleMotor.year_to = vehiclemotor.year_to;
+    state.fillVehicleMotor.serial_number = vehiclemotor.serial_number;
+    state.fillVehicleMotor.numero_interno = vehiclemotor.numero_interno;
     $("#edit_motor").modal('show');
   },
   getVehiculoMotors: function getVehiculoMotors(state, request) {
@@ -44794,10 +45025,12 @@ function dispatchPublicQuotationFailed() {
     var _this13 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlMotor, {
       motor_number: state.newMotor.motor_number,
+      numero_interno: state.newMotor.numero_interno,
       arreglo_cpl: state.newMotor.arreglo_cpl
     }).then(function (response) {
       state.newMotor = {
         motor_number: '',
+        numero_interno: '',
         arreglo_cpl: ''
       };
       state.errorsLaravel = [];
@@ -44810,6 +45043,7 @@ function dispatchPublicQuotationFailed() {
   editMotor: function editMotor(state, motor) {
     state.fillMotor.id = motor.id;
     state.fillMotor.motor_number = motor.motor_number;
+    state.fillMotor.numero_interno = motor.numero_interno;
     state.fillMotor.arreglo_cpl = motor.arreglo_cpl;
     $('#edit_motor_asset').modal('show');
   },
@@ -49136,7 +49370,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   newVehicleMotor: {
     vehicle_model_id: '',
     motor_spec_id: '',
-    year: ''
+    year: '',
+    serial_number: '',
+    numero_interno: ''
   },
   motorspecs: [],
   newMotorSpec: {
@@ -49168,7 +49404,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     id: '',
     motor_spec_id: '',
     year_from: '',
-    year_to: ''
+    year_to: '',
+    serial_number: '',
+    numero_interno: ''
   },
   fillMotorSpec: {
     id: '',
@@ -49353,7 +49591,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     model: '',
     year: '',
     engine: '',
-    description: ''
+    description: '',
+    items: []
   },
   formCotizacionExpress: {
     patentchasis: '',
@@ -49790,10 +50029,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'to': 0
 }), "offset_motorspec", 5), "motors", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newMotor", {
   motor_number: '',
+  numero_interno: '',
   arreglo_cpl: ''
 }), "fillMotor", {
   id: '',
   motor_number: '',
+  numero_interno: '',
   arreglo_cpl: ''
 }), "motorLinkPatent", ''), "motorHistory", []), "pagination_motors", {
   'total': 0,

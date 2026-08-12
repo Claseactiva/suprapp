@@ -56,6 +56,8 @@ class VehicleEngineController extends Controller
             'vehicle_model_id' => 'required|integer',
             'motor_spec_id' => 'required|integer',
             'year' => 'required|integer|min:1900|max:2100',
+            'serial_number' => 'nullable|string|max:190',
+            'numero_interno' => 'nullable|string|max:190',
         ], [
             'vehicle_model_id.required' => 'El modelo es obligatorio',
             'motor_spec_id.required' => 'El motor es obligatorio',
@@ -65,6 +67,8 @@ class VehicleEngineController extends Controller
         $modelId = (int) $request->input('vehicle_model_id');
         $specId = (int) $request->input('motor_spec_id');
         $year = (int) $request->input('year');
+        $serialNumber = $request->input('serial_number');
+        $numeroInterno = $request->input('numero_interno');
 
         $exists = VehicleEngine::where('vehicle_model_id', $modelId)
             ->where('motor_spec_id', $specId)
@@ -78,7 +82,7 @@ class VehicleEngineController extends Controller
             ], 422);
         }
 
-        return DB::transaction(function () use ($modelId, $specId, $year) {
+        return DB::transaction(function () use ($modelId, $specId, $year, $serialNumber, $numeroInterno) {
             $lower = VehicleEngine::where('vehicle_model_id', $modelId)
                 ->where('motor_spec_id', $specId)
                 ->where('year_to', $year - 1)
@@ -91,6 +95,8 @@ class VehicleEngineController extends Controller
 
             if ($lower && $upper) {
                 $upper->year_from = $lower->year_from;
+                $upper->serial_number = $serialNumber ?? $upper->serial_number;
+                $upper->numero_interno = $numeroInterno ?? $upper->numero_interno;
                 $upper->save();
                 $lower->delete();
 
@@ -99,6 +105,8 @@ class VehicleEngineController extends Controller
 
             if ($lower) {
                 $lower->year_to = $year;
+                $lower->serial_number = $serialNumber ?? $lower->serial_number;
+                $lower->numero_interno = $numeroInterno ?? $lower->numero_interno;
                 $lower->save();
 
                 return $lower;
@@ -106,6 +114,8 @@ class VehicleEngineController extends Controller
 
             if ($upper) {
                 $upper->year_from = $year;
+                $upper->serial_number = $serialNumber ?? $upper->serial_number;
+                $upper->numero_interno = $numeroInterno ?? $upper->numero_interno;
                 $upper->save();
 
                 return $upper;
@@ -116,6 +126,8 @@ class VehicleEngineController extends Controller
                 'motor_spec_id' => $specId,
                 'year_from' => $year,
                 'year_to' => $year,
+                'serial_number' => $serialNumber,
+                'numero_interno' => $numeroInterno,
             ]);
         });
     }
@@ -126,6 +138,8 @@ class VehicleEngineController extends Controller
             'motor_spec_id' => 'required|integer',
             'year_from' => 'required|integer|min:1900|max:2100',
             'year_to' => 'required|integer|min:1900|max:2100|gte:year_from',
+            'serial_number' => 'nullable|string|max:190',
+            'numero_interno' => 'nullable|string|max:190',
         ], [
             'motor_spec_id.required' => 'El motor es obligatorio',
             'year_from.required' => 'El anio de inicio es obligatorio',
@@ -134,7 +148,7 @@ class VehicleEngineController extends Controller
         ]);
 
         $engine = VehicleEngine::findOrFail($id);
-        $engine->update($request->only(['motor_spec_id', 'year_from', 'year_to']));
+        $engine->update($request->only(['motor_spec_id', 'year_from', 'year_to', 'serial_number', 'numero_interno']));
 
         return $engine;
     }
@@ -149,6 +163,8 @@ class VehicleEngineController extends Controller
                                               vehicle_engines.motor_spec_id as motor_spec_id,
                                               vehicle_engines.year_from as year_from,
                                               vehicle_engines.year_to as year_to,
+                                              vehicle_engines.serial_number as serial_number,
+                                              vehicle_engines.numero_interno as numero_interno,
                                               motor_specs.raw_label as motor'))
             ->join('vehicle_models', 'vehicle_models.id', '=', 'vehicle_engines.vehicle_model_id')
             ->join('vehicle_brands', 'vehicle_brands.id', '=', 'vehicle_models.brand_id')

@@ -508,7 +508,8 @@ export default { //used for changing the state
             model: state.formCotizacion.model,
             year: state.formCotizacion.year,
             engine: state.formCotizacion.engine,
-            description: state.formCotizacion.description
+            description: state.formCotizacion.description,
+            items: state.formCotizacion.items
         })
             .then(response => {
                 $('#requestParts').modal('hide')
@@ -1536,12 +1537,16 @@ export default { //used for changing the state
         axios.post(url, {
             vehicle_model_id: state.selectedMM.value,
             motor_spec_id: state.selectedMotorSpec.value,
-            year: state.newVehicleMotor.year
+            year: state.newVehicleMotor.year,
+            serial_number: state.newVehicleMotor.serial_number,
+            numero_interno: state.newVehicleMotor.numero_interno
         }).then(response => {
             state.newVehicleMotor = {
                 vehicle_model_id: '',
                 motor_spec_id: '',
-                year: ''
+                year: '',
+                serial_number: '',
+                numero_interno: ''
             },
                 state.errorsLaravel = []
             $('#create').modal('hide')
@@ -1558,7 +1563,9 @@ export default { //used for changing the state
                 id: '',
                 motor_spec_id: '',
                 year_from: '',
-                year_to: ''
+                year_to: '',
+                serial_number: '',
+                numero_interno: ''
             },
                 state.errorsLaravel = []
             $('#edit_motor').modal('hide')
@@ -1573,6 +1580,8 @@ export default { //used for changing the state
         state.fillVehicleMotor.motor_spec_id = vehiclemotor.motor_spec_id
         state.fillVehicleMotor.year_from = vehiclemotor.year_from
         state.fillVehicleMotor.year_to = vehiclemotor.year_to
+        state.fillVehicleMotor.serial_number = vehiclemotor.serial_number
+        state.fillVehicleMotor.numero_interno = vehiclemotor.numero_interno
         $("#edit_motor").modal('show')
     },
 
@@ -1665,10 +1674,12 @@ export default { //used for changing the state
     createMotor(state) {
         axios.post(urlMotor, {
             motor_number: state.newMotor.motor_number,
+            numero_interno: state.newMotor.numero_interno,
             arreglo_cpl: state.newMotor.arreglo_cpl
         }).then(response => {
             state.newMotor = {
                 motor_number: '',
+                numero_interno: '',
                 arreglo_cpl: ''
             }
             state.errorsLaravel = []
@@ -1681,6 +1692,7 @@ export default { //used for changing the state
     editMotor(state, motor) {
         state.fillMotor.id = motor.id
         state.fillMotor.motor_number = motor.motor_number
+        state.fillMotor.numero_interno = motor.numero_interno
         state.fillMotor.arreglo_cpl = motor.arreglo_cpl
         $('#edit_motor_asset').modal('show')
     },

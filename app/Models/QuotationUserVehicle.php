@@ -25,6 +25,10 @@ class QuotationUserVehicle extends Model
         return $this->hasMany('App\Models\QuotationUserDescription');
     }
 
+    public function items(){
+        return $this->hasMany('App\Models\QuotationUserVehicleItem');
+    }
+
     public function images(){
         return $this->hasMany('App\Models\QuotationUserImage');
     }

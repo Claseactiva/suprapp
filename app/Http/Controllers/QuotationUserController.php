@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Quotationclient;
 use App\Models\QuotationUser;
 use App\Models\QuotationUserVehicle;
+use App\Models\QuotationUserVehicleItem;
 use App\Models\QuotationUserImage;
 use App\Notifications\EmailNotificator;
 use App\User;
@@ -94,6 +95,7 @@ class QuotationUserController extends Controller
         $year = $data['year'] ?? '';
         $engine = $data['engine'] ?? '';
         $description = $data['description'];
+        $items = is_array($data['items'] ?? null) ? $data['items'] : [];
         $phone = '';
 
         $clients = Client::whereIn('user_id', Auth::user()->teamUserIds())->where('type', '=', 'Cliente Particular')->get();
@@ -143,6 +145,20 @@ class QuotationUserController extends Controller
                 'email' => $email,
                 'description' => $description
             ])->id;
+
+            foreach ($items as $item) {
+                $itemDescription = trim((string) ($item['description'] ?? ''));
+
+                if ($itemDescription === '') {
+                    continue;
+                }
+
+                QuotationUserVehicleItem::create([
+                    'quotation_user_vehicle_id' => $quotation,
+                    'description' => $itemDescription,
+                    'qty' => max(1, (int) ($item['qty'] ?? 1)),
+                ]);
+            }
         }
 
         if (isset($quotation)) {

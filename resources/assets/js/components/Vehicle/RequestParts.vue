@@ -23,6 +23,9 @@
                         <table class="table table-dark table-sm mt-3 mb-0" v-if="partLines.length">
                             <tbody>
                                 <tr v-for="(line, index) in partLines" :key="index">
+                                    <td style="width: 70px">
+                                        <input type="number" min="1" class="form-control form-control-sm" v-model.number="line.qty">
+                                    </td>
                                     <td>
                                         <input type="text" class="form-control form-control-sm" v-model="line.text">
                                     </td>
@@ -71,7 +74,13 @@ export default {
         partLines: {
             deep: true,
             handler() {
-                this.formCotizacion.description = this.partLines.map(line => line.text).join('\n')
+                this.formCotizacion.description = this.partLines
+                    .map(line => `${line.qty || 1}x ${line.text}`)
+                    .join('\n')
+                this.formCotizacion.items = this.partLines.map(line => ({
+                    description: line.text,
+                    qty: line.qty || 1
+                }))
             }
         }
     },
@@ -84,7 +93,7 @@ export default {
                 return
             }
 
-            this.partLines.push({ text })
+            this.partLines.push({ text, qty: 1 })
         },
         removePartLine(index) {
             this.partLines.splice(index, 1)

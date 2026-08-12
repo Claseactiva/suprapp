@@ -104,7 +104,7 @@
                             <a href="#" class="btn btn-primary btn-sm"
                                 @click.prevent="modalRequestParts({ vehicleLocal })" data-toggle="tooltip"
                                 data-placement="top" title="Cotizar Repuestos">
-                                <i class="fas fa-cog"></i>
+                                <i class="fas fa-oil-can"></i>
                             </a>
                         </td>
                     </tr>
