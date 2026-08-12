@@ -87,10 +87,12 @@ class QuotationUserController extends Controller
         $user_id_logeado = Auth::id();
 
         $patentchasis = $data['patentchasis'];
-        $brand = $data['brand'];
-        $model = $data['model'];
-        $year = $data['year'];
-        $engine = $data['engine'];
+        $brand = $data['brand'] ?? '';
+        $model = $data['model'] ?? '';
+        // Equipos de flota pueden no tener año/motor cargado; quotation_user_vehicles
+        // no admite nulos en estas columnas.
+        $year = $data['year'] ?? '';
+        $engine = $data['engine'] ?? '';
         $description = $data['description'];
         $phone = '';
 

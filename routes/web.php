@@ -12,23 +12,6 @@
 */
 use Illuminate\Support\Facades\Route;
 
-Route::get('/deploy-log-e14f1c2ec49f', function () {
-    $path = storage_path('logs/laravel.log');
-
-    if (!file_exists($path)) {
-        return '<pre>No existe storage/logs/laravel.log</pre>';
-    }
-
-    $size = filesize($path);
-    $chunk = 20000;
-    $handle = fopen($path, 'r');
-    fseek($handle, max(0, $size - $chunk));
-    $tail = fread($handle, $chunk);
-    fclose($handle);
-
-    return '<pre>' . htmlspecialchars($tail) . '</pre>';
-});
-
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
