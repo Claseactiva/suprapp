@@ -44,6 +44,11 @@ class VehicleController extends Controller
                         ->client()
                         ->paginate((int) request('per_page', 20));
 
+                    $vehicles->getCollection()->transform(function ($vehicle) {
+                        $vehicle->can_edit = true;
+                        return $vehicle;
+                    });
+
                     return [
                         'pagination' => [
                             'total'         => $vehicles->total(),
@@ -68,6 +73,12 @@ class VehicleController extends Controller
                         ->name()
                         ->year()
                         ->paginate((int) request('per_page', 20));
+
+                    $teamIds = $user->teamUserIds();
+                    $vehicles->getCollection()->transform(function ($vehicle) use ($teamIds) {
+                        $vehicle->can_edit = in_array($vehicle->user_id, $teamIds);
+                        return $vehicle;
+                    });
 
                     return [
                         'pagination' => [
@@ -274,6 +285,7 @@ class VehicleController extends Controller
         ]);
 
         $vehicle = Vehicle::find($id);
+        $this->authorizeVehicleAccess($vehicle);
         $vehicle->update($request->all());
         $this->syncMotor($request, $vehicle);
 
@@ -288,9 +300,30 @@ class VehicleController extends Controller
      */
     public function destroy(Vehicle $vehicle)
     {
+        $this->authorizeVehicleAccess($vehicle);
         $vehicle->delete();
 
         return response()->json(['message' => 'Vehiculo enviado a la papelera']);
+    }
+
+    /**
+     * Solo el admin o alguien del mismo equipo que el creador del vehiculo
+     * (dueno del taller o sus trabajadores) puede editarlo/eliminarlo. Un
+     * mecanico vinculado a una empresa via ClientMechanic solo puede operar
+     * los vehiculos que el mismo creo (su propio id ya forma parte de su
+     * teamUserIds()), no los que creo el taller.
+     */
+    private function authorizeVehicleAccess(Vehicle $vehicle)
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            return;
+        }
+
+        if (!in_array($vehicle->user_id, $user->teamUserIds())) {
+            abort(403, 'No tienes permiso para modificar este vehiculo.');
+        }
     }
 
     /**
@@ -324,6 +357,7 @@ class VehicleController extends Controller
     public function restore($id)
     {
         $vehicle = Vehicle::onlyTrashed()->findOrFail($id);
+        $this->authorizeVehicleAccess($vehicle);
         $vehicle->restore();
 
         return response()->json(['message' => 'Vehiculo restaurado correctamente']);
@@ -337,6 +371,7 @@ class VehicleController extends Controller
     public function forceDestroy($id)
     {
         $vehicle = Vehicle::onlyTrashed()->findOrFail($id);
+        $this->authorizeVehicleAccess($vehicle);
 
         DB::table('check_list_vehicles')->where('vehicle_id', $vehicle->id)->delete();
 
@@ -374,10 +409,18 @@ class VehicleController extends Controller
         $client = \App\Models\Client::findOrFail($clientId);
         $this->authorizeClientAccess($client);
 
+        $user = Auth::user();
+        $isAdmin = $user->hasRole('admin');
+        $teamIds = $user->teamUserIds();
+
         $vehicles = Vehicle::where('client_id', $clientId)
             ->with('user', 'currentMotor.motor')
             ->orderBy('id', 'DESC')
             ->get();
+
+        $vehicles->each(function ($vehicle) use ($isAdmin, $teamIds) {
+            $vehicle->can_edit = $isAdmin || in_array($vehicle->user_id, $teamIds);
+        });
 
         return $vehicles;
     }

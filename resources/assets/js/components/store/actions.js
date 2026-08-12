@@ -445,6 +445,9 @@ export default { //methods
     editMotor(context, data) {
         context.commit('editMotor', data.motorLocal)
     },
+    deleteMotor(context, data) {
+        context.commit('deleteMotor', data.id)
+    },
     updateMotor(context, data) {
         context.commit('updateMotor', data.id)
     },

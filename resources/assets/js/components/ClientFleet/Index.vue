@@ -69,14 +69,16 @@
                             <td class="fleet-cell-wrap" :title="vehicleLocal.current_motor ? vehicleLocal.current_motor.motor.modelo_motor : ''">{{ vehicleLocal.current_motor ? vehicleLocal.current_motor.motor.modelo_motor : '' }}</td>
                             <td class="fleet-cell-wrap" :title="vehicleLocal.current_motor ? vehicleLocal.current_motor.motor.arreglo_cpl : ''">{{ vehicleLocal.current_motor ? vehicleLocal.current_motor.motor.arreglo_cpl : '' }}</td>
                             <td class="fleet-action-cell">
-                                <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
-                                    data-toggle="tooltip" data-placement="top" title="Editar">
-                                    <i class="far fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
-                                    data-toggle="tooltip" data-placement="top" title="Eliminar (papelera)">
-                                    <i class="fas fa-ban"></i>
-                                </a>
+                                <template v-if="vehicleLocal.can_edit">
+                                    <a href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
+                                        data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
+                                        data-toggle="tooltip" data-placement="top" title="Eliminar (papelera)">
+                                        <i class="fas fa-ban"></i>
+                                    </a>
+                                </template>
                             </td>
                         </tr>
                     </tbody>

@@ -207,6 +207,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_12_000001_add_serial_and_internal_number_to_vehicle_engines_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_serial_and_internal_number_to_vehicle_engines_table.php
     - /bin/cp -f database/migrations/2026_08_12_000002_create_quotation_user_vehicle_items_table.php $DEPLOYPATH/database/migrations/2026_08_12_000002_create_quotation_user_vehicle_items_table.php
     - /bin/cp -f database/migrations/2026_08_12_000003_add_numero_interno_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_12_000003_add_numero_interno_to_motors_table.php
+    - /bin/cp -f database/migrations/2026_08_12_000004_add_created_by_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_12_000004_add_created_by_to_motors_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

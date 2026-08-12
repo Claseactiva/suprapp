@@ -1699,6 +1699,14 @@ export default { //used for changing the state
         state.fillMotor.arreglo_cpl = motor.arreglo_cpl
         $('#edit_motor_asset').modal('show')
     },
+    deleteMotor(state, id) {
+        axios.delete(urlMotor + '/' + id).then(response => {
+            toastr.success('Motor eliminado con exito')
+            this.commit('getMotors', 1)
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el motor'))
+        })
+    },
     updateMotor(state, id) {
         axios.put(urlMotor + '/' + id, state.fillMotor).then(response => {
             state.errorsLaravel = []

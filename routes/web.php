@@ -85,7 +85,7 @@ Route::ApiResource('motorspecs', 'MotorSpecController')->only(['index', 'store',
 Route::get('motorspecs-all', 'MotorSpecController@index');
 Route::get('select-motorspec', 'MotorSpecController@selectMotorSpecs');
 
-Route::ApiResource('motors', 'MotorController')->only(['index', 'store', 'update']);
+Route::ApiResource('motors', 'MotorController')->only(['index', 'store', 'update', 'destroy']);
 Route::get('motors-all', 'MotorController@index');
 Route::post('motors/{id}/link', 'MotorController@link');
 Route::post('motors/{id}/unlink', 'MotorController@unlink');

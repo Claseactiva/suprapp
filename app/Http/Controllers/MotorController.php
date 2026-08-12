@@ -16,6 +16,7 @@ class MotorController extends Controller
         $search = request('search');
         $user = Auth::user();
         $isAdmin = $user->hasRole('admin');
+        $teamIds = $user->teamUserIds();
 
         $query = Motor::query()
             ->leftJoin('motor_assignments', function ($join) {
@@ -29,6 +30,7 @@ class MotorController extends Controller
                 'motors.numero_interno as numero_interno',
                 'motors.modelo_motor as modelo_motor',
                 'motors.arreglo_cpl as arreglo_cpl',
+                'motors.created_by as created_by',
                 'vehicles.id as vehicle_id',
                 'vehicles.patent as vehicle_patent',
                 'vehicles.brand as vehicle_brand',
@@ -36,10 +38,17 @@ class MotorController extends Controller
             );
 
         if (!$isAdmin) {
-            $teamIds = $user->teamUserIds();
             $accessibleClientIds = $user->companies()->pluck('clients.id');
             $query->where(function ($q) use ($teamIds, $accessibleClientIds) {
-                $q->whereNull('motor_assignments.vehicle_id')
+                $q->where(function ($qq) use ($teamIds) {
+                    // Motores sueltos: solo si los creo alguien del equipo, o son
+                    // de antes de que existiera created_by (dueno desconocido).
+                    $qq->whereNull('motor_assignments.vehicle_id')
+                        ->where(function ($qqq) use ($teamIds) {
+                            $qqq->whereNull('motors.created_by')
+                                ->orWhereIn('motors.created_by', $teamIds);
+                        });
+                })
                     ->orWhereIn('vehicles.user_id', $teamIds)
                     ->orWhereIn('vehicles.client_id', $accessibleClientIds);
             });
@@ -54,6 +63,11 @@ class MotorController extends Controller
         }
 
         $motors = $query->orderBy('motors.id', 'DESC')->paginate((int) request('per_page', 20));
+
+        $motors->getCollection()->transform(function ($motor) use ($isAdmin, $teamIds) {
+            $motor->can_edit = $isAdmin || $motor->created_by === null || in_array($motor->created_by, $teamIds);
+            return $motor;
+        });
 
         return [
             'pagination_motors' => [
@@ -83,7 +97,9 @@ class MotorController extends Controller
             ], 422);
         }
 
-        return Motor::create($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl']));
+        return Motor::create($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl']) + [
+            'created_by' => Auth::id(),
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -185,6 +201,22 @@ class MotorController extends Controller
             ->get();
     }
 
+    public function destroy($id)
+    {
+        $motor = Motor::findOrFail($id);
+        $this->authorizeMotorAccess($motor);
+
+        $motor->delete();
+
+        return response()->json(['message' => 'Motor eliminado correctamente']);
+    }
+
+    /**
+     * Solo quien creo el motor (o alguien de su equipo) puede editarlo/eliminarlo/
+     * vincularlo; un mecanico vinculado a una empresa solo ve/opera lo que el
+     * mismo creo, no lo que creo el taller. Los motores de antes de que existiera
+     * created_by (null) mantienen el chequeo anterior via el vehiculo asignado.
+     */
     private function authorizeMotorAccess(Motor $motor)
     {
         $user = Auth::user();
@@ -194,6 +226,13 @@ class MotorController extends Controller
         }
 
         if ($user->hasRole('admin')) {
+            return;
+        }
+
+        if ($motor->created_by !== null) {
+            if (!in_array($motor->created_by, $user->teamUserIds())) {
+                abort(403);
+            }
             return;
         }
 

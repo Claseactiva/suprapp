@@ -117,12 +117,28 @@
                                         title="Desvincular">
                                         <i class="fas fa-unlink"></i>
                                     </a>
-                                    <a href="#" class="btn btn-warning btn-icon-sm mr-1"
-                                        @click.prevent="editMotor( { motorLocal } )"
+                                    <template v-if="motorLocal.can_edit">
+                                        <a href="#" class="btn btn-warning btn-icon-sm mr-1"
+                                            @click.prevent="editMotor( { motorLocal } )"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Editar">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-icon-sm mr-1"
+                                            @click.prevent="deleteMotor({ id: motorLocal.id })"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Eliminar">
+                                            <i class="fas fa-ban"></i>
+                                        </a>
+                                    </template>
+                                    <a href="#" class="btn btn-primary btn-icon-sm mr-1"
+                                        @click.prevent="requestPartsForMotor(motorLocal)"
                                         data-toggle="tooltip"
                                         data-placement="top"
-                                        title="Editar">
-                                        <i class="far fa-edit"></i>
+                                        title="Cotizar Repuestos">
+                                        <i class="fas fa-oil-can"></i>
                                     </a>
                                     <a href="#" class="btn btn-info btn-icon-sm"
                                         @click.prevent="getMotorHistory(motorLocal.id)"
@@ -183,14 +199,17 @@
                 </ul>
             </nav>
         </div>
+        <RequestParts></RequestParts>
     </div>
 </template>
 <script>
 
 import { loadProgressBar } from 'axios-progress-bar'
 import { mapState, mapActions, mapGetters } from 'vuex'
+import RequestParts from '../Vehicle/RequestParts'
 
 export default {
+    components: { RequestParts },
     data() {
         return {
             searchMotor: '',
@@ -202,7 +221,19 @@ export default {
         ...mapGetters(['isActived_motors', 'pagesNumber_motors'])
     },
     methods:{
-        ...mapActions(['createMotor', 'editMotor', 'changePageMotors', 'getMotors', 'linkMotor', 'unlinkMotor', 'getMotorHistory'])
+        ...mapActions(['createMotor', 'editMotor', 'deleteMotor', 'changePageMotors', 'getMotors', 'linkMotor', 'unlinkMotor', 'getMotorHistory', 'modalRequestParts']),
+        requestPartsForMotor(motorLocal) {
+            this.modalRequestParts({
+                vehicleLocal: {
+                    patent: motorLocal.vehicle_patent || motorLocal.numero_interno || '',
+                    chasis: motorLocal.motor_number || '',
+                    brand: motorLocal.vehicle_brand || '',
+                    model: motorLocal.modelo_motor || motorLocal.vehicle_model || '',
+                    year: '',
+                    engine: motorLocal.motor_number || ''
+                }
+            })
+        }
     },
     created(){
         loadProgressBar();

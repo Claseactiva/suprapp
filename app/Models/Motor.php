@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Motor extends Model
 {
-    protected $fillable = ['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl'];
+    protected $fillable = ['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl', 'created_by'];
 
     public function assignments()
     {

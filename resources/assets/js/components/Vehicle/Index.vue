@@ -66,12 +66,12 @@
                         <td data-table-label="Fecha" class="vehicle-col-fecha vehicle-cell-meta">{{ vehicleLocal.created_at | moment('DD/MM/YYYY') }}</td>
 
                         <td class="vehicle-col-actions vehicle-action-cell">
-                            <a v-if="rol !== 'Quote'" href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
+                            <a v-if="vehicleLocal.can_edit" href="#" class="btn btn-warning btn-icon-sm" @click.prevent="editVehicle({ vehicleLocal })"
                                 data-toggle="tooltip" data-placement="top" title="Editar">
                                 <i class="far fa-edit"></i>
                             </a>
 
-                            <a v-if="rol !== 'Quote'" href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
+                            <a v-if="vehicleLocal.can_edit" href="#" class="btn btn-danger btn-icon-sm" @click.prevent="deleteVehicle({ id: vehicleLocal.id })"
                                 data-toggle="tooltip" data-placement="top" title="Eliminar">
                                 <i class="fas fa-ban"></i>
                             </a>

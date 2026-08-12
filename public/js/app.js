@@ -4040,7 +4040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Vehicle_RequestParts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Vehicle/RequestParts */ "./resources/assets/js/components/Vehicle/RequestParts.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -4049,15 +4050,32 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    RequestParts: _Vehicle_RequestParts__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       searchMotor: '',
       linkPatents: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['newMotor', 'errorsLaravel', 'motors', 'pagination_motors', 'offset_motors'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['isActived_motors', 'pagesNumber_motors'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['createMotor', 'editMotor', 'changePageMotors', 'getMotors', 'linkMotor', 'unlinkMotor', 'getMotorHistory'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['newMotor', 'errorsLaravel', 'motors', 'pagination_motors', 'offset_motors'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['isActived_motors', 'pagesNumber_motors'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['createMotor', 'editMotor', 'deleteMotor', 'changePageMotors', 'getMotors', 'linkMotor', 'unlinkMotor', 'getMotorHistory', 'modalRequestParts'])), {}, {
+    requestPartsForMotor: function requestPartsForMotor(motorLocal) {
+      this.modalRequestParts({
+        vehicleLocal: {
+          patent: motorLocal.vehicle_patent || motorLocal.numero_interno || '',
+          chasis: motorLocal.motor_number || '',
+          brand: motorLocal.vehicle_brand || '',
+          model: motorLocal.modelo_motor || motorLocal.vehicle_model || '',
+          year: '',
+          engine: motorLocal.motor_number || ''
+        }
+      });
+    }
+  }),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getMotors', {
@@ -12148,7 +12166,7 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(vehicleLocal.current_motor ? vehicleLocal.current_motor.motor.arreglo_cpl : ""))]), _vm._v(" "), _c("td", {
       staticClass: "fleet-action-cell"
-    }, [_c("a", {
+    }, [vehicleLocal.can_edit ? [_c("a", {
       staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
@@ -12184,7 +12202,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-ban"
-    })])])]);
+    })])] : _vm._e()], 2)]);
   })], 2)])])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "modal fade",
     attrs: {
@@ -17172,7 +17190,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-unlink"
-    })]) : _vm._e(), _vm._v(" "), _c("a", {
+    })]) : _vm._e(), _vm._v(" "), motorLocal.can_edit ? [_c("a", {
       staticClass: "btn btn-warning btn-icon-sm mr-1",
       attrs: {
         href: "#",
@@ -17191,6 +17209,40 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-edit"
     })]), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-danger btn-icon-sm mr-1",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Eliminar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.deleteMotor({
+            id: motorLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-ban"
+    })])] : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-primary btn-icon-sm mr-1",
+      attrs: {
+        href: "#",
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Cotizar Repuestos"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.requestPartsForMotor(motorLocal);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-oil-can"
+    })]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-info btn-icon-sm",
       attrs: {
         href: "#",
@@ -17206,7 +17258,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-history"
-    })])])])]);
+    })])], 2)])]);
   }), 0)])]), _vm._v(" "), _c("div", {
     staticClass: "table-list-toolbar"
   }, [_c("div", {
@@ -17344,7 +17396,7 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])])]);
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c("RequestParts")], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -38232,7 +38284,7 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(_vm._f("moment")(vehicleLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
       staticClass: "text-right"
-    }, [_c("a", {
+    }, [vehicleLocal.can_edit ? _c("a", {
       staticClass: "btn btn-warning btn-sm",
       attrs: {
         href: "#",
@@ -38250,7 +38302,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
-    })]), _vm._v(" "), _c("a", {
+    })]) : _vm._e(), _vm._v(" "), _c("a", {
       staticClass: "btn btn-info btn-sm",
       attrs: {
         href: "#",
@@ -40663,7 +40715,7 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(_vm._f("moment")(vehicleLocal.created_at, "DD/MM/YYYY")))]), _vm._v(" "), _c("td", {
       staticClass: "vehicle-col-actions vehicle-action-cell"
-    }, [_vm.rol !== "Quote" ? _c("a", {
+    }, [vehicleLocal.can_edit ? _c("a", {
       staticClass: "btn btn-warning btn-icon-sm",
       attrs: {
         href: "#",
@@ -40681,7 +40733,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-edit"
-    })]) : _vm._e(), _vm._v(" "), _vm.rol !== "Quote" ? _c("a", {
+    })]) : _vm._e(), _vm._v(" "), vehicleLocal.can_edit ? _c("a", {
       staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         href: "#",
@@ -41896,6 +41948,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   editMotor: function editMotor(context, data) {
     context.commit('editMotor', data.motorLocal);
+  },
+  deleteMotor: function deleteMotor(context, data) {
+    context.commit('deleteMotor', data.id);
   },
   updateMotor: function updateMotor(context, data) {
     context.commit('updateMotor', data.id);
@@ -45172,19 +45227,28 @@ function dispatchPublicQuotationFailed() {
     state.fillMotor.arreglo_cpl = motor.arreglo_cpl;
     $('#edit_motor_asset').modal('show');
   },
-  updateMotor: function updateMotor(state, id) {
+  deleteMotor: function deleteMotor(state, id) {
     var _this14 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](urlMotor + '/' + id).then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor eliminado con exito');
+      _this14.commit('getMotors', 1);
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el motor'));
+    });
+  },
+  updateMotor: function updateMotor(state, id) {
+    var _this15 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(urlMotor + '/' + id, state.fillMotor).then(function (response) {
       state.errorsLaravel = [];
       $('#edit_motor_asset').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor actualizado con exito');
-      _this14.commit('getMotors', 1);
+      _this15.commit('getMotors', 1);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   linkMotor: function linkMotor(state, _ref2) {
-    var _this15 = this;
+    var _this16 = this;
     var id = _ref2.id,
       patent = _ref2.patent;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlMotor + '/' + id + '/link', {
@@ -45193,16 +45257,16 @@ function dispatchPublicQuotationFailed() {
       state.motorLinkPatent = '';
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor vinculado con exito');
-      _this15.commit('getMotors', 1);
+      _this16.commit('getMotors', 1);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   unlinkMotor: function unlinkMotor(state, id) {
-    var _this16 = this;
+    var _this17 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlMotor + '/' + id + '/unlink').then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Motor desvinculado con exito');
-      _this16.commit('getMotors', 1);
+      _this17.commit('getMotors', 1);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
     });
@@ -45516,12 +45580,12 @@ function dispatchPublicQuotationFailed() {
     $('#deleteClient').modal('show');
   },
   deleteClient: function deleteClient(state) {
-    var _this17 = this;
+    var _this18 = this;
     var url = urlClient + '/' + state.fillClient.id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Cliente eliminado con exito');
       $('#deleteClient').modal('hide');
-      _this17.commit('getClients', 1);
+      _this18.commit('getClients', 1);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el cliente'));
     });
@@ -45643,7 +45707,7 @@ function dispatchPublicQuotationFailed() {
     state.checkRealizado = value;
   },
   cerrarRealizado: function cerrarRealizado(state) {
-    var _this18 = this;
+    var _this19 = this;
     var url = 'checkRealizado';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
       check: state.checkRealizado
@@ -45651,7 +45715,7 @@ function dispatchPublicQuotationFailed() {
       state.checkRealizado = [];
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('El trabajo se realizo correctamente');
-      _this18.commit('getOrdenesTrabajos');
+      _this19.commit('getOrdenesTrabajos');
       $('#modalAlertaInformacion').modal('hide');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
@@ -46108,7 +46172,7 @@ function dispatchPublicQuotationFailed() {
     state.newPurchaseOrder.supplier_id = supplier ? supplier.value : '';
   },
   createSupplier: function createSupplier(state) {
-    var _this19 = this;
+    var _this20 = this;
     var razonSocial = state.newSupplier.razonSocial;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('clients', {
       razonSocial: state.newSupplier.razonSocial,
@@ -46138,7 +46202,7 @@ function dispatchPublicQuotationFailed() {
       state.newPurchaseOrder.supplier_id = response.data;
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Proveedor generado con exito');
-      _this19.commit('getSuppliers');
+      _this20.commit('getSuppliers');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -46168,7 +46232,7 @@ function dispatchPublicQuotationFailed() {
     });
   },
   createPurchaseOrder: function createPurchaseOrder(state) {
-    var _this20 = this;
+    var _this21 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('purchase-orders', {
       supplier_id: state.newPurchaseOrder.supplier_id || null,
       payment: state.selectedPago.label,
@@ -46207,8 +46271,8 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Orden de compra generada con exito');
-      _this20.commit('getPurchaseOrders');
-      _this20.commit('getNextOrderNumber');
+      _this21.commit('getPurchaseOrders');
+      _this21.commit('getNextOrderNumber');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -46235,21 +46299,21 @@ function dispatchPublicQuotationFailed() {
     $('#editPurchaseOrder').modal('show');
   },
   updatePurchaseOrder: function updatePurchaseOrder(state, id) {
-    var _this21 = this;
+    var _this22 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put('purchase-orders/' + id, state.fillPurchaseOrder).then(function (response) {
       state.errorsLaravel = [];
       $('#editPurchaseOrder').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Orden de compra actualizada con exito');
-      _this21.commit('getPurchaseOrders');
+      _this22.commit('getPurchaseOrders');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   replicatePurchaseOrder: function replicatePurchaseOrder(state, id) {
-    var _this22 = this;
+    var _this23 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('purchase-orders/' + id + '/replicate').then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Orden de compra duplicada con exito');
-      _this22.commit('getPurchaseOrders');
+      _this23.commit('getPurchaseOrders');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -46259,12 +46323,12 @@ function dispatchPublicQuotationFailed() {
     $('#modalDeletePurchaseOrder').modal('show');
   },
   deletePurchaseOrder: function deletePurchaseOrder(state) {
-    var _this23 = this;
+    var _this24 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('purchase-orders/' + state.idPurchaseOrder).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Orden de compra eliminada con exito');
       $('#modalDeletePurchaseOrder').modal('hide');
       state.idPurchaseOrder = null;
-      _this23.commit('getPurchaseOrders');
+      _this24.commit('getPurchaseOrders');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar la orden de compra'));
     });
@@ -46331,21 +46395,21 @@ function dispatchPublicQuotationFailed() {
     $('#editPurchaseOrderDetail').modal('show');
   },
   updatePurchaseOrderDetail: function updatePurchaseOrderDetail(state, id) {
-    var _this24 = this;
+    var _this25 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put('purchase-order-lines/' + id, state.fillPurchaseOrderDetail).then(function (response) {
       state.errorsLaravel = [];
       $('#editPurchaseOrderDetail').modal('hide');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Producto actualizado con exito');
-      _this24.commit('getPurchaseOrderDetails');
+      _this25.commit('getPurchaseOrderDetails');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deletePurchaseOrderDetail: function deletePurchaseOrderDetail(state, id) {
-    var _this25 = this;
+    var _this26 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('purchase-order-lines/' + id).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Producto eliminado con exito');
-      _this25.commit('getPurchaseOrderDetails');
+      _this26.commit('getPurchaseOrderDetails');
     });
   },
   openPurchaseOrderDetailImages: function openPurchaseOrderDetailImages(state, detailLocal) {
@@ -46361,7 +46425,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   uploadPurchaseOrderDetailImages: function uploadPurchaseOrderDetailImages(state) {
-    var _this26 = this;
+    var _this27 = this;
     if (!state.attachmentPurchaseOrderDetailImages.length) {
       return;
     }
@@ -46377,19 +46441,19 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $('#purchaseOrderDetailImagesInput').val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagenes agregadas con exito');
-      _this26.commit('getPurchaseOrderDetails');
+      _this27.commit('getPurchaseOrderDetails');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deletePurchaseOrderDetailImage: function deletePurchaseOrderDetailImage(state, id) {
-    var _this27 = this;
+    var _this28 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('purchase-order-line-images/' + id).then(function (response) {
       state.activePurchaseOrderDetailImages.images = state.activePurchaseOrderDetailImages.images.filter(function (image) {
         return image.id !== id;
       });
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagen eliminada con exito');
-      _this27.commit('getPurchaseOrderDetails');
+      _this28.commit('getPurchaseOrderDetails');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
     });
@@ -46410,7 +46474,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   uploadDetailclientImages: function uploadDetailclientImages(state) {
-    var _this28 = this;
+    var _this29 = this;
     if (!state.attachmentDetailclientImages.length) {
       return;
     }
@@ -46426,19 +46490,19 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $('#detailclientImagesInput').val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagenes agregadas con exito');
-      _this28.commit('getQuotationclientDetails');
+      _this29.commit('getQuotationclientDetails');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deleteDetailclientImage: function deleteDetailclientImage(state, id) {
-    var _this29 = this;
+    var _this30 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('detailclient-images/' + id).then(function (response) {
       state.activeDetailclientImages.images = state.activeDetailclientImages.images.filter(function (image) {
         return image.id !== id;
       });
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagen eliminada con exito');
-      _this29.commit('getQuotationclientDetails');
+      _this30.commit('getQuotationclientDetails');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
     });
@@ -46460,7 +46524,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   createSparePart: function createSparePart(state) {
-    var _this30 = this;
+    var _this31 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('quotation-spare-parts', {
       quotationclient_id: state.idQuotationclient,
       product_id: state.newSparePart.product_id,
@@ -46478,16 +46542,16 @@ function dispatchPublicQuotationFailed() {
       };
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Repuesto agregado con exito');
-      _this30.commit('getQuotationSpareParts', state.idQuotationclient);
+      _this31.commit('getQuotationSpareParts', state.idQuotationclient);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deleteSparePart: function deleteSparePart(state, id) {
-    var _this31 = this;
+    var _this32 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('quotation-spare-parts/' + id).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Repuesto eliminado con exito');
-      _this31.commit('getQuotationSpareParts', state.idQuotationclient);
+      _this32.commit('getQuotationSpareParts', state.idQuotationclient);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
     });
@@ -46508,7 +46572,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   uploadSparePartImages: function uploadSparePartImages(state) {
-    var _this32 = this;
+    var _this33 = this;
     if (!state.attachmentSparePartImages.length) {
       return;
     }
@@ -46524,19 +46588,19 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $('#sparePartImagesInput').val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagenes agregadas con exito');
-      _this32.commit('getQuotationSpareParts', state.idQuotationclient);
+      _this33.commit('getQuotationSpareParts', state.idQuotationclient);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deleteSparePartImage: function deleteSparePartImage(state, id) {
-    var _this33 = this;
+    var _this34 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('quotation-spare-part-images/' + id).then(function (response) {
       state.activeSparePartImages.images = state.activeSparePartImages.images.filter(function (image) {
         return image.id !== id;
       });
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Imagen eliminada con exito');
-      _this33.commit('getQuotationSpareParts', state.idQuotationclient);
+      _this34.commit('getQuotationSpareParts', state.idQuotationclient);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.message);
     });
@@ -47370,7 +47434,7 @@ function dispatchPublicQuotationFailed() {
     });
   },
   uploadInvoice: function uploadInvoice(state) {
-    var _this34 = this;
+    var _this35 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
       var formData, url, response;
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -47394,7 +47458,7 @@ function dispatchPublicQuotationFailed() {
               $('#upload_invoice').modal('hide');
               toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Factura ingresada con éxito!');
               // Ejecutar la mutación getInventories
-              _this34.commit('getInventories', 1);
+              _this35.commit('getInventories', 1);
             }
             _context3.next = 17;
             break;
@@ -47536,10 +47600,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   revokeUserDeviceSession: function revokeUserDeviceSession(state, data) {
-    var _this35 = this;
+    var _this36 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('users/' + data.userId + '/sessions/' + data.sessionId + '/revoke').then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Dispositivo revocado correctamente');
-      _this35.commit('getUserDeviceSessions', data.userId);
+      _this36.commit('getUserDeviceSessions', data.userId);
     })["catch"](function () {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo revocar el dispositivo');
     });
@@ -47557,7 +47621,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   updateCompanyLogo: function updateCompanyLogo(state) {
-    var _this36 = this;
+    var _this37 = this;
     var url = urlCompanyLogo;
     var config = {
       headers: {
@@ -47572,7 +47636,7 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $("#logo").val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('logo actualizado con éxito');
-      _this36.commit('getCompany');
+      _this37.commit('getCompany');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -47692,12 +47756,12 @@ function dispatchPublicQuotationFailed() {
     $('#deleteUser').modal('show');
   },
   deleteUser: function deleteUser(state) {
-    var _this37 = this;
+    var _this38 = this;
     var url = urlUser + '/' + state.fillUser.id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario eliminado con exito');
       $('#deleteUser').modal('hide');
-      _this37.commit('getUsers', 1);
+      _this38.commit('getUsers', 1);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el usuario'));
     });
@@ -47706,23 +47770,23 @@ function dispatchPublicQuotationFailed() {
   /****** sección empresas **** */
   /******************************* */
   updateCompany: function updateCompany(state, id) {
-    var _this38 = this;
+    var _this39 = this;
     var url = urlCompany + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa actualizado con éxito');
-      _this38.commit('getCompany');
+      _this39.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
   },
   createCompany: function createCompany(state) {
-    var _this39 = this;
+    var _this40 = this;
     var url = urlCompany;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa se creo con éxito');
-      _this39.commit('getCompany');
+      _this40.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
@@ -47802,22 +47866,22 @@ function dispatchPublicQuotationFailed() {
     });
   },
   createCantidadVehiculoOption: function createCantidadVehiculoOption(state) {
-    var _this40 = this;
+    var _this41 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicle-quantity-options', {
       value: state.newCantidadVehiculoOption
     }).then(function (response) {
       state.newCantidadVehiculoOption = '';
       state.errorsLaravel = [];
-      _this40.commit('getCantidadVehiculoOptions');
+      _this41.commit('getCantidadVehiculoOptions');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deleteCantidadVehiculoOption: function deleteCantidadVehiculoOption(state, id) {
-    var _this41 = this;
+    var _this42 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('vehicle-quantity-options/' + id).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Opcion eliminada correctamente');
-      _this41.commit('getCantidadVehiculoOptions');
+      _this42.commit('getCantidadVehiculoOptions');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo eliminar la opcion');
     });
@@ -48020,7 +48084,7 @@ function dispatchPublicQuotationFailed() {
     });
   },
   importFleetBulk: function importFleetBulk(state, rows) {
-    var _this42 = this;
+    var _this43 = this;
     if (!state.fleetSelectedClient) {
       return;
     }
@@ -48030,7 +48094,7 @@ function dispatchPublicQuotationFailed() {
     }).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success("Se agregaron ".concat(response.data.created, " equipos a la flota"));
-      _this42.commit('getClientFleet');
+      _this43.commit('getClientFleet');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo importar la flota');
@@ -48054,23 +48118,23 @@ function dispatchPublicQuotationFailed() {
     });
   },
   attachUserCompany: function attachUserCompany(state, clientId) {
-    var _this43 = this;
+    var _this44 = this;
     var url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
       client_id: clientId
     }).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa asignada');
-      _this43.commit('getUserCompanies');
+      _this44.commit('getUserCompanies');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo asignar la empresa'));
     });
   },
   detachUserCompany: function detachUserCompany(state, clientId) {
-    var _this44 = this;
+    var _this45 = this;
     var url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies/' + clientId;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa quitada');
-      _this44.commit('getUserCompanies');
+      _this45.commit('getUserCompanies');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo quitar la empresa'));
     });
@@ -48737,7 +48801,7 @@ function dispatchPublicQuotationFailed() {
     state.productForm.total = Math.round(state.productForm.value * 1.19);
   },
   createSale: function createSale(state) {
-    var _this45 = this;
+    var _this46 = this;
     var url = urlCreateSale;
     if (state.formapago == '') {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('¡Error, Selecione la forma de pago!');
@@ -48773,10 +48837,10 @@ function dispatchPublicQuotationFailed() {
           };
           toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Venta generada con exito!');
           $('#create').modal('hide');
-          _this45.commit('allSales', {
+          _this46.commit('allSales', {
             page: 1
           });
-          _this45.commit('allProductsSale');
+          _this46.commit('allProductsSale');
         })["catch"](function (error) {
           toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
         });
@@ -48816,7 +48880,7 @@ function dispatchPublicQuotationFailed() {
     window.location.href = url;
   },
   eliminarVenta: function eliminarVenta(state, id) {
-    var _this46 = this;
+    var _this47 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var url, response;
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -48830,7 +48894,7 @@ function dispatchPublicQuotationFailed() {
             response = _context4.sent;
             if (response.data.status === true) {
               toastr__WEBPACK_IMPORTED_MODULE_1___default().success('La Venta se anulo correctamente');
-              _this46.commit('allSales', {
+              _this47.commit('allSales', {
                 page: 1
               });
             }
@@ -49000,7 +49064,7 @@ function dispatchPublicQuotationFailed() {
     state.selectedMechanicClient = client;
   },
   createVehicleMechanicClient: function createVehicleMechanicClient(state) {
-    var _this47 = this;
+    var _this48 = this;
     var id_user = state.selectedMechanicClient != null ? state.selectedMechanicClient.value : null;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicles-mechanic', {
       user_id: id_user,
@@ -49023,7 +49087,7 @@ function dispatchPublicQuotationFailed() {
       state.newVehicle.arreglo_cpl = '';
       state.errorsLaravel = [];
       $('#createVehicleMechanic').modal('hide');
-      _this47.commit('getClientVehicles');
+      _this48.commit('getClientVehicles');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vehiculo generado con exito');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo generar el vehiculo'));
@@ -49134,10 +49198,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   actualizarCorrelativo: function actualizarCorrelativo(state) {
-    var _this48 = this;
+    var _this49 = this;
     var url = urlActualizarCorrelativo;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
-      _this48.commit('getQuotationclients', {
+      _this49.commit('getQuotationclients', {
         page: 1
       });
     })["catch"](function (error) {
@@ -49165,21 +49229,21 @@ function dispatchPublicQuotationFailed() {
     });
   },
   eliminarCategoria: function eliminarCategoria(state, id) {
-    var _this49 = this;
+    var _this50 = this;
     var url = urlEliminarCategoriaChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this49.commit('mostrarFormatoCheckList');
+      _this50.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   eliminarIntervencion: function eliminarIntervencion(state, id) {
-    var _this50 = this;
+    var _this51 = this;
     var url = urlEliminarIntervencionChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this50.commit('mostrarFormatoCheckList');
+      _this51.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
