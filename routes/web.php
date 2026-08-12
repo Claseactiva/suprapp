@@ -228,6 +228,8 @@ Route::ApiResource('delivery-times', 'DeliveryTimeController');
 
 Route::ApiResource('clients', 'ClientController');
 Route::get('clients-all', 'ClientController@all');
+Route::get('clients/{id}/vehicles', 'VehicleController@byClient');
+Route::post('clients/{id}/vehicles/bulk', 'VehicleController@storeBulkForClient');
 
 Route::ApiResource('activities', 'ActivityController');
 
@@ -313,6 +315,10 @@ Route::middleware(['auth', 'device.session'])->group(function () {
     Route::get('admin-clientes', function () {
         return view('admin.clientes');
     })->name('admin-clientes'); //->middleware('permission:clientes');
+
+    Route::get('admin-flota-clientes', function () {
+        return view('admin.flota-clientes');
+    })->name('admin-flota-clientes'); //->middleware('permission:vehiculos');
 
     Route::get('admin-productos', function () {
         return view('admin.productos');

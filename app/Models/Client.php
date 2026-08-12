@@ -33,6 +33,11 @@ class Client extends Model
         return $this->hasMany('App\Models\Product');
     }
 
+    public function vehicles()
+    {
+        return $this->hasMany('App\Models\Vehicle', 'client_id');
+    }
+
 
     public function scopeType($query)
     {

@@ -24,6 +24,7 @@ let urlQuotationusers = 'quotationusers'
 
 let urlVehicle = 'vehicles'
 let urlVehicleUser = 'vehicles-user'
+let urlClientFleet = 'clients'
 let urlDetailVehicle = 'detailvehicles'
 let urlOrdenTrabajo = 'ordentrabajo'
 let urlEliminarOrdenTrabajo = 'eliminar_ordentrabajo'
@@ -401,8 +402,12 @@ export default { //used for changing the state
             id_user = state.selectedUser.value
         }
         let url = urlVehicle
+        let fleetClientId = state.newVehicle.client_id
         axios.post(url, {
             user_id: id_user,
+            client_id: fleetClientId || null,
+            tipo: state.newVehicle.tipo,
+            numero_interno: state.newVehicle.numero_interno,
             patent: state.newVehicle.patent,
             chasis: state.newVehicle.chasis,
             brand: state.selectedVBrand.label,
@@ -410,22 +415,34 @@ export default { //used for changing the state
             year: state.selectedVYear.label,
             engine: state.selectedVEngine.label,
             color: state.newVehicle.color,
-            km: state.newVehicle.km,
+            km: state.newVehicle.trackKm ? state.newVehicle.km : '',
+            horometro: state.newVehicle.trackHorometro ? state.newVehicle.horometro : '',
             motor_number: state.newVehicle.motor_number,
+            motor_model: state.newVehicle.motor_model,
             arreglo_cpl: state.newVehicle.arreglo_cpl,
         }).then(response => {
             state.newVehicle.patent = ''
             state.newVehicle.chasis = ''
             state.newVehicle.color = ''
             state.newVehicle.km = ''
+            state.newVehicle.horometro = ''
+            state.newVehicle.trackKm = true
+            state.newVehicle.trackHorometro = false
             state.newVehicle.motor_number = ''
+            state.newVehicle.motor_model = ''
             state.newVehicle.arreglo_cpl = ''
+            state.newVehicle.tipo = ''
+            state.newVehicle.numero_interno = ''
+            state.newVehicle.client_id = ''
             state.selectedVBrand.label = ''
             state.selectedVModel.label = ''
             state.selectedVYear.label = ''
             state.selectedVEngine.label = ''
             state.errorsLaravel = []
             $('#create').modal('hide')
+            if (fleetClientId) {
+                this.commit('getClientFleet')
+            }
             toastr.success('VehÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â­culo generado con ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â©xito')
         }).catch(error => {
             toastr.error(error.response.data)
@@ -450,7 +467,19 @@ export default { //used for changing the state
         state.selectedVYear.label = vehicle.year
         state.selectedVEngine.label = vehicle.engine
         state.fillVehicle.color = vehicle.color
-        state.fillVehicle.km = vehicle.km
+        state.fillVehicle.tipo = vehicle.tipo || ''
+        state.fillVehicle.numero_interno = vehicle.numero_interno || ''
+        state.fillVehicle.km = vehicle.km || ''
+        state.fillVehicle.horometro = vehicle.horometro || ''
+        state.fillVehicle.trackKm = !!vehicle.km
+        state.fillVehicle.trackHorometro = !!vehicle.horometro
+        if (!state.fillVehicle.trackKm && !state.fillVehicle.trackHorometro) {
+            state.fillVehicle.trackKm = true
+        }
+        let currentMotor = vehicle.current_motor && vehicle.current_motor.motor
+        state.fillVehicle.motor_number = currentMotor ? (currentMotor.motor_number || '') : ''
+        state.fillVehicle.motor_model = currentMotor ? (currentMotor.modelo_motor || '') : ''
+        state.fillVehicle.arreglo_cpl = currentMotor ? (currentMotor.arreglo_cpl || '') : ''
         $("#edit").modal('show')
     },
     detailVehicle(state, vehicle) {
@@ -1235,13 +1264,27 @@ export default { //used for changing the state
             year: state.selectedVYear.label,
             engine: state.selectedVEngine.label,
             color: state.fillVehicle.color,
-            km: state.fillVehicle.km
+            tipo: state.fillVehicle.tipo,
+            numero_interno: state.fillVehicle.numero_interno,
+            km: state.fillVehicle.trackKm ? state.fillVehicle.km : '',
+            horometro: state.fillVehicle.trackHorometro ? state.fillVehicle.horometro : '',
+            motor_number: state.fillVehicle.motor_number,
+            motor_model: state.fillVehicle.motor_model,
+            arreglo_cpl: state.fillVehicle.arreglo_cpl
         }).then(response => {
             state.fillVehicle.id = ''
             state.fillVehicle.patent = ''
             state.fillVehicle.chasis = ''
             state.fillVehicle.color = ''
             state.fillVehicle.km = ''
+            state.fillVehicle.horometro = ''
+            state.fillVehicle.trackKm = true
+            state.fillVehicle.trackHorometro = false
+            state.fillVehicle.tipo = ''
+            state.fillVehicle.numero_interno = ''
+            state.fillVehicle.motor_number = ''
+            state.fillVehicle.motor_model = ''
+            state.fillVehicle.arreglo_cpl = ''
             state.selectedVBrand.label = '',
                 state.selectedVBrand.value = '',
                 state.selectedVModel.label = '',
@@ -1254,6 +1297,9 @@ export default { //used for changing the state
             state.selectedMechanicClient = null
             $('#edit').modal('hide')
             toastr.success('Vehiculo actualizado con exito')
+            if (state.fleetSelectedClient) {
+                this.commit('getClientFleet')
+            }
         }).catch(error => {
             state.errorsLaravel = error.response.data
         })
@@ -1263,6 +1309,9 @@ export default { //used for changing the state
         axios.delete(url).then(response => {
             toastr.success('Vehiculo enviado a la papelera')
             this.commit('getVehicles', 1)
+            if (state.fleetSelectedClient) {
+                this.commit('getClientFleet')
+            }
         }).catch(error => {
             toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el vehiculo'))
         })
@@ -4437,6 +4486,53 @@ export default { //used for changing the state
     setClient(state, client) {
         state.selectedClient = client
         state.newQuotationclient.client_text = state.selectedClient.label
+    },
+    /*** seccion flota de equipos por cliente ***/
+    getFleetClientOptions(state) {
+        let query = ['Cliente', 'Empresa'].map(t => 'type[]=' + encodeURIComponent(t)).join('&')
+        axios.get(urlAllClient + '?' + query).then(response => {
+            state.fleetClientOptions = []
+            response.data.forEach((client) => {
+                state.fleetClientOptions.push({
+                    label: client.razonSocial,
+                    value: client.id
+                })
+            });
+        });
+    },
+    setNewVehicleClient(state, clientId) {
+        state.newVehicle.client_id = clientId
+    },
+    setFleetClient(state, client) {
+        state.fleetSelectedClient = client
+        state.fleetVehicles = []
+        if (client) {
+            this.commit('getClientFleet')
+        }
+    },
+    getClientFleet(state) {
+        if (!state.fleetSelectedClient) {
+            return
+        }
+        let url = urlClientFleet + '/' + state.fleetSelectedClient.value + '/vehicles'
+        axios.get(url).then(response => {
+            state.fleetVehicles = response.data
+        });
+    },
+    importFleetBulk(state, rows) {
+        if (!state.fleetSelectedClient) {
+            return
+        }
+        let url = urlClientFleet + '/' + state.fleetSelectedClient.value + '/vehicles/bulk'
+
+        axios.post(url, { vehicles: rows }).then(response => {
+            state.errorsLaravel = []
+            toastr.success(`Se agregaron ${response.data.created} equipos a la flota`)
+            this.commit('getClientFleet')
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
+            toastr.error('No se pudo importar la flota')
+        });
     },
     allVehicleBrands(state) {
         let url = urlSelectVehiculoMarcas

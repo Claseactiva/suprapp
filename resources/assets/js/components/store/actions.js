@@ -1,5 +1,21 @@
 export default { //methods
     /******************************* */
+    /*************seccion flota de equipos por cliente***************** */
+    getFleetClientOptions(context) {
+        context.commit('getFleetClientOptions')
+    },
+    setFleetClient(context, client) {
+        context.commit('setFleetClient', client)
+    },
+    getClientFleet(context) {
+        context.commit('getClientFleet')
+    },
+    importFleetBulk(context, rows) {
+        context.commit('importFleetBulk', rows)
+    },
+    setNewVehicleClient(context, clientId) {
+        context.commit('setNewVehicleClient', clientId)
+    },
     /*************seccion de vehiculos***************** */
     getVehicles(context, data) {
         context.commit('getVehicles', data)

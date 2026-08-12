@@ -30,7 +30,7 @@ class VehicleController extends Controller
 
                     $ownerScope = request('owner_scope');
 
-                    $vehicles = Vehicle::with('user')
+                    $vehicles = Vehicle::with('user', 'currentMotor.motor')
                         ->whereNotIn('user_id', User::where('is_independent', true)->pluck('id'))
                         ->when($ownerScope === 'mine', function ($query) use ($user_id) {
                             return $query->where('user_id', $user_id);
@@ -58,7 +58,7 @@ class VehicleController extends Controller
                 } else {
                     $vehicles = Vehicle::orderBy('id', 'DESC')
                         ->whereIn('user_id', $user->teamUserIds())
-                        ->with('user')
+                        ->with('user', 'currentMotor.motor')
                         ->patent()
                         ->name()
                         ->year()
@@ -249,7 +249,8 @@ class VehicleController extends Controller
             'patent' => 'required|min:4|max:190',
             'chasis' => 'required|min:4|max:190',
             'color' => 'required|min:4|max:190',
-            'km' => 'required|min:1|max:190',
+            'km' => 'nullable|required_without:horometro|max:190',
+            'horometro' => 'nullable|required_without:km|max:190',
 
         ], [
             'patent.required' => 'El campo patente es obligatorio',
@@ -261,12 +262,15 @@ class VehicleController extends Controller
             'color.required' => 'El campo color es obligatorio',
             'color.min' => 'El campo color debe tener al menos 4 caracteres',
             'color.max' => 'El campo color debe tener a lo más 190 caracteres',
-            'km.required' => 'El campo km es obligatorio',
-            'km.min' => 'El campo km debe tener al menos 1 caracteres',
+            'km.required_without' => 'Debe indicar kilometraje u horómetro',
             'km.max' => 'El campo km debe tener a lo más 190 caracteres',
+            'horometro.required_without' => 'Debe indicar kilometraje u horómetro',
+            'horometro.max' => 'El campo horómetro debe tener a lo más 190 caracteres',
         ]);
 
-        Vehicle::find($id)->update($request->all());
+        $vehicle = Vehicle::find($id);
+        $vehicle->update($request->all());
+        $this->syncMotor($request, $vehicle);
 
         return;
     }
@@ -341,7 +345,7 @@ class VehicleController extends Controller
         $user_id = Auth::id();
         $vehicles = Vehicle::orderBy('id', 'DESC')
             ->where('user_id', '=', $user_id)
-            ->with('user')
+            ->with('user', 'currentMotor.motor')
             ->paginate((int) request('per_page', 20));
 
         return [
@@ -357,17 +361,132 @@ class VehicleController extends Controller
         ];
     }
 
-    private function attachMotorIfProvided(Request $request, Vehicle $vehicle)
+    /**
+     * Lista la flota de equipos ya asociada a un cliente (empresa).
+     */
+    public function byClient($clientId)
+    {
+        $vehicles = Vehicle::where('client_id', $clientId)
+            ->with('user', 'currentMotor.motor')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return $vehicles;
+    }
+
+    /**
+     * Crea varios equipos de una sola vez, todos asociados al mismo cliente (flota).
+     */
+    public function storeBulkForClient(Request $request, $clientId)
+    {
+        $this->validate($request, [
+            'vehicles' => 'required|array|min:1',
+            'vehicles.*.patent' => 'required|min:4|max:190',
+            'vehicles.*.tipo' => 'nullable|max:190',
+            'vehicles.*.numero_interno' => 'nullable|max:190',
+            'vehicles.*.chasis' => 'nullable|max:190',
+            'vehicles.*.brand' => 'nullable|max:190',
+            'vehicles.*.model' => 'nullable|max:190',
+            'vehicles.*.year' => 'nullable|max:190',
+            'vehicles.*.color' => 'nullable|max:190',
+            'vehicles.*.km' => 'nullable|max:190',
+            'vehicles.*.horometro' => 'nullable|max:190',
+            'vehicles.*.motor_number' => 'nullable|max:190',
+            'vehicles.*.motor_model' => 'nullable|max:190',
+            'vehicles.*.arreglo_cpl' => 'nullable|max:190',
+        ]);
+
+        $userId = Auth::id();
+        $rowsCount = count($request->input('vehicles'));
+
+        $tallerId = Auth::user()->effectiveTallerId();
+        $currentVehicles = DB::table('vehicles')->whereIn('user_id', Auth::user()->teamUserIds())->count();
+        $taller = DB::table('users')->where('id', '=', $tallerId)->first();
+
+        if (($currentVehicles + $rowsCount) > $taller->cant_vehicle) {
+            return response()->json('¡Error, Ya no puede crear mas vehiculos!', 422);
+        }
+
+        $created = DB::transaction(function () use ($request, $clientId, $userId) {
+            $count = 0;
+
+            foreach ($request->input('vehicles') as $row) {
+                $vehicle = Vehicle::create([
+                    'user_id' => $userId,
+                    'client_id' => $clientId,
+                    'patent' => $row['patent'],
+                    'tipo' => $row['tipo'] ?? null,
+                    'numero_interno' => $row['numero_interno'] ?? null,
+                    // chasis/brand/model/engine son NOT NULL en la tabla vehicles; se guarda
+                    // vacio si el usuario no lo completa en la carga masiva.
+                    'chasis' => $row['chasis'] ?? '',
+                    'brand' => $row['brand'] ?? '',
+                    'model' => $row['model'] ?? '',
+                    'engine' => $row['engine'] ?? '',
+                    'year' => $row['year'] ?? null,
+                    'color' => $row['color'] ?? null,
+                    'km' => $row['km'] ?? null,
+                    'horometro' => $row['horometro'] ?? null,
+                ]);
+
+                $this->attachMotor($vehicle, $row['motor_number'] ?? null, $row['motor_model'] ?? null, $row['arreglo_cpl'] ?? null);
+
+                $count++;
+            }
+
+            return $count;
+        });
+
+        return response()->json(['created' => $created]);
+    }
+
+    /**
+     * Actualiza el motor vigente del vehiculo (o lo crea si no tenia), usado al editar.
+     */
+    private function syncMotor(Request $request, Vehicle $vehicle)
     {
         $motorNumber = $request->input('motor_number');
+        $motorModel = $request->input('motor_model');
         $arregloCpl = $request->input('arreglo_cpl');
 
-        if (blank($motorNumber) && blank($arregloCpl)) {
+        if (blank($motorNumber) && blank($motorModel) && blank($arregloCpl)) {
+            return;
+        }
+
+        $currentAssignment = $vehicle->currentMotor;
+
+        if ($currentAssignment && $currentAssignment->motor) {
+            $currentAssignment->motor->update([
+                'motor_number' => $motorNumber ?: null,
+                'modelo_motor' => $motorModel ?: null,
+                'arreglo_cpl' => $arregloCpl ?: null,
+            ]);
+
+            return;
+        }
+
+        $this->attachMotor($vehicle, $motorNumber, $motorModel, $arregloCpl);
+    }
+
+    private function attachMotorIfProvided(Request $request, Vehicle $vehicle)
+    {
+        $this->attachMotor(
+            $vehicle,
+            $request->input('motor_number'),
+            $request->input('motor_model'),
+            $request->input('arreglo_cpl')
+        );
+    }
+
+    private function attachMotor(Vehicle $vehicle, $motorNumber, $motorModel, $arregloCpl)
+    {
+        if (blank($motorNumber) && blank($motorModel) && blank($arregloCpl)) {
             return;
         }
 
         $motor = Motor::create([
             'motor_number' => $motorNumber ?: null,
+            'modelo_motor' => $motorModel ?: null,
             'arreglo_cpl' => $arregloCpl ?: null,
         ]);
 

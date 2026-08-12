@@ -1,4 +1,8 @@
 export default { //data
+    /*** seccion flota de equipos por cliente ***/
+    fleetClientOptions: [],
+    fleetSelectedClient: null,
+    fleetVehicles: [],
     selectedUserForDevices: null,
     userDeviceSessions: [],
     userDeviceLimit: 0,
@@ -134,6 +138,9 @@ export default { //data
     },
     newVehicle: {
         user_id: '',
+        client_id: '',
+        tipo: '',
+        numero_interno: '',
         patent: '',
         chasis: '',
         brand: '',
@@ -141,12 +148,18 @@ export default { //data
         year: '',
         color: '',
         km: '',
+        horometro: '',
+        trackKm: true,
+        trackHorometro: false,
         motor_number: '',
+        motor_model: '',
         arreglo_cpl: ''
     },
     fillVehicle: {
         id: '',
         user_id: '',
+        tipo: '',
+        numero_interno: '',
         patent: '',
         chasis: '',
         brand: '',
@@ -154,7 +167,13 @@ export default { //data
         year: '',
         engine: '',
         color: '',
-        km: ''
+        km: '',
+        horometro: '',
+        trackKm: true,
+        trackHorometro: false,
+        motor_number: '',
+        motor_model: '',
+        arreglo_cpl: ''
     },
     searchVehicle: {
         patent: '',

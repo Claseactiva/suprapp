@@ -24,6 +24,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="numero_interno">N° Interno</label>
+                            <input type="text" name="numero_interno" class="form-control" v-model="newVehicle.numero_interno">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <v-select :options="optionsTiposVehiculoLabels" v-model="newVehicle.tipo"
+                                :taggable="true" :push-tags="true" placeholder="Camión, Generador, Maquinaria, etc.">
+                            </v-select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="marca">Marca</label>
                             <BrandSelector />
                         </div>
@@ -49,6 +61,11 @@
                         </div>
 
                         <div class="form-group" v-if="rol !== 'client'">
+                            <label for="motor_model">Modelo de Motor</label>
+                            <input type="text" name="motor_model" class="form-control" v-model="newVehicle.motor_model">
+                        </div>
+
+                        <div class="form-group" v-if="rol !== 'client'">
                             <label for="arreglo_cpl">Arreglo / CPL</label>
                             <input type="text" name="arreglo_cpl" class="form-control" v-model="newVehicle.arreglo_cpl">
                         </div>
@@ -59,8 +76,27 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="km">Kilometraje</label>
-                            <input required type="number" name="km" class="form-control" v-model="newVehicle.km">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="trackKm" v-model="newVehicle.trackKm">
+                                <label class="form-check-label" for="trackKm">Kilometraje</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="trackHorometro" v-model="newVehicle.trackHorometro">
+                                <label class="form-check-label" for="trackHorometro">Horómetro</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group" :class="newVehicle.trackKm && newVehicle.trackHorometro ? 'col-6' : 'col-12'"
+                                    v-if="newVehicle.trackKm">
+                                    <label for="km">Kilometraje</label>
+                                    <input type="number" name="km" class="form-control" v-model="newVehicle.km">
+                                </div>
+                                <div class="form-group" :class="newVehicle.trackKm && newVehicle.trackHorometro ? 'col-6' : 'col-12'"
+                                    v-if="newVehicle.trackHorometro">
+                                    <label for="horometro">Horómetro</label>
+                                    <input type="number" name="horometro" class="form-control" v-model="newVehicle.horometro">
+                                </div>
+                            </div>
                         </div>
 
 
@@ -89,11 +125,17 @@ import EngineSelector from '../Quotationuser/EngineSelector'
 export default {
     components: { BrandSelector, ModelSelector, YearSelector, EngineSelector },
     computed: {
-        ...mapState(['newVehicle', 'errorsLaravel', 'rol']),
-        ...mapGetters(['completeVehicleCreate'])
+        ...mapState(['newVehicle', 'errorsLaravel', 'rol', 'optionsTiposVehiculo']),
+        ...mapGetters(['completeVehicleCreate']),
+        optionsTiposVehiculoLabels() {
+            return this.optionsTiposVehiculo.map(tipo => tipo.label)
+        }
     },
     methods: {
-        ...mapActions(['createVehicleUser'])
+        ...mapActions(['createVehicleUser', 'allTiposVehiculos'])
     },
+    created() {
+        this.allTiposVehiculos()
+    }
 }
 </script>

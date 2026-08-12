@@ -37,6 +37,7 @@ Vue.component('quotationshipping-component', require('./components/QuotationShip
 Vue.component('imports-component', require('./components/Import/Index.vue').default)
 
 Vue.component('clients-component', require('./components/Client/Index.vue').default)
+Vue.component('client-fleet-component', require('./components/ClientFleet/Index.vue').default)
 Vue.component('product-component', require('./components/Product/Index.vue').default)
 Vue.component('inventario-component', require('./components/Inventario/Index.vue').default)
 

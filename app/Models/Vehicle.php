@@ -10,7 +10,7 @@ class Vehicle extends Model
     use SoftDeletes;
 
     protected $fillable = [
-       'id', 'user_id', 'patent', 'chasis', 'brand', 'model', 'year', 'engine', 'color', 'km'
+       'id', 'user_id', 'client_id', 'tipo', 'numero_interno', 'patent', 'chasis', 'brand', 'model', 'year', 'engine', 'color', 'km', 'horometro'
     ];
 
     public function detail_vehicles()
@@ -21,6 +21,11 @@ class Vehicle extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Models\Client');
     }
 
     public function scopePatent($query)
