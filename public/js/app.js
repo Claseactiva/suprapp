@@ -9834,8 +9834,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       newPartName: ''
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['formCotizacion', 'optionsProduct'])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['requestPartsVehicle', 'allProducts'])), {}, {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['formCotizacion', 'productCatalogTemplateSuggestions'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['requestPartsVehicle', 'getProductCatalogTemplateSuggestions'])), {}, {
     addPartLine: function addPartLine() {
       var name = this.newPartName.trim();
       if (!name) {
@@ -9846,7 +9846,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   }),
   created: function created() {
-    this.allProducts();
+    this.getProductCatalogTemplateSuggestions();
   }
 });
 
@@ -40935,11 +40935,11 @@ var render = function render() {
     attrs: {
       id: "request-parts-suggestions"
     }
-  }, _vm._l(_vm.optionsProduct, function (product) {
+  }, _vm._l(_vm.productCatalogTemplateSuggestions, function (suggestion) {
     return _c("option", {
-      key: product.value,
+      key: suggestion.id,
       domProps: {
-        value: product.label
+        value: suggestion.product_name
       }
     });
   }), 0), _vm._v(" "), _c("div", {
@@ -42619,6 +42619,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   /**************************************************************/allProducts: function allProducts(context) {
     context.commit('allProducts');
+  },
+  getProductCatalogTemplateSuggestions: function getProductCatalogTemplateSuggestions(context) {
+    context.commit('getProductCatalogTemplateSuggestions');
   },
   setProduct: function setProduct(context, data) {
     context.commit('setProduct', data);

@@ -92,19 +92,9 @@ class ProductController extends Controller
     {
         $id_user = Auth::id();
 
-        // Ademas de sus propios productos, un mecanico vinculado a una
-        // empresa (client_mechanics) debe ver el catalogo del taller
-        // dueno de esa empresa (ej. para buscar repuestos a cotizar).
-        $ownerIds = Auth::user()->companies()->pluck('clients.user_id')
-            ->push($id_user)
-            ->unique()
-            ->values();
-
         $products = Product::with('inventories', 'client')
             ->withCount('relatedVehicleModels')
-            ->whereHas('client', function ($query) use ($ownerIds) {
-                $query->whereIn('user_id', $ownerIds);
-            })
+            ->withUserClients($id_user)
             ->get();
         return $products;
     }

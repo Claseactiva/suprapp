@@ -1544,6 +1544,9 @@ export default { //methods
     allProducts(context) {
         context.commit('allProducts')
     },
+    getProductCatalogTemplateSuggestions(context) {
+        context.commit('getProductCatalogTemplateSuggestions')
+    },
     setProduct(context, data) {
         context.commit('setProduct', data)
     },

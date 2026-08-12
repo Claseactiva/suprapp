@@ -17,7 +17,7 @@
                                 placeholder="Escribe o elige de la lista..."
                                 @keydown.enter.prevent="addPartLine">
                             <datalist id="request-parts-suggestions">
-                                <option v-for="product in optionsProduct" :key="product.value" :value="product.label"></option>
+                                <option v-for="suggestion in productCatalogTemplateSuggestions" :key="suggestion.id" :value="suggestion.product_name"></option>
                             </datalist>
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-info" @click.prevent="addPartLine">
@@ -55,10 +55,10 @@ export default {
         }
     },
     computed: {
-        ...mapState(['formCotizacion', 'optionsProduct'])
+        ...mapState(['formCotizacion', 'productCatalogTemplateSuggestions'])
     },
     methods: {
-        ...mapActions(['requestPartsVehicle', 'allProducts']),
+        ...mapActions(['requestPartsVehicle', 'getProductCatalogTemplateSuggestions']),
         addPartLine() {
             const name = this.newPartName.trim()
 
@@ -74,7 +74,7 @@ export default {
         }
     },
     created() {
-        this.allProducts()
+        this.getProductCatalogTemplateSuggestions()
     }
 
 
