@@ -951,7 +951,7 @@ export default { //methods
     },
     /******************************************** */
     /********************************************* */
-    /******seccion de detalle de una importaciÃƒÆ’Ã‚Â³n****** */
+    /******seccion de detalle de una importación****** */
     showModalDetailimport(context, data) {
         context.commit('showModalDetailimport', data.id)
         setTimeout(function () {
@@ -1016,7 +1016,7 @@ export default { //methods
     },
     /******************************************** */
     /********************************************* */
-    /******seccion de detalle de una cotizaciÃƒÆ’Ã‚Â³n de la importaciÃƒÆ’Ã‚Â³n****** */
+    /******seccion de detalle de una cotización de la importación****** */
     showQuotationimport(context, data) {
         context.commit('showQuotationimport', data.id)
         setTimeout(function () {
@@ -1338,7 +1338,7 @@ export default { //methods
         context.commit('updateCompany', data.id)
     },
     /******************************************* */
-    /**************seccion de asignaciÃƒÆ’Ã‚Â³n de roles a usuarios */
+    /**************seccion de asignación de roles a usuarios */
     getRoles(context, data) {
         context.commit('getRoles', data)
     },
@@ -1406,7 +1406,7 @@ export default { //methods
             context.commit('getQuotationShipping', 1)
         }, 1000)
     },
-    /************ SecciÃƒÆ’Ã‚Â³n de consultar para los selects************* */
+    /************ Sección de consultar para los selects************* */
     setPagos(context, data) {
         context.commit('setPagos', data)
     },
