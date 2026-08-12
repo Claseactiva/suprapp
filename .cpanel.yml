@@ -19,6 +19,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/public/css
     - /bin/mkdir -p $DEPLOYPATH/public/js
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Client
+    - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/ClientFleet
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/OrdenTrabajos
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Product
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/js/components/Quotation
@@ -195,6 +196,10 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_10_000002_increase_decimal_precision_in_purchase_order_details_table.php $DEPLOYPATH/database/migrations/2026_08_10_000002_increase_decimal_precision_in_purchase_order_details_table.php
     - /bin/cp -f database/migrations/2026_08_10_000003_add_sin_iva_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_10_000003_add_sin_iva_to_purchase_orders_table.php
     - /bin/cp -f database/migrations/2026_08_11_000001_add_flete_to_purchase_orders_table.php $DEPLOYPATH/database/migrations/2026_08_11_000001_add_flete_to_purchase_orders_table.php
+    - /bin/cp -f database/migrations/2026_08_11_000001_add_client_id_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_11_000001_add_client_id_to_vehicles_table.php
+    - /bin/cp -f database/migrations/2026_08_11_000002_add_tipo_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_11_000002_add_tipo_to_vehicles_table.php
+    - /bin/cp -f database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php $DEPLOYPATH/database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php
+    - /bin/cp -f database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -286,6 +291,8 @@ deployment:
     - /bin/cp -f resources/assets/js/components/UserMechanic/Index.vue $DEPLOYPATH/resources/assets/js/components/UserMechanic/Index.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/AgregarDetalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/AgregarDetalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Agregar.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Agregar.vue
+    - /bin/cp -f resources/assets/js/components/Vehicle/Editar.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Editar.vue
+    - /bin/cp -f resources/assets/js/components/ClientFleet/Index.vue $DEPLOYPATH/resources/assets/js/components/ClientFleet/Index.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Detalle.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Detalle.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/Index.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/Index.vue
     - /bin/cp -f resources/assets/js/components/Vehicle/RequestParts.vue $DEPLOYPATH/resources/assets/js/components/Vehicle/RequestParts.vue
@@ -311,6 +318,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/store/state.js $DEPLOYPATH/resources/assets/js/components/store/state.js
     - /bin/cp -f resources/assets/js/utils/imageUtils.js $DEPLOYPATH/resources/assets/js/utils/imageUtils.js
     - /bin/cp -f resources/views/admin/cantidad-vehiculos.blade.php $DEPLOYPATH/resources/views/admin/cantidad-vehiculos.blade.php
+    - /bin/cp -f resources/views/admin/flota-clientes.blade.php $DEPLOYPATH/resources/views/admin/flota-clientes.blade.php
     - /bin/cp -f resources/views/admin/motores.blade.php $DEPLOYPATH/resources/views/admin/motores.blade.php
     - /bin/cp -f resources/views/admin/cotizacion-reparacion.blade.php $DEPLOYPATH/resources/views/admin/cotizacion-reparacion.blade.php
     - /bin/cp -f resources/views/quotation.blade.php $DEPLOYPATH/resources/views/quotation.blade.php
