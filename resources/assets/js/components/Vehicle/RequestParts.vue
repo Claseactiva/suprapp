@@ -10,6 +10,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <label for="newPartName">Buscar repuesto</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="newPartName" v-model="newPartName"
+                                list="request-parts-suggestions" autocomplete="off"
+                                placeholder="Escribe o elige de la lista..."
+                                @keydown.enter.prevent="addPartLine">
+                            <datalist id="request-parts-suggestions">
+                                <option v-for="product in optionsProduct" :key="product.value" :value="product.label"></option>
+                            </datalist>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-info" @click.prevent="addPartLine">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
+                            </div>
+                        </div>
+
                         <label for="parts">Repuestos a Solicitar</label>
                         <textarea :class="{ 'input': true, 'is-invalid': errors.has('description') }"
                             class="form-control" v-model="formCotizacion.description" style="resize:none"
@@ -33,13 +49,33 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
 
+    data() {
+        return {
+            newPartName: ''
+        }
+    },
     computed: {
-        ...mapState(['formCotizacion'])
+        ...mapState(['formCotizacion', 'optionsProduct'])
     },
     methods: {
-        ...mapActions(['requestPartsVehicle'])
-    }
+        ...mapActions(['requestPartsVehicle', 'allProducts']),
+        addPartLine() {
+            const name = this.newPartName.trim()
 
+            if (!name) {
+                return
+            }
+
+            this.formCotizacion.description = this.formCotizacion.description
+                ? this.formCotizacion.description + '\n' + name
+                : name
+
+            this.newPartName = ''
+        }
+    },
+    created() {
+        this.allProducts()
+    }
 
 
 }

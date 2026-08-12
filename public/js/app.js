@@ -9829,8 +9829,25 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['formCotizacion'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['requestPartsVehicle']))
+  data: function data() {
+    return {
+      newPartName: ''
+    };
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['formCotizacion', 'optionsProduct'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['requestPartsVehicle', 'allProducts'])), {}, {
+    addPartLine: function addPartLine() {
+      var name = this.newPartName.trim();
+      if (!name) {
+        return;
+      }
+      this.formCotizacion.description = this.formCotizacion.description ? this.formCotizacion.description + '\n' + name : name;
+      this.newPartName = '';
+    }
+  }),
+  created: function created() {
+    this.allProducts();
+  }
 });
 
 /***/ }),
@@ -40880,6 +40897,67 @@ var render = function render() {
   }, [_vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
   }, [_c("label", {
+    attrs: {
+      "for": "newPartName"
+    }
+  }, [_vm._v("Buscar repuesto")]), _vm._v(" "), _c("div", {
+    staticClass: "input-group mb-3"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newPartName,
+      expression: "newPartName"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "newPartName",
+      list: "request-parts-suggestions",
+      autocomplete: "off",
+      placeholder: "Escribe o elige de la lista..."
+    },
+    domProps: {
+      value: _vm.newPartName
+    },
+    on: {
+      keydown: function keydown($event) {
+        if (!$event.type.indexOf("key") && _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")) return null;
+        $event.preventDefault();
+        return _vm.addPartLine.apply(null, arguments);
+      },
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.newPartName = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _c("datalist", {
+    attrs: {
+      id: "request-parts-suggestions"
+    }
+  }, _vm._l(_vm.optionsProduct, function (product) {
+    return _c("option", {
+      key: product.value,
+      domProps: {
+        value: product.label
+      }
+    });
+  }), 0), _vm._v(" "), _c("div", {
+    staticClass: "input-group-append"
+  }, [_c("button", {
+    staticClass: "btn btn-info",
+    attrs: {
+      type: "button"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.addPartLine.apply(null, arguments);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-plus"
+  }), _vm._v(" Agregar\n                            ")])])]), _vm._v(" "), _c("label", {
     attrs: {
       "for": "parts"
     }
