@@ -3227,7 +3227,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('#create').modal('show');
     },
     copyFleetPrompt: function copyFleetPrompt() {
-      var prompt = 'Convierte el siguiente texto en una lista de equipos/vehiculos, una linea por equipo, ' + 'usando EXACTAMENTE este formato separado por "|" (deja el espacio vacio entre pipes si falta un ' + 'dato, pero manten siempre las 13 columnas):\n\n' + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n\n' + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, ' + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. ' + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. ' + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique).\n\n' + 'Ejemplo:\n' + 'ABCD11 | INT-001 | 9BWZZZ377VT004251 | Camion | Toyota | Hilux | 2020 | Blanco | 50000 | | MTR-123 | Cummins QSK19 | ARR-1\n' + 'EFGH22 | | | Generador | Nissan | Navara | 2021 | Negro | | 1200 | |\n\n' + 'No agregues texto adicional, encabezados ni numeracion, solo las lineas en ese formato. ' + 'Este es el texto a convertir:\n\n';
+      var prompt = 'Convierte el siguiente texto en una lista de equipos/vehiculos, una linea por equipo, ' + 'usando EXACTAMENTE este formato separado por "|" (deja el espacio vacio entre pipes si falta un ' + 'dato, pero manten siempre las 13 columnas):\n\n' + 'Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n\n' + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, ' + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. ' + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. ' + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique). ' + 'La Patente puede quedar vacia si el equipo no tiene (por ejemplo generadores), siempre que tenga ' + 'N° Interno o Chasis/VIN cargado.\n\n' + 'Ejemplo:\n' + 'ABCD11 | INT-001 | 9BWZZZ377VT004251 | Camion | Toyota | Hilux | 2020 | Blanco | 50000 | | MTR-123 | Cummins QSK19 | ARR-1\n' + ' | GS-100 | MBJ1-00000-01/01 | Generador | Halter | G828CKEC | | | | | 93312200 | Cummins QSB3.9-G31 | \n\n' + 'No agregues texto adicional, encabezados ni numeracion, solo las lineas en ese formato. ' + 'Este es el texto a convertir:\n\n';
       this.copyTextToClipboard(prompt, 'Prompt copiado, pegalo en tu IA junto con el texto a convertir');
     },
     processBulkFleetText: function processBulkFleetText() {
@@ -3248,7 +3248,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         if (!parsedItem) {
           ignoredLines.push({
             line: line,
-            reason: 'Falta la patente'
+            reason: 'Falta patente, N° interno o chasis/VIN'
           });
           return;
         }
@@ -3280,11 +3280,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         motorNumber = _columns[10],
         motorModel = _columns[11],
         arregloCpl = _columns[12];
-      if (!patent) {
+      if (!patent && !numeroInterno && !chasis) {
         return null;
       }
       return {
-        patent: patent,
+        patent: patent || '',
         numero_interno: numeroInterno || '',
         chasis: chasis || '',
         tipo: tipo || '',
@@ -12201,7 +12201,7 @@ var render = function render() {
     staticClass: "modal-body"
   }, [_c("small", {
     staticClass: "text-muted d-block mb-3"
-  }, [_vm._v("\n                        Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n                        (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas)\n                    ")]), _vm._v(" "), _c("textarea", {
+  }, [_vm._v("\n                        Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL\n                        (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas.\n                        La Patente puede quedar vacía si el equipo no tiene, siempre que tenga N° Interno o Chasis/VIN)\n                    ")]), _vm._v(" "), _c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",

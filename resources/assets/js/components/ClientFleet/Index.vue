@@ -97,7 +97,8 @@
                     <div class="modal-body">
                         <small class="text-muted d-block mb-3">
                             Formato: Patente | N° Interno | Chasis/VIN | Tipo | Marca | Modelo | Año | Color | Km | Horómetro | N° Serie | Modelo Motor | Arreglo CPL
-                            (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas)
+                            (Tipo: camión, generador, maquinaria, etc. Dejar vacío entre pipes si falta un dato, manteniendo las 13 columnas.
+                            La Patente puede quedar vacía si el equipo no tiene, siempre que tenga N° Interno o Chasis/VIN)
                         </small>
 
                         <textarea
@@ -216,10 +217,12 @@ export default {
                 + 'El Tipo es la clasificacion del equipo, por ejemplo: Camion, Generador, Maquinaria, '
                 + 'Vehiculo Liviano, Perforadora, Equipos de Apoyo, Componente, u Otro. '
                 + 'El N° Interno es el codigo o numero con el que el cliente identifica internamente ese equipo. '
-                + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique).\n\n'
+                + 'Usa Km para vehiculos y Horometro para equipos que se miden en horas de uso (deja vacio el que no aplique). '
+                + 'La Patente puede quedar vacia si el equipo no tiene (por ejemplo generadores), siempre que tenga '
+                + 'N° Interno o Chasis/VIN cargado.\n\n'
                 + 'Ejemplo:\n'
                 + 'ABCD11 | INT-001 | 9BWZZZ377VT004251 | Camion | Toyota | Hilux | 2020 | Blanco | 50000 | | MTR-123 | Cummins QSK19 | ARR-1\n'
-                + 'EFGH22 | | | Generador | Nissan | Navara | 2021 | Negro | | 1200 | |\n\n'
+                + ' | GS-100 | MBJ1-00000-01/01 | Generador | Halter | G828CKEC | | | | | 93312200 | Cummins QSB3.9-G31 | \n\n'
                 + 'No agregues texto adicional, encabezados ni numeracion, solo las lineas en ese formato. '
                 + 'Este es el texto a convertir:\n\n'
 
@@ -245,7 +248,7 @@ export default {
                 const parsedItem = this.parseBulkFleetLine(line)
 
                 if (!parsedItem) {
-                    ignoredLines.push({ line, reason: 'Falta la patente' })
+                    ignoredLines.push({ line, reason: 'Falta patente, N° interno o chasis/VIN' })
                     return
                 }
 
@@ -266,12 +269,12 @@ export default {
             const columns = line.split('|').map(part => part.trim())
             const [patent, numeroInterno, chasis, tipo, brand, model, year, color, km, horometro, motorNumber, motorModel, arregloCpl] = columns
 
-            if (!patent) {
+            if (!patent && !numeroInterno && !chasis) {
                 return null
             }
 
             return {
-                patent,
+                patent: patent || '',
                 numero_interno: numeroInterno || '',
                 chasis: chasis || '',
                 tipo: tipo || '',

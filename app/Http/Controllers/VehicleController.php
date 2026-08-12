@@ -410,7 +410,7 @@ class VehicleController extends Controller
 
         $this->validate($request, [
             'vehicles' => 'required|array|min:1',
-            'vehicles.*.patent' => 'required|min:4|max:190',
+            'vehicles.*.patent' => 'nullable|max:190',
             'vehicles.*.tipo' => 'nullable|max:190',
             'vehicles.*.numero_interno' => 'nullable|max:190',
             'vehicles.*.chasis' => 'nullable|max:190',
@@ -443,7 +443,9 @@ class VehicleController extends Controller
                 $vehicle = Vehicle::create([
                     'user_id' => $userId,
                     'client_id' => $clientId,
-                    'patent' => $row['patent'],
+                    // patent es NOT NULL en la tabla vehicles; equipos como generadores
+                    // pueden no tener patente, se guarda vacio en vez de null.
+                    'patent' => $row['patent'] ?? '',
                     'tipo' => $row['tipo'] ?? null,
                     'numero_interno' => $row['numero_interno'] ?? null,
                     // chasis/brand/model/engine son NOT NULL en la tabla vehicles; se guarda
