@@ -121,10 +121,17 @@ class ClientController extends Controller
     public function all()
     {
         $idUser = Auth::id();
-        $client = Client::whereHas('user', function ($query) use ($idUser) {
-            $query->where('id', '=', $idUser)
-                ->where('clients.type', '<>', 'Cliente Particular');
-        })->type()->orderBy('id', 'DESC')->get();
+        $mechanicClientIds = Auth::user()->companies()->pluck('clients.id');
+
+        $client = Client::where('clients.type', '<>', 'Cliente Particular')
+            ->where(function ($query) use ($idUser, $mechanicClientIds) {
+                $query->whereHas('user', function ($q) use ($idUser) {
+                    $q->where('id', '=', $idUser);
+                })->orWhereIn('id', $mechanicClientIds);
+            })
+            ->type()
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return $client;
     }

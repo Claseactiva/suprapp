@@ -141,7 +141,7 @@
                 </li>
             @endcan
 
-            @canany(['vehiculos', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
+            @canany(['vehiculos', 'flotas', 'vehiculos_mecanicos', 'ordenes_trabajo', 'check-list', 'marcas'])
                 @php
                     $vehiculosGroupActive = request()->routeIs('admin-vehiculos', 'admin-vehiculosM', 'admin-orden-trabajos', 'admin-check-list', 'admin-marca-vehiculos', 'admin-motores', 'admin-flota-clientes');
                 @endphp
@@ -158,11 +158,13 @@
                                 <a class="nav-link" href="{{ route('admin-vehiculos') }}">
                                     <span>Registro Vehículos</span></a>
                             </li>
+                        @endcan
+                        @canany(['vehiculos', 'flotas'])
                             <li class="nav-item {{ request()->routeIs('admin-flota-clientes') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-flota-clientes') }}">
                                     <span>Flota por Cliente</span></a>
                             </li>
-                        @endcan
+                        @endcanany
                         @can('vehiculos_mecanicos')
                             <li class="nav-item {{ request()->routeIs('admin-vehiculosM') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-vehiculosM') }}">

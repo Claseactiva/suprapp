@@ -202,6 +202,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php $DEPLOYPATH/database/migrations/2026_08_11_000003_add_numero_interno_and_motor_model_columns.php
     - /bin/cp -f database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php $DEPLOYPATH/database/migrations/2026_08_12_000001_add_horometro_to_vehicles_table.php
     - /bin/cp -f database/migrations/2026_08_12_000002_create_client_mechanics_table.php $DEPLOYPATH/database/migrations/2026_08_12_000002_create_client_mechanics_table.php
+    - /bin/cp -f database/migrations/2026_08_12_000003_create_flotas_permission.php $DEPLOYPATH/database/migrations/2026_08_12_000003_create_flotas_permission.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
