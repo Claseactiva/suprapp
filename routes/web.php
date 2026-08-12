@@ -12,6 +12,11 @@
 */
 use Illuminate\Support\Facades\Route;
 
+Route::get('/deploy-migrate-2d499d7e7e36', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre>';
+});
+
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
