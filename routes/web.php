@@ -12,46 +12,6 @@
 */
 use Illuminate\Support\Facades\Route;
 
-Route::get('/deploy-diag-d4b62d21d096', function () {
-    $out = [];
-
-    $storagePath = public_path('storage');
-    $out[] = 'public/storage existe: ' . (file_exists($storagePath) ? 'si' : 'NO');
-    $out[] = 'public/storage es symlink: ' . (is_link($storagePath) ? 'si' : 'no');
-    if (is_link($storagePath)) {
-        $target = readlink($storagePath);
-        $out[] = 'symlink apunta a: ' . $target;
-        $out[] = 'destino del symlink existe: ' . (file_exists($target) ? 'si' : 'NO');
-    }
-
-    $bgPath = public_path('storage/images/backgrounds');
-    $out[] = '';
-    $out[] = 'public/storage/images/backgrounds existe: ' . (is_dir($bgPath) ? 'si' : 'NO');
-    if (is_dir($bgPath)) {
-        $files = array_diff(scandir($bgPath), ['.', '..']);
-        $out[] = 'contenido (' . count($files) . '): ' . (count($files) ? implode(', ', $files) : '(vacio)');
-    }
-
-    $realBgPath = storage_path('app/public/images/backgrounds');
-    $out[] = '';
-    $out[] = 'storage/app/public/images/backgrounds existe: ' . (is_dir($realBgPath) ? 'si' : 'NO');
-    if (is_dir($realBgPath)) {
-        $files2 = array_diff(scandir($realBgPath), ['.', '..']);
-        $out[] = 'contenido (' . count($files2) . '): ' . (count($files2) ? implode(', ', $files2) : '(vacio)');
-    }
-
-    $out[] = '';
-    $out[] = '--- Config de subida de archivos (PHP) ---';
-    $out[] = 'upload_max_filesize: ' . ini_get('upload_max_filesize');
-    $out[] = 'post_max_size: ' . ini_get('post_max_size');
-    $out[] = 'file_uploads: ' . (ini_get('file_uploads') ? 'On' : 'Off');
-    $out[] = 'upload_tmp_dir: ' . (ini_get('upload_tmp_dir') ?: sys_get_temp_dir() . ' (default sistema)');
-    $out[] = 'tmp dir escribible: ' . (is_writable(ini_get('upload_tmp_dir') ?: sys_get_temp_dir()) ? 'si' : 'NO');
-    $out[] = 'public/storage escribible: ' . (is_writable($storagePath) ? 'si' : 'NO');
-
-    return '<pre>' . implode("\n", $out) . '</pre>';
-});
-
 //administrador de recursos para los roles
 Route::ApiResource('roles', 'Role\RoleController');
 Route::get('roles-all', 'Role\RoleController@all');
