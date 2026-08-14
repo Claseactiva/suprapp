@@ -185,7 +185,7 @@
                         <td data-table-label="ID">
                             <span class="quotationclient-id-preview"
                                 :title="productPreviewTitle(quotationLocal)">
-                                {{ quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo }}
+                                {{ quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo + (quotationLocal.correlativo_suffix ? '.' + quotationLocal.correlativo_suffix : '') }}
                             </span>
                         </td>
                         <td data-table-label="Generado" class="quotationclient-status-cell">

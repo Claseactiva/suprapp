@@ -12,7 +12,7 @@ class DeliveryTimeController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
+        $userId = Auth::user()->effectiveTallerId();
 
         $deliveryTimes = DeliveryTime::where('user_id', $userId)
             ->orderByDesc('is_default')

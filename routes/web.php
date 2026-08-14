@@ -405,11 +405,11 @@ Route::middleware(['auth', 'device.session'])->group(function () {
 
     Route::get('admin-cotizaciones-formales', function () {
         return view('admin.cotizaciones-formales');
-    })->name('admin-cotizaciones-formales'); //->middleware('permission:cotizaciones');
+    })->name('admin-cotizaciones-formales')->middleware('permission:cotizaciones');
 
     Route::get('admin-cotizacion-reparacion', function () {
         return view('admin.cotizacion-reparacion');
-    })->name('admin-cotizacion-reparacion'); //->middleware('permission:cotizaciones');
+    })->name('admin-cotizacion-reparacion')->middleware('permission:cotizacion_reparacion');
 
     Route::get('admin-importaciones', function () {
         return view('admin.importaciones');

@@ -12,7 +12,7 @@ class UtilityController extends Controller
 {
     public function index()
     {
-        $latestUtility = Utility::where('user_id', Auth::id())->latest()->first();
+        $latestUtility = Utility::where('user_id', Auth::user()->effectiveTallerId())->latest()->first();
 
         return $latestUtility;
     }

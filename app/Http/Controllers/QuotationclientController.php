@@ -68,6 +68,7 @@ class QuotationclientController extends Controller
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
+                    'quotationclients.correlativo_suffix',
                     DB::raw("COALESCE(clients.rut, '') AS rut"),
                     DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
@@ -130,6 +131,7 @@ class QuotationclientController extends Controller
                     'quotationclients.user_id',
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
+                    'quotationclients.correlativo_suffix',
                     DB::raw("COALESCE(clients.rut, '') AS rut"),
                     DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
@@ -273,7 +275,6 @@ class QuotationclientController extends Controller
 
             $data = $request->all();
             $user_id = Auth::id();
-            $correlativo = $this->nextCorrelativo($user_id);
             $payment = $this->resolvePaymentName($data['payment'] ?? null);
             $clientId = $this->resolveClientId($data['client_id'] ?? null);
             $vehicle = trim($data['vehicle'] ?? '');
@@ -308,10 +309,13 @@ class QuotationclientController extends Controller
 
 
             if ($clientePart) {
-                $clients = Client::where('user_id', '=', $user_id)->where('type', '=', 'Cliente Particular')->get();
+                $client = Client::where('user_id', '=', $user_id)
+                    ->where('type', '=', 'Cliente Particular')
+                    ->orderBy('id')
+                    ->first();
 
-                if ($clients->count() == 0) {
-                    $client_id = Client::create([
+                if (!$client) {
+                    $client = Client::create([
                         'user_id' => $user_id,
                         'type' => 'Cliente Particular',
                         'rut' => null,
@@ -322,66 +326,31 @@ class QuotationclientController extends Controller
                         'address' => null,
                         'comuna' => null,
                         'giro' => 'Cliente Particular',
-                    ])->id;
-
-                    $quotation_id = Quotationclient::create([
-                        'user_id' => $user_id,
-                        'client_id' => $client_id,
-                        'correlativo' => $correlativo,
-                        'state' => 'Pendiente',
-                        'payment' => $payment,
-                        'client_text' => $clientText,
-                        'vehicle' => $vehicle,
-                        'vehicle_model_id' => $vehicleModelId,
-                        'generado' => $data['generado'],
-                        'url' => $url,
-                        'telefono' => $telefono,
-                        'ppu' => $ppu,
-                        'tipo' => $tipo,
-                        'show_part_number' => $showPartNumber
-                    ])->id;
-                } else {
-                    foreach ($clients as $client) {
-                        $quotation_id = Quotationclient::create(
-                            [
-                                'user_id' => $user_id,
-                                'client_id' => $client->id,
-                                'correlativo' => $correlativo,
-                                'state' => 'Pendiente',
-                                'payment' => $payment,
-                                'client_text' => $clientText,
-                                'vehicle' => $vehicle,
-                                'vehicle_model_id' => $vehicleModelId,
-                                'generado' => $data['generado'],
-                                'url' => $url,
-                                'telefono' => $telefono,
-                                'ppu' => $ppu,
-                                'tipo' => $tipo,
-                                'show_part_number' => $showPartNumber
-                            ]
-                        )->id;
-                    }
+                    ]);
                 }
-            } else {
-                $quotation_id = Quotationclient::create(
-                    [
-                        'user_id' => $user_id,
-                        'client_id' => $clientId,
-                        'correlativo' => $correlativo,
-                        'state' => 'Pendiente',
-                        'payment' => $payment,
-                        'client_text' => $clientText,
-                        'vehicle' => $vehicle,
-                        'vehicle_model_id' => $vehicleModelId,
-                        'generado' => $data['generado'],
-                        'url' => $url,
-                        'telefono' => $telefono,
-                        'ppu' => $ppu,
-                        'tipo' => $tipo,
-                        'show_part_number' => $showPartNumber
-                    ]
-                )->id;
+
+                $clientId = $client->id;
             }
+
+            $correlativo = $this->nextCorrelativo($user_id);
+
+            $quotation_id = Quotationclient::create([
+                'user_id' => $user_id,
+                'client_id' => $clientId,
+                'correlativo' => $correlativo['correlativo'],
+                'correlativo_suffix' => $correlativo['correlativo_suffix'],
+                'state' => 'Pendiente',
+                'payment' => $payment,
+                'client_text' => $clientText,
+                'vehicle' => $vehicle,
+                'vehicle_model_id' => $vehicleModelId,
+                'generado' => $data['generado'],
+                'url' => $url,
+                'telefono' => $telefono,
+                'ppu' => $ppu,
+                'tipo' => $tipo,
+                'show_part_number' => $showPartNumber
+            ])->id;
 
 
             return $quotation_id;
@@ -513,7 +482,8 @@ class QuotationclientController extends Controller
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
             } else {
-                return $pdf->stream('cotizacion N° ' . $quotation->correlativo . '.pdf');
+                $numero = $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '');
+                return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -546,7 +516,8 @@ class QuotationclientController extends Controller
             if ($quotation->user_id === 1) {
                 return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
             } else {
-                return $pdf->stream('cotizacion N° ' . $quotation->correlativo . '.pdf');
+                $numero = $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '');
+                return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
             }
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -665,10 +636,12 @@ class QuotationclientController extends Controller
 
         $newQuotation = DB::transaction(function () use ($quotation) {
             $vehicleModelProductService = app(VehicleModelProductService::class);
+            $correlativo = $this->nextCorrelativo($quotation->user_id);
             $newQuotation = Quotationclient::create([
                 'user_id' => $quotation->user_id,
                 'client_id' => $this->resolveClientId($quotation->client_id),
-                'correlativo' => $this->nextCorrelativo($quotation->user_id),
+                'correlativo' => $correlativo['correlativo'],
+                'correlativo_suffix' => $correlativo['correlativo_suffix'],
                 'state' => 'Pendiente',
                 'payment' => $this->resolvePaymentName($quotation->payment),
                 'client_text' => trim($quotation->client_text ?? ''),
@@ -706,22 +679,54 @@ class QuotationclientController extends Controller
         return response()->json(['id' => $newQuotation->id]);
     }
 
+    /**
+     * Calcula el correlativo (y sufijo) de una nueva cotizacion segun quien la crea.
+     * El dueno del taller avanza el numero base normalmente. Un vendedor
+     * (sub-usuario "Workshop Personal") NO avanza el numero base: toma el
+     * ultimo del dueno y le agrega un sufijo .1, .2, ... que se reinicia
+     * cada vez que el dueno genera una cotizacion nueva.
+     *
+     * @return array{correlativo: int, correlativo_suffix: int|null}
+     */
     private function nextCorrelativo($userId)
     {
-        if ((int) $userId === 1) {
-            return 0;
+        $user = User::find($userId);
+        $ownerId = $user ? $user->effectiveTallerId() : (int) $userId;
+        $isOwner = ((int) $userId === (int) $ownerId);
+
+        $base = $this->latestOwnerCorrelativoBase($ownerId);
+
+        if ($isOwner) {
+            return ['correlativo' => $base + 1, 'correlativo_suffix' => null];
         }
 
-        $quotationclient = Quotationclient::where('user_id', '=', $userId)
+        $lastSuffix = Quotationclient::whereIn('user_id', $user->teamUserIds())
+            ->where('correlativo', $base)
+            ->whereNotNull('correlativo_suffix')
+            ->max('correlativo_suffix');
+
+        return ['correlativo' => $base, 'correlativo_suffix' => $lastSuffix === null ? 1 : ((int) $lastSuffix) + 1];
+    }
+
+    /**
+     * Ultimo numero mostrado para las cotizaciones creadas por el propio
+     * dueno del taller (no por sus vendedores). La cuenta 1 no usa la
+     * columna 'correlativo' (queda en 0), muestra directamente el id de
+     * la fila, asi que la base para esa cuenta se toma del id.
+     */
+    private function latestOwnerCorrelativoBase($ownerId)
+    {
+        if ((int) $ownerId === 1) {
+            return (int) (Quotationclient::where('user_id', 1)->max('id') ?? 0);
+        }
+
+        $quotationclient = Quotationclient::where('user_id', '=', $ownerId)
+            ->whereNull('correlativo_suffix')
             ->select('correlativo')
             ->latest()
             ->first();
 
-        if ($quotationclient === null) {
-            return 0;
-        }
-
-        return ((int) $quotationclient->correlativo) + 1;
+        return $quotationclient === null ? 0 : (int) $quotationclient->correlativo;
     }
 
     private function resolvePaymentName($payment)

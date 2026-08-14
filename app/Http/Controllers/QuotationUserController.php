@@ -98,72 +98,69 @@ class QuotationUserController extends Controller
         $items = is_array($data['items'] ?? null) ? $data['items'] : [];
         $phone = '';
 
-        $clients = Client::whereIn('user_id', Auth::user()->teamUserIds())->where('type', '=', 'Cliente Particular')->get();
+        $client = Client::whereIn('user_id', Auth::user()->teamUserIds())
+            ->where('type', '=', 'Cliente Particular')
+            ->orderBy('id')
+            ->first();
 
-        if ($clients->count() == 0) {
-            $clients = collect([
-                Client::create([
-                    'user_id' => $user_id_logeado,
-                    'type' => 'Cliente Particular',
-                    'rut' => null,
-                    'razonSocial' => 'Cliente Particular',
-                    'phone' => null,
-                    'telefono' => null,
-                    'email' => null,
-                    'address' => null,
-                    'comuna' => null,
-                    'giro' => 'Cliente Particular',
-                ])
+        if (!$client) {
+            $client = Client::create([
+                'user_id' => $user_id_logeado,
+                'type' => 'Cliente Particular',
+                'rut' => null,
+                'razonSocial' => 'Cliente Particular',
+                'phone' => null,
+                'telefono' => null,
+                'email' => null,
+                'address' => null,
+                'comuna' => null,
+                'giro' => 'Cliente Particular',
             ]);
         }
 
-        foreach ($clients as $client) {
-            $quotation_id = Quotationclient::create([
-                'user_id' => $user_id_logeado,
-                'client_id' => $client->id,
-                'state' => 'Pendiente',
-                'payment' => 'Contado',
-                'client_text' => $name,
-                'vehicle' => $this->buildVehicleText($brand, $model, $year, $engine),
-                'generado' => 4,
-                'tipo_detalle' => 1
-            ])->id;
+        $quotation_id = Quotationclient::create([
+            'user_id' => $user_id_logeado,
+            'client_id' => $client->id,
+            'state' => 'Pendiente',
+            'payment' => 'Contado',
+            'client_text' => $name,
+            'vehicle' => $this->buildVehicleText($brand, $model, $year, $engine),
+            'generado' => 4,
+            'tipo_detalle' => 1
+        ])->id;
 
-            $user_id = QuotationUser::create([
-                'name' => $name,
-                'email' => $email,
-                'quotation_id' => $quotation_id
-            ])->id;
+        $user_id = QuotationUser::create([
+            'name' => $name,
+            'email' => $email,
+            'quotation_id' => $quotation_id
+        ])->id;
 
-            $quotation = QuotationUserVehicle::create([
-                'patentchasis' => $patentchasis,
-                'user_id' => $user_id,
-                'brand' => $brand,
-                'model' => $model,
-                'year' => $year,
-                'engine' => $engine,
-                'email' => $email,
-                'description' => $description
-            ])->id;
+        $quotation = QuotationUserVehicle::create([
+            'patentchasis' => $patentchasis,
+            'user_id' => $user_id,
+            'brand' => $brand,
+            'model' => $model,
+            'year' => $year,
+            'engine' => $engine,
+            'email' => $email,
+            'description' => $description
+        ])->id;
 
-            foreach ($items as $item) {
-                $itemDescription = trim((string) ($item['description'] ?? ''));
+        foreach ($items as $item) {
+            $itemDescription = trim((string) ($item['description'] ?? ''));
 
-                if ($itemDescription === '') {
-                    continue;
-                }
-
-                QuotationUserVehicleItem::create([
-                    'quotation_user_vehicle_id' => $quotation,
-                    'description' => $itemDescription,
-                    'qty' => max(1, (int) ($item['qty'] ?? 1)),
-                ]);
+            if ($itemDescription === '') {
+                continue;
             }
+
+            QuotationUserVehicleItem::create([
+                'quotation_user_vehicle_id' => $quotation,
+                'description' => $itemDescription,
+                'qty' => max(1, (int) ($item['qty'] ?? 1)),
+            ]);
         }
 
-        if (isset($quotation)) {
-            $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
-        }
+        $this->notifyPublicQuotationAfterResponse($name, $email, $phone, $patentchasis, $description);
 
         return response()->json([
             'valid' => true,

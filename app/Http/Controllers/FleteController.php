@@ -12,7 +12,7 @@ class FleteController extends Controller
 {
     public function index()
     {
-        $latestFlete = Flete::where('user_id', Auth::id())->latest()->first();
+        $latestFlete = Flete::where('user_id', Auth::user()->effectiveTallerId())->latest()->first();
 
         return $latestFlete;
     }

@@ -104,6 +104,8 @@ export default {
         permissionLabel(name) {
             const labels = {
                 utilidades: 'Configuraciones',
+                cotizaciones: 'Cotizaciones',
+                cotizacion_reparacion: 'Cotización Reparación',
             }
 
             return labels[name] || name

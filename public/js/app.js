@@ -7634,7 +7634,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updateRole', 'getAllPermissions'])), {}, {
     permissionLabel: function permissionLabel(name) {
       var labels = {
-        utilidades: 'Configuraciones'
+        utilidades: 'Configuraciones',
+        cotizaciones: 'Cotizaciones',
+        cotizacion_reparacion: 'Cotización Reparación'
       };
       return labels[name] || name;
     }
@@ -27637,7 +27639,7 @@ var render = function render() {
       attrs: {
         title: _vm.productPreviewTitle(quotationLocal)
       }
-    }, [_vm._v("\n                            " + _vm._s(quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo) + "\n                        ")])]), _vm._v(" "), _c("td", {
+    }, [_vm._v("\n                            " + _vm._s(quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo + (quotationLocal.correlativo_suffix ? "." + quotationLocal.correlativo_suffix : "")) + "\n                        ")])]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-status-cell",
       attrs: {
         "data-table-label": "Generado"

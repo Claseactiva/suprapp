@@ -142,7 +142,7 @@
                 </li>
             @endcan
 
-            @can('cotizaciones')
+            @can('cotizacion_reparacion')
                 <li id="cotizacion-reparacion"
                     class="nav-item {{ request()->routeIs('admin-cotizacion-reparacion') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin-cotizacion-reparacion') }}">

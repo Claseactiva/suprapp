@@ -28,7 +28,7 @@
                         @if ($quotation->user_id === 1)
                             N° {{ $quotation->id }}
                         @else
-                            N° {{ $quotation->correlativo }}
+                            N° {{ $quotation->correlativo }}{{ $quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '' }}
                         @endif
                     </p>
                     <p class="oc-meta">FECHA: {{ $quotation->created_at->format('d/m/Y') }}</p>
