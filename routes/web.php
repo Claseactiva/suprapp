@@ -373,7 +373,7 @@ Route::middleware(['auth', 'device.session'])->group(function () {
 
     Route::get('admin-motores', function () {
         return view('admin.motores');
-    })->name('admin-motores'); //->middleware('permission:vehiculos');
+    })->name('admin-motores')->middleware('permission:motores');
 
     Route::get('admin-modelo-vehiculos', function () {
         return view('admin.modelos-vehiculo');

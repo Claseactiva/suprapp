@@ -7633,7 +7633,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       var labels = {
         utilidades: 'Configuraciones',
         cotizaciones: 'Cotizaciones',
-        cotizacion_reparacion: 'Cotización Reparación'
+        cotizacion_reparacion: 'Cotización Reparación',
+        vehiculos: 'Registro Vehículos',
+        motores: 'Motores'
       };
       return labels[name] || name;
     }

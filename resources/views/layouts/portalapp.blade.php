@@ -199,7 +199,7 @@
                                     <span>Marcas y Modelos de Vehículos</span></a>
                             </li>
                         @endcan
-                        @can('vehiculos')
+                        @can('motores')
                             <li class="nav-item {{ request()->routeIs('admin-motores') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin-motores') }}">
                                     <span>Motores</span></a>

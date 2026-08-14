@@ -210,6 +210,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_12_000004_add_created_by_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_12_000004_add_created_by_to_motors_table.php
     - /bin/cp -f database/migrations/2026_08_14_000001_create_cotizacion_reparacion_permission.php $DEPLOYPATH/database/migrations/2026_08_14_000001_create_cotizacion_reparacion_permission.php
     - /bin/cp -f database/migrations/2026_08_14_000002_add_correlativo_suffix_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_14_000002_add_correlativo_suffix_to_quotationclients_table.php
+    - /bin/cp -f database/migrations/2026_08_14_000003_create_motores_permission.php $DEPLOYPATH/database/migrations/2026_08_14_000003_create_motores_permission.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

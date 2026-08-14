@@ -106,6 +106,8 @@ export default {
                 utilidades: 'Configuraciones',
                 cotizaciones: 'Cotizaciones',
                 cotizacion_reparacion: 'Cotización Reparación',
+                vehiculos: 'Registro Vehículos',
+                motores: 'Motores',
             }
 
             return labels[name] || name
