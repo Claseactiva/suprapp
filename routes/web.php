@@ -433,3 +433,43 @@ Route::get('/storage-link', function () {
     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
     symlink($targetFolder, $linkFolder);
 });
+
+// RUTA TEMPORAL: diagnostico de solo lectura, "Cliente Particular" duplicados por cuenta.
+// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE UNA VEZ.
+Route::get('debug-particular-dup-dfa407c058e88e1a32e7b4b92978bdf404b401ef', function () {
+    $duplicated = \Illuminate\Support\Facades\DB::table('clients')
+        ->where('type', 'Cliente Particular')
+        ->select('user_id', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+        ->groupBy('user_id')
+        ->having('total', '>', 1)
+        ->get();
+
+    $detail = [];
+    foreach ($duplicated as $row) {
+        $clients = \Illuminate\Support\Facades\DB::table('clients')
+            ->where('user_id', $row->user_id)
+            ->where('type', 'Cliente Particular')
+            ->orderBy('id')
+            ->get(['id', 'created_at']);
+
+        $clientsWithCounts = [];
+        foreach ($clients as $c) {
+            $clientsWithCounts[] = [
+                'client_id' => $c->id,
+                'created_at' => $c->created_at,
+                'quotationclients' => \Illuminate\Support\Facades\DB::table('quotationclients')->where('client_id', $c->id)->count(),
+            ];
+        }
+
+        $detail[] = [
+            'user_id' => $row->user_id,
+            'duplicate_clients' => $row->total,
+            'clients' => $clientsWithCounts,
+        ];
+    }
+
+    return response()->json([
+        'accounts_with_duplicates' => count($duplicated),
+        'detail' => $detail,
+    ]);
+});
