@@ -12,6 +12,7 @@ use App\Models\QuotationUserVehicle;
 use App\Models\QuotationUserImage;
 use App\Models\VehicleModel;
 use App\Models\QuotationSparePart;
+use App\Models\IndependentLinkRequest;
 use App\Services\VehicleModelProductService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class QuotationclientController extends Controller
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
                     'quotationclients.correlativo_suffix',
+                    'quotationclients.shared_from_user_id',
                     DB::raw("COALESCE(clients.rut, '') AS rut"),
                     DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
@@ -132,6 +134,7 @@ class QuotationclientController extends Controller
                     'quotationclients.client_id',
                     'quotationclients.correlativo',
                     'quotationclients.correlativo_suffix',
+                    'quotationclients.shared_from_user_id',
                     DB::raw("COALESCE(clients.rut, '') AS rut"),
                     DB::raw("COALESCE(clients.razonSocial, '') AS razonSocial"),
                     'quotationclients.client_text',
@@ -667,6 +670,84 @@ class QuotationclientController extends Controller
             }
 
             return $newQuotation;
+        });
+
+        return response()->json(['id' => $newQuotation->id]);
+    }
+
+    /**
+     * Una cuenta independiente comparte UNA cotizacion suya con el admin con el
+     * que tiene una vinculacion aceptada. Crea una copia totalmente aparte
+     * (cliente propio, correlativo propio, user_id del admin) en la cuenta del
+     * admin, para que salga con su logo y quede editable ahi sin tocar el
+     * original ni exponer nada mas de la cuenta independiente.
+     */
+    public function share($id)
+    {
+        $quotation = Quotationclient::with(['detailclients.images', 'quotationSpareParts.images', 'client'])
+            ->findOrFail($id);
+        $ownerId = (int) Auth::id();
+
+        abort_unless((int) $quotation->user_id === $ownerId, 403);
+        abort_unless((bool) Auth::user()->is_independent, 403);
+
+        $link = IndependentLinkRequest::where('owner_user_id', $ownerId)
+            ->where('status', 'accepted')
+            ->first();
+        abort_unless($link, 403, 'No tienes una vinculacion aceptada para compartir cotizaciones.');
+
+        $adminId = (int) $link->admin_id;
+
+        $newQuotation = DB::transaction(function () use ($quotation, $adminId, $ownerId) {
+            $newClient = null;
+
+            if ($quotation->client) {
+                $newClient = $quotation->client->replicate();
+                $newClient->user_id = $adminId;
+                $newClient->save();
+            }
+
+            $correlativo = $this->nextCorrelativo($adminId);
+
+            $copy = $quotation->replicate(['correlativo', 'correlativo_suffix']);
+            $copy->user_id = $adminId;
+            $copy->client_id = $newClient ? $newClient->id : $this->resolveClientId(null);
+            $copy->correlativo = $correlativo['correlativo'];
+            $copy->correlativo_suffix = $correlativo['correlativo_suffix'];
+            $copy->state = 'Pendiente';
+            $copy->generado_client = 0;
+            $copy->shared_from_user_id = $ownerId;
+            $copy->save();
+
+            $vehicleModelProductService = app(VehicleModelProductService::class);
+
+            foreach ($quotation->detailclients as $detail) {
+                $newDetail = $detail->replicate();
+                $newDetail->quotationclient_id = $copy->id;
+                $newDetail->save();
+
+                foreach ($detail->images as $image) {
+                    $newImage = $image->replicate();
+                    $newImage->detailclient_id = $newDetail->id;
+                    $newImage->save();
+                }
+
+                $vehicleModelProductService->syncDetailclient($newDetail);
+            }
+
+            foreach ($quotation->quotationSpareParts as $sparePart) {
+                $newSparePart = $sparePart->replicate();
+                $newSparePart->quotationclient_id = $copy->id;
+                $newSparePart->save();
+
+                foreach ($sparePart->images as $image) {
+                    $newImage = $image->replicate();
+                    $newImage->quotation_spare_part_id = $newSparePart->id;
+                    $newImage->save();
+                }
+            }
+
+            return $copy;
         });
 
         return response()->json(['id' => $newQuotation->id]);

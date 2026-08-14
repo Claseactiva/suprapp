@@ -23,6 +23,10 @@ Route::ApiResource('permissions', 'Permission\PermissionController')->only('inde
 Route::ApiResource('users', 'User\UserController');
 Route::post('users/{id}/send-password-reset', 'User\UserController@sendPasswordReset');
 Route::get('users/{id}/metrics', 'User\UserController@metrics');
+Route::get('independent-link-requests', 'IndependentLinkController@index');
+Route::post('independent-link-requests', 'IndependentLinkController@store');
+Route::put('independent-link-requests/{id}/accept', 'IndependentLinkController@accept');
+Route::put('independent-link-requests/{id}/reject', 'IndependentLinkController@reject');
 Route::get('quotation-roles', 'User\UserController@quotation_roles');
 Route::put('cant-vehicle-user/{id}', 'User\UserController@updateCantVehicleUser');
 Route::put('cant-cli-vehi-user/{id}', 'User\UserController@updateCantCliVehiUser');
@@ -173,6 +177,7 @@ Route::get('quotationusers/{id}', 'QuotationclientController@forms');
 Route::get('quotationclient-pdf/{id}', 'QuotationclientController@pdf');
 Route::get('quotationclient-pdf-iva/{id}', 'QuotationclientController@pdfIva');
 Route::post('quotationclients/{id}/replicate', 'QuotationclientController@replicate');
+Route::post('quotationclients/{id}/share', 'QuotationclientController@share');
 Route::get('vehicleclients-all', 'QuotationclientController@all');
 Route::post('actualizar-correlativo', 'QuotationclientController@correlativoQuotation');
 Route::post('spare-part', 'QuotationclientController@sparePart');

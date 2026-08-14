@@ -136,6 +136,27 @@
                                     <i class="fas fa-chart-bar"></i>
                                 </button>
 
+                                <button v-if="userLocal.is_independent && !userLocal.independent_link_status"
+                                    class="btn btn-outline-info" @click.prevent="requestIndependentLink({ userId: userLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Solicitar vinculación para compartir cotizaciones">
+                                    <i class="fas fa-link"></i>
+                                </button>
+                                <span v-if="userLocal.is_independent && userLocal.independent_link_status === 'pending'"
+                                    class="badge badge-warning" data-toggle="tooltip" data-placement="top"
+                                    title="Esperando que la cuenta acepte la vinculación">
+                                    Vinculación pendiente
+                                </span>
+                                <span v-if="userLocal.is_independent && userLocal.independent_link_status === 'accepted'"
+                                    class="badge badge-success" data-toggle="tooltip" data-placement="top"
+                                    title="Puede compartirte cotizaciones">
+                                    Vinculado
+                                </span>
+                                <button v-if="userLocal.is_independent && userLocal.independent_link_status === 'rejected'"
+                                    class="btn btn-outline-danger" @click.prevent="requestIndependentLink({ userId: userLocal.id })"
+                                    data-toggle="tooltip" data-placement="top" title="Vinculación rechazada, reintentar">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+
                                 <button class="btn btn-dark" @click.prevent="editUserCompanies({ userLocal })"
                                     data-toggle="tooltip" data-placement="top" title="Empresas asignadas">
                                     <i class="fas fa-industry"></i>
@@ -242,7 +263,7 @@ export default {
     },
     methods: {
         ...mapActions(['getUsers', 'createUser',
-            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset', 'editUserCompanies'])
+            'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset', 'editUserCompanies', 'requestIndependentLink'])
     },
     created() {
         loadProgressBar()

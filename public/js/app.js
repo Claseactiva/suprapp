@@ -6451,7 +6451,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       "default": 'repuesto'
     }
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient'])), (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapGetters)(['isActived', 'pagesNumber'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapState)(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient', 'fillUser', 'myLinkRequests'])), (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapGetters)(['isActived', 'pagesNumber'])), {}, {
+    canShareWithAdmin: function canShareWithAdmin() {
+      return this.fillUser.is_independent && this.myLinkRequests.some(function (link) {
+        return link.status === 'accepted';
+      });
+    },
     dateRange: {
       get: function get() {
         return [this.searchQuotationClient.date_from || null, this.searchQuotationClient.date_to || null];
@@ -6462,7 +6467,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_21__.mapActions)(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic', 'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient'])), {}, {
     contactLinks: function contactLinks(quotationLocal) {
       var links = [];
       var messengerUrl = (quotationLocal.url || '').trim();
@@ -6537,6 +6542,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.$store.dispatch('getRolesQuotation');
     this.$store.dispatch('allPagos');
+    this.$store.dispatch('getUser');
+    this.$store.dispatch('getMyLinkRequests');
   }
 });
 
@@ -8117,7 +8124,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       lightTables: localStorage.getItem('theme-light-tables') === '1'
     };
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel', 'fillUser', 'backgroundImages', 'newBackgroundImage', 'attachmentBackgroundImage', 'selectedBackgroundImagePath'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)([])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapState)(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel', 'fillUser', 'backgroundImages', 'newBackgroundImage', 'attachmentBackgroundImage', 'selectedBackgroundImagePath', 'myLinkRequests'])), (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)([])), {}, {
     isAdmin: function isAdmin() {
       return this.fillUser.roles.some(function (role) {
         return role.name === 'admin';
@@ -8130,7 +8137,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       return window.location.origin + '/registro/' + (this.fillUser.cotizar_id || this.fillUser.id);
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapActions)(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage', 'getMyLinkRequests', 'acceptIndependentLink', 'rejectIndependentLink'])), {}, {
     formatImage: _utils_imageUtils__WEBPACK_IMPORTED_MODULE_3__.formatImage,
     copyCotizarLink: function copyCotizarLink() {
       var _this = this;
@@ -8209,6 +8216,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.$store.dispatch('getUser');
     this.$store.dispatch('getCompany');
     this.$store.dispatch('getBackgroundImages');
+    this.$store.dispatch('getMyLinkRequests');
   }
 });
 
@@ -8400,7 +8408,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     EditUserCompanies: _EditUserCompanies__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_10__.mapState)(['users', 'newUser', 'pagination', 'offset', 'errorsLaravel'])), (0,vuex__WEBPACK_IMPORTED_MODULE_10__.mapGetters)(['isActived', 'pagesNumber'])),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_10__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset', 'editUserCompanies'])),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_10__.mapActions)(['getUsers', 'createUser', 'editUser', 'modalDeleteUser', 'deleteUser', 'editCantCliVehi', 'editUserRoles', 'changePageUser', 'modalUserDevices', 'modalUserMetrics', 'sendPasswordReset', 'editUserCompanies', 'requestIndependentLink'])),
   created: function created() {
     (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_0__.loadProgressBar)();
     this.$store.dispatch('getUsers', {
@@ -27671,7 +27679,16 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-tools"
-    })]) : _vm._e()]), _vm._v(" "), _c("td", {
+    })]) : _vm._e(), _vm._v(" "), quotationLocal.shared_from_user_id ? _c("span", {
+      staticClass: "badge badge-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Compartida por una cuenta independiente"
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-share-alt"
+    }), _vm._v(" Compartida\n                        ")]) : _vm._e()]), _vm._v(" "), _c("td", {
       attrs: {
         "data-table-label": "Estado"
       }
@@ -27829,7 +27846,22 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-copy mr-2"
-    }), _vm._v("Duplicar\n                                ")])])]), _vm._v(" "), _c("a", {
+    }), _vm._v("Duplicar\n                                ")]), _vm._v(" "), _vm.canShareWithAdmin ? _c("a", {
+      staticClass: "dropdown-item",
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.shareQuotationclient({
+            id: quotationLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-share-alt mr-2"
+    }), _vm._v("Compartir con administrador\n                                ")]) : _vm._e()])]), _vm._v(" "), _c("a", {
       staticClass: "btn btn-danger btn-sm quotationclient-icon-btn",
       attrs: {
         href: "#",
@@ -32574,7 +32606,19 @@ var render = function render() {
     on: {
       click: _vm.getDeviceSessions
     }
-  }, [_vm._v("Mis Dispositivos")])]), _vm._v(" "), _vm._m(2)]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Mis Dispositivos")])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm.fillUser.is_independent ? _c("li", {
+    staticClass: "nav-item"
+  }, [_c("a", {
+    staticClass: "nav-link",
+    attrs: {
+      id: "link-tab",
+      "data-toggle": "tab",
+      href: "#link",
+      role: "tab",
+      "aria-controls": "link",
+      "aria-selected": "false"
+    }
+  }, [_vm._v("Vinculación")])]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "tab-content bg-white",
     attrs: {
       id: "myTabContent"
@@ -32850,7 +32894,64 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-plus-square"
-  }), _vm._v(" Agregar a la paleta\n                ")])], 2) : _vm._e()]), _vm._v(" "), _c("div", {
+  }), _vm._v(" Agregar a la paleta\n                ")])], 2) : _vm._e()]), _vm._v(" "), _vm.fillUser.is_independent ? _c("div", {
+    staticClass: "tab-pane fade p-4",
+    attrs: {
+      id: "link",
+      role: "tabpanel",
+      "aria-labelledby": "link-tab"
+    }
+  }, [_vm.myLinkRequests.length === 0 ? _c("div", {
+    staticClass: "alert alert-info"
+  }, [_vm._v("\n                No tienes solicitudes de vinculación.\n            ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.myLinkRequests, function (link) {
+    return _c("div", {
+      key: link.id,
+      staticClass: "card mb-3"
+    }, [_c("div", {
+      staticClass: "card-body d-flex justify-content-between align-items-center"
+    }, [_c("div", [_c("p", {
+      staticClass: "mb-1"
+    }, [_vm._v("Solicitud de vinculación con el administrador")]), _vm._v(" "), link.status === "pending" ? _c("span", {
+      staticClass: "badge badge-warning"
+    }, [_vm._v("Pendiente")]) : _vm._e(), _vm._v(" "), link.status === "accepted" ? _c("span", {
+      staticClass: "badge badge-success"
+    }, [_vm._v("Aceptada")]) : _vm._e(), _vm._v(" "), link.status === "rejected" ? _c("span", {
+      staticClass: "badge badge-secondary"
+    }, [_vm._v("Rechazada")]) : _vm._e()]), _vm._v(" "), link.status === "pending" ? _c("div", [_c("button", {
+      staticClass: "btn btn-success btn-sm mr-2",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.acceptIndependentLink({
+            id: link.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-check"
+    }), _vm._v(" Aceptar\n                        ")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger btn-sm",
+      attrs: {
+        type: "button"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.rejectIndependentLink({
+            id: link.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-times"
+    }), _vm._v(" Rechazar\n                        ")])]) : _vm._e()])]);
+  }), _vm._v(" "), _c("p", {
+    staticClass: "text-muted",
+    staticStyle: {
+      "font-size": "0.85rem"
+    }
+  }, [_vm._v('\n                Al aceptar, vas a poder compartir cotizaciones puntuales tuyas con el administrador desde el botón\n                "Compartir" de cada cotización. El resto de tus datos sigue sin ser visible para el administrador.\n            ')])], 2) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "tab-pane fade show active p-4",
     attrs: {
       id: "company",
@@ -34178,6 +34279,54 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-chart-bar"
+    })]) : _vm._e(), _vm._v(" "), userLocal.is_independent && !userLocal.independent_link_status ? _c("button", {
+      staticClass: "btn btn-outline-info",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Solicitar vinculación para compartir cotizaciones"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.requestIndependentLink({
+            userId: userLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-link"
+    })]) : _vm._e(), _vm._v(" "), userLocal.is_independent && userLocal.independent_link_status === "pending" ? _c("span", {
+      staticClass: "badge badge-warning",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Esperando que la cuenta acepte la vinculación"
+      }
+    }, [_vm._v("\n                                Vinculación pendiente\n                            ")]) : _vm._e(), _vm._v(" "), userLocal.is_independent && userLocal.independent_link_status === "accepted" ? _c("span", {
+      staticClass: "badge badge-success",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Puede compartirte cotizaciones"
+      }
+    }, [_vm._v("\n                                Vinculado\n                            ")]) : _vm._e(), _vm._v(" "), userLocal.is_independent && userLocal.independent_link_status === "rejected" ? _c("button", {
+      staticClass: "btn btn-outline-danger",
+      attrs: {
+        "data-toggle": "tooltip",
+        "data-placement": "top",
+        title: "Vinculación rechazada, reintentar"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.requestIndependentLink({
+            userId: userLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-redo"
     })]) : _vm._e(), _vm._v(" "), _c("button", {
       staticClass: "btn btn-dark",
       attrs: {
@@ -42126,6 +42275,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       context.commit('getQuotationclients', 1);
     }, 1000);
   },
+  shareQuotationclient: function shareQuotationclient(context, data) {
+    context.commit('shareQuotationclient', data.id);
+  },
   showModalDeleteQuotationclient: function showModalDeleteQuotationclient(context, data) {
     context.commit('showModalDeleteQuotationclient', data.id);
   },
@@ -42767,6 +42919,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   revokeUserDeviceSession: function revokeUserDeviceSession(context, data) {
     context.commit('revokeUserDeviceSession', data);
+  },
+  requestIndependentLink: function requestIndependentLink(context, data) {
+    context.commit('requestIndependentLink', data.userId);
+  },
+  getMyLinkRequests: function getMyLinkRequests(context) {
+    context.commit('getMyLinkRequests');
+  },
+  acceptIndependentLink: function acceptIndependentLink(context, data) {
+    context.commit('acceptIndependentLink', data.id);
+  },
+  rejectIndependentLink: function rejectIndependentLink(context, data) {
+    context.commit('rejectIndependentLink', data.id);
   },
   getCantidadVehiculoOptions: function getCantidadVehiculoOptions(context) {
     context.commit('getCantidadVehiculoOptions');
@@ -43655,6 +43819,7 @@ var urlRoles = 'roles';
 var urlAllRoles = 'roles-all';
 var urlUserRoles = 'usersRoles';
 var urlAllPermissions = 'permissions';
+var urlIndependentLink = 'independent-link-requests';
 var urlQuotationusers = 'quotationusers';
 var urlVehicle = 'vehicles';
 var urlVehicleUser = 'vehicles-user';
@@ -45984,6 +46149,13 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = error.response.data;
     });
   },
+  shareQuotationclient: function shareQuotationclient(state, id) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlQuotationclient + '/' + id + '/share').then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Cotización compartida con el administrador');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo compartir la cotización'));
+    });
+  },
   showModalDeleteQuotationclient: function showModalDeleteQuotationclient(state, id) {
     state.idQuotationclient = id;
     $('#modalDeleteQuotationClient').modal('show');
@@ -47518,6 +47690,7 @@ function dispatchPublicQuotationFailed() {
       state.fillUser.email = response.data.email;
       state.fillUser.roles = response.data.roles || [];
       state.fillUser.cotizar_id = response.data.cotizar_id;
+      state.fillUser.is_independent = !!response.data.is_independent;
       state.newCompany.user_id = response.data.id;
     });
   },
@@ -47608,6 +47781,44 @@ function dispatchPublicQuotationFailed() {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo revocar el dispositivo');
     });
   },
+  requestIndependentLink: function requestIndependentLink(state, userId) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post(urlIndependentLink, {
+      user_id: userId
+    }).then(function (response) {
+      var user = state.users.find(function (u) {
+        return u.id === userId;
+      });
+      if (user) {
+        user.independent_link_status = response.data.status;
+      }
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Solicitud de vinculación enviada');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo enviar la solicitud'));
+    });
+  },
+  getMyLinkRequests: function getMyLinkRequests(state) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get(urlIndependentLink).then(function (response) {
+      state.myLinkRequests = response.data;
+    });
+  },
+  acceptIndependentLink: function acceptIndependentLink(state, id) {
+    var _this37 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().put(urlIndependentLink + '/' + id + '/accept').then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vinculación aceptada');
+      _this37.commit('getMyLinkRequests');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo aceptar la vinculación'));
+    });
+  },
+  rejectIndependentLink: function rejectIndependentLink(state, id) {
+    var _this38 = this;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().put(urlIndependentLink + '/' + id + '/reject').then(function (response) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vinculación rechazada');
+      _this38.commit('getMyLinkRequests');
+    })["catch"](function (error) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo rechazar la vinculación'));
+    });
+  },
   uploadLogo: function uploadLogo(state, evt) {
     state.form = new FormData();
     state.images = [];
@@ -47621,7 +47832,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   updateCompanyLogo: function updateCompanyLogo(state) {
-    var _this37 = this;
+    var _this39 = this;
     var url = urlCompanyLogo;
     var config = {
       headers: {
@@ -47636,7 +47847,7 @@ function dispatchPublicQuotationFailed() {
       state.errorsLaravel = [];
       $("#logo").val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('logo actualizado con éxito');
-      _this37.commit('getCompany');
+      _this39.commit('getCompany');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -47756,12 +47967,12 @@ function dispatchPublicQuotationFailed() {
     $('#deleteUser').modal('show');
   },
   deleteUser: function deleteUser(state) {
-    var _this38 = this;
+    var _this40 = this;
     var url = urlUser + '/' + state.fillUser.id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Usuario eliminado con exito');
       $('#deleteUser').modal('hide');
-      _this38.commit('getUsers', 1);
+      _this40.commit('getUsers', 1);
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el usuario'));
     });
@@ -47770,23 +47981,23 @@ function dispatchPublicQuotationFailed() {
   /****** sección empresas **** */
   /******************************* */
   updateCompany: function updateCompany(state, id) {
-    var _this39 = this;
+    var _this41 = this;
     var url = urlCompany + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().put(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa actualizado con éxito');
-      _this39.commit('getCompany');
+      _this41.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
   },
   createCompany: function createCompany(state) {
-    var _this40 = this;
+    var _this42 = this;
     var url = urlCompany;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, state.newCompany).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa se creo con éxito');
-      _this40.commit('getCompany');
+      _this42.commit('getCompany');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data.error);
     });
@@ -47866,22 +48077,22 @@ function dispatchPublicQuotationFailed() {
     });
   },
   createCantidadVehiculoOption: function createCantidadVehiculoOption(state) {
-    var _this41 = this;
+    var _this43 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicle-quantity-options', {
       value: state.newCantidadVehiculoOption
     }).then(function (response) {
       state.newCantidadVehiculoOption = '';
       state.errorsLaravel = [];
-      _this41.commit('getCantidadVehiculoOptions');
+      _this43.commit('getCantidadVehiculoOptions');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   deleteCantidadVehiculoOption: function deleteCantidadVehiculoOption(state, id) {
-    var _this42 = this;
+    var _this44 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('vehicle-quantity-options/' + id).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Opcion eliminada correctamente');
-      _this42.commit('getCantidadVehiculoOptions');
+      _this44.commit('getCantidadVehiculoOptions');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo eliminar la opcion');
     });
@@ -48084,7 +48295,7 @@ function dispatchPublicQuotationFailed() {
     });
   },
   importFleetBulk: function importFleetBulk(state, rows) {
-    var _this43 = this;
+    var _this45 = this;
     if (!state.fleetSelectedClient) {
       return;
     }
@@ -48094,7 +48305,7 @@ function dispatchPublicQuotationFailed() {
     }).then(function (response) {
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success("Se agregaron ".concat(response.data.created, " equipos a la flota"));
-      _this43.commit('getClientFleet');
+      _this45.commit('getClientFleet');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo importar la flota');
@@ -48118,23 +48329,23 @@ function dispatchPublicQuotationFailed() {
     });
   },
   attachUserCompany: function attachUserCompany(state, clientId) {
-    var _this44 = this;
+    var _this46 = this;
     var url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
       client_id: clientId
     }).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa asignada');
-      _this44.commit('getUserCompanies');
+      _this46.commit('getUserCompanies');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo asignar la empresa'));
     });
   },
   detachUserCompany: function detachUserCompany(state, clientId) {
-    var _this45 = this;
+    var _this47 = this;
     var url = urlUserCompanies + '/' + state.fillUserCompanies.id + '/companies/' + clientId;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Empresa quitada');
-      _this45.commit('getUserCompanies');
+      _this47.commit('getUserCompanies');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo quitar la empresa'));
     });
@@ -48801,7 +49012,7 @@ function dispatchPublicQuotationFailed() {
     state.productForm.total = Math.round(state.productForm.value * 1.19);
   },
   createSale: function createSale(state) {
-    var _this46 = this;
+    var _this48 = this;
     var url = urlCreateSale;
     if (state.formapago == '') {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('¡Error, Selecione la forma de pago!');
@@ -48837,10 +49048,10 @@ function dispatchPublicQuotationFailed() {
           };
           toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Venta generada con exito!');
           $('#create').modal('hide');
-          _this46.commit('allSales', {
+          _this48.commit('allSales', {
             page: 1
           });
-          _this46.commit('allProductsSale');
+          _this48.commit('allProductsSale');
         })["catch"](function (error) {
           toastr__WEBPACK_IMPORTED_MODULE_1___default().error(error.response.data);
         });
@@ -48880,7 +49091,7 @@ function dispatchPublicQuotationFailed() {
     window.location.href = url;
   },
   eliminarVenta: function eliminarVenta(state, id) {
-    var _this47 = this;
+    var _this49 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
       var url, response;
       return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -48894,7 +49105,7 @@ function dispatchPublicQuotationFailed() {
             response = _context4.sent;
             if (response.data.status === true) {
               toastr__WEBPACK_IMPORTED_MODULE_1___default().success('La Venta se anulo correctamente');
-              _this47.commit('allSales', {
+              _this49.commit('allSales', {
                 page: 1
               });
             }
@@ -49064,7 +49275,7 @@ function dispatchPublicQuotationFailed() {
     state.selectedMechanicClient = client;
   },
   createVehicleMechanicClient: function createVehicleMechanicClient(state) {
-    var _this48 = this;
+    var _this50 = this;
     var id_user = state.selectedMechanicClient != null ? state.selectedMechanicClient.value : null;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post('vehicles-mechanic', {
       user_id: id_user,
@@ -49087,7 +49298,7 @@ function dispatchPublicQuotationFailed() {
       state.newVehicle.arreglo_cpl = '';
       state.errorsLaravel = [];
       $('#createVehicleMechanic').modal('hide');
-      _this48.commit('getClientVehicles');
+      _this50.commit('getClientVehicles');
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Vehiculo generado con exito');
     })["catch"](function (error) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error(resolveAxiosErrorMessage(error, 'No se pudo generar el vehiculo'));
@@ -49198,10 +49409,10 @@ function dispatchPublicQuotationFailed() {
     });
   },
   actualizarCorrelativo: function actualizarCorrelativo(state) {
-    var _this49 = this;
+    var _this51 = this;
     var url = urlActualizarCorrelativo;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url).then(function (response) {
-      _this49.commit('getQuotationclients', {
+      _this51.commit('getQuotationclients', {
         page: 1
       });
     })["catch"](function (error) {
@@ -49229,21 +49440,21 @@ function dispatchPublicQuotationFailed() {
     });
   },
   eliminarCategoria: function eliminarCategoria(state, id) {
-    var _this50 = this;
+    var _this52 = this;
     var url = urlEliminarCategoriaChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this50.commit('mostrarFormatoCheckList');
+      _this52.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
   },
   eliminarIntervencion: function eliminarIntervencion(state, id) {
-    var _this51 = this;
+    var _this53 = this;
     var url = urlEliminarIntervencionChecklist + '/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"](url).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success(response.data.message);
-      _this51.commit('mostrarFormatoCheckList');
+      _this53.commit('mostrarFormatoCheckList');
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
     });
@@ -49690,6 +49901,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     show_part_number: false
   },
   savingQuotationclient: false,
+  myLinkRequests: [],
   fillQuotationclient: {
     id: '',
     client_id: '',

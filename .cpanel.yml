@@ -113,6 +113,7 @@ deployment:
     - /bin/cp -f app/Http/Controllers/VehicleBrandModelController.php $DEPLOYPATH/app/Http/Controllers/VehicleBrandModelController.php
     - /bin/cp -f app/Http/Controllers/PurchaseOrderController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderController.php
     - /bin/cp -f app/Http/Controllers/PurchaseOrderDetailController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderDetailController.php
+    - /bin/cp -f app/Http/Controllers/IndependentLinkController.php $DEPLOYPATH/app/Http/Controllers/IndependentLinkController.php
     - /bin/cp -f app/Http/Kernel.php $DEPLOYPATH/app/Http/Kernel.php
     - /bin/cp -f app/Http/Middleware/EnsureDeviceSessionActive.php $DEPLOYPATH/app/Http/Middleware/EnsureDeviceSessionActive.php
     - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
@@ -120,6 +121,7 @@ deployment:
     - /bin/cp -f app/Models/ProductCatalogTemplate.php $DEPLOYPATH/app/Models/ProductCatalogTemplate.php
     - /bin/cp -f app/Models/MotorSpec.php $DEPLOYPATH/app/Models/MotorSpec.php
     - /bin/cp -f app/Models/TallerWorker.php $DEPLOYPATH/app/Models/TallerWorker.php
+    - /bin/cp -f app/Models/IndependentLinkRequest.php $DEPLOYPATH/app/Models/IndependentLinkRequest.php
     - /bin/cp -f app/Models/UserSession.php $DEPLOYPATH/app/Models/UserSession.php
     - /bin/cp -f app/Models/Vehicle.php $DEPLOYPATH/app/Models/Vehicle.php
     - /bin/cp -f app/Models/Detailclient.php $DEPLOYPATH/app/Models/Detailclient.php
@@ -211,6 +213,8 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_14_000001_create_cotizacion_reparacion_permission.php $DEPLOYPATH/database/migrations/2026_08_14_000001_create_cotizacion_reparacion_permission.php
     - /bin/cp -f database/migrations/2026_08_14_000002_add_correlativo_suffix_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_14_000002_add_correlativo_suffix_to_quotationclients_table.php
     - /bin/cp -f database/migrations/2026_08_14_000003_create_motores_permission.php $DEPLOYPATH/database/migrations/2026_08_14_000003_create_motores_permission.php
+    - /bin/cp -f database/migrations/2026_08_14_000004_create_independent_link_requests_table.php $DEPLOYPATH/database/migrations/2026_08_14_000004_create_independent_link_requests_table.php
+    - /bin/cp -f database/migrations/2026_08_14_000005_add_shared_from_user_id_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_14_000005_add_shared_from_user_id_to_quotationclients_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

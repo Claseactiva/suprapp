@@ -203,6 +203,11 @@
                                 data-toggle="tooltip" data-placement="top" title="Repuestos a solicitar">
                                 <i class="fas fa-tools"></i>
                             </span>
+
+                            <span v-if="quotationLocal.shared_from_user_id" class="badge badge-info"
+                                data-toggle="tooltip" data-placement="top" title="Compartida por una cuenta independiente">
+                                <i class="fas fa-share-alt"></i> Compartida
+                            </span>
                         </td>
                         <td data-table-label="Estado">{{ quotationLocal.state }}</td>
                         <td data-table-label="Rut">{{ quotationLocal.rut }}</td>
@@ -278,6 +283,11 @@
                                     <a href="#" class="dropdown-item"
                                         @click.prevent="replicateQuotationclient({ id: quotationLocal.id })">
                                         <i class="far fa-copy mr-2"></i>Duplicar
+                                    </a>
+
+                                    <a href="#" v-if="canShareWithAdmin" class="dropdown-item"
+                                        @click.prevent="shareQuotationclient({ id: quotationLocal.id })">
+                                        <i class="fas fa-share-alt mr-2"></i>Compartir con administrador
                                     </a>
                                 </div>
                             </div>
@@ -392,8 +402,11 @@ export default {
         }
     },
     computed: {
-        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient']),
+        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient', 'fillUser', 'myLinkRequests']),
         ...mapGetters(['isActived', 'pagesNumber']),
+        canShareWithAdmin() {
+            return this.fillUser.is_independent && this.myLinkRequests.some(link => link.status === 'accepted')
+        },
         dateRange: {
             get() {
                 return [this.searchQuotationClient.date_from || null, this.searchQuotationClient.date_to || null]
@@ -406,7 +419,7 @@ export default {
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
-            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient']),
+            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient']),
         contactLinks(quotationLocal) {
             const links = []
             const messengerUrl = (quotationLocal.url || '').trim()
@@ -491,6 +504,8 @@ export default {
         this.$store.dispatch('getQuotationclients', { page: 1 })
         this.$store.dispatch('getRolesQuotation')
         this.$store.dispatch('allPagos')
+        this.$store.dispatch('getUser')
+        this.$store.dispatch('getMyLinkRequests')
     }
 
 }

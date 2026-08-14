@@ -630,6 +630,9 @@ export default { //methods
             context.commit('getQuotationclients', 1)
         }, 1000)
     },
+    shareQuotationclient(context, data) {
+        context.commit('shareQuotationclient', data.id)
+    },
     showModalDeleteQuotationclient(context, data) {
         context.commit('showModalDeleteQuotationclient', data.id)
     },
@@ -1277,6 +1280,18 @@ export default { //methods
     },
     revokeUserDeviceSession(context, data) {
         context.commit('revokeUserDeviceSession', data)
+    },
+    requestIndependentLink(context, data) {
+        context.commit('requestIndependentLink', data.userId)
+    },
+    getMyLinkRequests(context) {
+        context.commit('getMyLinkRequests')
+    },
+    acceptIndependentLink(context, data) {
+        context.commit('acceptIndependentLink', data.id)
+    },
+    rejectIndependentLink(context, data) {
+        context.commit('rejectIndependentLink', data.id)
     },
     getCantidadVehiculoOptions(context) {
         context.commit('getCantidadVehiculoOptions')

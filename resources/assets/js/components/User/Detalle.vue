@@ -20,6 +20,11 @@
                     aria-controls="appearance" aria-selected="false">Apariencia</a>
             </li>
 
+            <li class="nav-item" v-if="fillUser.is_independent">
+                <a class="nav-link" id="link-tab" data-toggle="tab" href="#link" role="tab"
+                    aria-controls="link" aria-selected="false">Vinculación</a>
+            </li>
+
         </ul>
         <div class="tab-content bg-white" id="myTabContent">
             <div class="tab-pane fade p-4" id="user" role="tabpanel" aria-labelledby="user-tab">
@@ -135,6 +140,37 @@
                         <i class="fas fa-plus-square"></i> Agregar a la paleta
                     </button>
                 </div>
+
+            </div>
+            <div class="tab-pane fade p-4" id="link" role="tabpanel" aria-labelledby="link-tab" v-if="fillUser.is_independent">
+
+                <div class="alert alert-info" v-if="myLinkRequests.length === 0">
+                    No tienes solicitudes de vinculación.
+                </div>
+
+                <div class="card mb-3" v-for="link in myLinkRequests" :key="link.id">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-1">Solicitud de vinculación con el administrador</p>
+                            <span class="badge badge-warning" v-if="link.status === 'pending'">Pendiente</span>
+                            <span class="badge badge-success" v-if="link.status === 'accepted'">Aceptada</span>
+                            <span class="badge badge-secondary" v-if="link.status === 'rejected'">Rechazada</span>
+                        </div>
+                        <div v-if="link.status === 'pending'">
+                            <button type="button" class="btn btn-success btn-sm mr-2" @click="acceptIndependentLink({ id: link.id })">
+                                <i class="fas fa-check"></i> Aceptar
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" @click="rejectIndependentLink({ id: link.id })">
+                                <i class="fas fa-times"></i> Rechazar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-muted" style="font-size: 0.85rem;">
+                    Al aceptar, vas a poder compartir cotizaciones puntuales tuyas con el administrador desde el botón
+                    "Compartir" de cada cotización. El resto de tus datos sigue sin ser visible para el administrador.
+                </p>
 
             </div>
             <div class="tab-pane fade show active p-4" id="company" role="tabpanel" aria-labelledby="company-tab">
@@ -273,7 +309,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel', 'fillUser', 'backgroundImages', 'newBackgroundImage', 'attachmentBackgroundImage', 'selectedBackgroundImagePath']),
+        ...mapState(['newCompany', 'fillCompany', 'attachment', 'errorsLaravel', 'fillUser', 'backgroundImages', 'newBackgroundImage', 'attachmentBackgroundImage', 'selectedBackgroundImagePath', 'myLinkRequests']),
         ...mapGetters([]),
         isAdmin() {
             return this.fillUser.roles.some(role => role.name === 'admin')
@@ -286,7 +322,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage']),
+        ...mapActions(['updateCompanyLogo', 'updateCompany', 'createCompany', 'uploadLogo', 'getBackgroundImages', 'setBackgroundImageFile', 'uploadBackgroundImage', 'deleteBackgroundImage', 'selectBackgroundImage', 'getMyLinkRequests', 'acceptIndependentLink', 'rejectIndependentLink']),
         formatImage,
         copyCotizarLink() {
             const link = this.cotizarLink
@@ -366,6 +402,7 @@ export default {
         this.$store.dispatch('getUser')
         this.$store.dispatch('getCompany')
         this.$store.dispatch('getBackgroundImages')
+        this.$store.dispatch('getMyLinkRequests')
     }
 }
 </script>

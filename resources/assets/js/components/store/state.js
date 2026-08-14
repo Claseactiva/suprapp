@@ -415,6 +415,7 @@ export default { //data
         show_part_number: false
     },
     savingQuotationclient: false,
+    myLinkRequests: [],
     fillQuotationclient: {
         id: '',
         client_id: '',

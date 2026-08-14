@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
+use App\Models\IndependentLinkRequest;
 use App\Models\Vehicle;
 use App\Notifications\SetInitialPasswordNotification;
 use Illuminate\Http\Request;
@@ -31,6 +32,17 @@ class UserController extends Controller
         //$users = User::doesntHave('mechanic')->orderBy('id', 'DESC')->with('roles')->paginate((int) request('per_page', 20));
 
         $users = User::orderBy('id', 'DESC')->with('roles')->paginate((int) request('per_page', 20));
+
+        $independentIds = $users->getCollection()->where('is_independent', true)->pluck('id');
+        $linkStatuses = IndependentLinkRequest::where('admin_id', 1)
+            ->whereIn('owner_user_id', $independentIds)
+            ->pluck('status', 'owner_user_id');
+
+        $users->getCollection()->each(function ($user) use ($linkStatuses) {
+            if ($user->is_independent) {
+                $user->independent_link_status = $linkStatuses->get($user->id);
+            }
+        });
 
         return [
             'pagination' => [

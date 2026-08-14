@@ -20,6 +20,7 @@ let urlRoles = 'roles'
 let urlAllRoles = 'roles-all'
 let urlUserRoles = 'usersRoles'
 let urlAllPermissions = 'permissions'
+let urlIndependentLink = 'independent-link-requests'
 let urlQuotationusers = 'quotationusers'
 
 let urlVehicle = 'vehicles'
@@ -2450,6 +2451,13 @@ export default { //used for changing the state
             state.errorsLaravel = error.response.data
         })
     },
+    shareQuotationclient(state, id) {
+        axios.post(urlQuotationclient + '/' + id + '/share').then(response => {
+            toastr.success('Cotización compartida con el administrador')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo compartir la cotización'))
+        })
+    },
     showModalDeleteQuotationclient(state, id) {
         state.idQuotationclient = id
         $('#modalDeleteQuotationClient').modal('show')
@@ -3950,6 +3958,7 @@ export default { //used for changing the state
             state.fillUser.email = response.data.email
             state.fillUser.roles = response.data.roles || []
             state.fillUser.cotizar_id = response.data.cotizar_id
+            state.fillUser.is_independent = !!response.data.is_independent
             state.newCompany.user_id = response.data.id
         })
     },
@@ -4042,6 +4051,42 @@ export default { //used for changing the state
             this.commit('getUserDeviceSessions', data.userId)
         }).catch(() => {
             toastr.error('No se pudo revocar el dispositivo')
+        })
+    },
+
+    requestIndependentLink(state, userId) {
+        axios.post(urlIndependentLink, { user_id: userId }).then(response => {
+            let user = state.users.find(u => u.id === userId)
+            if (user) {
+                user.independent_link_status = response.data.status
+            }
+            toastr.success('Solicitud de vinculación enviada')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo enviar la solicitud'))
+        })
+    },
+
+    getMyLinkRequests(state) {
+        axios.get(urlIndependentLink).then(response => {
+            state.myLinkRequests = response.data
+        })
+    },
+
+    acceptIndependentLink(state, id) {
+        axios.put(urlIndependentLink + '/' + id + '/accept').then(response => {
+            toastr.success('Vinculación aceptada')
+            this.commit('getMyLinkRequests')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo aceptar la vinculación'))
+        })
+    },
+
+    rejectIndependentLink(state, id) {
+        axios.put(urlIndependentLink + '/' + id + '/reject').then(response => {
+            toastr.success('Vinculación rechazada')
+            this.commit('getMyLinkRequests')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo rechazar la vinculación'))
         })
     },
 
