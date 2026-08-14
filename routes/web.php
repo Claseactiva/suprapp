@@ -433,12 +433,3 @@ Route::get('/storage-link', function () {
     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
     symlink($targetFolder, $linkFolder);
 });
-
-// RUTA TEMPORAL: correr migraciones sin acceso a terminal/SSH.
-// BORRAR ESTE BLOQUE Y REDESPLEGAR APENAS SE USE UNA VEZ.
-Route::get('deploy-migrate-5aa6154fd6ac7f7fa6848e0a60de4a4316050394', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    $output = \Illuminate\Support\Facades\Artisan::output();
-    \Illuminate\Support\Facades\Artisan::call('permission:cache-reset');
-    return '<pre>' . e($output) . '</pre>';
-});
