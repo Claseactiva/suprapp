@@ -276,7 +276,6 @@ class QuotationclientController extends Controller
             $data = $request->all();
             $user_id = Auth::id();
             $payment = $this->resolvePaymentName($data['payment'] ?? null);
-            $clientId = $this->resolveClientId($data['client_id'] ?? null);
             $vehicle = trim($data['vehicle'] ?? '');
             $url = trim($data['url'] ?? '');
             $telefono = preg_replace('/\s+/', '', trim($data['telefono'] ?? ''));
@@ -284,31 +283,24 @@ class QuotationclientController extends Controller
             $clientText = trim($data['client_text'] ?? '');
             $vehicleModelId = $this->resolveVehicleModelId($data['vehicle_model_id'] ?? null);
             $tipo = in_array($data['tipo'] ?? null, ['repuesto', 'reparacion']) ? $data['tipo'] : 'repuesto';
-            $clientePart = !empty($data['cliente_part']);
+            $esEmpresa = !empty($data['es_empresa']);
             $showPartNumber = !empty($data['show_part_number']);
 
-            $roles = DB::table('roles')
-                ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
-                ->join('users', 'model_has_roles.model_id', '=', 'users.id')
-                ->where('users.id', '=', $user_id)
-                ->select('roles.id')
-                ->get();
+            $typedClientId = $data['client_id'] ?? null;
 
-            foreach ($roles as $rol) {
-                if ($rol->id == 2 && $clientePart) {
-                    $data['generado'] = 1;
-                    $data['tipo_detalle'] = 1;
-                } else {
-                    if ($clientId == 1) {
-                        $data['generado'] = 1;
-                    } else {
-                        $data['generado'] = 2;
-                    }
-                }
-            }
-
-
-            if ($clientePart) {
+            if ($typedClientId) {
+                // Cliente ya existente, elegido del selector.
+                $client = Client::findOrFail($typedClientId);
+            } elseif ($esEmpresa) {
+                // Empresa nueva, escrita directo en el selector (checkbox "Empresa" marcado).
+                $client = Client::create([
+                    'user_id' => $user_id,
+                    'type' => 'Empresa',
+                    'razonSocial' => $clientText !== '' ? $clientText : 'Empresa',
+                ]);
+            } else {
+                // Cliente particular (sin empresa asociada): bolsa compartida por cuenta,
+                // el nombre de la persona queda en client_text, no crea un Client nuevo.
                 $client = Client::where('user_id', '=', $user_id)
                     ->where('type', '=', 'Cliente Particular')
                     ->orderBy('id')
@@ -328,9 +320,10 @@ class QuotationclientController extends Controller
                         'giro' => 'Cliente Particular',
                     ]);
                 }
-
-                $clientId = $client->id;
             }
+
+            $clientId = $client->id;
+            $generado = $client->type === 'Cliente Particular' ? 1 : 2;
 
             $correlativo = $this->nextCorrelativo($user_id);
 
@@ -344,7 +337,7 @@ class QuotationclientController extends Controller
                 'client_text' => $clientText,
                 'vehicle' => $vehicle,
                 'vehicle_model_id' => $vehicleModelId,
-                'generado' => $data['generado'],
+                'generado' => $generado,
                 'url' => $url,
                 'telefono' => $telefono,
                 'ppu' => $ppu,

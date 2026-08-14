@@ -6536,9 +6536,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       page: 1
     });
     this.$store.dispatch('getRolesQuotation');
-    this.$store.dispatch('allClients', {
-      type: 'Cliente'
-    });
     this.$store.dispatch('allPagos');
   }
 });
@@ -13692,8 +13689,9 @@ var render = function render() {
     },
     attrs: {
       name: "cliente",
-      disabled: _vm.newQuotationclient.cliente_part === true ? true : false,
-      placeholder: "Seleccionar Cliente",
+      taggable: true,
+      "push-tags": true,
+      placeholder: "Buscar cliente o escribir nombre nuevo...",
       options: _vm.optionsClient,
       value: _vm.selectedClient
     },
@@ -27182,47 +27180,6 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "row quotationclient-form-layout"
   }, [_c("div", {
-    staticClass: "col-12"
-  }, [_c("div", {
-    staticClass: "mb-3 quotationclient-checkbox-row"
-  }, [_c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.newQuotationclient.cliente_part,
-      expression: "newQuotationclient.cliente_part"
-    }],
-    attrs: {
-      type: "checkbox",
-      name: "cliente_part"
-    },
-    domProps: {
-      checked: Array.isArray(_vm.newQuotationclient.cliente_part) ? _vm._i(_vm.newQuotationclient.cliente_part, null) > -1 : _vm.newQuotationclient.cliente_part
-    },
-    on: {
-      change: function change($event) {
-        var $$a = _vm.newQuotationclient.cliente_part,
-          $$el = $event.target,
-          $$c = $$el.checked ? true : false;
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$el.checked) {
-            $$i < 0 && _vm.$set(_vm.newQuotationclient, "cliente_part", $$a.concat([$$v]));
-          } else {
-            $$i > -1 && _vm.$set(_vm.newQuotationclient, "cliente_part", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
-          }
-        } else {
-          _vm.$set(_vm.newQuotationclient, "cliente_part", $$c);
-        }
-      }
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "mb-0",
-    attrs: {
-      "for": "cliente"
-    }
-  }, [_vm._v("Cliente Particular")])])]), _vm._v(" "), _c("div", {
     staticClass: "col-lg-6 col-md-12"
   }, [_c("div", {
     staticClass: "mb-3"
@@ -27230,7 +27187,47 @@ var render = function render() {
     attrs: {
       "for": "cliente"
     }
-  }, [_vm._v("Cliente")]), _vm._v(" "), _c("SelectClient")], 1)]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Cliente")]), _vm._v(" "), _c("SelectClient"), _vm._v(" "), _c("div", {
+    staticClass: "quotationclient-checkbox-row mt-1"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.newQuotationclient.es_empresa,
+      expression: "newQuotationclient.es_empresa"
+    }],
+    attrs: {
+      type: "checkbox",
+      name: "es_empresa",
+      id: "es_empresa"
+    },
+    domProps: {
+      checked: Array.isArray(_vm.newQuotationclient.es_empresa) ? _vm._i(_vm.newQuotationclient.es_empresa, null) > -1 : _vm.newQuotationclient.es_empresa
+    },
+    on: {
+      change: function change($event) {
+        var $$a = _vm.newQuotationclient.es_empresa,
+          $$el = $event.target,
+          $$c = $$el.checked ? true : false;
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && _vm.$set(_vm.newQuotationclient, "es_empresa", $$a.concat([$$v]));
+          } else {
+            $$i > -1 && _vm.$set(_vm.newQuotationclient, "es_empresa", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.$set(_vm.newQuotationclient, "es_empresa", $$c);
+        }
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "mb-0",
+    attrs: {
+      "for": "es_empresa"
+    }
+  }, [_vm._v("Es una empresa nueva (no particular)")])])], 1)]), _vm._v(" "), _c("div", {
     staticClass: "col-lg-6 col-md-12"
   }, [_c("div", {
     staticClass: "row quotationclient-form-row"
@@ -27388,7 +27385,7 @@ var render = function render() {
     staticClass: "col-lg-6 col-md-12"
   }, [_c("div", {
     staticClass: "row quotationclient-form-row quotationclient-form-actions"
-  }, [_c("div", {
+  }, [_vm.tipo !== "reparacion" ? _c("div", {
     staticClass: "col-lg-8 col-md-8 col-12 mb-3 quotationclient-checkbox-row"
   }, [_c("input", {
     directives: [{
@@ -27428,8 +27425,9 @@ var render = function render() {
     attrs: {
       "for": "show_part_number"
     }
-  }, [_vm._v("Mostrar N° de parte en el PDF")])]), _vm._v(" "), _c("div", {
-    staticClass: "col-lg-4 col-md-4 col-12 mb-3"
+  }, [_vm._v("Mostrar N° de parte en el PDF")])]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "mb-3",
+    "class": _vm.tipo !== "reparacion" ? "col-lg-4 col-md-4 col-12" : "col-12"
   }, [_c("button", {
     staticClass: "btn btn-success form-control",
     attrs: {
@@ -27929,11 +27927,11 @@ var render = function render() {
         });
       }
     }
-  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)]), _vm._v(" "), _vm._l(_vm.quotationRoles, function (quotationRolesLocal) {
+  }, [_c("span", [_vm._v("Última")])])]) : _vm._e()], 2)]), _vm._v(" "), _vm.tipo !== "reparacion" ? _vm._l(_vm.quotationRoles, function (quotationRolesLocal) {
     return _c("div", {
       key: quotationRolesLocal.id
     }, [quotationRolesLocal.roles[0].name == "admin" || quotationRolesLocal.roles[0].name == "sealer" ? _c("div", [_c("ListarClientesForm")], 1) : _vm._e()]);
-  }), _vm._v(" "), _c("CreateUser"), _vm._v(" "), _c("CreateUserMechanic"), _vm._v(" "), _c("DetalleCliente"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("EditarCotizacion"), _vm._v(" "), _c("DetalleMechanic"), _vm._v(" "), _c("DetalleClienteMechanic"), _vm._v(" "), _c("DetalleEditarC"), _vm._v(" "), _c("DetalleEditarCM"), _vm._v(" "), _c("EliminarCotizacionCliente")], 2);
+  }) : _vm._e(), _vm._v(" "), _c("CreateUser"), _vm._v(" "), _c("CreateUserMechanic"), _vm._v(" "), _c("DetalleCliente"), _vm._v(" "), _c("Detalle"), _vm._v(" "), _c("EditarCotizacion"), _vm._v(" "), _c("DetalleMechanic"), _vm._v(" "), _c("DetalleClienteMechanic"), _vm._v(" "), _c("DetalleEditarC"), _vm._v(" "), _c("DetalleEditarCM"), _vm._v(" "), _c("EliminarCotizacionCliente")], 2);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -45875,12 +45873,10 @@ function dispatchPublicQuotationFailed() {
       return;
     }
     var url = urlQuotationclient;
-    var hasSelectedClient = state.selectedClient && state.selectedClient.value !== '';
-    var clientId = hasSelectedClient ? state.selectedClient.value : 1;
-    if (state.newQuotationclient.cliente_part == true) {
-      clientId = 1;
-    } else if (!hasSelectedClient) {
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('Selecciona un cliente o marca "Cliente Particular" antes de guardar');
+    var selectedClientId = state.selectedClient && state.selectedClient.value ? state.selectedClient.value : null;
+    var clientText = (state.newQuotationclient.client_text || '').trim();
+    if (!selectedClientId && !clientText) {
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('Selecciona un cliente o escribe un nombre antes de guardar');
       return;
     }
     var vehicleParts = [state.selectedVBrand.label, state.selectedVModel.label, state.selectedVYear.label, state.selectedVEngine.label].filter(function (part) {
@@ -45888,11 +45884,11 @@ function dispatchPublicQuotationFailed() {
     });
     state.savingQuotationclient = true;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
-      client_id: clientId,
+      client_id: selectedClientId,
       state: 'Pendiente',
       payment: state.selectedPago.label,
-      client_text: state.newQuotationclient.client_text,
-      cliente_part: state.newQuotationclient.cliente_part,
+      client_text: clientText,
+      es_empresa: state.newQuotationclient.es_empresa,
       url: state.newQuotationclient.url,
       telefono: state.newQuotationclient.telefono,
       vehicle: vehicleParts.join(' '),
@@ -45907,7 +45903,7 @@ function dispatchPublicQuotationFailed() {
         client_text: '',
         state: '',
         payment: '',
-        cliente_part: false,
+        es_empresa: false,
         url: '',
         telefono: '',
         vehicle: '',
@@ -49682,7 +49678,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     state: '',
     payment: '',
     client_text: '',
-    cliente_part: false,
+    es_empresa: false,
     url: '',
     telefono: '',
     vehicle: '',

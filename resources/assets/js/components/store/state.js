@@ -405,7 +405,7 @@ export default { //data
         state: '',
         payment: '',
         client_text: '',
-        cliente_part: false,
+        es_empresa: false,
         url: '',
         telefono: '',
         vehicle: '',

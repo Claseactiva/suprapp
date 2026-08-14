@@ -3,8 +3,9 @@
         <v-select
             :class="{'input': true, 'is-invalid': errors.has('cliente') }"
             name="cliente"
-            v-bind:disabled="newQuotationclient.cliente_part === true ? true : false"
-            placeholder="Seleccionar Cliente"
+            :taggable="true"
+            :push-tags="true"
+            placeholder="Buscar cliente o escribir nombre nuevo..."
             @input="setClient"
             :options="optionsClient"
             :value="selectedClient"></v-select>

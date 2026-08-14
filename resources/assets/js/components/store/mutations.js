@@ -2351,13 +2351,11 @@ export default { //used for changing the state
 
         let url = urlQuotationclient
 
-        let hasSelectedClient = state.selectedClient && state.selectedClient.value !== ''
-        let clientId = hasSelectedClient ? state.selectedClient.value : 1
+        let selectedClientId = (state.selectedClient && state.selectedClient.value) ? state.selectedClient.value : null
+        let clientText = (state.newQuotationclient.client_text || '').trim()
 
-        if (state.newQuotationclient.cliente_part == true) {
-            clientId = 1
-        } else if (!hasSelectedClient) {
-            toastr.error('Selecciona un cliente o marca "Cliente Particular" antes de guardar')
+        if (!selectedClientId && !clientText) {
+            toastr.error('Selecciona un cliente o escribe un nombre antes de guardar')
             return
         }
 
@@ -2371,11 +2369,11 @@ export default { //used for changing the state
         state.savingQuotationclient = true
 
         axios.post(url, {
-            client_id: clientId,
+            client_id: selectedClientId,
             state: 'Pendiente',
             payment: state.selectedPago.label,
-            client_text: state.newQuotationclient.client_text,
-            cliente_part: state.newQuotationclient.cliente_part,
+            client_text: clientText,
+            es_empresa: state.newQuotationclient.es_empresa,
             url: state.newQuotationclient.url,
             telefono: state.newQuotationclient.telefono,
             vehicle: vehicleParts.join(' '),
@@ -2390,7 +2388,7 @@ export default { //used for changing the state
                 client_text: '',
                 state: '',
                 payment: '',
-                cliente_part: false,
+                es_empresa: false,
                 url: '',
                 telefono: '',
                 vehicle: '',

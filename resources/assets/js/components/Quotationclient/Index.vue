@@ -22,18 +22,15 @@
                         <form action="POST" v-on:submit.prevent="createQuotationclient">
 
                             <div class="row quotationclient-form-layout">
-                                <div class="col-12">
-                                    <div class="mb-3 quotationclient-checkbox-row">
-                                        <input type="checkbox" name="cliente_part"
-                                            v-model="newQuotationclient.cliente_part">
-                                        <label for="cliente" class="mb-0">Cliente Particular</label>
-                                    </div>
-                                </div>
-
                                 <div class="col-lg-6 col-md-12">
                                     <div class="mb-3">
                                             <label for="cliente">Cliente</label>
                                             <SelectClient></SelectClient>
+                                            <div class="quotationclient-checkbox-row mt-1">
+                                                <input type="checkbox" name="es_empresa" id="es_empresa"
+                                                    v-model="newQuotationclient.es_empresa">
+                                                <label for="es_empresa" class="mb-0">Es una empresa nueva (no particular)</label>
+                                            </div>
                                     </div>
                                 </div>
 
@@ -102,12 +99,12 @@
 
                                 <div class="col-lg-6 col-md-12">
                                     <div class="row quotationclient-form-row quotationclient-form-actions">
-                                        <div class="col-lg-8 col-md-8 col-12 mb-3 quotationclient-checkbox-row">
+                                        <div v-if="tipo !== 'reparacion'" class="col-lg-8 col-md-8 col-12 mb-3 quotationclient-checkbox-row">
                                             <input type="checkbox" name="show_part_number" id="show_part_number"
                                                 v-model="newQuotationclient.show_part_number">
                                             <label for="show_part_number" class="mb-0">Mostrar N° de parte en el PDF</label>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-12 mb-3">
+                                        <div class="mb-3" :class="tipo !== 'reparacion' ? 'col-lg-4 col-md-4 col-12' : 'col-12'">
                                             <button type="submit" class="btn btn-success form-control" :disabled="savingQuotationclient">
                                                 <i class="fas fa-plus-square"></i> {{ savingQuotationclient ? 'Guardando...' : 'Guardar' }}
                                             </button>
@@ -336,11 +333,13 @@
             </ul>
         </nav>
 
-        <div v-for="quotationRolesLocal in quotationRoles" :key="quotationRolesLocal.id">
-            <div v-if="quotationRolesLocal.roles[0].name == 'admin' || quotationRolesLocal.roles[0].name == 'sealer'">
-                <ListarClientesForm></ListarClientesForm>
+        <template v-if="tipo !== 'reparacion'">
+            <div v-for="quotationRolesLocal in quotationRoles" :key="quotationRolesLocal.id">
+                <div v-if="quotationRolesLocal.roles[0].name == 'admin' || quotationRolesLocal.roles[0].name == 'sealer'">
+                    <ListarClientesForm></ListarClientesForm>
+                </div>
             </div>
-        </div>
+        </template>
 
 
         <CreateUser></CreateUser>
@@ -491,7 +490,6 @@ export default {
         this.$store.dispatch('setQuotationTipoContext', this.tipo)
         this.$store.dispatch('getQuotationclients', { page: 1 })
         this.$store.dispatch('getRolesQuotation')
-        this.$store.dispatch('allClients', { type: 'Cliente' })
         this.$store.dispatch('allPagos')
     }
 
