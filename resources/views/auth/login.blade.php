@@ -4,7 +4,7 @@
     <div class="body text-center">
         <form class="form-signin" method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
-            <img class="mb-4" src="/favicon.ico" alt="SupraApp" width="72" height="72">
+            <img class="mb-4" src="{{ asset('favicon.ico') }}" alt="SupraApp" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
 
             @if (session('status'))
@@ -19,14 +19,12 @@
                 value="{{ old('email') }}" autofocus>
 
             <label for="password" class="sr-only">Contraseña</label>
-            <div class="input-group">
+            <div class="password-wrapper">
                 <input type="password" id="password" name="password"
                     class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Contraseña">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary toggle-password" type="button" data-target="password" tabindex="-1">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
+                <button class="toggle-password" type="button" data-target="password" tabindex="-1">
+                    <i class="fas fa-eye"></i>
+                </button>
             </div>
 
             <input type="hidden" id="device_fingerprint" name="device_fingerprint">
@@ -62,15 +60,15 @@
             document.getElementById('device_name').value = deviceName;
         })();
 
-        document.querySelectorAll('.toggle-password').forEach(function (button) {
-            button.addEventListener('click', function () {
-                var input = document.getElementById(button.getAttribute('data-target'));
-                var icon = button.querySelector('i');
-                var isPassword = input.getAttribute('type') === 'password';
-                input.setAttribute('type', isPassword ? 'text' : 'password');
-                icon.classList.toggle('fa-eye');
-                icon.classList.toggle('fa-eye-slash');
-            });
+        document.addEventListener('click', function (e) {
+            var button = e.target.closest('.toggle-password');
+            if (!button) return;
+            var input = document.getElementById(button.getAttribute('data-target'));
+            var icon = button.querySelector('i');
+            var isPassword = input.getAttribute('type') === 'password';
+            input.setAttribute('type', isPassword ? 'text' : 'password');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
         });
     </script>
 @endsection
@@ -123,9 +121,36 @@
         border-bottom-left-radius: 0;
     }
 
-    .form-signin input[type="password"] {
+    .password-wrapper {
+        position: relative;
         margin-bottom: 10px;
+    }
+
+    .password-wrapper input[type="password"],
+    .password-wrapper input[type="text"] {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
+        padding-right: 42px;
+        margin-bottom: 0;
+    }
+
+    .password-wrapper .toggle-password {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 42px;
+        border: none;
+        background: transparent;
+        color: #6c757d;
+        z-index: 3;
+    }
+
+    .password-wrapper .toggle-password:hover {
+        color: #343a40;
+    }
+
+    .password-wrapper .toggle-password:focus {
+        outline: none;
     }
 </style>
