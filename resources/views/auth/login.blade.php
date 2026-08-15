@@ -4,8 +4,8 @@
     <div class="body text-center">
         <form class="form-signin" method="POST" action="{{ route('login') }}" id="loginForm">
             @csrf
-            <img class="mb-4" src="/favicon.ico" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Por favor, registrese</h1>
+            <img class="mb-4" src="/favicon.ico" alt="SupraApp" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
 
             @if (session('status'))
                 <div class="alert alert-success">

@@ -224,6 +224,7 @@ deployment:
     - /bin/cp -f public/img/icon-192.png $DEPLOYPATH/public/img/icon-192.png
     - /bin/cp -f public/img/icon-512.png $DEPLOYPATH/public/img/icon-512.png
     - /bin/cp -f public/img/icon-180.png $DEPLOYPATH/public/img/icon-180.png
+    - /bin/cp -f public/favicon.ico $DEPLOYPATH/public/favicon.ico
     - /bin/cp -f public/manifest.json $DEPLOYPATH/public/manifest.json
     - /bin/cp -f public/sw.js $DEPLOYPATH/public/sw.js
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/backgrounds

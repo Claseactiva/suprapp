@@ -41,7 +41,10 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <a class="navbar-brand mr-1" href="{{ route('home') }}">SupraApp</a>
+        <a class="navbar-brand mr-1 d-flex align-items-center" href="{{ route('home') }}">
+            <img src="{{ asset('img/icon-192.png') }}" alt="" width="28" height="28" class="mr-2">
+            SupraApp
+        </a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
