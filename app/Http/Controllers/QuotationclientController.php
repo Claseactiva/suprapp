@@ -475,12 +475,10 @@ class QuotationclientController extends Controller
             $pdf->render();
             $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
 
-            if ($quotation->user_id === 1) {
-                return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
-            } else {
-                $numero = $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '');
-                return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
-            }
+            $numero = $quotation->correlativo
+                ? $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '')
+                : $quotation->id;
+            return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -509,12 +507,10 @@ class QuotationclientController extends Controller
             $pdf->render();
             $pdf->getDomPDF()->getCanvas()->page_text(480, 15, 'Página {PAGE_NUM} de {PAGE_COUNT}', null, 8, [0.03, 0.11, 0.25]);
 
-            if ($quotation->user_id === 1) {
-                return $pdf->stream('cotizacion N° ' . $quotation->id . '.pdf');
-            } else {
-                $numero = $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '');
-                return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
-            }
+            $numero = $quotation->correlativo
+                ? $quotation->correlativo . ($quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '')
+                : $quotation->id;
+            return $pdf->stream('cotizacion N° ' . $numero . '.pdf');
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -784,18 +780,15 @@ class QuotationclientController extends Controller
 
     /**
      * Ultimo numero mostrado para las cotizaciones creadas por el propio
-     * dueno del taller (no por sus vendedores). La cuenta 1 no usa la
-     * columna 'correlativo' (queda en 0), muestra directamente el id de
-     * la fila, asi que la base para esa cuenta se toma del id.
+     * dueno del taller (no por sus vendedores). Cotizaciones antiguas sin
+     * correlativo asignado (legacy, mostraban el id de la fila) no cuentan
+     * como base: la primera cotizacion nueva arranca en 1.
      */
     private function latestOwnerCorrelativoBase($ownerId)
     {
-        if ((int) $ownerId === 1) {
-            return (int) (Quotationclient::where('user_id', 1)->max('id') ?? 0);
-        }
-
         $quotationclient = Quotationclient::where('user_id', '=', $ownerId)
             ->whereNull('correlativo_suffix')
+            ->whereNotNull('correlativo')
             ->select('correlativo')
             ->latest()
             ->first();

@@ -215,6 +215,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_14_000003_create_motores_permission.php $DEPLOYPATH/database/migrations/2026_08_14_000003_create_motores_permission.php
     - /bin/cp -f database/migrations/2026_08_14_000004_create_independent_link_requests_table.php $DEPLOYPATH/database/migrations/2026_08_14_000004_create_independent_link_requests_table.php
     - /bin/cp -f database/migrations/2026_08_14_000005_add_shared_from_user_id_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_14_000005_add_shared_from_user_id_to_quotationclients_table.php
+    - /bin/cp -f database/migrations/2026_08_17_000001_reset_master_correlativo_in_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_17_000001_reset_master_correlativo_in_quotationclients_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

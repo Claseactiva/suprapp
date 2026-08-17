@@ -27646,7 +27646,7 @@ var render = function render() {
       attrs: {
         title: _vm.productPreviewTitle(quotationLocal)
       }
-    }, [_vm._v("\n                            " + _vm._s(quotationLocal.user_id === 1 ? quotationLocal.id : quotationLocal.correlativo + (quotationLocal.correlativo_suffix ? "." + quotationLocal.correlativo_suffix : "")) + "\n                        ")])]), _vm._v(" "), _c("td", {
+    }, [_vm._v("\n                            " + _vm._s(quotationLocal.correlativo ? quotationLocal.correlativo + (quotationLocal.correlativo_suffix ? "." + quotationLocal.correlativo_suffix : "") : quotationLocal.id) + "\n                        ")])]), _vm._v(" "), _c("td", {
       staticClass: "quotationclient-status-cell",
       attrs: {
         "data-table-label": "Generado"

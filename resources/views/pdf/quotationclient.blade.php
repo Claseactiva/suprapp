@@ -25,10 +25,10 @@
                 <td width="40%">
                     <p class="oc-title">COTIZACIÓN</p>
                     <p class="oc-number">
-                        @if ($quotation->user_id === 1)
-                            N° {{ $quotation->id }}
-                        @else
+                        @if ($quotation->correlativo)
                             N° {{ $quotation->correlativo }}{{ $quotation->correlativo_suffix ? '.' . $quotation->correlativo_suffix : '' }}
+                        @else
+                            N° {{ $quotation->id }}
                         @endif
                     </p>
                     <p class="oc-meta">FECHA: {{ $quotation->created_at->format('d/m/Y') }}</p>
