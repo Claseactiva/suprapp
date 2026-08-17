@@ -172,11 +172,14 @@ class QuotationShippingController extends Controller
     public function checkEnviado(Request $request)
     {
         $data = $request->all();
+        $ids = (array) $data['check'];
 
-        $shipping = QuotationShipping::findOrFail($data['check']);
-        $this->authorizeOwner($shipping->user_id);
+        $shippings = QuotationShipping::whereIn('id', $ids)->get();
 
-        $shipping->update(['enviado' => 1]);
+        foreach ($shippings as $shipping) {
+            $this->authorizeOwner($shipping->user_id);
+            $shipping->update(['enviado' => 1]);
+        }
     }
 
     public function NocheckEnviado(Request $request)

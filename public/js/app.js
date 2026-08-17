@@ -6678,7 +6678,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       },
       set: function set(value) {
         this.$store.commit('setCheckEnviado', value);
-        this.$store.commit('getQuotationShipping', 1);
       }
     }
   }),
@@ -42249,7 +42248,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   deleteEnviado: function deleteEnviado(context, data) {
     context.commit('deleteEnviado', data.id);
-    context.commit('getQuotationShipping', 1);
   },
   deleteRealizado: function deleteRealizado(context, data) {
     context.commit('deleteRealizado', data.id);
@@ -45897,6 +45895,7 @@ function dispatchPublicQuotationFailed() {
     }
   },
   setCheckEnviado: function setCheckEnviado(state, value) {
+    var _this = this;
     state.checkEnviado = value;
     var url = 'checkEnviado';
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
@@ -45905,16 +45904,22 @@ function dispatchPublicQuotationFailed() {
       state.checkEnviado = [];
       state.errorsLaravel = [];
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('El producto se envio correctamente');
+      _this.commit('getQuotationShipping', 1);
     })["catch"](function (error) {
       state.errorsLaravel = error.response.data;
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudo guardar el envio');
     });
   },
   deleteEnviado: function deleteEnviado(state, id) {
+    var _this2 = this;
     var url = 'deleteEnviado/' + id;
     axios__WEBPACK_IMPORTED_MODULE_0___default().post(url, {
       check: id
     }).then(function (response) {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('El producto no se a enviado');
+      _this2.commit('getQuotationShipping', 1);
+    })["catch"](function (error) {
+      state.errorsLaravel = error.response.data;
     });
   },
   showModalDetail: function showModalDetail(state, id) {

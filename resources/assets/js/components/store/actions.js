@@ -601,7 +601,6 @@ export default { //methods
 
     deleteEnviado(context, data) {
         context.commit('deleteEnviado', data.id)
-        context.commit('getQuotationShipping', 1)
     },
 
     deleteRealizado(context, data) {

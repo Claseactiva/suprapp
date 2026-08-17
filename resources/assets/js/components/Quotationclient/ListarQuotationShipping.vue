@@ -209,7 +209,6 @@ export default {
             },
             set(value) {
                 this.$store.commit('setCheckEnviado', value)
-                this.$store.commit('getQuotationShipping', 1)
             }
         },
 

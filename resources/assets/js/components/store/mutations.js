@@ -2206,8 +2206,10 @@ export default { //used for changing the state
             state.checkEnviado = [];
             state.errorsLaravel = [];
             toastr.success('El producto se envio correctamente')
+            this.commit('getQuotationShipping', 1)
         }).catch(error => {
             state.errorsLaravel = error.response.data
+            toastr.error('No se pudo guardar el envio')
         })
     },
 
@@ -2217,6 +2219,9 @@ export default { //used for changing the state
             check: id
         }).then(response => {
             toastr.error('El producto no se a enviado')
+            this.commit('getQuotationShipping', 1)
+        }).catch(error => {
+            state.errorsLaravel = error.response.data
         })
     },
 
