@@ -84,17 +84,16 @@ class User extends Authenticatable
     }
 
     /**
-     * Id del taller bajo el que opera este usuario: el propio id si es Workshop
-     * (o cualquier otro rol), o el taller vinculado si es Workshop Personal (trabajador).
+     * Id del taller bajo el que opera este usuario: el propio id, o el taller
+     * al que este usuario este vinculado como trabajador en taller_workers
+     * (independiente del rol que tenga: Sealer, Workshop Personal, etc.).
      */
     public function effectiveTallerId()
     {
-        if ($this->hasRole('Workshop Personal')) {
-            $link = DB::table('taller_workers')->where('user_id', $this->id)->first();
+        $link = DB::table('taller_workers')->where('user_id', $this->id)->first();
 
-            if ($link) {
-                return (int) $link->taller_id;
-            }
+        if ($link) {
+            return (int) $link->taller_id;
         }
 
         return $this->id;
