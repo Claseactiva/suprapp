@@ -47,6 +47,7 @@ trait AssignsQuotationCorrelativo
         $quotationclient = Quotationclient::where('user_id', '=', $ownerId)
             ->whereNull('correlativo_suffix')
             ->whereNotNull('correlativo')
+            ->where('correlativo', '>', 0)
             ->select('correlativo')
             ->latest()
             ->first();
