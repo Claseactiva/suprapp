@@ -438,3 +438,49 @@ Route::get('/storage-link', function () {
     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
     symlink($targetFolder, $linkFolder);
 });
+
+// RUTA TEMPORAL: SOLO LECTURA. No modifica nada, solo muestra el estado
+// real de Jairo y sus cotizaciones para diagnosticar por que sigue
+// mostrando 5992 sin el punto. BORRAR Y REDESPLEGAR APENAS SE USE.
+Route::get('diagnostico-jairo-6613d595c67f08e00196b5e6601a5bcdc990bfc78b4e288537cf9ddc598db298', function () {
+    $jairo = \Illuminate\Support\Facades\DB::table('users')->where('email', 'jairotapiaguzman@gmail.com')->first();
+
+    $roles = [];
+    $tallerLink = null;
+    $quotes = [];
+
+    if ($jairo) {
+        $roles = \Illuminate\Support\Facades\DB::table('roles')
+            ->join('model_has_roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('model_has_roles.model_id', $jairo->id)
+            ->pluck('roles.name');
+
+        $tallerLink = \Illuminate\Support\Facades\DB::table('taller_workers')->where('user_id', $jairo->id)->first();
+
+        $quotes = \Illuminate\Support\Facades\DB::table('quotationclients')
+            ->where('user_id', $jairo->id)
+            ->select('id', 'user_id', 'correlativo', 'correlativo_suffix', 'created_at')
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    $adminLatest = \Illuminate\Support\Facades\DB::table('quotationclients')
+        ->where('user_id', 1)
+        ->whereNull('correlativo_suffix')
+        ->whereNotNull('correlativo')
+        ->orderByDesc('created_at')
+        ->first(['id', 'correlativo', 'created_at']);
+
+    $migrations = \Illuminate\Support\Facades\DB::table('migrations')
+        ->where('migration', 'like', '2026_08_17%')
+        ->get();
+
+    return response()->json([
+        'jairo_usuario' => $jairo,
+        'jairo_roles' => $roles,
+        'jairo_vinculo_taller_workers' => $tallerLink,
+        'jairo_cotizaciones' => $quotes,
+        'admin_ultimo_correlativo' => $adminLatest,
+        'migraciones_2026_08_17' => $migrations,
+    ]);
+});
