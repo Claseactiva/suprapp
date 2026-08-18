@@ -115,6 +115,7 @@ deployment:
     - /bin/cp -f app/Http/Controllers/PurchaseOrderController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderController.php
     - /bin/cp -f app/Http/Controllers/PurchaseOrderDetailController.php $DEPLOYPATH/app/Http/Controllers/PurchaseOrderDetailController.php
     - /bin/cp -f app/Http/Controllers/IndependentLinkController.php $DEPLOYPATH/app/Http/Controllers/IndependentLinkController.php
+    - /bin/cp -f app/Http/Controllers/VehicleReferenceDataController.php $DEPLOYPATH/app/Http/Controllers/VehicleReferenceDataController.php
     - /bin/cp -f app/Http/Kernel.php $DEPLOYPATH/app/Http/Kernel.php
     - /bin/cp -f app/Http/Middleware/EnsureDeviceSessionActive.php $DEPLOYPATH/app/Http/Middleware/EnsureDeviceSessionActive.php
     - /bin/cp -f app/Http/Requests/StoreQuotationUser.php $DEPLOYPATH/app/Http/Requests/StoreQuotationUser.php
@@ -140,6 +141,7 @@ deployment:
     - /bin/cp -f app/Models/VehicleBrandModel.php $DEPLOYPATH/app/Models/VehicleBrandModel.php
     - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
     - /bin/cp -f app/Models/VehicleQuantityOption.php $DEPLOYPATH/app/Models/VehicleQuantityOption.php
+    - /bin/cp -f app/Models/VehicleReferenceData.php $DEPLOYPATH/app/Models/VehicleReferenceData.php
     - /bin/cp -f app/Models/DeliveryTime.php $DEPLOYPATH/app/Models/DeliveryTime.php
     - /bin/cp -f app/Models/Client.php $DEPLOYPATH/app/Models/Client.php
     - /bin/cp -f app/Models/ClientMechanic.php $DEPLOYPATH/app/Models/ClientMechanic.php
@@ -221,6 +223,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_17_000002_backfill_worker_correlativo_in_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_08_17_000002_backfill_worker_correlativo_in_quotationclients_table.php
     - /bin/cp -f database/migrations/2026_08_17_000003_link_jairo_worker_and_fix_correlativo.php $DEPLOYPATH/database/migrations/2026_08_17_000003_link_jairo_worker_and_fix_correlativo.php
     - /bin/cp -f database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php $DEPLOYPATH/database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php
+    - /bin/cp -f database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php $DEPLOYPATH/database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
