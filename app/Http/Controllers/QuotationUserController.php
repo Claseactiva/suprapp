@@ -10,6 +10,7 @@ use App\Models\QuotationUserVehicle;
 use App\Models\QuotationUserVehicleItem;
 use App\Models\QuotationUserImage;
 use App\Notifications\EmailNotificator;
+use App\Traits\AssignsQuotationCorrelativo;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,7 @@ use Intervention\Image\ImageManager;
 class QuotationUserController extends Controller
 {
     use Notifiable;
+    use AssignsQuotationCorrelativo;
 
     public function cotizar($id = null)
     {
@@ -118,6 +120,8 @@ class QuotationUserController extends Controller
             ]);
         }
 
+        $correlativo = $this->nextCorrelativo($user_id_logeado);
+
         $quotation_id = Quotationclient::create([
             'user_id' => $user_id_logeado,
             'client_id' => $client->id,
@@ -126,7 +130,9 @@ class QuotationUserController extends Controller
             'client_text' => $name,
             'vehicle' => $this->buildVehicleText($brand, $model, $year, $engine),
             'generado' => 4,
-            'tipo_detalle' => 1
+            'tipo_detalle' => 1,
+            'correlativo' => $correlativo['correlativo'],
+            'correlativo_suffix' => $correlativo['correlativo_suffix'],
         ])->id;
 
         $user_id = QuotationUser::create([

@@ -15,6 +15,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/app/Models
     - /bin/mkdir -p $DEPLOYPATH/app/Notifications
     - /bin/mkdir -p $DEPLOYPATH/app/Services
+    - /bin/mkdir -p $DEPLOYPATH/app/Traits
     - /bin/mkdir -p $DEPLOYPATH/database/migrations
     - /bin/mkdir -p $DEPLOYPATH/public/css
     - /bin/mkdir -p $DEPLOYPATH/public/js
@@ -153,6 +154,7 @@ deployment:
     - /bin/cp -f app/Services/ProductCatalogTemplateImportService.php $DEPLOYPATH/app/Services/ProductCatalogTemplateImportService.php
     - /bin/cp -f app/Services/VehicleEngineRangeMigrationService.php $DEPLOYPATH/app/Services/VehicleEngineRangeMigrationService.php
     - /bin/cp -f app/Services/VehicleModelProductService.php $DEPLOYPATH/app/Services/VehicleModelProductService.php
+    - /bin/cp -f app/Traits/AssignsQuotationCorrelativo.php $DEPLOYPATH/app/Traits/AssignsQuotationCorrelativo.php
     - /bin/cp -f app/Console/Commands/MigrateVehicleEngineRanges.php $DEPLOYPATH/app/Console/Commands/MigrateVehicleEngineRanges.php
     - /bin/cp -f database/migrations/2026_06_12_000001_add_telefono_to_quotationclients_table.php $DEPLOYPATH/database/migrations/2026_06_12_000001_add_telefono_to_quotationclients_table.php
     - /bin/cp -f database/migrations/2026_06_12_000002_create_delivery_times_table.php $DEPLOYPATH/database/migrations/2026_06_12_000002_create_delivery_times_table.php
