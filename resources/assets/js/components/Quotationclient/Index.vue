@@ -33,7 +33,7 @@
                                             </div>
                                     </div>
                                     <div class="mb-3" v-if="fleetVehicleOptions.length">
-                                        <label for="fleet_vehicle">Vehículo de la flota</label>
+                                        <label for="fleet_vehicle">Vehículo / Motor de la flota</label>
                                         <v-select name="fleet_vehicle" placeholder="Seleccionar de la flota del cliente..."
                                             :options="fleetVehicleOptions" @input="usarVehiculoFlota"
                                             :value="null"></v-select>
@@ -428,6 +428,7 @@ export default {
     data() {
         return {
             fleetVehicles: [],
+            fleetMotors: [],
             buscandoPatente: false,
             mensajePatente: '',
             sugerenciaModelo: null,
@@ -452,15 +453,26 @@ export default {
             }
         },
         fleetVehicleOptions() {
-            return this.fleetVehicles.map(vehicleLocal => ({
-                label: [vehicleLocal.patent, vehicleLocal.brand, vehicleLocal.model, vehicleLocal.year].filter(Boolean).join(' - '),
-                value: vehicleLocal.id
+            const vehicleOptions = this.fleetVehicles.map(vehicleLocal => ({
+                label: 'Vehiculo: ' + [vehicleLocal.patent, vehicleLocal.brand, vehicleLocal.model, vehicleLocal.year].filter(Boolean).join(' - '),
+                value: 'vehicle-' + vehicleLocal.id,
+                kind: 'vehicle',
+                vehicle: vehicleLocal
             }))
+            const motorOptions = this.fleetMotors.map(motorLocal => ({
+                label: 'Motor: ' + [motorLocal.motor_number, motorLocal.modelo_motor, motorLocal.arreglo_cpl,
+                    motorLocal.vehicle_patent ? ('instalado en ' + motorLocal.vehicle_patent) : 'suelto'].filter(Boolean).join(' - '),
+                value: 'motor-' + motorLocal.id,
+                kind: 'motor',
+                motor: motorLocal
+            }))
+            return vehicleOptions.concat(motorOptions)
         }
     },
     watch: {
         'selectedClient.value'(clientId) {
             this.fleetVehicles = []
+            this.fleetMotors = []
             if (!clientId) {
                 return
             }
@@ -468,6 +480,11 @@ export default {
                 this.fleetVehicles = response.data || []
             }).catch(() => {
                 this.fleetVehicles = []
+            })
+            axios.get('clients/' + clientId + '/motors').then(response => {
+                this.fleetMotors = response.data || []
+            }).catch(() => {
+                this.fleetMotors = []
             })
         },
         savingQuotationclient(isSaving) {
@@ -483,15 +500,31 @@ export default {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
             'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient',
             'setVBrand', 'setVModel', 'setVYear', 'setVEngine']),
-        usarVehiculoFlota(vehicleLocal) {
-            if (!vehicleLocal) {
+        usarVehiculoFlota(option) {
+            if (!option) {
                 return
             }
+            if (option.kind === 'motor') {
+                this.usarMotorFlota(option.motor)
+                return
+            }
+            this.usarVehicleFlota(option.vehicle)
+        },
+        usarVehicleFlota(vehicleLocal) {
             this.setVBrand({ label: vehicleLocal.brand || '', value: '' })
             this.setVModel({ label: vehicleLocal.model || '', value: '' })
             this.setVYear({ label: vehicleLocal.year || '', value: '' })
             this.setVEngine({ label: vehicleLocal.engine || '', value: '' })
             this.newQuotationclient.ppu = [vehicleLocal.patent, vehicleLocal.chasis].filter(Boolean).join('/')
+        },
+        usarMotorFlota(motorLocal) {
+            // El motor puede estar instalado en un vehiculo de la flota (trae
+            // marca/modelo/anio de ese vehiculo) o estar suelto (solo sus datos).
+            this.setVBrand({ label: motorLocal.vehicle_brand || '', value: '' })
+            this.setVModel({ label: motorLocal.vehicle_model || '', value: '' })
+            this.setVYear({ label: motorLocal.vehicle_year || '', value: '' })
+            this.setVEngine({ label: motorLocal.modelo_motor || motorLocal.motor_number || '', value: '' })
+            this.newQuotationclient.ppu = [motorLocal.vehicle_patent, motorLocal.motor_number].filter(Boolean).join(' / N Motor ')
         },
         // Autocompletar Marca/Modelo/Año/Motor buscando la patente en la base de
         // referencia (vehicle_reference_data), igual que en Vehicle/Agregar.vue.

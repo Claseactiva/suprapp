@@ -24,6 +24,7 @@ class MotorController extends Controller
                     ->whereNull('motor_assignments.fecha_fin');
             })
             ->leftJoin('vehicles', 'vehicles.id', '=', 'motor_assignments.vehicle_id')
+            ->leftJoin('clients', 'clients.id', '=', 'motors.client_id')
             ->select(
                 'motors.id as id',
                 'motors.motor_number as motor_number',
@@ -31,6 +32,8 @@ class MotorController extends Controller
                 'motors.modelo_motor as modelo_motor',
                 'motors.arreglo_cpl as arreglo_cpl',
                 'motors.created_by as created_by',
+                'motors.client_id as client_id',
+                'clients.razonSocial as client_name',
                 'vehicles.id as vehicle_id',
                 'vehicles.patent as vehicle_patent',
                 'vehicles.brand as vehicle_brand',
@@ -50,7 +53,8 @@ class MotorController extends Controller
                         });
                 })
                     ->orWhereIn('vehicles.user_id', $teamIds)
-                    ->orWhereIn('vehicles.client_id', $accessibleClientIds);
+                    ->orWhereIn('vehicles.client_id', $accessibleClientIds)
+                    ->orWhereIn('motors.client_id', $accessibleClientIds);
             });
         }
 
@@ -89,6 +93,7 @@ class MotorController extends Controller
             'numero_interno' => 'nullable|string|max:100',
             'modelo_motor' => 'nullable|string|max:190',
             'arreglo_cpl' => 'nullable|string|max:100',
+            'client_id' => 'nullable|exists:clients,id',
         ]);
 
         if (!$request->filled('motor_number') && !$request->filled('arreglo_cpl')) {
@@ -97,7 +102,7 @@ class MotorController extends Controller
             ], 422);
         }
 
-        return Motor::create($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl']) + [
+        return Motor::create($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl', 'client_id']) + [
             'created_by' => Auth::id(),
         ]);
     }
@@ -112,11 +117,49 @@ class MotorController extends Controller
             'numero_interno' => 'nullable|string|max:100',
             'modelo_motor' => 'nullable|string|max:190',
             'arreglo_cpl' => 'nullable|string|max:100',
+            'client_id' => 'nullable|exists:clients,id',
         ]);
 
-        $motor->update($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl']));
+        $motor->update($request->only(['motor_number', 'numero_interno', 'modelo_motor', 'arreglo_cpl', 'client_id']));
 
         return $motor;
+    }
+
+    /**
+     * Motores de la flota de un cliente: los que tiene ligados directamente
+     * (client_id, sueltos o no) mas los que estan instalados ahora mismo en
+     * alguno de sus vehiculos.
+     */
+    public function byClient($clientId)
+    {
+        $client = \App\Models\Client::findOrFail($clientId);
+        $this->authorizeClientAccess($client);
+
+        return Motor::query()
+            ->leftJoin('motor_assignments', function ($join) {
+                $join->on('motor_assignments.motor_id', '=', 'motors.id')
+                    ->whereNull('motor_assignments.fecha_fin');
+            })
+            ->leftJoin('vehicles', 'vehicles.id', '=', 'motor_assignments.vehicle_id')
+            ->where(function ($q) use ($clientId) {
+                $q->where('motors.client_id', $clientId)
+                    ->orWhere('vehicles.client_id', $clientId);
+            })
+            ->select(
+                'motors.id as id',
+                'motors.motor_number as motor_number',
+                'motors.numero_interno as numero_interno',
+                'motors.modelo_motor as modelo_motor',
+                'motors.arreglo_cpl as arreglo_cpl',
+                'motors.client_id as client_id',
+                'vehicles.id as vehicle_id',
+                'vehicles.patent as vehicle_patent',
+                'vehicles.brand as vehicle_brand',
+                'vehicles.model as vehicle_model',
+                'vehicles.year as vehicle_year'
+            )
+            ->orderBy('motors.id', 'DESC')
+            ->get();
     }
 
     public function link(Request $request, $id)
@@ -249,5 +292,24 @@ class MotorController extends Controller
         if (!$vehicle || !in_array($vehicle->user_id, $user->teamUserIds())) {
             abort(403);
         }
+    }
+
+    /**
+     * Solo el admin, el dueno (taller) del cliente, o un mecanico vinculado
+     * a ese cliente pueden ver la flota de motores de ese cliente.
+     */
+    private function authorizeClientAccess(\App\Models\Client $client)
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('admin') || $client->user_id === $user->id) {
+            return;
+        }
+
+        if ($client->mechanics()->where('mechanic_id', $user->id)->exists()) {
+            return;
+        }
+
+        abort(403, 'No tienes acceso a la flota de este cliente.');
     }
 }

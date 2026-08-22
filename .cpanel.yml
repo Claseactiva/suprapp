@@ -224,6 +224,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_17_000003_link_jairo_worker_and_fix_correlativo.php $DEPLOYPATH/database/migrations/2026_08_17_000003_link_jairo_worker_and_fix_correlativo.php
     - /bin/cp -f database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php $DEPLOYPATH/database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php
     - /bin/cp -f database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php $DEPLOYPATH/database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php
+    - /bin/cp -f database/migrations/2026_08_21_000001_add_client_id_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_21_000001_add_client_id_to_motors_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js

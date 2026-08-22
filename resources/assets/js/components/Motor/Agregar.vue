@@ -55,6 +55,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="col">
+                                        <label for="client_id">Cliente (flota, opcional)</label>
+                                        <v-select name="client_id" placeholder="Sin cliente asignado..."
+                                            :options="optionsClient" :reduce="option => option.value"
+                                            v-model="newMotor.client_id"></v-select>
+                                    </div>
+
                                     <div class="col-lg-3 mt-2">
                                         <label></label>
                                         <button type="submit" class="btn btn-success form-control">
@@ -82,6 +89,7 @@
                             <th>Modelo Motor</th>
                             <th>Arreglo/CPL</th>
                             <th>Vehículo</th>
+                            <th>Cliente</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -95,6 +103,10 @@
                             <td data-table-label="VEHICULO">
                                 <span v-if="motorLocal.vehicle_id">{{ motorLocal.vehicle_patent }} - {{ motorLocal.vehicle_brand }} {{ motorLocal.vehicle_model }}</span>
                                 <span v-else class="text-muted">Suelto</span>
+                            </td>
+                            <td data-table-label="CLIENTE">
+                                <span v-if="motorLocal.client_name">{{ motorLocal.client_name }}</span>
+                                <span v-else class="text-muted">-</span>
                             </td>
 
                             <td>
@@ -217,7 +229,7 @@ export default {
         }
     },
     computed:{
-        ...mapState(['newMotor', 'errorsLaravel', 'motors', 'pagination_motors', 'offset_motors']),
+        ...mapState(['newMotor', 'errorsLaravel', 'motors', 'pagination_motors', 'offset_motors', 'optionsClient']),
         ...mapGetters(['isActived_motors', 'pagesNumber_motors'])
     },
     methods:{
@@ -237,6 +249,7 @@ export default {
     },
     created(){
         loadProgressBar();
+        this.$store.dispatch('allClients', { type: ['Cliente', 'Empresa'] })
         this.$store.dispatch('getMotors', { page: 1 })
     }
 }

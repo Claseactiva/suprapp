@@ -238,6 +238,7 @@ Route::ApiResource('clients', 'ClientController');
 Route::get('clients-all', 'ClientController@all');
 Route::get('clients/{id}/vehicles', 'VehicleController@byClient');
 Route::post('clients/{id}/vehicles/bulk', 'VehicleController@storeBulkForClient');
+Route::get('clients/{id}/motors', 'MotorController@byClient');
 
 Route::ApiResource('activities', 'ActivityController');
 

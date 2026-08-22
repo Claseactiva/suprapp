@@ -47,6 +47,13 @@
                                 <p>{{ error.arreglo_cpl }}</p>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="client_id">Cliente (flota, opcional)</label>
+                            <v-select name="client_id" placeholder="Sin cliente asignado..."
+                                :options="optionsClient" :reduce="option => option.value"
+                                v-model="fillMotor.client_id"></v-select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-warning">
@@ -64,7 +71,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
     computed:{
-        ...mapState(['fillMotor', 'errorsLaravel'])
+        ...mapState(['fillMotor', 'errorsLaravel', 'optionsClient'])
     },
     methods:{
         ...mapActions(['updateMotor'])

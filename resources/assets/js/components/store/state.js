@@ -1065,14 +1065,16 @@ export default { //data
         motor_number: '',
         numero_interno: '',
         modelo_motor: '',
-        arreglo_cpl: ''
+        arreglo_cpl: '',
+        client_id: ''
     },
     fillMotor: {
         id: '',
         motor_number: '',
         numero_interno: '',
         modelo_motor: '',
-        arreglo_cpl: ''
+        arreglo_cpl: '',
+        client_id: ''
     },
     motorLinkPatent: '',
     motorHistory: [],

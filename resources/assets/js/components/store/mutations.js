@@ -1677,13 +1677,15 @@ export default { //used for changing the state
             motor_number: state.newMotor.motor_number,
             numero_interno: state.newMotor.numero_interno,
             modelo_motor: state.newMotor.modelo_motor,
-            arreglo_cpl: state.newMotor.arreglo_cpl
+            arreglo_cpl: state.newMotor.arreglo_cpl,
+            client_id: state.newMotor.client_id || null
         }).then(response => {
             state.newMotor = {
                 motor_number: '',
                 numero_interno: '',
                 modelo_motor: '',
-                arreglo_cpl: ''
+                arreglo_cpl: '',
+                client_id: ''
             }
             state.errorsLaravel = []
             toastr.success('Motor agregado con exito')
@@ -1698,6 +1700,7 @@ export default { //used for changing the state
         state.fillMotor.numero_interno = motor.numero_interno
         state.fillMotor.modelo_motor = motor.modelo_motor
         state.fillMotor.arreglo_cpl = motor.arreglo_cpl
+        state.fillMotor.client_id = motor.client_id || ''
         $('#edit_motor_asset').modal('show')
     },
     deleteMotor(state, id) {
