@@ -2370,7 +2370,7 @@ export default { //used for changing the state
             state.selectedVModel.label,
             state.selectedVYear.label,
             state.selectedVEngine.label
-        ].filter(part => part && part.trim() !== '')
+        ].filter(part => part !== null && part !== undefined && String(part).trim() !== '')
 
         state.savingQuotationclient = true
 
