@@ -32,6 +32,12 @@
                                                 <label for="es_empresa" class="mb-0">Es una empresa nueva (no particular)</label>
                                             </div>
                                     </div>
+                                    <div class="mb-3" v-if="fleetVehicleOptions.length">
+                                        <label for="fleet_vehicle">Vehículo de la flota</label>
+                                        <v-select name="fleet_vehicle" placeholder="Seleccionar de la flota del cliente..."
+                                            :options="fleetVehicleOptions" @input="usarVehiculoFlota"
+                                            :value="null"></v-select>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-12">
@@ -44,11 +50,19 @@
                                         <div class="col-lg-5 col-md-5 col-12 mb-3">
                                             <label for="modelo">Modelo</label>
                                             <ModelSelector />
+                                            <small v-if="sugerenciaModelo" class="form-text">
+                                                ¿Quisiste decir "{{ sugerenciaModelo.label }}"? (según patente, {{ sugerenciaModelo.confianza }}% de coincidencia)
+                                                <button type="button" class="btn btn-sm btn-link p-0 ml-1" @click="confirmarSugerenciaModelo">Usar este modelo</button>
+                                            </small>
                                         </div>
 
                                         <div class="col-lg-2 col-md-2 col-12 mb-3">
                                             <label for="anio">Año</label>
                                             <YearSelector />
+                                        </div>
+
+                                        <div class="col-12" v-if="mensajePatente">
+                                            <small class="form-text text-muted">{{ mensajePatente }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -70,8 +84,17 @@
 
                                         <div class="col-lg-7 col-md-7 col-12 mb-3">
                                             <label for="ppu">PPU / VIN / Chasis / N° Interno / N° Serie</label>
-                                            <input type="text" name="ppu" class="form-control"
-                                                v-model="newQuotationclient.ppu">
+                                            <div class="input-group">
+                                                <input type="text" name="ppu" class="form-control"
+                                                    v-model="newQuotationclient.ppu">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        :disabled="buscandoPatente" @click="buscarPorPatente"
+                                                        title="Buscar por patente y autocompletar Marca/Modelo/Año/Motor">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -368,6 +391,7 @@
 
 
 <script>
+import axios from 'axios'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { loadProgressBar } from 'axios-progress-bar'
 import SelectClient from '../Client/Select'
@@ -401,8 +425,19 @@ export default {
             default: 'repuesto'
         }
     },
+    data() {
+        return {
+            fleetVehicles: [],
+            buscandoPatente: false,
+            mensajePatente: '',
+            sugerenciaModelo: null,
+            anioReferencia: null,
+            cilindradaReferencia: null,
+            cilindradaPendiente: null
+        }
+    },
     computed: {
-        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient', 'fillUser', 'myLinkRequests']),
+        ...mapState(['quotationRoles', 'quotationclients', 'quotationclientsform', 'newQuotationclient', 'searchQuotationClient', 'pagination', 'offset', 'errorsLaravel', 'idQuotationclient', 'savingQuotationclient', 'fillUser', 'myLinkRequests', 'selectedClient', 'optionsVYear', 'optionsVEngine']),
         ...mapGetters(['isActived', 'pagesNumber']),
         canShareWithAdmin() {
             return this.fillUser.is_independent && this.myLinkRequests.some(link => link.status === 'accepted')
@@ -415,11 +450,153 @@ export default {
                 this.searchQuotationClient.date_from = (value && value[0]) || ''
                 this.searchQuotationClient.date_to = (value && value[1]) || ''
             }
+        },
+        fleetVehicleOptions() {
+            return this.fleetVehicles.map(vehicleLocal => ({
+                label: [vehicleLocal.patent, vehicleLocal.brand, vehicleLocal.model, vehicleLocal.year].filter(Boolean).join(' - '),
+                value: vehicleLocal.id
+            }))
+        }
+    },
+    watch: {
+        'selectedClient.value'(clientId) {
+            this.fleetVehicles = []
+            if (!clientId) {
+                return
+            }
+            axios.get('clients/' + clientId + '/vehicles').then(response => {
+                this.fleetVehicles = response.data || []
+            }).catch(() => {
+                this.fleetVehicles = []
+            })
+        },
+        savingQuotationclient(isSaving) {
+            if (!isSaving && !this.errorsLaravel.length) {
+                this.mensajePatente = ''
+                this.sugerenciaModelo = null
+                this.anioReferencia = null
+                this.cilindradaReferencia = null
+            }
         }
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
-            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient']),
+            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient',
+            'setVBrand', 'setVModel', 'setVYear', 'setVEngine']),
+        usarVehiculoFlota(vehicleLocal) {
+            if (!vehicleLocal) {
+                return
+            }
+            this.setVBrand({ label: vehicleLocal.brand || '', value: '' })
+            this.setVModel({ label: vehicleLocal.model || '', value: '' })
+            this.setVYear({ label: vehicleLocal.year || '', value: '' })
+            this.setVEngine({ label: vehicleLocal.engine || '', value: '' })
+            this.newQuotationclient.ppu = [vehicleLocal.patent, vehicleLocal.chasis].filter(Boolean).join('/')
+        },
+        // Autocompletar Marca/Modelo/Año/Motor buscando la patente en la base de
+        // referencia (vehicle_reference_data), igual que en Vehicle/Agregar.vue.
+        async buscarPorPatente() {
+            const patente = (this.newQuotationclient.ppu || '').trim()
+            if (!patente) return
+
+            this.buscandoPatente = true
+            this.mensajePatente = ''
+            this.sugerenciaModelo = null
+            this.anioReferencia = null
+            this.cilindradaReferencia = null
+            this.cilindradaPendiente = null
+            try {
+                const res = await fetch('vehiculo-referencia/' + encodeURIComponent(patente))
+                const data = await res.json()
+
+                if (!data) {
+                    this.mensajePatente = 'Sin coincidencia en la base de referencia.'
+                    return
+                }
+
+                this.cilindradaPendiente = data.cilindrada_texto || null
+
+                if (!data.marca_match) {
+                    this.mensajePatente = `Coincidencia encontrada (${data.marca_texto} ${data.modelo_texto}), pero la marca no está en tu catálogo. Selecciónala manualmente.`
+                    return
+                }
+
+                await this.setVBrand(data.marca_match)
+
+                if (!data.modelo_match) {
+                    if (data.modelo_sugerido) {
+                        this.sugerenciaModelo = data.modelo_sugerido
+                        this.anioReferencia = data.ano_fabricacion || null
+                        this.mensajePatente = 'Marca autocompletada. Modelo sugerido más abajo, confírmalo si corresponde.'
+                    } else {
+                        this.anioReferencia = data.ano_fabricacion || null
+                        this.mensajePatente = `Marca autocompletada. El modelo del registro ("${data.modelo_texto}") no coincide con tu catálogo, selecciónalo manualmente.`
+                    }
+                    return
+                }
+
+                await this.setVModel(data.modelo_match)
+                await this.intentarSeleccionarAnio(data.ano_fabricacion)
+            } catch (e) {
+                this.mensajePatente = 'Error al consultar la base de referencia.'
+            } finally {
+                this.buscandoPatente = false
+            }
+        },
+        async confirmarSugerenciaModelo() {
+            if (!this.sugerenciaModelo) return
+            const anio = this.anioReferencia
+            await this.setVModel(this.sugerenciaModelo)
+            this.sugerenciaModelo = null
+            this.anioReferencia = null
+            await this.intentarSeleccionarAnio(anio)
+        },
+        async intentarSeleccionarAnio(anioTexto) {
+            if (!anioTexto) {
+                this.mensajePatente = 'Marca y modelo autocompletados.'
+                return
+            }
+            const years = await this.esperarOpciones(() => this.optionsVYear)
+            const anioMatch = years.find(y => String(y.label).includes(String(anioTexto)))
+            if (anioMatch) {
+                await this.setVYear(anioMatch)
+                this.mensajePatente = 'Coincidencia encontrada: marca, modelo y año autocompletados.'
+                await this.intentarSeleccionarCilindrada()
+            } else {
+                this.anioReferencia = anioTexto
+                this.mensajePatente = 'Marca y modelo autocompletados. Año no encontrado en catálogo para este modelo.'
+            }
+        },
+        async intentarSeleccionarCilindrada() {
+            const cilindrada = this.cilindradaPendiente
+            this.cilindradaPendiente = null
+            if (!cilindrada) return
+
+            const motores = await this.esperarOpciones(() => this.optionsVEngine)
+            const patron = new RegExp('(^|[^0-9.])' + cilindrada.replace('.', '\\.') + '([^0-9]|$)')
+            const candidatos = motores.filter(m => patron.test(String(m.label)))
+
+            if (candidatos.length === 1) {
+                await this.setVEngine(candidatos[0])
+                this.mensajePatente += ' Motor autocompletado según cilindrada.'
+            } else {
+                this.cilindradaReferencia = cilindrada
+            }
+        },
+        esperarOpciones(getter, timeoutMs = 4000, intervalMs = 100) {
+            const inicio = Date.now()
+            return new Promise(resolve => {
+                const check = () => {
+                    const valor = getter()
+                    if ((valor && valor.length > 0) || Date.now() - inicio > timeoutMs) {
+                        resolve(valor || [])
+                    } else {
+                        setTimeout(check, intervalMs)
+                    }
+                }
+                check()
+            })
+        },
         contactLinks(quotationLocal) {
             const links = []
             const messengerUrl = (quotationLocal.url || '').trim()
