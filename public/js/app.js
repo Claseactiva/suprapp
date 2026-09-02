@@ -7086,12 +7086,25 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      dragging: false
+      dragging: false,
+      previewFile: null
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments', 'attachmentQuotationclientFiles'])), {}, {
     attachments: function attachments() {
       return this.activeQuotationclientAttachments.files || [];
+    },
+    imageAttachments: function imageAttachments() {
+      var _this = this;
+      return this.attachments.filter(function (file) {
+        return _this.isImage(file);
+      });
+    },
+    otherAttachments: function otherAttachments() {
+      var _this2 = this;
+      return this.attachments.filter(function (file) {
+        return !_this2.isImage(file);
+      });
     },
     pendingFiles: function pendingFiles() {
       return this.attachmentQuotationclientFiles || [];
@@ -7135,17 +7148,32 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         type: file.type || 'image/png'
       });
     },
+    openPreview: function openPreview(file) {
+      this.previewFile = file;
+    },
+    closePreview: function closePreview() {
+      this.previewFile = null;
+    },
     formatBytes: function formatBytes(bytes) {
       var value = Number(bytes) || 0;
       if (value < 1024) return value + ' B';
       if (value < 1024 * 1024) return (value / 1024).toFixed(0) + ' KB';
       return (value / (1024 * 1024)).toFixed(1) + ' MB';
     },
+    isImage: function isImage(file) {
+      var mime = (file.mime_type || '').toLowerCase();
+      var name = (file.original_name || '').toLowerCase();
+      return mime.startsWith('image/') || /\.(png|jpe?g|gif|webp|bmp|svg)$/.test(name);
+    },
+    isPdf: function isPdf(file) {
+      var mime = (file.mime_type || '').toLowerCase();
+      var name = (file.original_name || '').toLowerCase();
+      return mime === 'application/pdf' || name.endsWith('.pdf');
+    },
     iconFor: function iconFor(file) {
       var mime = (file.mime_type || '').toLowerCase();
       var name = (file.original_name || '').toLowerCase();
-      if (mime.startsWith('image/')) return 'far fa-file-image';
-      if (mime === 'application/pdf' || name.endsWith('.pdf')) return 'far fa-file-pdf';
+      if (this.isPdf(file)) return 'far fa-file-pdf';
       if (mime.includes('word') || name.endsWith('.doc') || name.endsWith('.docx')) return 'far fa-file-word';
       if (mime.includes('sheet') || mime.includes('excel') || name.endsWith('.xls') || name.endsWith('.xlsx') || name.endsWith('.csv')) return 'far fa-file-excel';
       if (mime.includes('zip') || mime.includes('compressed') || name.endsWith('.zip') || name.endsWith('.rar')) return 'far fa-file-archive';
@@ -7153,11 +7181,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   }),
   mounted: function mounted() {
-    var _this = this;
+    var _this3 = this;
     // Este modal se abre encima de #modalQuotationclient (modal anidado).
     // Bootstrap 4 borra 'modal-open'/backdrop al cerrar el hijo aunque el padre
     // siga abierto, dejando un backdrop invisible que bloquea el scroll/clicks.
     $('#quotationclientAttachmentsModal').on('hidden.bs.modal', function () {
+      _this3.closePreview();
       if ($('.modal.show').length > 0) {
         $('body').addClass('modal-open');
       }
@@ -7168,7 +7197,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
     // Tambien aceptar pegar (Ctrl+V) en cualquier parte del modal, no solo la zona.
     $('#quotationclientAttachmentsModal').on('paste', function (evt) {
-      _this.onPaste(evt.originalEvent || evt);
+      _this3.onPaste(evt.originalEvent || evt);
     });
   }
 });
@@ -30000,7 +30029,7 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", {
+  return _c("div", [_c("div", {
     staticClass: "modal fade",
     attrs: {
       id: "quotationclientAttachmentsModal"
@@ -30013,27 +30042,85 @@ var render = function render() {
     staticClass: "modal-body"
   }, [_c("p", {
     staticClass: "text-muted small"
-  }, [_vm._v("\n                    Estos archivos quedan asociados a la cotización completa (no a un producto). Puedes subir\n                    PDF, imágenes, planillas u otros documentos. Máximo 10 MB por archivo.\n                ")]), _vm._v(" "), _vm.attachments.length ? _c("ul", {
+  }, [_vm._v("\n                        Estos archivos quedan asociados a la cotización completa (no a un producto). Puedes subir\n                        PDF, imágenes, planillas u otros documentos. Máximo 10 MB por archivo.\n                    ")]), _vm._v(" "), _vm.imageAttachments.length ? _c("div", {
+    staticClass: "row mb-2"
+  }, _vm._l(_vm.imageAttachments, function (file) {
+    return _c("div", {
+      key: file.id,
+      staticClass: "col-6 col-md-4 mb-3"
+    }, [_c("div", {
+      staticClass: "card attachment-thumb-card"
+    }, [_c("img", {
+      staticClass: "card-img-top attachment-thumb",
+      attrs: {
+        src: file.path,
+        alt: "..."
+      },
+      on: {
+        click: function click($event) {
+          return _vm.openPreview(file);
+        }
+      }
+    }), _vm._v(" "), _c("div", {
+      staticClass: "card-body p-2 d-flex justify-content-between align-items-center"
+    }, [_c("small", {
+      staticClass: "text-muted text-truncate",
+      attrs: {
+        title: file.original_name
+      }
+    }, [_vm._v("\n                                        " + _vm._s(file.original_name) + "\n                                    ")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger btn-icon-sm ml-1",
+      attrs: {
+        type: "button",
+        title: "Eliminar"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.deleteQuotationclientAttachment(file.id);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "far fa-trash-alt"
+    })])])])]);
+  }), 0) : _vm._e(), _vm._v(" "), _vm.otherAttachments.length ? _c("ul", {
     staticClass: "list-group mb-3"
-  }, _vm._l(_vm.attachments, function (file) {
+  }, _vm._l(_vm.otherAttachments, function (file) {
     return _c("li", {
       key: file.id,
       staticClass: "list-group-item d-flex justify-content-between align-items-center"
-    }, [_c("a", {
-      staticClass: "text-truncate mr-2",
+    }, [_c("span", {
+      staticClass: "text-truncate mr-2"
+    }, [_c("i", {
+      "class": _vm.iconFor(file)
+    }), _vm._v(" " + _vm._s(file.original_name) + "\n                            ")]), _vm._v(" "), _c("span", {
+      staticClass: "d-flex align-items-center flex-shrink-0"
+    }, [_c("small", {
+      staticClass: "text-muted mr-2"
+    }, [_vm._v(_vm._s(_vm.formatBytes(file.size)))]), _vm._v(" "), _vm.isPdf(file) ? _c("button", {
+      staticClass: "btn btn-info btn-icon-sm mr-1",
+      attrs: {
+        type: "button",
+        title: "Ver"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.openPreview(file);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-eye"
+    })]) : _vm._e(), _vm._v(" "), _c("a", {
+      staticClass: "btn btn-secondary btn-icon-sm mr-1",
       attrs: {
         href: file.path,
         target: "_blank",
         rel: "noopener",
-        download: file.original_name
+        download: file.original_name,
+        title: "Descargar"
       }
     }, [_c("i", {
-      "class": _vm.iconFor(file)
-    }), _vm._v(" " + _vm._s(file.original_name) + "\n                        ")]), _vm._v(" "), _c("span", {
-      staticClass: "d-flex align-items-center"
-    }, [_c("small", {
-      staticClass: "text-muted mr-2"
-    }, [_vm._v(_vm._s(_vm.formatBytes(file.size)))]), _vm._v(" "), _c("button", {
+      staticClass: "fas fa-download"
+    })]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-danger btn-icon-sm",
       attrs: {
         type: "button",
@@ -30047,9 +30134,9 @@ var render = function render() {
     }, [_c("i", {
       staticClass: "far fa-trash-alt"
     })])])]);
-  }), 0) : _c("p", {
+  }), 0) : _vm._e(), _vm._v(" "), !_vm.attachments.length ? _c("p", {
     staticClass: "text-muted mb-3"
-  }, [_vm._v("Aún no hay archivos adjuntos para esta cotización.")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                        Aún no hay archivos adjuntos para esta cotización.\n                    ")]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -30092,7 +30179,7 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-cloud-upload-alt"
-  }), _vm._v("\n                    Arrastra archivos aquí, o pega un pantallazo con Ctrl+V\n                ")]), _vm._v(" "), _vm.pendingFiles.length ? _c("ul", {
+  }), _vm._v("\n                        Arrastra archivos aquí, o pega un pantallazo con Ctrl+V\n                    ")]), _vm._v(" "), _vm.pendingFiles.length ? _c("ul", {
     staticClass: "list-group mt-3"
   }, _vm._l(_vm.pendingFiles, function (file, index) {
     return _c("li", {
@@ -30102,7 +30189,7 @@ var render = function render() {
       staticClass: "text-truncate mr-2"
     }, [_c("i", {
       staticClass: "fas fa-clock text-muted"
-    }), _vm._v(" " + _vm._s(file.name) + "\n                            "), _c("span", {
+    }), _vm._v(" " + _vm._s(file.name) + "\n                                "), _c("span", {
       staticClass: "text-muted"
     }, [_vm._v("(" + _vm._s(_vm.formatBytes(file.size)) + ")")])]), _vm._v(" "), _c("button", {
       staticClass: "btn btn-outline-danger btn-icon-sm",
@@ -30131,7 +30218,57 @@ var render = function render() {
     }
   }, [_c("i", {
     staticClass: "fas fa-upload"
-  }), _vm._v("\n                    " + _vm._s(_vm.uploadingQuotationclientAttachments ? "Subiendo..." : "Subir" + (_vm.pendingFiles.length ? " (" + _vm.pendingFiles.length + ")" : "")) + "\n                ")])])])])]);
+  }), _vm._v("\n                        " + _vm._s(_vm.uploadingQuotationclientAttachments ? "Subiendo..." : "Subir" + (_vm.pendingFiles.length ? " (" + _vm.pendingFiles.length + ")" : "")) + "\n                    ")])])])])]), _vm._v(" "), _vm.previewFile ? _c("div", {
+    staticClass: "attachment-preview",
+    on: {
+      click: function click($event) {
+        if ($event.target !== $event.currentTarget) return null;
+        return _vm.closePreview.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "attachment-preview__dialog"
+  }, [_c("div", {
+    staticClass: "attachment-preview__header bg-dark text-white"
+  }, [_c("h5", {
+    staticClass: "mb-0 text-truncate"
+  }, [_vm._v(_vm._s(_vm.previewFile.original_name))]), _vm._v(" "), _c("span", {
+    staticClass: "attachment-preview__actions"
+  }, [_c("a", {
+    staticClass: "btn btn-sm btn-outline-light mr-2",
+    attrs: {
+      href: _vm.previewFile.path,
+      target: "_blank",
+      rel: "noopener",
+      download: _vm.previewFile.original_name,
+      title: "Descargar"
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-download"
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "close text-white",
+    attrs: {
+      type: "button",
+      "aria-label": "Close"
+    },
+    on: {
+      click: _vm.closePreview
+    }
+  }, [_c("span", [_vm._v("×")])])])]), _vm._v(" "), _c("div", {
+    staticClass: "attachment-preview__body"
+  }, [_vm.isPdf(_vm.previewFile) ? _c("iframe", {
+    staticClass: "attachment-preview__frame",
+    attrs: {
+      src: _vm.previewFile.path,
+      title: "Vista previa"
+    }
+  }) : _c("img", {
+    staticClass: "attachment-preview__image",
+    attrs: {
+      src: _vm.previewFile.path,
+      alt: "..."
+    }
+  })])])]) : _vm._e()]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -56502,7 +56639,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.attachments-paste-zone[data-v-2c576eb0] {\n    border: 2px dashed #b8b8b8;\n    border-radius: 6px;\n    padding: 12px;\n    text-align: center;\n    color: #6c757d;\n    font-size: 0.82rem;\n    transition: border-color 0.15s, background-color 0.15s;\n}\n.attachments-paste-zone.is-dragging[data-v-2c576eb0] {\n    border-color: #17a2b8;\n    background-color: rgba(23, 162, 184, 0.08);\n    color: #17a2b8;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.attachments-paste-zone[data-v-2c576eb0] {\n    border: 2px dashed #b8b8b8;\n    border-radius: 6px;\n    padding: 12px;\n    text-align: center;\n    color: #6c757d;\n    font-size: 0.82rem;\n    transition: border-color 0.15s, background-color 0.15s;\n}\n.attachments-paste-zone.is-dragging[data-v-2c576eb0] {\n    border-color: #17a2b8;\n    background-color: rgba(23, 162, 184, 0.08);\n    color: #17a2b8;\n}\n.attachment-thumb[data-v-2c576eb0] {\n    height: 110px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    cursor: zoom-in;\n}\n.attachment-thumb-card .card-body small[data-v-2c576eb0] {\n    max-width: 100%;\n}\n.attachment-preview[data-v-2c576eb0] {\n    position: fixed;\n    inset: 0;\n    z-index: 1085;\n    background: rgba(0, 0, 0, 0.8);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    padding: 0.75rem;\n}\n.attachment-preview__dialog[data-v-2c576eb0] {\n    width: min(98vw, 1400px);\n    height: calc(100vh - 1.5rem);\n    background: #fff;\n    border-radius: 10px;\n    overflow: hidden;\n    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);\n    display: flex;\n    flex-direction: column;\n}\n.attachment-preview__header[data-v-2c576eb0] {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    padding: 0.6rem 1rem;\n}\n.attachment-preview__actions[data-v-2c576eb0] {\n    display: flex;\n    align-items: center;\n    flex-shrink: 0;\n}\n.attachment-preview__body[data-v-2c576eb0] {\n    flex: 1;\n    background: #d9d9d9;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    overflow: auto;\n}\n.attachment-preview__frame[data-v-2c576eb0] {\n    width: 100%;\n    height: 100%;\n    border: 0;\n    background: #fff;\n}\n.attachment-preview__image[data-v-2c576eb0] {\n    max-width: 100%;\n    max-height: 100%;\n    -o-object-fit: contain;\n       object-fit: contain;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
