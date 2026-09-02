@@ -38,9 +38,11 @@
                             @change="onFileInput($event)">
                     </div>
 
-                    <div class="attachments-paste-zone">
-                        <i class="fas fa-paste"></i>
-                        También puedes pegar un pantallazo o imagen copiada con Ctrl+V
+                    <div class="attachments-paste-zone" :class="{ 'is-dragging': dragging }"
+                        @dragenter.prevent="dragging = true" @dragover.prevent="dragging = true"
+                        @dragleave.prevent="dragging = false" @drop.prevent="onDrop">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        Arrastra archivos aquí, o pega un pantallazo con Ctrl+V
                     </div>
 
                     <ul class="list-group mt-3" v-if="pendingFiles.length">
@@ -75,6 +77,11 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            dragging: false
+        }
+    },
     computed: {
         ...mapState(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments', 'attachmentQuotationclientFiles']),
         attachments() {
@@ -90,6 +97,13 @@ export default {
         onFileInput(evt) {
             this.addQuotationclientAttachmentsFiles(Array.from(evt.target.files || []))
             evt.target.value = null
+        },
+        onDrop(evt) {
+            this.dragging = false
+            const files = Array.from((evt.dataTransfer && evt.dataTransfer.files) || [])
+            if (files.length) {
+                this.addQuotationclientAttachmentsFiles(files)
+            }
         },
         onPaste(evt) {
             const items = (evt.clipboardData || window.clipboardData || {}).items || []
@@ -164,5 +178,12 @@ export default {
     text-align: center;
     color: #6c757d;
     font-size: 0.82rem;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.attachments-paste-zone.is-dragging {
+    border-color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.08);
+    color: #17a2b8;
 }
 </style>

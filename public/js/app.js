@@ -7084,6 +7084,11 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      dragging: false
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments', 'attachmentQuotationclientFiles'])), {}, {
     attachments: function attachments() {
       return this.activeQuotationclientAttachments.files || [];
@@ -7096,6 +7101,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     onFileInput: function onFileInput(evt) {
       this.addQuotationclientAttachmentsFiles(Array.from(evt.target.files || []));
       evt.target.value = null;
+    },
+    onDrop: function onDrop(evt) {
+      this.dragging = false;
+      var files = Array.from(evt.dataTransfer && evt.dataTransfer.files || []);
+      if (files.length) {
+        this.addQuotationclientAttachmentsFiles(files);
+      }
     },
     onPaste: function onPaste(evt) {
       var items = (evt.clipboardData || window.clipboardData || {}).items || [];
@@ -30055,7 +30067,32 @@ var render = function render() {
         return _vm.onFileInput($event);
       }
     }
-  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm.pendingFiles.length ? _c("ul", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "attachments-paste-zone",
+    "class": {
+      "is-dragging": _vm.dragging
+    },
+    on: {
+      dragenter: function dragenter($event) {
+        $event.preventDefault();
+        _vm.dragging = true;
+      },
+      dragover: function dragover($event) {
+        $event.preventDefault();
+        _vm.dragging = true;
+      },
+      dragleave: function dragleave($event) {
+        $event.preventDefault();
+        _vm.dragging = false;
+      },
+      drop: function drop($event) {
+        $event.preventDefault();
+        return _vm.onDrop.apply(null, arguments);
+      }
+    }
+  }, [_c("i", {
+    staticClass: "fas fa-cloud-upload-alt"
+  }), _vm._v("\n                    Arrastra archivos aquí, o pega un pantallazo con Ctrl+V\n                ")]), _vm._v(" "), _vm.pendingFiles.length ? _c("ul", {
     staticClass: "list-group mt-3"
   }, _vm._l(_vm.pendingFiles, function (file, index) {
     return _c("li", {
@@ -30109,14 +30146,6 @@ var staticRenderFns = [function () {
       "aria-label": "Close"
     }
   }, [_c("span", [_vm._v("×")])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c("div", {
-    staticClass: "attachments-paste-zone"
-  }, [_c("i", {
-    staticClass: "fas fa-paste"
-  }), _vm._v("\n                    También puedes pegar un pantallazo o imagen copiada con Ctrl+V\n                ")]);
 }];
 render._withStripped = true;
 
@@ -56473,7 +56502,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.attachments-paste-zone[data-v-2c576eb0] {\n    border: 2px dashed #b8b8b8;\n    border-radius: 6px;\n    padding: 12px;\n    text-align: center;\n    color: #6c757d;\n    font-size: 0.82rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.attachments-paste-zone[data-v-2c576eb0] {\n    border: 2px dashed #b8b8b8;\n    border-radius: 6px;\n    padding: 12px;\n    text-align: center;\n    color: #6c757d;\n    font-size: 0.82rem;\n    transition: border-color 0.15s, background-color 0.15s;\n}\n.attachments-paste-zone.is-dragging[data-v-2c576eb0] {\n    border-color: #17a2b8;\n    background-color: rgba(23, 162, 184, 0.08);\n    color: #17a2b8;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
