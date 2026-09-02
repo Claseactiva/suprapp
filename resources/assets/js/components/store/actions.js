@@ -936,8 +936,14 @@ export default { //methods
     getQuotationclientAttachments(context) {
         context.commit('getQuotationclientAttachments')
     },
-    setQuotationclientAttachmentsFiles(context, evt) {
-        context.commit('setQuotationclientAttachmentsFiles', evt)
+    addQuotationclientAttachmentsFiles(context, files) {
+        context.commit('addQuotationclientAttachmentsFiles', files)
+    },
+    removeQuotationclientAttachmentPending(context, index) {
+        context.commit('removeQuotationclientAttachmentPending', index)
+    },
+    clearQuotationclientAttachmentsPending(context) {
+        context.commit('clearQuotationclientAttachmentsPending')
     },
     uploadQuotationclientAttachments(context) {
         context.commit('uploadQuotationclientAttachments')

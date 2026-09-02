@@ -7084,12 +7084,45 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments', 'attachmentQuotationclientFiles'])), {}, {
     attachments: function attachments() {
       return this.activeQuotationclientAttachments.files || [];
+    },
+    pendingFiles: function pendingFiles() {
+      return this.attachmentQuotationclientFiles || [];
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setQuotationclientAttachmentsFiles', 'uploadQuotationclientAttachments', 'deleteQuotationclientAttachment'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['addQuotationclientAttachmentsFiles', 'removeQuotationclientAttachmentPending', 'uploadQuotationclientAttachments', 'deleteQuotationclientAttachment'])), {}, {
+    onFileInput: function onFileInput(evt) {
+      this.addQuotationclientAttachmentsFiles(Array.from(evt.target.files || []));
+      evt.target.value = null;
+    },
+    onPaste: function onPaste(evt) {
+      var items = (evt.clipboardData || window.clipboardData || {}).items || [];
+      var pasted = [];
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file') {
+          var file = items[i].getAsFile();
+          if (file) {
+            pasted.push(this.namePastedFile(file));
+          }
+        }
+      }
+      if (pasted.length) {
+        evt.preventDefault();
+        this.addQuotationclientAttachmentsFiles(pasted);
+      }
+    },
+    namePastedFile: function namePastedFile(file) {
+      if (file.name && file.name !== 'image.png' && file.name !== 'blob') {
+        return file;
+      }
+      var ext = file.type && file.type.split('/')[1] || 'png';
+      var stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      return new File([file], 'captura-' + stamp + '.' + ext, {
+        type: file.type || 'image/png'
+      });
+    },
     formatBytes: function formatBytes(bytes) {
       var value = Number(bytes) || 0;
       if (value < 1024) return value + ' B';
@@ -7108,6 +7141,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   }),
   mounted: function mounted() {
+    var _this = this;
     // Este modal se abre encima de #modalQuotationclient (modal anidado).
     // Bootstrap 4 borra 'modal-open'/backdrop al cerrar el hijo aunque el padre
     // siga abierto, dejando un backdrop invisible que bloquea el scroll/clicks.
@@ -7118,6 +7152,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       if ($('.modal-backdrop').length > 1) {
         $('.modal-backdrop').not(':last').remove();
       }
+    });
+
+    // Tambien aceptar pegar (Ctrl+V) en cualquier parte del modal, no solo la zona.
+    $('#quotationclientAttachmentsModal').on('paste', function (evt) {
+      _this.onPaste(evt.originalEvent || evt);
     });
   }
 });
@@ -29934,10 +29973,10 @@ render._withStripped = true;
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0 ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -29999,7 +30038,7 @@ var render = function render() {
   }), 0) : _c("p", {
     staticClass: "text-muted mb-3"
   }, [_vm._v("Aún no hay archivos adjuntos para esta cotización.")]), _vm._v(" "), _c("div", {
-    staticClass: "form-group mb-0"
+    staticClass: "form-group"
   }, [_c("label", {
     attrs: {
       "for": "quotationclientAttachmentsInput"
@@ -30013,23 +30052,49 @@ var render = function render() {
     },
     on: {
       change: function change($event) {
-        return _vm.setQuotationclientAttachmentsFiles($event);
+        return _vm.onFileInput($event);
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm.pendingFiles.length ? _c("ul", {
+    staticClass: "list-group mt-3"
+  }, _vm._l(_vm.pendingFiles, function (file, index) {
+    return _c("li", {
+      key: index,
+      staticClass: "list-group-item d-flex justify-content-between align-items-center py-1"
+    }, [_c("small", {
+      staticClass: "text-truncate mr-2"
+    }, [_c("i", {
+      staticClass: "fas fa-clock text-muted"
+    }), _vm._v(" " + _vm._s(file.name) + "\n                            "), _c("span", {
+      staticClass: "text-muted"
+    }, [_vm._v("(" + _vm._s(_vm.formatBytes(file.size)) + ")")])]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-outline-danger btn-icon-sm",
+      attrs: {
+        type: "button",
+        title: "Quitar"
+      },
+      on: {
+        click: function click($event) {
+          return _vm.removeQuotationclientAttachmentPending(index);
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-times"
+    })])]);
+  }), 0) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "modal-footer"
   }, [_c("button", {
     staticClass: "btn btn-success",
     attrs: {
       type: "button",
-      disabled: _vm.uploadingQuotationclientAttachments
+      disabled: _vm.uploadingQuotationclientAttachments || !_vm.pendingFiles.length
     },
     on: {
       click: _vm.uploadQuotationclientAttachments
     }
   }, [_c("i", {
     staticClass: "fas fa-upload"
-  }), _vm._v("\n                    " + _vm._s(_vm.uploadingQuotationclientAttachments ? "Subiendo..." : "Subir") + "\n                ")])])])])]);
+  }), _vm._v("\n                    " + _vm._s(_vm.uploadingQuotationclientAttachments ? "Subiendo..." : "Subir" + (_vm.pendingFiles.length ? " (" + _vm.pendingFiles.length + ")" : "")) + "\n                ")])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -30044,6 +30109,14 @@ var staticRenderFns = [function () {
       "aria-label": "Close"
     }
   }, [_c("span", [_vm._v("×")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "attachments-paste-zone"
+  }, [_c("i", {
+    staticClass: "fas fa-paste"
+  }), _vm._v("\n                    También puedes pegar un pantallazo o imagen copiada con Ctrl+V\n                ")]);
 }];
 render._withStripped = true;
 
@@ -43510,8 +43583,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   getQuotationclientAttachments: function getQuotationclientAttachments(context) {
     context.commit('getQuotationclientAttachments');
   },
-  setQuotationclientAttachmentsFiles: function setQuotationclientAttachmentsFiles(context, evt) {
-    context.commit('setQuotationclientAttachmentsFiles', evt);
+  addQuotationclientAttachmentsFiles: function addQuotationclientAttachmentsFiles(context, files) {
+    context.commit('addQuotationclientAttachmentsFiles', files);
+  },
+  removeQuotationclientAttachmentPending: function removeQuotationclientAttachmentPending(context, index) {
+    context.commit('removeQuotationclientAttachmentPending', index);
+  },
+  clearQuotationclientAttachmentsPending: function clearQuotationclientAttachmentsPending(context) {
+    context.commit('clearQuotationclientAttachmentsPending');
   },
   uploadQuotationclientAttachments: function uploadQuotationclientAttachments(context) {
     context.commit('uploadQuotationclientAttachments');
@@ -47648,7 +47727,6 @@ function dispatchPublicQuotationFailed() {
       files: []
     };
     state.attachmentQuotationclientFiles = [];
-    state.formQuotationclientAttachments = new FormData();
     $('#quotationclientAttachmentsModal').modal('show');
     this.commit('getQuotationclientAttachments');
   },
@@ -47662,38 +47740,47 @@ function dispatchPublicQuotationFailed() {
       toastr__WEBPACK_IMPORTED_MODULE_1___default().error('No se pudieron cargar los archivos adjuntos');
     });
   },
-  setQuotationclientAttachmentsFiles: function setQuotationclientAttachmentsFiles(state, evt) {
-    state.formQuotationclientAttachments = new FormData();
+  addQuotationclientAttachmentsFiles: function addQuotationclientAttachmentsFiles(state, files) {
+    // Acepta archivos del <input type="file"> o pegados desde el portapapeles
+    // (Ctrl+V de un pantallazo). Se van acumulando hasta que se suben.
+    (files || []).forEach(function (file) {
+      if (file) {
+        state.attachmentQuotationclientFiles.push(file);
+      }
+    });
+  },
+  removeQuotationclientAttachmentPending: function removeQuotationclientAttachmentPending(state, index) {
+    state.attachmentQuotationclientFiles.splice(index, 1);
+  },
+  clearQuotationclientAttachmentsPending: function clearQuotationclientAttachmentsPending(state) {
     state.attachmentQuotationclientFiles = [];
-    var files = evt.target.files;
-    for (var i = 0; i < files.length; i++) {
-      state.attachmentQuotationclientFiles.push(files[i]);
-      state.formQuotationclientAttachments.append('files[]', files[i]);
-    }
   },
   uploadQuotationclientAttachments: function uploadQuotationclientAttachments(state) {
     var _this33 = this;
     if (!state.attachmentQuotationclientFiles.length) {
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().warning('Selecciona al menos un archivo');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().warning('Selecciona o pega al menos un archivo');
       return;
     }
     var oversized = state.attachmentQuotationclientFiles.find(function (file) {
       return file.size > 10 * 1024 * 1024;
     });
     if (oversized) {
-      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('"' + oversized.name + '" supera los 10 MB permitidos');
+      toastr__WEBPACK_IMPORTED_MODULE_1___default().error('"' + (oversized.name || 'archivo') + '" supera los 10 MB permitidos');
       return;
     }
+    var form = new FormData();
+    state.attachmentQuotationclientFiles.forEach(function (file) {
+      return form.append('files[]', file);
+    });
+    form.append('quotationclient_id', state.activeQuotationclientAttachments.id);
     var config = {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     };
-    state.formQuotationclientAttachments.append('quotationclient_id', state.activeQuotationclientAttachments.id);
     state.uploadingQuotationclientAttachments = true;
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('quotationclient-attachments', state.formQuotationclientAttachments, config).then(function (response) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('quotationclient-attachments', form, config).then(function (response) {
       state.attachmentQuotationclientFiles = [];
-      state.formQuotationclientAttachments = new FormData();
       $('#quotationclientAttachmentsInput').val(null);
       toastr__WEBPACK_IMPORTED_MODULE_1___default().success('Archivos adjuntados con exito');
       _this33.commit('getQuotationclientAttachments');
@@ -51127,7 +51214,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "attachmentDetailclientImages", []), "attachmentSparePartImages", []), "formDetailclientImages", new FormData()), "formSparePartImages", new FormData()), "activeQuotationclientAttachments", {
   id: null,
   files: []
-}), "attachmentQuotationclientFiles", []), "formQuotationclientAttachments", new FormData()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "uploadingQuotationclientAttachments", false), "deliveryTimes", []), "defaultDeliveryTime", {
+}), "attachmentQuotationclientFiles", []), "uploadingQuotationclientAttachments", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "deliveryTimes", []), "defaultDeliveryTime", {
   id: '',
   label: '24 a 48 Hrs'
 }), "newDeliveryTime", {
@@ -51217,7 +51304,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   guia: 0,
   retiro: 0,
   fleteChile: 0
-}), "totalNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "totalNacional", 0), "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
+}), "totalNeto", 0), "totalNacional", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "totalInternacional", 0), "totalCosto", 0), "totalImport", 0), "totalValue", 0), "totalPriceImport", 0), "totalImportIVA", 0), "clients", []), "client", {
   id: '',
   user_id: '',
   name: '',
@@ -51230,7 +51317,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), "siiLoading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newClient", {
+}), "siiLoading", false), "newClient", {
   user_id: '',
   rut: '',
   name: '',
@@ -51242,7 +51329,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   giro: '',
   type: '',
   activities: {}
-}), "fillClient", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "fillClient", {
   id: '',
   user_id: '',
   name: '',
@@ -51258,10 +51345,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "import_file", ''), "products", []), "productVehicleModelOptions", []), "productVehicleModelBrandSearch", ''), "productVehicleModelModelSearch", ''), "selectedProductVehicleModelIds", []), "productVehicleModelModal", {
   productId: null,
   productName: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "product", {
+}), "product", {
   name: '',
   detail: ''
-}), "newUtilidad", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newUtilidad", {
   utilidad: ''
 }), "currentUtilidad", null), "newTipoPago", {
   pago: '',
@@ -51283,10 +51370,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   folio: 0
 }), "searchProduct", {
   name: ''
-}), "productCatalogTemplates", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newProductCatalogTemplate", {
+}), "productCatalogTemplates", []), "newProductCatalogTemplate", {
   categoria: '',
   nombre: ''
-}), "fillProductCatalogTemplate", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "fillProductCatalogTemplate", {
   id: '',
   categoria: '',
   nombre: ''
@@ -51314,12 +51401,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   code_id: '',
   price: 0,
   quantity: 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newInventory", {
+}), "newInventory", {
   product_id: 0,
   quantity: 1,
   price: 0,
   discount: 0
-}), "inventories", []), "fileInvoice", null), "searchInventory", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "inventories", []), "fileInvoice", null), "searchInventory", {
   name: ''
 }), "newCompany", {
   user_id: '',
@@ -51340,7 +51427,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "offset", 2), "pagination_shipping", {
+}), "offset", 2), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "pagination_shipping", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -51395,7 +51482,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   date_to: '',
   state: '',
   per_page: 20
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "idPurchaseOrder", null), "nextOrderNumberPreview", ''), "pagination_oc", {
+}), "idPurchaseOrder", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "nextOrderNumberPreview", ''), "pagination_oc", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -51423,7 +51510,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   id: null,
   product: '',
   images: []
-}), "attachmentPurchaseOrderDetailImages", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "formPurchaseOrderDetailImages", new FormData()), "pagination_form", {
+}), "attachmentPurchaseOrderDetailImages", []), "formPurchaseOrderDetailImages", new FormData()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "pagination_form", {
   'total': 0,
   'current_page': 0,
   'per_page': 20,
@@ -51458,7 +51545,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "offset_motor", 5), "pagination_motorspec", {
+}), "offset_motor", 5), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "pagination_motorspec", {
   'total': 0,
   'current_page': 0,
   'per_page': 10,
@@ -51485,15 +51572,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   'last_page': 0,
   'from': 0,
   'to': 0
-}), "offset_motors", 5), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "attachment", []), "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), "users", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "tallerWorkers", []), "tallerTeam", []), "newTallerWorker", {
+}), "offset_motors", 5), "attachment", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "form", new FormData()), "records", []), "images", []), "docs", []), "links", []), "idUser", null), "quotationusers", []), "quotationUserMechanic", []), "users", []), "tallerWorkers", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "tallerTeam", []), "newTallerWorker", {
   name: '',
   email: ''
-}), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "user", {
+}), "totalvehi", []), "sumavehi", []), "totalcli", []), "totalcliadmin", []), "totalvehiadmin", []), "cantCliVehiAdmin", []), "quotationRoles", []), "user", {
   name: '',
   email: '',
   password: '',
   logo: ''
-}), "newUser", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newUser", {
   id: '',
   name: '',
   email: '',
@@ -51516,7 +51603,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   is_independent: false
 }), "backgroundImages", []), "newBackgroundImage", {
   is_light: true
-}), "attachmentBackgroundImage", null), "formBackgroundImage", new FormData()), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "selectedBackgroundImagePath", localStorage.getItem('bg-image-path') || null), "fillCantCliVehi", {
+}), "attachmentBackgroundImage", null), "formBackgroundImage", new FormData()), "selectedBackgroundImagePath", localStorage.getItem('bg-image-path') || null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "fillCantCliVehi", {
   id: '',
   cant_client: 0,
   cant_vehicle: 0,
@@ -51543,14 +51630,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "fillQuotationShipping", {
   id: '',
   direccion: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "fillFacebookShipping", {
+}), "fillFacebookShipping", {
   id: '',
   url: ''
-}), "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "facebookshipping", []), "checkedRoles", []), "permissions", []), "checkedSpecialRole", ''), "checkedSelect1", ''), "checkedSelect2", []), "checkedPermissions", []), "newAllUtilidad", {
   check: [],
   pago: '',
   utilidad: ''
-}), "optionsCode", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "optionsPrice", []), "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
+}), "optionsCode", []), "optionsPrice", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "cart", []), "trabajos", []), "orden_trabajo", []), "formapago", 'CONTADO'), "aplicardescuento", 0), "selectedCode", {
   label: '',
   value: ''
 }), "selectedPrice", {
@@ -51570,7 +51657,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   totalSumPrice: 0,
   totalSumQuantity: 0,
   totalNeto: 0
-}), "cartNeto", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "cartTotal", 0), "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
+}), "cartNeto", 0), "cartTotal", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "sales", []), "searchFecha", []), "productSearch", []), "productSales", []), "optionsMechanicClient", []), "selectedMechanicClient", {
   label: '',
   value: ''
 }), "resultado", 'Archivo no Generado'), "data1", {
@@ -51585,11 +51672,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   producto: '',
   cantidad: '',
   precio: ''
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "arrayBoleta", []), "newFlete", {
+}), "arrayBoleta", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "newFlete", {
   flete: 0
 }), "currentFlete", null), "newUtility", {
   utility: 0
-}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "verBotonActualizar", false), "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
+}), "checkedSpareParts", ''), "pago", ''), "productsale", ''), "kilometrajeActual", 0), "alertkm", ''), "id_trabajo", ''), "verBotonActualizar", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_fleetClientOptions$f, "crearFormatoCheckList", true), "crearIntervencionCheckList", false), "intervencionCheckList", false), "mostrarCheckListVehicle", true), "mostrarObservacion", false));
 
 /***/ }),
 
@@ -56363,6 +56450,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.button {\r\n    border-radius: 0.2rem;\r\n    background-color: #28a745;\r\n    border: none;\r\n    color: #FFFFFF;\r\n    text-align: center;\r\n    font-size: 0.875rem;\r\n    padding: 0.25rem 0.5rem;\r\n    width: 100%;\r\n    transition: all 0.5s;\r\n    cursor: pointer;\n}\n.button:hover {\r\n    background-color: #dc3545;\n}\n.button:hover span {\r\n    display: none\n}\n.button:hover:before {\r\n    content: '\\26CC'\n}\n.button:hover span {\r\n    padding-right: 25px;\n}\n.button:hover span:after {\r\n    opacity: 1;\r\n    right: 0;\n}\n.quotationshipping-filter-row {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n    gap: 0.5rem;\n}\n.quotationshipping-filter-input {\r\n    max-width: 160px;\r\n    font-size: 0.78rem;\r\n    padding: 0.2rem 0.4rem;\r\n    height: auto;\n}\n@media (min-width: 992px) {\n.quotationshipping-admin .table {\r\n        table-layout: fixed;\n}\n.quotationshipping-admin .table th,\r\n    .quotationshipping-admin .table td {\r\n        white-space: nowrap;\r\n        vertical-align: middle;\n}\n.quotationshipping-admin .quotationshipping-wrap-cell {\r\n        white-space: nowrap !important;\r\n        overflow: hidden;\r\n        text-overflow: ellipsis;\n}\n.quotationshipping-admin .quotationshipping-actions-cell {\r\n        text-align: right;\n}\n.quotationshipping-admin .quotationshipping-icon-btn {\r\n        display: inline-flex;\r\n        align-items: center;\r\n        justify-content: center;\r\n        width: 22px;\r\n        height: 22px;\r\n        padding: 0;\r\n        margin-right: 0.18rem;\r\n        border-radius: 0.2rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group {\r\n        vertical-align: middle;\r\n        margin-right: 0.18rem;\n}\n.quotationshipping-admin .quotationshipping-icon-group .quotationshipping-icon-btn {\r\n        width: 26px;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-menu {\r\n        min-width: 10rem;\r\n        font-size: 0.85rem;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn {\r\n        background-color: #28a745;\r\n        border: none;\r\n        color: #fff;\r\n        margin-right: 0;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn .fa-times {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover {\r\n        background-color: #dc3545;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-check {\r\n        display: none;\n}\n.quotationshipping-admin .quotationshipping-enviado-btn:hover .fa-times {\r\n        display: inline;\n}\n}\n.quotation-pdf-preview {\r\n    position: fixed;\r\n    inset: 0;\r\n    z-index: 1065;\r\n    background: rgba(0, 0, 0, 0.78);\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    padding: 0.75rem;\n}\n.quotation-pdf-preview__dialog {\r\n    width: min(98vw, 1600px);\r\n    height: calc(100vh - 1.5rem);\r\n    background: #fff;\r\n    border-radius: 10px;\r\n    overflow: hidden;\r\n    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);\r\n    display: flex;\r\n    flex-direction: column;\n}\n.quotation-pdf-preview__header {\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: space-between;\r\n    padding: 0.75rem 1rem;\n}\n.quotation-pdf-preview__body {\r\n    flex: 1;\r\n    background: #d9d9d9;\n}\n.quotation-pdf-preview__frame {\r\n    width: 100%;\r\n    height: 100%;\r\n    border: 0;\r\n    background: #fff;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.attachments-paste-zone[data-v-2c576eb0] {\n    border: 2px dashed #b8b8b8;\n    border-radius: 6px;\n    padding: 12px;\n    text-align: center;\n    color: #6c757d;\n    font-size: 0.82rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -72330,6 +72441,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_style_index_0_id_2c576eb0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_style_index_0_id_2c576eb0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_style_index_0_id_2c576eb0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationexpress/Index.vue?vue&type=style&index=0&id=090bfa84&scoped=true&lang=css":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationexpress/Index.vue?vue&type=style&index=0&id=090bfa84&scoped=true&lang=css ***!
@@ -87496,23 +87637,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuotationclientAttachments.vue?vue&type=template&id=2c576eb0 */ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0");
+/* harmony import */ var _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true */ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true");
 /* harmony import */ var _QuotationclientAttachments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuotationclientAttachments.vue?vue&type=script&lang=js */ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _QuotationclientAttachments_vue_vue_type_style_index_0_id_2c576eb0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css */ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _QuotationclientAttachments_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
-  _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__.render,
-  _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render,
+  _QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "2c576eb0",
   null
   
 )
@@ -93507,19 +93650,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0":
-/*!*********************************************************************************************************************!*\
-  !*** ./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0 ***!
-  \*********************************************************************************************************************/
+/***/ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true":
+/*!*********************************************************************************************************************************!*\
+  !*** ./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true ***!
+  \*********************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuotationclientAttachments.vue?vue&type=template&id=2c576eb0 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_template_id_2c576eb0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=template&id=2c576eb0&scoped=true");
 
 
 /***/ }),
@@ -94743,6 +94886,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ListarQuotationShipping_vue_vue_type_style_index_0_id_7f623a8c_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListarQuotationShipping.vue?vue&type=style&index=0&id=7f623a8c&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue?vue&type=style&index=0&id=7f623a8c&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************!*\
+  !*** ./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_8_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_8_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_QuotationclientAttachments_vue_vue_type_style_index_0_id_2c576eb0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader/dist/cjs.js!../../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-8.use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-8.use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue?vue&type=style&index=0&id=2c576eb0&scoped=true&lang=css");
 
 
 /***/ }),

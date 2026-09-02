@@ -32,17 +32,37 @@
                     </ul>
                     <p class="text-muted mb-3" v-else>Aún no hay archivos adjuntos para esta cotización.</p>
 
-                    <div class="form-group mb-0">
+                    <div class="form-group">
                         <label for="quotationclientAttachmentsInput">Agregar archivos</label>
                         <input id="quotationclientAttachmentsInput" type="file" class="form-control" multiple
-                            @change="setQuotationclientAttachmentsFiles($event)">
+                            @change="onFileInput($event)">
                     </div>
+
+                    <div class="attachments-paste-zone">
+                        <i class="fas fa-paste"></i>
+                        También puedes pegar un pantallazo o imagen copiada con Ctrl+V
+                    </div>
+
+                    <ul class="list-group mt-3" v-if="pendingFiles.length">
+                        <li class="list-group-item d-flex justify-content-between align-items-center py-1"
+                            v-for="(file, index) in pendingFiles" :key="index">
+                            <small class="text-truncate mr-2">
+                                <i class="fas fa-clock text-muted"></i> {{ file.name }}
+                                <span class="text-muted">({{ formatBytes(file.size) }})</span>
+                            </small>
+                            <button type="button" class="btn btn-outline-danger btn-icon-sm"
+                                @click="removeQuotationclientAttachmentPending(index)" title="Quitar">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" :disabled="uploadingQuotationclientAttachments"
+                    <button type="button" class="btn btn-success"
+                        :disabled="uploadingQuotationclientAttachments || !pendingFiles.length"
                         @click="uploadQuotationclientAttachments">
                         <i class="fas fa-upload"></i>
-                        {{ uploadingQuotationclientAttachments ? 'Subiendo...' : 'Subir' }}
+                        {{ uploadingQuotationclientAttachments ? 'Subiendo...' : ('Subir' + (pendingFiles.length ? ' (' + pendingFiles.length + ')' : '')) }}
                     </button>
                 </div>
             </div>
@@ -56,13 +76,47 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
     computed: {
-        ...mapState(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments']),
+        ...mapState(['activeQuotationclientAttachments', 'uploadingQuotationclientAttachments', 'attachmentQuotationclientFiles']),
         attachments() {
             return this.activeQuotationclientAttachments.files || []
+        },
+        pendingFiles() {
+            return this.attachmentQuotationclientFiles || []
         }
     },
     methods: {
-        ...mapActions(['setQuotationclientAttachmentsFiles', 'uploadQuotationclientAttachments', 'deleteQuotationclientAttachment']),
+        ...mapActions(['addQuotationclientAttachmentsFiles', 'removeQuotationclientAttachmentPending',
+            'uploadQuotationclientAttachments', 'deleteQuotationclientAttachment']),
+        onFileInput(evt) {
+            this.addQuotationclientAttachmentsFiles(Array.from(evt.target.files || []))
+            evt.target.value = null
+        },
+        onPaste(evt) {
+            const items = (evt.clipboardData || window.clipboardData || {}).items || []
+            const pasted = []
+
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file') {
+                    const file = items[i].getAsFile()
+                    if (file) {
+                        pasted.push(this.namePastedFile(file))
+                    }
+                }
+            }
+
+            if (pasted.length) {
+                evt.preventDefault()
+                this.addQuotationclientAttachmentsFiles(pasted)
+            }
+        },
+        namePastedFile(file) {
+            if (file.name && file.name !== 'image.png' && file.name !== 'blob') {
+                return file
+            }
+            const ext = (file.type && file.type.split('/')[1]) || 'png'
+            const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
+            return new File([file], 'captura-' + stamp + '.' + ext, { type: file.type || 'image/png' })
+        },
         formatBytes(bytes) {
             const value = Number(bytes) || 0
             if (value < 1024) return value + ' B'
@@ -93,6 +147,22 @@ export default {
                 $('.modal-backdrop').not(':last').remove()
             }
         })
+
+        // Tambien aceptar pegar (Ctrl+V) en cualquier parte del modal, no solo la zona.
+        $('#quotationclientAttachmentsModal').on('paste', (evt) => {
+            this.onPaste(evt.originalEvent || evt)
+        })
     }
 }
 </script>
+
+<style scoped>
+.attachments-paste-zone {
+    border: 2px dashed #b8b8b8;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.82rem;
+}
+</style>

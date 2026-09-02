@@ -2993,7 +2993,6 @@ export default { //used for changing the state
             files: []
         }
         state.attachmentQuotationclientFiles = []
-        state.formQuotationclientAttachments = new FormData()
         $('#quotationclientAttachmentsModal').modal('show')
         this.commit('getQuotationclientAttachments')
     },
@@ -3007,35 +3006,42 @@ export default { //used for changing the state
             toastr.error('No se pudieron cargar los archivos adjuntos')
         })
     },
-    setQuotationclientAttachmentsFiles(state, evt) {
-        state.formQuotationclientAttachments = new FormData()
+    addQuotationclientAttachmentsFiles(state, files) {
+        // Acepta archivos del <input type="file"> o pegados desde el portapapeles
+        // (Ctrl+V de un pantallazo). Se van acumulando hasta que se suben.
+        (files || []).forEach(file => {
+            if (file) {
+                state.attachmentQuotationclientFiles.push(file)
+            }
+        })
+    },
+    removeQuotationclientAttachmentPending(state, index) {
+        state.attachmentQuotationclientFiles.splice(index, 1)
+    },
+    clearQuotationclientAttachmentsPending(state) {
         state.attachmentQuotationclientFiles = []
-        const files = evt.target.files
-
-        for (let i = 0; i < files.length; i++) {
-            state.attachmentQuotationclientFiles.push(files[i])
-            state.formQuotationclientAttachments.append('files[]', files[i])
-        }
     },
     uploadQuotationclientAttachments(state) {
         if (!state.attachmentQuotationclientFiles.length) {
-            toastr.warning('Selecciona al menos un archivo')
+            toastr.warning('Selecciona o pega al menos un archivo')
             return
         }
 
         const oversized = state.attachmentQuotationclientFiles.find(file => file.size > 10 * 1024 * 1024)
         if (oversized) {
-            toastr.error('"' + oversized.name + '" supera los 10 MB permitidos')
+            toastr.error('"' + (oversized.name || 'archivo') + '" supera los 10 MB permitidos')
             return
         }
 
+        const form = new FormData()
+        state.attachmentQuotationclientFiles.forEach(file => form.append('files[]', file))
+        form.append('quotationclient_id', state.activeQuotationclientAttachments.id)
+
         const config = { headers: { 'Content-Type': 'multipart/form-data' } }
-        state.formQuotationclientAttachments.append('quotationclient_id', state.activeQuotationclientAttachments.id)
         state.uploadingQuotationclientAttachments = true
 
-        axios.post('quotationclient-attachments', state.formQuotationclientAttachments, config).then(response => {
+        axios.post('quotationclient-attachments', form, config).then(response => {
             state.attachmentQuotationclientFiles = []
-            state.formQuotationclientAttachments = new FormData()
             $('#quotationclientAttachmentsInput').val(null)
             toastr.success('Archivos adjuntados con exito')
             this.commit('getQuotationclientAttachments')

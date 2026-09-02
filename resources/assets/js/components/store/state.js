@@ -634,7 +634,6 @@ export default { //data
         files: []
     },
     attachmentQuotationclientFiles: [],
-    formQuotationclientAttachments: new FormData(),
     uploadingQuotationclientAttachments: false,
     deliveryTimes: [],
     defaultDeliveryTime: {
