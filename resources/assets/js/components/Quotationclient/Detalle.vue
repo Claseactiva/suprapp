@@ -368,6 +368,11 @@
                     <div>
                         <input type="checkbox" :id="idQuotationclient" v-model="checkedSpareParts">
                         <label :for="idQuotationclient" for="spare_parts">Repuestos</label>
+
+                        <a class="btn btn-info ml-3" href="#" role="button"
+                            @click.prevent="openQuotationclientAttachments({ id: idQuotationclient })">
+                            <i class="fas fa-paperclip"></i> Archivos adjuntos
+                        </a>
                     </div>
                     <div v-if="detailclients.length > 0">
                         <a class="btn btn-success" href="#" role="button" @click.prevent="copyQuotationWhatsappText">
@@ -535,7 +540,7 @@ export default {
     methods: {
         ...mapActions(['createDetailclient', 'editDetailclient', 'deleteDetailclient',
             'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProduct', 'saveSparePart', 'getQuotationclientDetails',
-            'openDetailclientImages', 'createSparePart', 'deleteSparePart', 'openSparePartImages']),
+            'openDetailclientImages', 'createSparePart', 'deleteSparePart', 'openSparePartImages', 'openQuotationclientAttachments']),
         sumTotalRepair() {
             const price = parseFloat(this.newDetailclient.price) || 0
             const percentage = parseFloat(this.newDetailclient.percentage) || 0

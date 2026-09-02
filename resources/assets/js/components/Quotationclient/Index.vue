@@ -278,6 +278,12 @@
                                 <i class="fas fa-list-ul"></i>
                             </a>
 
+                            <a href="#" class="btn btn-secondary btn-sm quotationclient-icon-btn"
+                                @click.prevent="openQuotationclientAttachments({ id: quotationLocal.id })"
+                                data-toggle="tooltip" data-placement="top" title="Archivos adjuntos">
+                                <i class="fas fa-paperclip"></i>
+                            </a>
+
                             <div class="btn-group dropleft quotationclient-more-group">
                                 <button type="button"
                                     class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split quotationclient-icon-btn"
@@ -379,6 +385,7 @@
         <CreateUserMechanic></CreateUserMechanic>
         <DetalleCliente></DetalleCliente>
         <Detalle></Detalle>
+        <QuotationclientAttachments></QuotationclientAttachments>
         <EditarCotizacion></EditarCotizacion>
         <DetalleMechanic></DetalleMechanic>
         <DetalleClienteMechanic></DetalleClienteMechanic>
@@ -399,6 +406,7 @@ import DetalleCliente from './DetalleCliente'
 import DetalleMechanic from './DetalleMechanic'
 import DetalleClienteMechanic from './DetalleClienteMechanic'
 import Detalle from './Detalle'
+import QuotationclientAttachments from './QuotationclientAttachments'
 import EditarCotizacion from './EditarCotizacion'
 import DetalleEditarC from './DetalleEditar'
 import DetalleEditarCM from './DetalleEditarMechanic'
@@ -418,7 +426,7 @@ import 'vue2-datepicker/index.css'
 
 
 export default {
-    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker },
+    components: { SelectClient, BrandSelector, ModelSelector, YearSelector, EngineSelector, DetalleCliente, Detalle, QuotationclientAttachments, EditarCotizacion, DetalleEditarC, DetalleEditarCM, EliminarCotizacionCliente, CreateUser, CreateUserMechanic, DetalleMechanic, DetalleClienteMechanic, ListarClientesForm, ListarQuotationShipping, SelectTiposPagos, DatePicker },
     props: {
         tipo: {
             type: String,
@@ -498,7 +506,7 @@ export default {
     },
     methods: {
         ...mapActions(['getRolesQuotation', 'getQuotationclients', 'createQuotationclient', 'showModalDetailclient', 'showModalDetailMechanic', 'modalCreateUserMechanicFromQuotation', 'showModalDetailclientMechanic',
-            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient',
+            'showModalDeleteQuotationclient', 'changePageQuotationclient', 'modalCreateUserFromQuotation', 'actualizarCorrelativo', 'editQuotationclient', 'replicateQuotationclient', 'shareQuotationclient', 'openQuotationclientAttachments',
             'setVBrand', 'setVModel', 'setVYear', 'setVEngine']),
         usarVehiculoFlota(option) {
             if (!option) {

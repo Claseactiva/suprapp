@@ -193,6 +193,11 @@
 
                     </div>
                     <div class="modal-footer">
+                        <a class="btn btn-info mr-auto" href="#" role="button"
+                            @click.prevent="openQuotationclientAttachments({ id: $store.state.idQuotationclient })">
+                            <i class="fas fa-paperclip"></i> Archivos adjuntos
+                        </a>
+
                         <a class="btn btn-success" href="#" role="button"
                             @click.prevent="copyQuotationWhatsappText">
                             <i class="far fa-copy"></i> Copiar WhatsApp
@@ -261,7 +266,7 @@ export default {
     },
     methods:{
         ...mapActions(['createDetailclient', 'editDetailclientMechanic', 'deleteDetailclient',
-                    'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProductMechanic']),
+                    'pdfQuotationclient', 'pdfIvaQuotationclient', 'sumTotalProductMechanic', 'openQuotationclientAttachments']),
         copyQuotationWhatsappText() {
             if (!this.detailclients.length) {
                 toastr.warning('No hay productos para copiar')

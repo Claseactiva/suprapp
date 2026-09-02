@@ -930,6 +930,22 @@ export default { //methods
         context.commit('deleteDetailclientImage', id)
     },
 
+    openQuotationclientAttachments(context, data) {
+        context.commit('openQuotationclientAttachments', data)
+    },
+    getQuotationclientAttachments(context) {
+        context.commit('getQuotationclientAttachments')
+    },
+    setQuotationclientAttachmentsFiles(context, evt) {
+        context.commit('setQuotationclientAttachmentsFiles', evt)
+    },
+    uploadQuotationclientAttachments(context) {
+        context.commit('uploadQuotationclientAttachments')
+    },
+    deleteQuotationclientAttachment(context, id) {
+        context.commit('deleteQuotationclientAttachment', id)
+    },
+
     getQuotationSpareParts(context, quotationclientId) {
         context.commit('getQuotationSpareParts', quotationclientId)
     },

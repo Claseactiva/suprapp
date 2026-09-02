@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\TipoPago;
 use App\User;
 use App\Models\Quotationclient;
+use App\Models\QuotationclientAttachment;
 use App\Models\QuotationUser;
 use App\Models\QuotationUserVehicle;
 use App\Models\QuotationUserImage;
@@ -438,6 +439,75 @@ class QuotationclientController extends Controller
         $this->authorizeOwner($quotationclient->user_id);
 
         return $quotationclient->detailclients()->with('images')->get();
+    }
+
+    /**
+     * Archivos adjuntos a nivel de la cotizacion completa (no por producto):
+     * PDF, imagenes, planillas, etc. Solo se guardan/descargan, no entran al PDF.
+     */
+    public function attachments($id)
+    {
+        $quotationclient = Quotationclient::findOrFail($id);
+        $this->authorizeOwner($quotationclient->user_id);
+
+        return $quotationclient->attachments()->orderBy('id', 'desc')->get();
+    }
+
+    public function uploadAttachments(Request $request)
+    {
+        $quotationclient = Quotationclient::findOrFail($request->quotationclient_id);
+        $this->authorizeOwner($quotationclient->user_id);
+
+        $request->validate([
+            'files' => 'required|array',
+            'files.*' => 'file|max:10240',
+        ]);
+
+        $directory = 'files/quotationclients/' . $quotationclient->id;
+        $absoluteDirectory = public_path('storage/' . $directory);
+
+        if (!is_dir($absoluteDirectory)) {
+            mkdir($absoluteDirectory, 0755, true);
+        }
+
+        $stored = [];
+
+        foreach ($request->file('files', []) as $file) {
+            $extension = $file->getClientOriginalExtension();
+            $filename = uniqid() . ($extension ? '.' . $extension : '');
+            $originalName = mb_substr($file->getClientOriginalName(), 0, 190);
+            $mimeType = $file->getClientMimeType();
+            $size = $file->getSize();
+
+            $file->move($absoluteDirectory, $filename);
+
+            $stored[] = QuotationclientAttachment::create([
+                'quotationclient_id' => $quotationclient->id,
+                'path' => 'storage/' . $directory . '/' . $filename,
+                'original_name' => $originalName,
+                'mime_type' => $mimeType,
+                'size' => $size,
+            ]);
+        }
+
+        return response($stored);
+    }
+
+    public function deleteAttachment($id)
+    {
+        $attachment = QuotationclientAttachment::findOrFail($id);
+        $quotationclient = Quotationclient::findOrFail($attachment->quotationclient_id);
+        $this->authorizeOwner($quotationclient->user_id);
+
+        $absolutePath = public_path($attachment->path);
+
+        if (is_file($absolutePath)) {
+            unlink($absolutePath);
+        }
+
+        $attachment->delete();
+
+        return response()->json(['message' => 'Archivo eliminado correctamente']);
     }
 
     public function productSuggestions($id, VehicleModelProductService $service)

@@ -137,6 +137,7 @@ deployment:
     - /bin/cp -f app/Models/QuotationUserVehicle.php $DEPLOYPATH/app/Models/QuotationUserVehicle.php
     - /bin/cp -f app/Models/QuotationUserVehicleItem.php $DEPLOYPATH/app/Models/QuotationUserVehicleItem.php
     - /bin/cp -f app/Models/Quotationclient.php $DEPLOYPATH/app/Models/Quotationclient.php
+    - /bin/cp -f app/Models/QuotationclientAttachment.php $DEPLOYPATH/app/Models/QuotationclientAttachment.php
     - /bin/cp -f app/Models/RepairActivity.php $DEPLOYPATH/app/Models/RepairActivity.php
     - /bin/cp -f app/Models/VehicleBrandModel.php $DEPLOYPATH/app/Models/VehicleBrandModel.php
     - /bin/cp -f app/Models/VehicleEngine.php $DEPLOYPATH/app/Models/VehicleEngine.php
@@ -225,6 +226,7 @@ deployment:
     - /bin/cp -f database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php $DEPLOYPATH/database/migrations/2026_08_17_000004_fix_zero_correlativo_for_linked_workers.php
     - /bin/cp -f database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php $DEPLOYPATH/database/migrations/2026_08_18_151602_create_vehicle_reference_data_table.php
     - /bin/cp -f database/migrations/2026_08_21_000001_add_client_id_to_motors_table.php $DEPLOYPATH/database/migrations/2026_08_21_000001_add_client_id_to_motors_table.php
+    - /bin/cp -f database/migrations/2026_09_02_000001_create_quotationclient_attachments_table.php $DEPLOYPATH/database/migrations/2026_09_02_000001_create_quotationclient_attachments_table.php
     - /bin/cp -f product_catalog_templates.csv $DEPLOYPATH/product_catalog_templates.csv
     - /bin/cp -f public/js/app.js $DEPLOYPATH/public/js/app.js
     - /bin/cp -f public/js/app-principal.js $DEPLOYPATH/public/js/app-principal.js
@@ -248,6 +250,7 @@ deployment:
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/orden_trabajos
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/vehicles
     - /bin/mkdir -p $DEPLOYPATH/public/storage/images/purchase_order_details
+    - /bin/mkdir -p $DEPLOYPATH/public/storage/files/quotationclients
     - /bin/cp -f resources/assets/css/custom.css $DEPLOYPATH/resources/assets/css/custom.css
     - /bin/mkdir -p $DEPLOYPATH/resources/assets/css/sbAdmin
     - /bin/cp -f resources/assets/css/sbAdmin/sb-admin.css $DEPLOYPATH/resources/assets/css/sbAdmin/sb-admin.css
@@ -296,6 +299,7 @@ deployment:
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarClientesForm.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarClientesForm.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/ListarQuotationShipping.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/DetailclientImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/DetailclientImages.vue
+    - /bin/cp -f resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/QuotationclientAttachments.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/SparePartImages.vue $DEPLOYPATH/resources/assets/js/components/Quotationclient/SparePartImages.vue
     - /bin/cp -f resources/assets/js/components/Quotationclient/productSuggestionHelpers.js $DEPLOYPATH/resources/assets/js/components/Quotationclient/productSuggestionHelpers.js
     - /bin/cp -f resources/assets/js/components/PurchaseOrder/Index.vue $DEPLOYPATH/resources/assets/js/components/PurchaseOrder/Index.vue

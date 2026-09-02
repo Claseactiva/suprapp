@@ -181,6 +181,9 @@ Route::post('quotationclients/{id}/share', 'QuotationclientController@share');
 Route::get('vehicleclients-all', 'QuotationclientController@all');
 Route::post('actualizar-correlativo', 'QuotationclientController@correlativoQuotation');
 Route::post('spare-part', 'QuotationclientController@sparePart');
+Route::get('quotationclient-attachments/{id}', 'QuotationclientController@attachments');
+Route::post('quotationclient-attachments', 'QuotationclientController@uploadAttachments');
+Route::delete('quotationclient-attachments/{id}', 'QuotationclientController@deleteAttachment');
 
 
 Route::ApiResource('purchase-orders', 'PurchaseOrderController');

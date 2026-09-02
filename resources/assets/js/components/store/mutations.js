@@ -2985,6 +2985,76 @@ export default { //used for changing the state
     },
 
     /******************************* */
+    /****** archivos adjuntos de la cotizacion (nivel cotizacion, no producto) **** */
+    /******************************* */
+    openQuotationclientAttachments(state, quotationLocal) {
+        state.activeQuotationclientAttachments = {
+            id: quotationLocal.id,
+            files: []
+        }
+        state.attachmentQuotationclientFiles = []
+        state.formQuotationclientAttachments = new FormData()
+        $('#quotationclientAttachmentsModal').modal('show')
+        this.commit('getQuotationclientAttachments')
+    },
+    getQuotationclientAttachments(state) {
+        if (!state.activeQuotationclientAttachments.id) {
+            return
+        }
+        axios.get('quotationclient-attachments/' + state.activeQuotationclientAttachments.id).then(response => {
+            state.activeQuotationclientAttachments.files = response.data
+        }).catch(() => {
+            toastr.error('No se pudieron cargar los archivos adjuntos')
+        })
+    },
+    setQuotationclientAttachmentsFiles(state, evt) {
+        state.formQuotationclientAttachments = new FormData()
+        state.attachmentQuotationclientFiles = []
+        const files = evt.target.files
+
+        for (let i = 0; i < files.length; i++) {
+            state.attachmentQuotationclientFiles.push(files[i])
+            state.formQuotationclientAttachments.append('files[]', files[i])
+        }
+    },
+    uploadQuotationclientAttachments(state) {
+        if (!state.attachmentQuotationclientFiles.length) {
+            toastr.warning('Selecciona al menos un archivo')
+            return
+        }
+
+        const oversized = state.attachmentQuotationclientFiles.find(file => file.size > 10 * 1024 * 1024)
+        if (oversized) {
+            toastr.error('"' + oversized.name + '" supera los 10 MB permitidos')
+            return
+        }
+
+        const config = { headers: { 'Content-Type': 'multipart/form-data' } }
+        state.formQuotationclientAttachments.append('quotationclient_id', state.activeQuotationclientAttachments.id)
+        state.uploadingQuotationclientAttachments = true
+
+        axios.post('quotationclient-attachments', state.formQuotationclientAttachments, config).then(response => {
+            state.attachmentQuotationclientFiles = []
+            state.formQuotationclientAttachments = new FormData()
+            $('#quotationclientAttachmentsInput').val(null)
+            toastr.success('Archivos adjuntados con exito')
+            this.commit('getQuotationclientAttachments')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudieron subir los archivos'))
+        }).finally(() => {
+            state.uploadingQuotationclientAttachments = false
+        })
+    },
+    deleteQuotationclientAttachment(state, id) {
+        axios.delete('quotationclient-attachments/' + id).then(response => {
+            state.activeQuotationclientAttachments.files = state.activeQuotationclientAttachments.files.filter(file => file.id !== id)
+            toastr.success('Archivo eliminado con exito')
+        }).catch(error => {
+            toastr.error(resolveAxiosErrorMessage(error, 'No se pudo eliminar el archivo'))
+        })
+    },
+
+    /******************************* */
     /****** solicitud de repuestos (lista estructurada) **** */
     /******************************* */
     getQuotationSpareParts(state, quotationclientId) {

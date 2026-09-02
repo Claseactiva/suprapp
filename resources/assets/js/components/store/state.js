@@ -629,6 +629,13 @@ export default { //data
     attachmentSparePartImages: [],
     formDetailclientImages: new FormData(),
     formSparePartImages: new FormData(),
+    activeQuotationclientAttachments: {
+        id: null,
+        files: []
+    },
+    attachmentQuotationclientFiles: [],
+    formQuotationclientAttachments: new FormData(),
+    uploadingQuotationclientAttachments: false,
     deliveryTimes: [],
     defaultDeliveryTime: {
         id: '',

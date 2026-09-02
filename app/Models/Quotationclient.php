@@ -23,6 +23,11 @@ class Quotationclient extends Model
         return $this->hasMany('App\Models\QuotationSparePart');
     }
 
+    public function attachments()
+    {
+        return $this->hasMany('App\Models\QuotationclientAttachment');
+    }
+
     public function vehicleModel()
     {
         return $this->belongsTo('App\Models\VehicleModel', 'vehicle_model_id');
