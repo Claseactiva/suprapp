@@ -278,12 +278,6 @@
                                 <i class="fas fa-list-ul"></i>
                             </a>
 
-                            <a href="#" class="btn btn-secondary btn-sm quotationclient-icon-btn"
-                                @click.prevent="openQuotationclientAttachments({ id: quotationLocal.id })"
-                                data-toggle="tooltip" data-placement="top" title="Archivos adjuntos">
-                                <i class="fas fa-paperclip"></i>
-                            </a>
-
                             <div class="btn-group dropleft quotationclient-more-group">
                                 <button type="button"
                                     class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split quotationclient-icon-btn"
@@ -312,6 +306,11 @@
                                     <a href="#" class="dropdown-item"
                                         @click.prevent="replicateQuotationclient({ id: quotationLocal.id })">
                                         <i class="far fa-copy mr-2"></i>Duplicar
+                                    </a>
+
+                                    <a href="#" class="dropdown-item"
+                                        @click.prevent="openQuotationclientAttachments({ id: quotationLocal.id })">
+                                        <i class="fas fa-paperclip mr-2"></i>Archivos adjuntos
                                     </a>
 
                                     <a href="#" v-if="canShareWithAdmin" class="dropdown-item"

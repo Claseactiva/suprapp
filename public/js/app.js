@@ -28556,25 +28556,7 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "fas fa-list-ul"
-    })]) : _vm._e(), _vm._v(" "), _c("a", {
-      staticClass: "btn btn-secondary btn-sm quotationclient-icon-btn",
-      attrs: {
-        href: "#",
-        "data-toggle": "tooltip",
-        "data-placement": "top",
-        title: "Archivos adjuntos"
-      },
-      on: {
-        click: function click($event) {
-          $event.preventDefault();
-          return _vm.openQuotationclientAttachments({
-            id: quotationLocal.id
-          });
-        }
-      }
-    }, [_c("i", {
-      staticClass: "fas fa-paperclip"
-    })]), _vm._v(" "), _c("div", {
+    })]) : _vm._e(), _vm._v(" "), _c("div", {
       staticClass: "btn-group dropleft quotationclient-more-group"
     }, [_vm._m(3, true), _vm._v(" "), _c("div", {
       staticClass: "dropdown-menu dropdown-menu-right quotationclient-contact-menu"
@@ -28638,7 +28620,22 @@ var render = function render() {
       }
     }, [_c("i", {
       staticClass: "far fa-copy mr-2"
-    }), _vm._v("Duplicar\n                                ")]), _vm._v(" "), _vm.canShareWithAdmin ? _c("a", {
+    }), _vm._v("Duplicar\n                                ")]), _vm._v(" "), _c("a", {
+      staticClass: "dropdown-item",
+      attrs: {
+        href: "#"
+      },
+      on: {
+        click: function click($event) {
+          $event.preventDefault();
+          return _vm.openQuotationclientAttachments({
+            id: quotationLocal.id
+          });
+        }
+      }
+    }, [_c("i", {
+      staticClass: "fas fa-paperclip mr-2"
+    }), _vm._v("Archivos adjuntos\n                                ")]), _vm._v(" "), _vm.canShareWithAdmin ? _c("a", {
       staticClass: "dropdown-item",
       attrs: {
         href: "#"
